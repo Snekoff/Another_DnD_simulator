@@ -11,5 +11,6 @@ using namespace std;
 
 int main() {
     printf("%s","Dungeons and Dragons game (PC) starts here");
+    printf("%s","Dungeons and Dragons game (PC) starts here");
     return 0;
 }
