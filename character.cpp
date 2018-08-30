@@ -36,7 +36,7 @@ public:
         Str = s;Dex = d;Con = c;Int = i;Wis = w;Cha = cha;
     }
     void set(int a, int b){// a - what parameter will be changed, b - modifier(can be negative)
-        if(a <0){printf("%s \n","some error occur, parameter < 0 to be changed, parametr = 1");a = 1;}
+        if(a <0){printf("%s \n","some error occur, parameter < 0 to be changed, parameter = 1");a = 1;}
         if(a == 1){experience+=b;}
         else if(a == 2){Health+=b;}
         else if(a == 3){Str+=b;}
