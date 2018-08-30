@@ -10,9 +10,6 @@
 using namespace std;
 
 int main() {
-    //here
-    //new
-    //op
-    int a;
+    printf("%s","Dungeons and Dragons game (PC) starts here");
     return 0;
 }
