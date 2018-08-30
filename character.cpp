@@ -1,5 +1,5 @@
 #pragma once
-
+#include <iostream>
 #include <string>
 using namespace std;
 
@@ -36,7 +36,16 @@ public:
         Str = s;Dex = d;Con = c;Int = i;Wis = w;Cha = cha;
     }
     void set(int a, int b){// a - what parameter will be changed, b - modifier(can be negative)
-        if(a <0){printf("%s \n","some error occur, parameter < 0 to be changed, parametr = 1");a = 1;}
+        if(a <0){
+            printf("%s \n","some error occur, parameter < 0 to be changed. Try another value.");
+            int ca = 0;
+            cin >> ca;
+            while(ca < 0 || ca > 0){
+                printf("%s \n", "some error occur, parameter has to be changed. Try again");
+                cin >> ca;
+            }
+            set(ca,b);
+        }
         if(a == 1){experience+=b;}
         else if(a == 2){Health+=b;}
         else if(a == 3){Str+=b;}
@@ -50,8 +59,52 @@ public:
         else if(a == 11){printf("%s \n","reserved for skills");}
         else if(a == 12){printf("%s \n","reserved for weapon");}
         else if(a == 13){printf("%s \n","reserved for inventory");}
+        else {
+            printf("%s \n", "some error occur, parameter > 13 to be changed. Try again");
+            int ca = 0;
+            cin >> ca;
+            while(ca < 0 || ca > 0){
+                printf("%s \n", "some error occur, parameter has to be changed. Try again");
+                cin >> ca;
+            }
+            set(ca,b);
+        }
 
-
+    }
+    int get(int a){
+        if(a <0){
+            printf("%s \n","Some error occur, parameter < 0 to be changed. Try another value.");
+            int ca = 0;
+            cin >> ca;
+            while(ca < 0 || ca > 0){
+                printf("%s \n", "Some error occur, parameter has to be changed. Try again");
+                cin >> ca;
+            }
+            get(ca);
+        }
+        if(a == 1){return experience;}
+        else if(a == 2){return Health;}
+        else if(a == 3){return Str;}
+        else if(a == 4){return Dex;}
+        else if(a == 5){return Con;}
+        else if(a == 6){return Int;}
+        else if(a == 7){return Wis;}
+        else if(a == 8){return Cha;}
+        else if(a == 9){return AC;}
+        else if(a == 10){string message = "Failures: " + to_string(deathSavesF) + " Successes: " + to_string(deathSavesS);}
+        else if(a == 11){printf("%s \n","reserved for skills");return 0;}
+        else if(a == 12){printf("%s \n","reserved for weapon");return 0;}
+        else if(a == 13){printf("%s \n","reserved for inventory");return 0;}
+        else {
+            printf("%s \n", "Some error occur, parameter > 13 to be changed. Try once again");
+            int ca = 0;
+            cin >> ca;
+            while(ca < 0 || ca > 0){
+                printf("%s \n", "Some error occur, parameter has to be changed. Try again");
+                cin >> ca;
+            }
+            get(ca);
+        }
     }
 };
 
