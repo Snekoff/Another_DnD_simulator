@@ -17,6 +17,8 @@ private:
     int level;
     int experience;
     int Health;
+    int maxHealth;
+    int diceOfHealth;
     int Str,Dex,Con,Int,Wis,Cha;
     int AC;
     int deathSavesS,deathSavesF;//sucsess/failure
@@ -32,8 +34,16 @@ public:
         if(a == ""){a = "human";}
         if(b == ""){b = "barbarian";}
         if(l < 0) l = 0; if(h < 0) h = 0; if(s < 0) s = 0;if(d < 0) d = 0;if(c < 0) c = 0;if(i < 0) i = 0;if(w < 0) w = 0;if(cha < 0) cha = 0;
-        race = a;classType = b;level = l;Health = h;
+        race = a;classType = b;level = l;Health = h;maxHealth = h;
         Str = s;Dex = d;Con = c;Int = i;Wis = w;Cha = cha;
+        if(classType == ""){diceOfHealth = ;}
+        else if(classType == ""){diceOfHealth = ;}
+        else if(classType == ""){diceOfHealth = ;}
+        else if(classType == ""){diceOfHealth = ;}
+        else if(classType == ""){diceOfHealth = ;}
+        else if(classType == ""){diceOfHealth = ;}
+        else if(classType == ""){diceOfHealth = ;}
+        else if(classType == ""){diceOfHealth = ;}
     }
     void set(int a, int b){// a - what parameter will be changed, b - modifier(can be negative)
         if(a <0){
@@ -105,6 +115,25 @@ public:
             }
             get(ca);
         }
+        return -1;
+    }
+    void levelUp(){
+        if(level == 1&& experience > 299){
+            level++;
+            printf("%s \n", "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
+            int lv = 0; while(lv < 1 || lv > 2){cin >> lv;}
+            if(lv == 1){}//role dices
+            else{}//take middle
+            levelUp();
+            /*printf("%s \n", "reserved for skill levelUp");*/}
+        else if(level == 2 && experience > 899){}
+        else if(level == 3 && experience > 2699){}
+        else if(level == 4 && experience > 6499){}//prof+1, skills(2 points to one or 1 point to two)
+        else if(level == 5 && experience > 13999){}
+        else if(level == 6 && experience > 22999){}
+        else if(level == 7 && experience > 33999){}
+        else if(level == 8 && experience > 47999){}//prof+1, skills2 points to one or 1 point to two)
+        else if(level == 9 && experience > 64999){}
     }
 };
 
