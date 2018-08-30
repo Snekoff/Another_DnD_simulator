@@ -36,7 +36,7 @@ public:
         if(l < 0) l = 0; if(h < 0) h = 0; if(s < 0) s = 0;if(d < 0) d = 0;if(c < 0) c = 0;if(i < 0) i = 0;if(w < 0) w = 0;if(cha < 0) cha = 0;
         race = a;classType = b;level = l;Health = h;maxHealth = h;
         Str = s;Dex = d;Con = c;Int = i;Wis = w;Cha = cha;
-        if(classType == "Barbarian"){diceOfHealth = 12;}
+        if(classType == "Barbarian"){diceOfHealth = 12;}// save throws
         else if(classType == "Bard"){diceOfHealth = 8;}
         else if(classType == "Cleric"){diceOfHealth = 8;}
         else if(classType == "Druid"){diceOfHealth = 8;}
