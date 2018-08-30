@@ -36,7 +36,10 @@ public:
         if(l < 0) l = 0; if(h < 0) h = 0; if(s < 0) s = 0;if(d < 0) d = 0;if(c < 0) c = 0;if(i < 0) i = 0;if(w < 0) w = 0;if(cha < 0) cha = 0;
         race = a;classType = b;level = l;Health = h;maxHealth = h;
         Str = s;Dex = d;Con = c;Int = i;Wis = w;Cha = cha;
-        if(classType == "Barbarian"){diceOfHealth = 12;}
+        if(level < 4)prof = 2;
+        else if(level > 3 && level < 8)prof = 3;
+        else prof = 4;
+        if(classType == "Barbarian"){diceOfHealth = 12;}// save throws
         else if(classType == "Bard"){diceOfHealth = 8;}
         else if(classType == "Cleric"){diceOfHealth = 8;}
         else if(classType == "Druid"){diceOfHealth = 8;}
@@ -122,22 +125,89 @@ public:
         return -1;
     }
     void levelUp(){
-        if(level == 1&& experience > 299){
+        if(level < 4 && experience > 300*pow(3,level - 1)){
             level++;
             printf("%s \n", "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
             int lv = 0; while(lv < 1 || lv > 2){cin >> lv;}
-            if(lv == 1){}//role dices
-            else{}//take middle
+            if(lv == 1){int tHP = rand() %diceOfHealth-1 +1;printf("%s %d \n", "Rolled Health + Constitution modifier:", tHP + (Con - 10)/2 );maxHealth += tHP + (Con - 10)/2;Health = maxHealth;}//role dices
+            else{maxHealth += diceOfHealth/2 + 1;Health = maxHealth;}//take middle
             levelUp();
             /*printf("%s \n", "reserved for skill levelUp");*/}
-        else if(level == 2 && experience > 899){}
-        else if(level == 3 && experience > 2699){}
-        else if(level == 4 && experience > 6499){}//prof+1, skills(2 points to one or 1 point to two)
-        else if(level == 5 && experience > 13999){}
-        else if(level == 6 && experience > 22999){}
-        else if(level == 7 && experience > 33999){}
-        else if(level == 8 && experience > 47999){}//prof+1, skills2 points to one or 1 point to two)
-        else if(level == 9 && experience > 64999){}
+        else if(level == 4 && experience > 6499){
+            level++;
+            prof++;
+            printf("%s \n", "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
+            int lv = 0; while(lv < 1 || lv > 2){cin >> lv;}
+            if(lv == 1){int tHP = rand() %diceOfHealth-1 +1;printf("%s %d \n", "Rolled Health + Constitution modifier:", tHP + (Con - 10)/2 );maxHealth += tHP + (Con - 10)/2;Health = maxHealth;}//role dices
+            else{maxHealth += diceOfHealth/2 + 1;Health = maxHealth;}//take middle
+            printf("%s %d %s \n", "You reached", level, " level, that means that you have to choose whether improve one ability +2(type 1) or two abilities +1(type 2)");
+            int ablv = -1;//abilityLevelUp
+            cin >> ablv;
+            while(ablv < 0 && ablv > 2){
+                printf("%s \n","You choose inappropriate value. Try 1 or 2.");
+                cin >> ablv;
+            }
+            if(ablv == 1){
+                printf("%s \n", "What ability do you want to improve +2 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6)");
+                cin >> ablv;
+                while(ablv < 0 && ablv > 6){
+                    printf("%s \n","You choose inappropriate value. Try from 1 to 6.");
+                    cin >> ablv;
+                }
+                set(ablv+2,2);
+            }
+            else{
+                printf("%s \n", "What abilityes do you want to improve +1 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6) *Type 2 spaced numbers*");
+                int ablv1 = 0;
+                cin >> ablv >> ablv1;
+                while((ablv < 0 && ablv > 6) ||(ablv1 < 0 && ablv1 > 6)){
+                    printf("%s \n","One or both values incorrect. Try from 1 to 6.");
+                    cin >> ablv >> ablv1;
+                }
+                set(ablv+2,1);
+                set(ablv1+2,1);
+            }
+            levelUp();
+            /*printf("%s \n", "reserved for skill levelUp");*/}//prof+1, skills(2 points to one or 1 point to two)
+        else if(level == 5 && experience > 13999){
+            level++;
+            printf("%s \n", "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
+            int lv = 0; while(lv < 1 || lv > 2){cin >> lv;}
+            if(lv == 1){int tHP = rand() %diceOfHealth-1 +1;printf("%s %d \n", "Rolled Health + Constitution modifier:", tHP + (Con - 10)/2 );maxHealth += tHP + (Con - 10)/2;Health = maxHealth;}//role dices
+            else{maxHealth += diceOfHealth/2 + 1;Health = maxHealth;}//take middle
+            levelUp();
+            /*printf("%s \n", "reserved for skill levelUp");*/
+        }
+        else if(level == 6 && experience > 22999){level++;
+            printf("%s \n", "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
+            int lv = 0; while(lv < 1 || lv > 2){cin >> lv;}
+            if(lv == 1){int tHP = rand() %diceOfHealth-1 +1;printf("%s %d \n", "Rolled Health + Constitution modifier:", tHP + (Con - 10)/2 );maxHealth += tHP + (Con - 10)/2;Health = maxHealth;}//role dices
+            else{maxHealth += diceOfHealth/2 + 1;Health = maxHealth;}//take middle
+            levelUp();
+            /*printf("%s \n", "reserved for skill levelUp");*/}
+        else if(level == 7 && experience > 33999){level++;
+            printf("%s \n", "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
+            int lv = 0; while(lv < 1 || lv > 2){cin >> lv;}
+            if(lv == 1){int tHP = rand() %diceOfHealth-1 +1;printf("%s %d \n", "Rolled Health + Constitution modifier:", tHP + (Con - 10)/2 );maxHealth += tHP + (Con - 10)/2;Health = maxHealth;}//role dices
+            else{maxHealth += diceOfHealth/2 + 1;Health = maxHealth;}//take middle
+            levelUp();
+            /*printf("%s \n", "reserved for skill levelUp");*/}
+        else if(level == 8 && experience > 47999){level++; prof++;
+            printf("%s \n", "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
+            int lv = 0; while(lv < 1 || lv > 2){cin >> lv;}
+            if(lv == 1){int tHP = rand() %diceOfHealth-1 +1;printf("%s %d \n", "Rolled Health + Constitution modifier:", tHP + (Con - 10)/2 );maxHealth += tHP + (Con - 10)/2;Health = maxHealth;}//role dices
+            else{maxHealth += diceOfHealth/2 + 1;Health = maxHealth;}//take middle
+            levelUp();
+            /*printf("%s \n", "reserved for skill levelUp");*/}//prof+1, skills2 points to one or 1 point to two)
+        else if(level == 9 && experience > 64999){level++;
+            printf("%s \n", "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
+            int lv = 0; while(lv < 1 || lv > 2){cin >> lv;}
+            if(lv == 1){int tHP = rand() %diceOfHealth-1 +1;printf("%s %d \n", "Rolled Health + Constitution modifier:", tHP + (Con - 10)/2 );maxHealth += tHP + (Con - 10)/2;Health = maxHealth;}//role dices
+            else{maxHealth += diceOfHealth/2 + 1;Health = maxHealth;}//take middle
+            levelUp();
+            /*printf("%s \n", "reserved for skill levelUp");*/}
+        printf("%s %d \n", "Your level:", level );
+        printf("%s %d \n", "Your Health:", Health );
     }
 };
 
