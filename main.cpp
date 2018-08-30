@@ -14,5 +14,6 @@ int main() {
     printf("%s","Dungeons and Dragons game (PC) starts here");
     printf("%s","Dungeons and Dragons game (PC) starts ");
     printf("%s","Dungeons and Dragons game (PC) starts ");
+    int hellos;
     return 0;
 }
