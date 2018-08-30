@@ -45,7 +45,7 @@ public:
         if(level < 4)prof = 2;
         else if(level > 3 && level < 8)prof = 3;
         else prof = 4;
-        passivePerception = 10 + WisM;
+        passivePerception = 10 + WisM; // if creature have advantage +5 if disadvantage -5
         printf("%s \n", "Your class allows you to get a proficiency skills, your proficiency bonus will be added to them that will made you stronger or smarter, depends what you choose.");
         if(classType == "Barbarian"){diceOfHealth = 12;
         printf("%s \n", "Choose two from Animal Handling, Athletic, Intimidation, Nature, Perception and Survival");
