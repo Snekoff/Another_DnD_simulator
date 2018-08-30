@@ -11,9 +11,8 @@ using namespace std;
 
 int main() {
     printf("%s","Dungeons and Dragons game (PC) starts here");
-    printf("%s","Dungeons and Dragons game (PC) starts here");
-    printf("%s","Dungeons and Dragons game (PC) starts ");
-    printf("%s","Dungeons and Dragons game (PC) starts ");
-    int hellos;
+    int a = 0, b = 0;
+    a++;
+    printf("%d", a+b);
     return 0;
 }
