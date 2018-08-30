@@ -28,34 +28,65 @@ private:
     int deathSavesS,deathSavesF;//sucsess/failure
     int prof;
     int passivePerception;
-    skills s;
+    skills skill;
     weapon w;
     string inventory;
 public:
     character(){}
     ~character(){}
-    void setF(string a,string b,int l,int h, int s,int d, int c,int i, int w, int cha){
+    void setF(string a, string b, string story, int l, int h, int s,int d, int c,int i, int w, int cha){
         if(a == ""){a = "human";}
         if(b == ""){b = "barbarian";}
         if(l < 0) l = 0; if(h < 0) h = 0; if(s < 0) s = 0;if(d < 0) d = 0;if(c < 0) c = 0;if(i < 0) i = 0;if(w < 0) w = 0;if(cha < 0) cha = 0;
         race = a;classType = b;level = l;Health = h;maxHealth = h;
         Str = s;Dex = d;Con = c;Int = i;Wis = w;Cha = cha;
         StrM = (Str - 10)/2;DexM = (DexM-10)/2;ConM = (ConM-10)/2;IntM = (IntM-10)/2;WisM = (WisM-10)/2;ChaM = (ChaM-10)/2;
+        setSkill(skill);
         if(level < 4)prof = 2;
         else if(level > 3 && level < 8)prof = 3;
         else prof = 4;
-        if(classType == "Barbarian"){diceOfHealth = 12;}// save throws, skills,
-        else if(classType == "Bard"){diceOfHealth = 8;}
-        else if(classType == "Cleric"){diceOfHealth = 8;}
-        else if(classType == "Druid"){diceOfHealth = 8;}
-        else if(classType == "Fighter"){diceOfHealth = 10;}
-        else if(classType == "Monk"){diceOfHealth = 8;}
-        else if(classType == "Paladin"){diceOfHealth = 10;}
-        else if(classType == "Ranger"){diceOfHealth = 10;}
-        else if(classType == "Rouge"){diceOfHealth = 8;}
-        else if(classType == "Sorcerer"){diceOfHealth = 6;}
-        else if(classType == "Warlock"){diceOfHealth = 8;}
-        else if(classType == "Wizard"){diceOfHealth = 6;}
+        printf("%s \n", "Your class allows you to get a proficiency skills, your proficiency bonus will be added to them that will made you stronger or smarter, depends what you choose.");
+        if(classType == "Barbarian"){diceOfHealth = 12;
+        printf("%s \n", "Choose two from Animal Handling, Athletic, Intimidation, Nature, Perception and Survival");
+        }// save throws, skills,
+        else if(classType == "Bard"){diceOfHealth = 8;
+            printf("%s \n", "Choose any three ");
+        }
+        else if(classType == "Cleric"){diceOfHealth = 8;
+            printf("%s \n", "Choose two from History, lnsight, Medicine, Persuasion and Religion");
+        }
+        else if(classType == "Druid"){diceOfHealth = 8;
+            printf("%s \n", "Choose two from Arcana, Animal Handling, Insight, Medicine, Nature, Perception, Religion and Survival");
+        }
+        else if(classType == "Fighter"){diceOfHealth = 10;
+            printf("%s \n", "Choose two from Acrobatics, AnimalHandling, Athletics, History, Insight, Intimidation, Perception and Survival");
+        }
+        else if(classType == "Monk"){diceOfHealth = 8;
+            printf("%s \n", "Choose two from Acrobatics, Athletics, History, Insight, Religion, and Stealth");
+        }
+        else if(classType == "Paladin"){diceOfHealth = 10;
+            printf("%s \n", "Choose two from Athletics, Insight, Intimidation, Medicine, Persuasion, and Religion");
+        }
+        else if(classType == "Ranger"){diceOfHealth = 10;
+            printf("%s \n", "Choose two from Animal Handling, Athletics, Insight, Investigation, Nature, Perception, Stealth and Survival");
+        }
+        else if(classType == "Rouge"){diceOfHealth = 8;
+            printf("%s \n", "Choose four from Acrobatics, Athletics, Deception, Insight, Intimidation, Investigation, Perception, Performance, Persuasion, Sleight of Hand and Stealth");
+        }
+        else if(classType == "Sorcerer"){diceOfHealth = 6;
+            printf("%s \n", "Choose two from Arcana, Deception, Insight, Intimidation, Persuasion, and Religion");
+        }
+        else if(classType == "Warlock"){diceOfHealth = 8;
+            printf("%s \n", "Choose two from Arcana, Deception, History, Intimidation, Investigation, Nature, and Religion");
+        }
+        else if(classType == "Wizard"){diceOfHealth = 6;
+            printf("%s \n", "Choose two from Arcana, History, Insight, Investigation, Medicine, and Religion");
+        }
+        /*if(story == ""){}
+        else if(story == ""){}
+        else if(story == ""){}
+        else if(story == ""){}
+        else if(story == ""){}*/
     }
     void set(int a, int b){// a - what parameter will be changed, b - modifier(can be negative)
         if(a <0){
@@ -239,9 +270,25 @@ public:
         printf("%s %d \n", "Your level:", level );
         printf("%s %d \n", "Your Health:", Health );
     }
-    void setSkill(skills c,int a, int b){
-        c.acrobatics +=0;
-
+    void setSkill(skills c){
+        c.acrobatics +=IntM;
+        c.animalHandling +=WisM;
+        c.arcana +=IntM;
+        c.athletics+=StrM;
+        c.deception+=ChaM;
+        c.history+=IntM;
+        c.insight+=WisM;
+        c.intimidation+=ChaM;
+        c.investigation+=IntM;
+        c.medicine+=WisM;
+        c.nature+=IntM;
+        c.perception+=WisM;
+        c.perfomance+=ChaM;
+        c.persuasion+=ChaM;
+        c.religion+=IntM;
+        c.sleightOfHand+=DexM;
+        c.stealth+=DexM;
+        c.survival+=WisM;
     }
 };
 
