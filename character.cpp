@@ -44,7 +44,7 @@ public:
         if(level < 4)prof = 2;
         else if(level > 3 && level < 8)prof = 3;
         else prof = 4;
-        if(classType == "Barbarian"){diceOfHealth = 12;}// save throws, skills
+        if(classType == "Barbarian"){diceOfHealth = 12;}// save throws, skills,
         else if(classType == "Bard"){diceOfHealth = 8;}
         else if(classType == "Cleric"){diceOfHealth = 8;}
         else if(classType == "Druid"){diceOfHealth = 8;}
