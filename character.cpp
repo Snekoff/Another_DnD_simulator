@@ -4,7 +4,9 @@
 using namespace std;
 
 struct skills{
-
+    int acrobatics = 0,animalHandling = 0,arcana = 0,athletics = 0,deception = 0,history = 0,
+    insight = 0,intimidation = 0,investigation = 0,medicine = 0,nature = 0,perception = 0,
+    perfomance = 0,persuasion = 0,religion = 0,sleightOfHand = 0,stealth = 0,survival = 0;
 };
 struct weapon{
 
@@ -39,7 +41,7 @@ public:
         if(level < 4)prof = 2;
         else if(level > 3 && level < 8)prof = 3;
         else prof = 4;
-        if(classType == "Barbarian"){diceOfHealth = 12;}// save throws
+        if(classType == "Barbarian"){diceOfHealth = 12;}// save throws, skills
         else if(classType == "Bard"){diceOfHealth = 8;}
         else if(classType == "Cleric"){diceOfHealth = 8;}
         else if(classType == "Druid"){diceOfHealth = 8;}
@@ -125,8 +127,7 @@ public:
         return -1;
     }
     void levelUp(){
-        if(level < 4 && experience > 300*pow(3,level - 1)){
-            level++;
+        if(level < 4 && experience > 300*pow(3,level - 1)){level++;
             prof++;
             printf("%s \n", "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
             int lv = 0; while(lv < 1 || lv > 2){cin >> lv;}
@@ -176,8 +177,7 @@ public:
             if(lv == 1){int tHP = rand() %diceOfHealth-1 +1;printf("%s %d \n", "Rolled Health + Constitution modifier:", tHP + (Con - 10)/2 );maxHealth += tHP + (Con - 10)/2;Health = maxHealth;}//role dices
             else{maxHealth += diceOfHealth/2 + 1;Health = maxHealth;}//take middle
             levelUp();
-            /*printf("%s \n", "reserved for skill levelUp");*/
-        }
+            /*printf("%s \n", "reserved for skill levelUp");*/}
         else if(level == 6 && experience > 22999){level++;
             printf("%s \n", "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
             int lv = 0; while(lv < 1 || lv > 2){cin >> lv;}
