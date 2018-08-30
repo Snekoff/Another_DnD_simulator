@@ -6,7 +6,7 @@ using namespace std;
 struct skills{
     int acrobatics = 0,animalHandling = 0,arcana = 0,athletics = 0,deception = 0,history = 0,
     insight = 0,intimidation = 0,investigation = 0,medicine = 0,nature = 0,perception = 0,
-    perfomance = 0,persuasion = 0,religion = 0,sleightOfHand = 0,stealth = 0,survival = 0;
+    performance = 0,persuasion = 0,religion = 0,sleightOfHand = 0,stealth = 0,survival = 0;
 };
 struct weapon{
 
@@ -45,6 +45,7 @@ public:
         if(level < 4)prof = 2;
         else if(level > 3 && level < 8)prof = 3;
         else prof = 4;
+        passivePerception = 10 + WisM;
         printf("%s \n", "Your class allows you to get a proficiency skills, your proficiency bonus will be added to them that will made you stronger or smarter, depends what you choose.");
         if(classType == "Barbarian"){diceOfHealth = 12;
         printf("%s \n", "Choose two from Animal Handling, Athletic, Intimidation, Nature, Perception and Survival");
@@ -53,7 +54,7 @@ public:
             printf("%s \n", "Choose any three ");
         }
         else if(classType == "Cleric"){diceOfHealth = 8;
-            printf("%s \n", "Choose two from History, lnsight, Medicine, Persuasion and Religion");
+            printf("%s \n", "Choose two from History, Insight, Medicine, Persuasion and Religion");
         }
         else if(classType == "Druid"){diceOfHealth = 8;
             printf("%s \n", "Choose two from Arcana, Animal Handling, Insight, Medicine, Nature, Perception, Religion and Survival");
@@ -82,11 +83,19 @@ public:
         else if(classType == "Wizard"){diceOfHealth = 6;
             printf("%s \n", "Choose two from Arcana, History, Insight, Investigation, Medicine, and Religion");
         }
-        /*if(story == ""){}
-        else if(story == ""){}
-        else if(story == ""){}
-        else if(story == ""){}
-        else if(story == ""){}*/
+        if(story == "Acolyte"){if(skill.insight == WisM)skill.insight+=prof; if(skill.religion == IntM)skill.religion+=prof; }
+        else if(story == "Charlatan"){if(skill.deception == ChaM)skill.deception+=prof; if(skill.sleightOfHand == DexM)skill.sleightOfHand+=prof;}
+        else if(story == "Criminal"){if(skill.deception == ChaM)skill.deception+=prof; if(skill.stealth == DexM)skill.stealth+=prof;}
+        else if(story == "Entertainer"){if(skill.acrobatics == IntM)skill.acrobatics+=prof; if(skill.performance == ChaM)skill.performance+=prof;}
+        else if(story == "FolkHero"){if(skill.animalHandling == WisM)skill.animalHandling+=prof; if(skill.survival == WisM)skill.survival+=prof;}
+        else if(story == "GuildArtisan"){if(skill.insight == WisM)skill.insight+=prof; if(skill.persuasion == ChaM)skill.persuasion+=prof;}
+        else if(story == "Hermit"){if(skill.medicine == WisM)skill.medicine+=prof; if(skill.religion == IntM)skill.religion+=prof;}
+        else if(story == "Noble"){if(skill.history == IntM)skill.history+=prof; if(skill.persuasion == ChaM)skill.persuasion+=prof;}
+        else if(story == "Outlander"){if(skill.athletics == StrM)skill.athletics+=prof; if(skill.survival == WisM)skill.survival+=prof;}
+        else if(story == "Sage"){if(skill.arcana == IntM)skill.arcana+=prof; if(skill.history == IntM)skill.history+=prof;}
+        else if(story == "Sailor"){if(skill.athletics == StrM)skill.athletics+=prof; if(skill.perception == WisM)skill.perception+=prof;}
+        else if(story == "Soldier"){if(skill.athletics == StrM)skill.athletics+=prof; if(skill.intimidation == ChaM)skill.intimidation+=prof;}
+        else if(story == "Urchin"){if(skill.sleightOfHand == DexM)skill.sleightOfHand+=prof; if(skill.stealth == DexM)skill.stealth+=prof;}
     }
     void set(int a, int b){// a - what parameter will be changed, b - modifier(can be negative)
         if(a <0){
@@ -112,8 +121,9 @@ public:
         else if(a == 11){printf("%s \n","reserved for skills");}
         else if(a == 12){printf("%s \n","reserved for weapon");}
         else if(a == 13){printf("%s \n","reserved for inventory");}
+        else if(a == 14){printf("%s \n","reserved for story/background");}
         else {
-            printf("%s \n", "some error occur, parameter > 13 to be changed. Try again");
+            printf("%s \n", "some error occur, parameter > 14 to be changed. Try again");
             int ca = 0;
             cin >> ca;
             while(ca < 0 || ca > 0){
@@ -148,8 +158,10 @@ public:
         else if(a == 11){printf("%s \n","reserved for skills");return 0;}
         else if(a == 12){printf("%s \n","reserved for weapon");return 0;}
         else if(a == 13){printf("%s \n","reserved for inventory");return 0;}
+        else if(a == 14){printf("%s \n","reserved for story/background");return 0;}
+        else if(a == 15){return passivePerception;}
         else {
-            printf("%s \n", "Some error occur, parameter > 13 to be changed. Try once again");
+            printf("%s \n", "Some error occur, parameter > 15 to be changed. Try once again");
             int ca = 0;
             cin >> ca;
             while(ca < 0 || ca > 0){
@@ -271,24 +283,13 @@ public:
         printf("%s %d \n", "Your Health:", Health );
     }
     void setSkill(skills c){
-        c.acrobatics +=IntM;
-        c.animalHandling +=WisM;
-        c.arcana +=IntM;
-        c.athletics+=StrM;
-        c.deception+=ChaM;
-        c.history+=IntM;
-        c.insight+=WisM;
-        c.intimidation+=ChaM;
-        c.investigation+=IntM;
-        c.medicine+=WisM;
-        c.nature+=IntM;
-        c.perception+=WisM;
-        c.perfomance+=ChaM;
-        c.persuasion+=ChaM;
-        c.religion+=IntM;
-        c.sleightOfHand+=DexM;
-        c.stealth+=DexM;
-        c.survival+=WisM;
+        c.acrobatics +=IntM;c.animalHandling +=WisM;c.arcana +=IntM;c.athletics+=StrM;c.deception+=ChaM;c.history+=IntM;
+        c.insight+=WisM;c.intimidation+=ChaM;c.investigation+=IntM;c.medicine+=WisM;c.nature+=IntM;c.perception+=WisM;
+        c.performance+=ChaM;c.persuasion+=ChaM;c.religion+=IntM;c.sleightOfHand+=DexM;c.stealth+=DexM;c.survival+=WisM;
+    }
+    void getSkill(skills c){
+        string a = "acrobatics" + to_string(c.acrobatics) + " animalHandling " +to_string(c.animalHandling) + " arcana " + to_string(c.arcana) + " athletics "+ to_string(c.athletics)+" deception "+to_string(c.deception)+ " history " +to_string(c.history)+ " insight " +to_string(c.insight)+ " intimidation " +to_string(c.intimidation)+ " investigation " +to_string(c.investigation)+ " medicine " +to_string(c.medicine)+ " nature " +to_string(c.nature)+ " perception " +to_string(c.perception)+ " performance " +to_string(c.performance)+ " persuasion " +to_string(c.persuasion)+ " religion " +to_string(c.religion)+ " sleightOfHand " +to_string(c.sleightOfHand)+ " stealth " +to_string(c.stealth)+ " survival " +to_string(c.survival);
+        cout << a;
     }
 };
 
