@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "interface_races_classes_background.h"
+#include "Race_Class_Background.cpp"
 using namespace std;
 
 struct skills{
