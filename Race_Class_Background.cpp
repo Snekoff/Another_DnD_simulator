@@ -16,7 +16,7 @@ protected:
     int maxAge[39] = {120};
     int Str,Dex,Con,Int,Wis,Cha;
     Spell spell;
-    std::string raceFeatures;// Abilities0-5,Movement,Size,Darkvision,skill like firebreath,type of damage resistance,Languages//
+    std::string raceFeatures;// Abilities0-5,Movement,Size,Darkvision,skill like firebreath,fits,type of damage resistance,Languages//
 public:
     race(){
         type = 0;
@@ -58,7 +58,7 @@ private:
 public:
     void subClassFeatures(){}
 };
-/*
+/* I need to do list of names, also in method Features i must make choice of abilities, if race allows
 Dragonborn 0
 Str +2; Cha +1
 6+
