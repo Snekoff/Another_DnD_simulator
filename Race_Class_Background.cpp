@@ -4,74 +4,74 @@
 #include "Skills_and_Spells.cpp"
 
 class Race {
-private:
-    int type;
-protected:
-    int height, weight, age;
-    int minHeight[39] = {6, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 3, 3, 3, 3, 5, 5, 5, 5, 5, 5, 3, 3, 3, 5, 5, 5, 6, 5, 5, 5, 5,
-                         5, 5, 5, 5, 5, 5, 5};
-    int maxHeight[39] = {6, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, 3, 3, 3, 6, 6, 6, 6, 6, 6, 6, 6,
-                         6, 6, 6, 6, 6, 6, 6};
-    int minWeight[39] = {10};
-    int maxWeight[39] = {140};
-    int minAge[39] = {3};
-    int maxAge[39] = {120};
-    int Str, Dex, Con, Int, Wis, Cha;
-    Spell spell;
-    std::string raceFeatures;
-    // Abilities0-5,Movement,Size,Darkvision,skill like firebreath,fits,type of damage resistance,Languages//
-public:
-    Race() {
-        type = 0;
-        height = 0;
-        weight = 0;
-        age = 0;
-    }
+ private:
+  int type;
+ protected:
+  int height, weight, age;
+  int minHeight[39] = {6, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 3, 3, 3, 3, 5, 5, 5, 5, 5, 5, 3, 3, 3, 5, 5, 5, 6, 5, 5, 5, 5,
+                       5, 5, 5, 5, 5, 5, 5};
+  int maxHeight[39] = {6, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, 3, 3, 3, 6, 6, 6, 6, 6, 6, 6, 6,
+                       6, 6, 6, 6, 6, 6, 6};
+  int minWeight[39] = {10};
+  int maxWeight[39] = {140};
+  int minAge[39] = {3};
+  int maxAge[39] = {120};
+  int Str, Dex, Con, Int, Wis, Cha;
+  Spell spell;
+  std::string raceFeatures;
+  // Abilities0-5,Movement,Size,Darkvision,skill like firebreath,fits,type of damage resistance,Languages//
+ public:
+  Race() {
+    type = 0;
+    height = 0;
+    weight = 0;
+    age = 0;
+  }
 
-    ~Race() {}
+  ~Race() {}
 
-    virtual void set(int a) {
-        type = a;
-    }
+  virtual void set(int a) {
+    type = a;
+  }
 
-    virtual void set(int a, int b, int c, int d) {}
+  virtual void set(int a, int b, int c, int d) {}
 
-    virtual int get() {}
+  virtual int get() {}
 
-    void raceFeature() {}
+  void raceFeature() {}
 };
 
 class SubRace : public Race {
-private:
-    int subtype;
-public:
-    void subRaceFeatures() {}
+ private:
+  int subtype;
+ public:
+  void subRaceFeatures() {}
 };
 
 class Class {
-private:
-    int type;
-protected:
-    std::string features = "";
-public:
-    Class() {}
+ private:
+  int type;
+ protected:
+  std::string features = "";
+ public:
+  Class() {}
 
-    ~Class() {}
+  ~Class() {}
 
-    virtual void set(int a) {}
+  virtual void set(int a) {}
 
-    virtual void set(int a, int b, int c, int d) {}
+  virtual void set(int a, int b, int c, int d) {}
 
-    virtual int get() {}
+  virtual int get() {}
 
-    void ClassFeatures() {}
+  void ClassFeatures() {}
 };
 
 class SubClass : public Class {
-private:
-    int subtype;
-public:
-    void subClassFeatures() {}
+ private:
+  int subtype;
+ public:
+  void subClassFeatures() {}
 };
 /* I need to do list of names, also in method Features i must make choice of abilities, if race allows
 Dragonborn 0
