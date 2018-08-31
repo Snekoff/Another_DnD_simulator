@@ -5,10 +5,12 @@
 #ifndef ANOTHER_DND_SIMULATOR_INTERFACE_RACES_CLASSES_BACKGROUND_H
 #define ANOTHER_DND_SIMULATOR_INTERFACE_RACES_CLASSES_BACKGROUND_H
 
-class features{
+class Features {
 public:
     virtual void set(int) = 0;
-    virtual void set(int,int,int,int) = 0;
+
+    virtual void set(int, int, int, int) = 0;
+
     virtual int get() = 0;//
 };
 

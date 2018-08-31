@@ -3,60 +3,75 @@
 #include <iostream>
 #include "Skills_and_Spells.cpp"
 
-class race{
+class Race {
 private:
     int type;
 protected:
-    int height,weight,age;
-    int minHeight[39]= {6,4,4,5,5,5,5,5,5,5,5,3,3,3,3,5,5,5,5,5,5,3,3,3,5,5,5,6,5,5,5,5,5,5,5,5,5,5,5};
-    int maxHeight[39]= {6,5,5,6,6,6,6,6,6,6,6,4,4,4,4,6,6,6,6,6,6,3,3,3,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6};
-    int minWeight[39]={10};
-    int maxWeight[39]={140};
+    int height, weight, age;
+    int minHeight[39] = {6, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 3, 3, 3, 3, 5, 5, 5, 5, 5, 5, 3, 3, 3, 5, 5, 5, 6, 5, 5, 5, 5,
+                         5, 5, 5, 5, 5, 5, 5};
+    int maxHeight[39] = {6, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, 3, 3, 3, 6, 6, 6, 6, 6, 6, 6, 6,
+                         6, 6, 6, 6, 6, 6, 6};
+    int minWeight[39] = {10};
+    int maxWeight[39] = {140};
     int minAge[39] = {3};
     int maxAge[39] = {120};
-    int Str,Dex,Con,Int,Wis,Cha;
+    int Str, Dex, Con, Int, Wis, Cha;
     Spell spell;
-    std::string raceFeatures;// Abilities0-5,Movement,Size,Darkvision,skill like firebreath,fits,type of damage resistance,Languages//
+    std::string raceFeatures;
+    // Abilities0-5,Movement,Size,Darkvision,skill like firebreath,fits,type of damage resistance,Languages//
 public:
-    race(){
+    Race() {
         type = 0;
         height = 0;
         weight = 0;
         age = 0;
     }
-    ~race(){}
-    virtual void set(int a){
+
+    ~Race() {}
+
+    virtual void set(int a) {
         type = a;
     }
-    virtual void set(int a,int b,int c, int d){}
-    virtual int get(){}
-    void raceFeature(){}
+
+    virtual void set(int a, int b, int c, int d) {}
+
+    virtual int get() {}
+
+    void raceFeature() {}
 };
-class subRace : public race{
+
+class SubRace : public Race {
 private:
     int subtype;
 public:
-    void subRaceFeatures(){}
+    void subRaceFeatures() {}
 };
 
-class Class{
+class Class {
 private:
     int type;
 protected:
-    std::string Features = "";
+    std::string features = "";
 public:
-    Class(){}
-    ~Class(){}
-    virtual void set(int a){}
-    virtual void set(int a,int b,int c, int d){}
-    virtual int get(){}
-    void ClassFeatures(){}
+    Class() {}
+
+    ~Class() {}
+
+    virtual void set(int a) {}
+
+    virtual void set(int a, int b, int c, int d) {}
+
+    virtual int get() {}
+
+    void ClassFeatures() {}
 };
-class subClass : public Class{
+
+class SubClass : public Class {
 private:
     int subtype;
 public:
-    void subClassFeatures(){}
+    void subClassFeatures() {}
 };
 /* I need to do list of names, also in method Features i must make choice of abilities, if race allows
 Dragonborn 0

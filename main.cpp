@@ -14,12 +14,11 @@
 #include "Race_Class_Background.cpp"
 
 
-
 using namespace std;
 
 int main() {
-    setlocale(LC_ALL,"rus");
-    printf("%s","Dungeons and Dragons game (PC) starts here");
+    setlocale(LC_ALL, "rus");
+    printf("%s", "Dungeons and Dragons game (PC) starts here");
 
     return 0;
 }
