@@ -11,7 +11,7 @@ history 5,insight 6,intimidation 7,investigation 8,medicine 9,
 nature 10,perception 11,performance 12,persuasion 13,religion 14,
 sleightOfHand 15,stealth 16,survival 17*/
 };
-struct weapon{ //I`m going to add here something like interface or database
+struct weapon{ //I`m going to add here something like interface or database.
 
 };
 

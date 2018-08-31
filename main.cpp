@@ -24,7 +24,7 @@ int main() {
     return 0;
 }
 /*
- * 1. персонажи
+ * 1. персонажи (characters, weapons, spells etc.)
  * 2. mobs and experience
  * 3. случайные события и инициатива
  * 4. очередь хода

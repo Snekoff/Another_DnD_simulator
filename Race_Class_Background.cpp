@@ -26,7 +26,7 @@ private:
     int type;
 protected:
     //skill Skill;
-    // spell Spell;
+    //spell Spell;
 
 public:
     Class(){}
