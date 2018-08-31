@@ -4,9 +4,10 @@
 using namespace std;
 
 struct skills{
-    int acrobatics = 0,animalHandling = 0,arcana = 0,athletics = 0,deception = 0,history = 0,
-    insight = 0,intimidation = 0,investigation = 0,medicine = 0,nature = 0,perception = 0,
-    performance = 0,persuasion = 0,religion = 0,sleightOfHand = 0,stealth = 0,survival = 0;
+    int s[18] = {0};/* acrobatics 0,animalHandling 1,arcana 2,athletics 3,deception 4,
+history 5,insight 6,intimidation 7,investigation 8,medicine 9,
+nature 10,perception 11,performance 12,persuasion 13,religion 14,
+sleightOfHand 15,stealth 16,survival 17*/
 };
 struct weapon{
 
@@ -25,7 +26,7 @@ private:
     int Str,Dex,Con,Int,Wis,Cha;
     int StrM,DexM,ConM,IntM,WisM,ChaM;
     int AC;
-    int deathSavesS,deathSavesF;//sucsess/failure
+    int deathSavesS,deathSavesF;//success/failure
     int prof;
     int passivePerception;
     skills skill;
@@ -55,48 +56,48 @@ public:
             printf("%s \n", "Choose any three ");
         }
         else if(classType == "Cleric"){diceOfHealth = 8;
-            printf("%s \n", "Choose two from History, Insight, Medicine, Persuasion and Religion");
+            printf("%s \n", "Choose two from History, .s[6], Medicine, Persuasion and Religion");
         }
         else if(classType == "Druid"){diceOfHealth = 8;
-            printf("%s \n", "Choose two from Arcana, Animal Handling, Insight, Medicine, Nature, Perception, Religion and Survival");
+            printf("%s \n", "Choose two from Arcana, Animal Handling, .s[6], Medicine, Nature, Perception, Religion and Survival");
         }
         else if(classType == "Fighter"){diceOfHealth = 10;
-            printf("%s \n", "Choose two from Acrobatics, AnimalHandling, Athletics, History, Insight, Intimidation, Perception and Survival");
+            printf("%s \n", "Choose two from Acrobatics, AnimalHandling, Athletics, History, .s[6], Intimidation, Perception and Survival");
         }
         else if(classType == "Monk"){diceOfHealth = 8;
-            printf("%s \n", "Choose two from Acrobatics, Athletics, History, Insight, Religion, and Stealth");
+            printf("%s \n", "Choose two from Acrobatics, Athletics, History, .s[6], Religion, and Stealth");
         }
         else if(classType == "Paladin"){diceOfHealth = 10;
-            printf("%s \n", "Choose two from Athletics, Insight, Intimidation, Medicine, Persuasion, and Religion");
+            printf("%s \n", "Choose two from Athletics, .s[6], Intimidation, Medicine, Persuasion, and Religion");
         }
         else if(classType == "Ranger"){diceOfHealth = 10;
-            printf("%s \n", "Choose two from Animal Handling, Athletics, Insight, Investigation, Nature, Perception, Stealth and Survival");
+            printf("%s \n", "Choose two from Animal Handling, Athletics, .s[6], Investigation, Nature, Perception, Stealth and Survival");
         }
         else if(classType == "Rouge"){diceOfHealth = 8;
-            printf("%s \n", "Choose four from Acrobatics, Athletics, Deception, Insight, Intimidation, Investigation, Perception, Performance, Persuasion, Sleight of Hand and Stealth");
+            printf("%s \n", "Choose four from Acrobatics, Athletics, Deception, .s[6], Intimidation, Investigation, Perception, Performance, Persuasion, Sleight of Hand and Stealth");
         }
         else if(classType == "Sorcerer"){diceOfHealth = 6;
-            printf("%s \n", "Choose two from Arcana, Deception, Insight, Intimidation, Persuasion, and Religion");
+            printf("%s \n", "Choose two from Arcana, Deception, .s[6], Intimidation, Persuasion, and Religion");
         }
         else if(classType == "Warlock"){diceOfHealth = 8;
             printf("%s \n", "Choose two from Arcana, Deception, History, Intimidation, Investigation, Nature, and Religion");
         }
         else if(classType == "Wizard"){diceOfHealth = 6;
-            printf("%s \n", "Choose two from Arcana, History, Insight, Investigation, Medicine, and Religion");
+            printf("%s \n", "Choose two from Arcana, History, .s[6], Investigation, Medicine, and Religion");
         }
-        if(story == "Acolyte"){if(skill.insight == WisM)skill.insight+=prof; if(skill.religion == IntM)skill.religion+=prof; }
-        else if(story == "Charlatan"){if(skill.deception == ChaM)skill.deception+=prof; if(skill.sleightOfHand == DexM)skill.sleightOfHand+=prof;}
-        else if(story == "Criminal"){if(skill.deception == ChaM)skill.deception+=prof; if(skill.stealth == DexM)skill.stealth+=prof;}
-        else if(story == "Entertainer"){if(skill.acrobatics == IntM)skill.acrobatics+=prof; if(skill.performance == ChaM)skill.performance+=prof;}
-        else if(story == "FolkHero"){if(skill.animalHandling == WisM)skill.animalHandling+=prof; if(skill.survival == WisM)skill.survival+=prof;}
-        else if(story == "GuildArtisan"){if(skill.insight == WisM)skill.insight+=prof; if(skill.persuasion == ChaM)skill.persuasion+=prof;}
-        else if(story == "Hermit"){if(skill.medicine == WisM)skill.medicine+=prof; if(skill.religion == IntM)skill.religion+=prof;}
-        else if(story == "Noble"){if(skill.history == IntM)skill.history+=prof; if(skill.persuasion == ChaM)skill.persuasion+=prof;}
-        else if(story == "Outlander"){if(skill.athletics == StrM)skill.athletics+=prof; if(skill.survival == WisM)skill.survival+=prof;}
-        else if(story == "Sage"){if(skill.arcana == IntM)skill.arcana+=prof; if(skill.history == IntM)skill.history+=prof;}
-        else if(story == "Sailor"){if(skill.athletics == StrM)skill.athletics+=prof; if(skill.perception == WisM)skill.perception+=prof;}
-        else if(story == "Soldier"){if(skill.athletics == StrM)skill.athletics+=prof; if(skill.intimidation == ChaM)skill.intimidation+=prof;}
-        else if(story == "Urchin"){if(skill.sleightOfHand == DexM)skill.sleightOfHand+=prof; if(skill.stealth == DexM)skill.stealth+=prof;}
+        if(story == "Acolyte"){if(skill.s[6] == WisM)skill.s[6]+=prof; if(skill.s[14] == IntM)skill.s[14]+=prof; }
+        else if(story == "Charlatan"){if(skill.s[4] == ChaM)skill.s[4]+=prof; if(skill.s[15] == DexM)skill.s[15]+=prof;}
+        else if(story == "Criminal"){if(skill.s[4] == ChaM)skill.s[4]+=prof; if(skill.s[16] == DexM)skill.s[16]+=prof;}
+        else if(story == "Entertainer"){if(skill.s[0] == IntM)skill.s[0]+=prof; if(skill.s[12] == ChaM)skill.s[12]+=prof;}
+        else if(story == "FolkHero"){if(skill.s[1] == WisM)skill.s[1]+=prof; if(skill.s[17] == WisM)skill.s[17]+=prof;}
+        else if(story == "GuildArtisan"){if(skill.s[6] == WisM)skill.s[6]+=prof; if(skill.s[13] == ChaM)skill.s[13]+=prof;}
+        else if(story == "Hermit"){if(skill.s[9] == WisM)skill.s[9]+=prof; if(skill.s[14] == IntM)skill.s[14]+=prof;}
+        else if(story == "Noble"){if(skill.s[5] == IntM)skill.s[5]+=prof; if(skill.s[13] == ChaM)skill.s[13]+=prof;}
+        else if(story == "Outlander"){if(skill.s[3] == StrM)skill.s[3]+=prof; if(skill.s[17] == WisM)skill.s[17]+=prof;}
+        else if(story == "Sage"){if(skill.s[2] == IntM)skill.s[2]+=prof; if(skill.s[5] == IntM)skill.s[5]+=prof;}
+        else if(story == "Sailor"){if(skill.s[3] == StrM)skill.s[3]+=prof; if(skill.s[11] == WisM)skill.s[11]+=prof;}
+        else if(story == "Soldier"){if(skill.s[3] == StrM)skill.s[3]+=prof; if(skill.s[7] == ChaM)skill.s[7]+=prof;}
+        else if(story == "Urchin"){if(skill.s[15] == DexM)skill.s[15]+=prof; if(skill.s[16] == DexM)skill.s[16]+=prof;}
     }
     void set(int a, int b){// a - what parameter will be changed, b - modifier(can be negative)
         if(a <0){
@@ -284,12 +285,16 @@ public:
         printf("%s %d \n", "Your Health:", Health );
     }
     void setSkill(skills c){
-        c.acrobatics +=IntM;c.animalHandling +=WisM;c.arcana +=IntM;c.athletics+=StrM;c.deception+=ChaM;c.history+=IntM;
-        c.insight+=WisM;c.intimidation+=ChaM;c.investigation+=IntM;c.medicine+=WisM;c.nature+=IntM;c.perception+=WisM;
-        c.performance+=ChaM;c.persuasion+=ChaM;c.religion+=IntM;c.sleightOfHand+=DexM;c.stealth+=DexM;c.survival+=WisM;
+        for(int j = 0;j<18;j++){
+            if(j == 0 || j == 2|| j == 5|| j == 8|| j == 10|| j == 14){ c.s[j]+=IntM; }//acrobatics,arcana,history,investigation,nature,religion
+            else if(j == 1|| j == 6|| j == 9|| j == 11|| j == 17){ c.s[j]+=WisM; }//animalHandling,.s[6],medicine,perception,survival
+            else if(j == 3){ c.s[j]+=StrM; }//athletics
+            else if(j == 4|| j == 7|| j == 12|| j == 13){ c.s[j]+=ChaM; }//deception,intimidation,performance,persuasion
+            else if(j == 15|| j == 16){ c.s[j]+=DexM; }//sleightOfHand,stealth
+        }
     }
     void getSkill(skills c){
-        string a = "acrobatics" + to_string(c.acrobatics) + " animalHandling " +to_string(c.animalHandling) + " arcana " + to_string(c.arcana) + " athletics "+ to_string(c.athletics)+" deception "+to_string(c.deception)+ " history " +to_string(c.history)+ " insight " +to_string(c.insight)+ " intimidation " +to_string(c.intimidation)+ " investigation " +to_string(c.investigation)+ " medicine " +to_string(c.medicine)+ " nature " +to_string(c.nature)+ " perception " +to_string(c.perception)+ " performance " +to_string(c.performance)+ " persuasion " +to_string(c.persuasion)+ " religion " +to_string(c.religion)+ " sleightOfHand " +to_string(c.sleightOfHand)+ " stealth " +to_string(c.stealth)+ " survival " +to_string(c.survival);
+        string a = "acrobatics" + to_string(c.s[0]) + " animalHandling " +to_string(c.s[1]) + " arcana " + to_string(c.s[2]) + " athletics "+ to_string(c.s[3])+" deception "+to_string(c.s[4])+ " history " +to_string(c.s[5])+ " insight " +to_string(c.s[6])+ " intimidation " +to_string(c.s[7])+ " investigation " +to_string(c.s[8])+ " medicine " +to_string(c.s[9])+ " nature " +to_string(c.s[10])+ " perception " +to_string(c.s[11])+ " performance " +to_string(c.s[12])+ " persuasion " +to_string(c.s[13])+ " religion " +to_string(c.s[14])+ " sleightOfHand " +to_string(c.s[15])+ " stealth " +to_string(c.s[16])+ " survival " +to_string(c.s[17]);
         cout << a;
     }
 };
