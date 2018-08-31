@@ -5,9 +5,9 @@ class Spell{
 private:
     bool knowledge[50]= {false};
     int skillSlots[4]= {-1}; // up to 10th level
-    int maxskillSlots[4]= {-1}; // 10 KI for monk
+    int maxskillSlots[4]= {-1}; // rages
     int spellSlots[5]= {-1};
-    int maxspellSlots[5]= {-1};
+    int maxspellSlots[5]= {-1};// 10 KI for monk
     int knownSpells,maxknownSpells;
     int knownkantrips,maxknownkantrips;
 
@@ -92,7 +92,6 @@ public:
             else if(b == 2){
                 spellSlots[a] += value;
             }
-
         }
         else if(a == 5){ maxknownkantrips += value;}
         else if(a == 6){ maxknownSpells += value;}
@@ -110,5 +109,12 @@ public:
         }
         else if(!knowledge[a]){knowledge[a] = true;}
         else printf("%s \n", "You already know that spell.");
+    }
+    void cast(int a){
+        while(a < 0 || a > 50){
+            printf("%s \n","Incorrect parameter in class Spell method void cast");
+            std::cin >> a;
+        }
+        //idk how to simplify all spells features
     }
 };

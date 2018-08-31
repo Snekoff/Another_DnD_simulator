@@ -20,17 +20,15 @@ private:
     race Race;
     Class classType;
     string storyline;
-    int level;
-    int experience;
-    int Health;
-    int maxHealth;
+    int experience,level;
+    int Health,maxHealth;
     int diceOfHealth;
     int Str,Dex,Con,Int,Wis,Cha;
     int StrM,DexM,ConM,IntM,WisM,ChaM;
     int AC;
     int deathSavesS,deathSavesF;//success/failure
-    int prof;
-    int passivePerception;
+    int passivePerception,prof;
+    bool advantage = false,disadvantage = false;
     skills skill;
     weapon w;
     string inventory;

@@ -7,7 +7,8 @@
 
 class features{
 public:
-    virtual void set() = 0;
+    virtual void set(int) = 0;
+    virtual void set(int,int,int,int) = 0;
     virtual int get() = 0;//
 };
 
