@@ -11,14 +11,14 @@ history 5,insight 6,intimidation 7,investigation 8,medicine 9,
 nature 10,perception 11,performance 12,persuasion 13,religion 14,
 sleightOfHand 15,stealth 16,survival 17*/
 };
-struct weapon{
+struct weapon{ //I`m going to add here something like interface or database
 
 };
 
 class character{
 private:
-    string race;
-    string classType;
+    race Race;
+    Class classType;
     string storyline;
     int level;
     int experience;
@@ -42,7 +42,8 @@ public:
         if(b == ""){b = "barbarian";}
         if(story == ""){story = "Acolyte";}
         if(l < 0) l = 0; if(h < 0) h = 0; if(s < 0) s = 0;if(d < 0) d = 0;if(c < 0) c = 0;if(i < 0) i = 0;if(w < 0) w = 0;if(cha < 0) cha = 0;
-        race = a;classType = b;level = l;Health = h;maxHealth = h;
+        //race = a;classType = b;
+        level = l;Health = h;maxHealth = h;
         Str = s;Dex = d;Con = c;Int = i;Wis = w;Cha = cha;
         StrM = (Str - 10)/2;DexM = (DexM-10)/2;ConM = (ConM-10)/2;IntM = (IntM-10)/2;WisM = (WisM-10)/2;ChaM = (ChaM-10)/2;
         setSkill(skill);
@@ -51,7 +52,7 @@ public:
         else prof = 4;
         passivePerception = 10 + WisM; // if creature have advantage +5 if disadvantage -5
         printf("%s \n", "Your class allows you to get a proficiency skills, your proficiency bonus will be added to them that will made you stronger or smarter, depends what you choose.");
-        if(classType == "Barbarian"){diceOfHealth = 12;
+        /*if(classType == "Barbarian"){diceOfHealth = 12;
         printf("%s \n", "Choose two from Animal Handling, Athletic, Intimidation, Nature, Perception and Survival");
         }// save throws, skills,
         else if(classType == "Bard"){diceOfHealth = 8;
@@ -86,7 +87,7 @@ public:
         }
         else if(classType == "Wizard"){diceOfHealth = 6;
             printf("%s \n", "Choose two from Arcana, History, .s[6], Investigation, Medicine, and Religion");
-        }
+        }*/
         if(story == "Acolyte"){if(skill.s[6] == WisM)skill.s[6]+=prof; if(skill.s[14] == IntM)skill.s[14]+=prof; }
         else if(story == "Charlatan"){if(skill.s[4] == ChaM)skill.s[4]+=prof; if(skill.s[15] == DexM)skill.s[15]+=prof;}
         else if(story == "Criminal"){if(skill.s[4] == ChaM)skill.s[4]+=prof; if(skill.s[16] == DexM)skill.s[16]+=prof;}
