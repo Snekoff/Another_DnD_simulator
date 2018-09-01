@@ -5,6 +5,7 @@
 #include "interface_races_classes_background.h"
 #include "Race_Class_Background.cpp"
 #include "UsefulFunctions.cpp"
+#include "inventory.cpp"
 
 using namespace std;
 
@@ -13,23 +14,6 @@ struct Skills {
 history 5,insight 6,intimidation 7,investigation 8,medicine 9,
 nature 10,perception 11,performance 12,persuasion 13,religion 14,
 sleightOfHand 15,stealth 16,survival 17*/
-};
-class Item { //all items have got damage
- protected:
-  string name;
-  string type;
-  int amount;
-  int damage;
-  bool isweapon;
- public:
-  Item() {
-    name = "clothes";
-    type = "equipment";
-    amount = 1;
-    damage = 0;
-    isweapon = false;
-  }
-  ~Item() {}
 };
 
 class Character {
