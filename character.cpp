@@ -220,38 +220,30 @@ class Character {
              " level, that means that you have to choose whether improve one ability +2(type 1) or two abilities +1(type 2)");
       int one_or_two_abilities = -1;//abilityLevel_Up
       cin >> one_or_two_abilities;
-      while (one_or_two_abilities < 0 || one_or_two_abilities > 2) {
-        printf("%s \n", "You choose inappropriate value. Try 1 or 2.");
-        cin >> one_or_two_abilities;
-      }
+      one_or_two_abilities = Correctness(one_or_two_abilities,1,2);
       if (one_or_two_abilities == 1) {
         printf("%s \n", "What ability do you want to improve +2 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6)");
         cin >> one_or_two_abilities;
-        while (one_or_two_abilities < 0 || one_or_two_abilities > 6) {
-          printf("%s \n", "You choose inappropriate value. Try from 1 to 6.");
-          cin >> one_or_two_abilities;
-        }
+        one_or_two_abilities = Correctness(one_or_two_abilities,1,6);
         Set(one_or_two_abilities + 2, 2);
       } else {
         printf("%s \n",
-               "What abilityes do you want to improve +1 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6) *Type 2 spaced numbers*");
+               "What abilities do you want to improve +1 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6) *Type 2 spaced numbers*");
         int one_or_two_abilities1 = 0;
         cin >> one_or_two_abilities >> one_or_two_abilities1;
-        while ((one_or_two_abilities < 0 | one_or_two_abilities > 6) || (one_or_two_abilities1 < 0 || one_or_two_abilities1 > 6)) {
-          printf("%s \n", "One or both values incorrect. Try from 1 to 6.");
-          cin >> one_or_two_abilities >> one_or_two_abilities1;
-        }
+        one_or_two_abilities = Correctness(one_or_two_abilities,1,6);
+        one_or_two_abilities1 = Correctness(one_or_two_abilities1,1,6);
         Set(one_or_two_abilities + 2, 1);
         Set(one_or_two_abilities1 + 2, 1);
       }
       Level_Up();
-      /*printf("%s \n", "reserved for skill Level_Up");*/} else if (level == 4 && experience > 6499) {
+      } else if (level == 4 && experience > 6499) {
       level++;
       printf("%s \n",
              "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
-      int lv = 0;
-      while (lv < 1 || lv > 2) { cin >> lv; }
-      if (lv == 1) {
+      int one_or_two_abilities = 0;
+      one_or_two_abilities = Correctness(one_or_two_abilities,1,2);
+      if (one_or_two_abilities == 1) {
         int tHP = Random_Generator(1,health_dice);
         printf("%s %d \n", "Rolled health + Constitution modifier:", tHP + ConModifier);
         maxhealth += tHP + ConModifier;
@@ -267,9 +259,9 @@ class Character {
       level++;
       printf("%s \n",
              "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
-      int lv = 0;
-      while (lv < 1 || lv > 2) { cin >> lv; }
-      if (lv == 1) {
+      int one_or_two_abilities = 0;
+      one_or_two_abilities = Correctness(one_or_two_abilities,1,2);
+      if (one_or_two_abilities == 1) {
         int tHP = Random_Generator(1,health_dice);
         printf("%s %d \n", "Rolled health + Constitution modifier:", tHP + ConModifier);
         maxhealth += tHP + ConModifier;
@@ -284,9 +276,9 @@ class Character {
       level++;
       printf("%s \n",
              "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
-      int lv = 0;
-      while (lv < 1 || lv > 2) { cin >> lv; }
-      if (lv == 1) {
+      int one_or_two_abilities = 0;
+      one_or_two_abilities = Correctness(one_or_two_abilities,1,2);
+      if (one_or_two_abilities == 1) {
         int tHP = Random_Generator(1,health_dice);
         printf("%s %d \n", "Rolled health + Constitution modifier:", tHP + ConModifier);
         maxhealth += tHP + ConModifier;
@@ -302,9 +294,9 @@ class Character {
       proficiency++;
       printf("%s \n",
              "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
-      int lv = 0;
-      while (lv < 1 || lv > 2) { cin >> lv; }
-      if (lv == 1) {
+      int one_or_two_abilities = 0;
+      one_or_two_abilities = Correctness(one_or_two_abilities,1,2);
+      if (one_or_two_abilities == 1) {
         int tHP = Random_Generator(1,health_dice);
         printf("%s %d \n", "Rolled health + Constitution modifier:", tHP + ConModifier);
         maxhealth += tHP + ConModifier;
@@ -318,7 +310,7 @@ class Character {
              "You reached",
              level,
              " level, that means that you have to choose whether improve one ability +2(type 1) or two abilities +1(type 2)");
-      int one_or_two_abilities = -1;//abilityLevel_Up
+      //int one_or_two_abilities = -1;//abilityLevel_Up
       cin >> one_or_two_abilities;
       while (one_or_two_abilities < 0 || one_or_two_abilities > 2) {
         printf("%s \n", "You choose inappropriate value. Try 1 or 2.");
@@ -349,9 +341,9 @@ class Character {
       level++;
       printf("%s \n",
              "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
-      int lv = 0;
-      while (lv < 1 || lv > 2) { cin >> lv; }
-      if (lv == 1) {
+      int one_or_two_abilities = 0;
+      while (one_or_two_abilities < 1 || one_or_two_abilities > 2) { cin >> one_or_two_abilities; }
+      if (one_or_two_abilities == 1) {
         int tHP = Random_Generator(1,health_dice);
         printf("%s %d \n", "Rolled health + Constitution modifier:", tHP + ConModifier);
         maxhealth += tHP + ConModifier;
@@ -367,9 +359,9 @@ class Character {
       level++;
       printf("%s \n",
              "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
-      int lv = 0;
-      while (lv < 1 || lv > 2) { cin >> lv; }
-      if (lv == 1) {
+      int one_or_two_abilities = 0;
+      while (one_or_two_abilities < 1 || one_or_two_abilities > 2) { cin >> one_or_two_abilities; }
+      if (one_or_two_abilities == 1) {
         int tHP = Random_Generator(1,health_dice);
         printf("%s %d \n", "Rolled health + Constitution modifier:", tHP + ConModifier);
         maxhealth += tHP + ConModifier;
