@@ -200,20 +200,8 @@ class Character {
     if (level < 4 && experience > 300 * pow(3, level - 1)) {
       level++;
       proficiency++;
-      printf("%s \n",
-             "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
-      int roll_or_middle = 0;
-      roll_or_middle = Correctness(roll_or_middle,1,2);
-      if (roll_or_middle == 1) {
-        int tHP = Random_Generator(1,health_dice);
-        printf("%s %d \n", "Rolled health + Constitution modifier:", tHP + ConModifier);
-        maxhealth += tHP + ConModifier;
-        health = maxhealth;
-      }//roll dices f
-      else {
-        maxhealth += health_dice / 2 + 1;
-        health = maxhealth;
-      }//take middle
+      maxhealth = Health_Level_Up(health_dice);
+      health = maxhealth;
       printf("%s %d %s \n",
              "You reached",
              level,
