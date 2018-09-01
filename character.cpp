@@ -227,78 +227,30 @@ class Character {
       Level_Up();
       } else if (level == 4 && experience > 6499) {
       level++;
-      printf("%s \n",
-             "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
-      int one_or_two_abilities = 0;
-      one_or_two_abilities = Correctness(one_or_two_abilities,1,2);
-      if (one_or_two_abilities == 1) {
-        int tHP = Random_Generator(1,health_dice);
-        printf("%s %d \n", "Rolled health + Constitution modifier:", tHP + ConModifier);
-        maxhealth += tHP + ConModifier;
-        health = maxhealth;
-      }//role dices
-      else {
-        maxhealth += health_dice / 2 + 1;
-        health = maxhealth;
-      }//take middle
+      maxhealth = Health_Level_Up(health_dice,ConModifier,maxhealth);
+      health = maxhealth;
       Level_Up();
       /*printf("%s \n", "reserved for skill Level_Up");*/}//proficiency+1, Skills(2 points to one or 1 point to two)
     else if (level == 5 && experience > 13999) {
       level++;
-      printf("%s \n",
-             "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
-      int one_or_two_abilities = 0;
-      one_or_two_abilities = Correctness(one_or_two_abilities,1,2);
-      if (one_or_two_abilities == 1) {
-        int tHP = Random_Generator(1,health_dice);
-        printf("%s %d \n", "Rolled health + Constitution modifier:", tHP + ConModifier);
-        maxhealth += tHP + ConModifier;
-        health = maxhealth;
-      }//role dices
-      else {
-        maxhealth += health_dice / 2 + 1;
-        health = maxhealth;
-      }//take middle
+      maxhealth = Health_Level_Up(health_dice,ConModifier,maxhealth);
+      health = maxhealth;
       Level_Up();
       /*printf("%s \n", "reserved for skill Level_Up");*/} else if (level == 6 && experience > 22999) {
       level++;
-      printf("%s \n",
-             "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
-      int one_or_two_abilities = 0;
-      one_or_two_abilities = Correctness(one_or_two_abilities,1,2);
-      if (one_or_two_abilities == 1) {
-        int tHP = Random_Generator(1,health_dice);
-        printf("%s %d \n", "Rolled health + Constitution modifier:", tHP + ConModifier);
-        maxhealth += tHP + ConModifier;
-        health = maxhealth;
-      }//role dices
-      else {
-        maxhealth += health_dice / 2 + 1;
-        health = maxhealth;
-      }//take middle
+      maxhealth = Health_Level_Up(health_dice,ConModifier,maxhealth);
+      health = maxhealth;
       Level_Up();
       /*printf("%s \n", "reserved for skill Level_Up");*/} else if (level == 7 && experience > 33999) {
       level++;
       proficiency++;
-      printf("%s \n",
-             "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
-      int one_or_two_abilities = 0;
-      one_or_two_abilities = Correctness(one_or_two_abilities,1,2);
-      if (one_or_two_abilities == 1) {
-        int tHP = Random_Generator(1,health_dice);
-        printf("%s %d \n", "Rolled health + Constitution modifier:", tHP + ConModifier);
-        maxhealth += tHP + ConModifier;
-        health = maxhealth;
-      }//role dices
-      else {
-        maxhealth += health_dice / 2 + 1;
-        health = maxhealth;
-      }//take middle
+      maxhealth = Health_Level_Up(health_dice,ConModifier,maxhealth);
+      health = maxhealth;
       printf("%s %d %s \n",
              "You reached",
              level,
              " level, that means that you have to choose whether improve one ability +2(type 1) or two abilities +1(type 2)");
-      //int one_or_two_abilities = -1;//abilityLevel_Up
+      int one_or_two_abilities = -1;//abilityLevel_Up
       cin >> one_or_two_abilities;
       while (one_or_two_abilities < 0 || one_or_two_abilities > 2) {
         printf("%s \n", "You choose inappropriate value. Try 1 or 2.");
