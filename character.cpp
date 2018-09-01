@@ -57,7 +57,7 @@ class Character {
     perception_advantage = false;
     perception_disadvantage = false;
     //item.set();
-    inventory = "empty";
+    inventory = "empty";//
   }
 
   ~Character() {}

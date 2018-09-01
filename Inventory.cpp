@@ -7,7 +7,7 @@ class Item { //all items have got damage
   int amount;
   int weight;
   int damage;
-  bool isweapon;
+  bool isweapon;//
  public:
   Item() {
     name = "clothes";

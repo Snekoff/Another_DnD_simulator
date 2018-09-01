@@ -10,7 +10,7 @@ struct Existing_Types{
   int minWeight[39] = {10};
   int maxWeight[39] = {140};
   int minAge[39] = {3};
-  int maxAge[39] = {120};
+  int maxAge[39] = {120};//
   std::string item[9] = {"equipment","potions","food","ammo_holder","shield","weapon","armor","ammo","usable"};
   int race_ability_bonus[39][6] =
       {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
