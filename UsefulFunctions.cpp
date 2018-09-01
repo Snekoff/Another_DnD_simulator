@@ -21,7 +21,7 @@ int Random_Generator(int lowerlimit, int higherlimit){
   return dist(mt);
 }
 
-int Health_Level_Up(int health_dice, int ConModifier){
+int Health_Level_Up(int health_dice, int ConModifier, int maxhealth){
   printf("%s \n",
          "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
   int roll_or_middle = 0;
@@ -30,10 +30,8 @@ int Health_Level_Up(int health_dice, int ConModifier){
     int tHP = Random_Generator(1,health_dice);
     printf("%s %d \n", "Rolled health + Constitution modifier:", tHP + ConModifier);
     maxhealth += tHP + ConModifier;
-    health = maxhealth;
   }//roll dices f
   else {
     maxhealth += health_dice / 2 + 1;
-    health = maxhealth;
   }//take middle
 }

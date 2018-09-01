@@ -116,6 +116,7 @@ class SubClass : public Class {
         printf("%s \n", "Choose two from Arcana, History, .s[6], Investigation, Medicine, and Religion");
     }*/
 
+
 /* I need to do list of names, also in method Features i must make choice of abilities, if race allows
 Dragonborn 0
 Str +2; Cha +1

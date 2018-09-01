@@ -200,7 +200,7 @@ class Character {
     if (level < 4 && experience > 300 * pow(3, level - 1)) {
       level++;
       proficiency++;
-      maxhealth = Health_Level_Up(health_dice);
+      maxhealth = Health_Level_Up(health_dice,ConModifier,maxhealth);
       health = maxhealth;
       printf("%s %d %s \n",
              "You reached",
