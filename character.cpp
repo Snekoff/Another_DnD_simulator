@@ -32,28 +32,68 @@ class Character {
   int AC;
   int deathsaves_s, deathsaves_f;//success/failure
   int passive_perception, proficiency;
-  bool advantage = false, disadvantage = false;
+  bool advantage, disadvantage ;
+  bool perception_advantage;
+  bool perception_disadvantage;
   skills skill;
-  Item w;
+  Item item;
   string inventory;
  public:
-  Character() {}
+  Character() {
+    race.set(24);//human
+    //classType.set(0);//barbarian
+    storyline = "Acolyte";
+    experience = 0;
+    level = 0 ;
+    health = 0 ;
+    maxhealth = 0 ;
+    health_dice = 0 ;
+    Str = 0 ;Dex = 0 ; Con = 0 ; Int = 0 ; Wis = 0 ; Cha = 0 ;
+    StrModifier = 0 ; DexModifier = 0 ; ConModifier = 0 ;
+    IntModifier = 0 ; WisModifier = 0 ; ChaModifier = 0 ;
+    AC = 0 ;
+    deathsaves_s = 0 ;
+    deathsaves_f = 0 ;//success/failure
+    passive_perception = 0 ;
+    proficiency = 0 ;
+    advantage = false; disadvantage = false;
+    perception_advantage = false;
+    perception_disadvantage = false;
+    //item.set();
+    inventory = "empty";
+  }
 
   ~Character() {}
 
+  int Less_than_zero(int a) {
+    return a < 0 ? 0 : a;
+  }
+
+  int AbilityModifier(int a) {
+    return (a - 10) / 2;
+  }
+
+  int ProficiencySetter(int level) {
+    if (level < 4) return 2;
+    else if (level > 3 && level < 8) return 3;
+    else return 4;
+  }
+
+  int PassivePerceptionSetter(int a, bool b, bool c) {
+    if (b) a += 5;
+    if (c) a -= 5;
+    return 10 + a;
+  }// if creature have advantage +5 if disadvantage -5
+
   void SetF(string a, string b, string story, int l, int h, int s, int d, int c, int i, int w, int cha) {
-    if (a == "") { a = "human"; }
-    if (b == "") { b = "barbarian"; }
-    if (story == "") { story = "Acolyte"; }
-    if (l < 0) l = 0;
-    if (h < 0) h = 0;
-    if (s < 0) s = 0;
-    if (d < 0) d = 0;
-    if (c < 0) c = 0;
-    if (i < 0) i = 0;
-    if (w < 0) w = 0;
-    if (cha < 0) cha = 0;
-    //race = a;classType = b;
+    l = Less_than_zero(l);
+    h = Less_than_zero(h);
+    s = Less_than_zero(s);
+    d = Less_than_zero(d);
+    c = Less_than_zero(c);
+    i = Less_than_zero(i);
+    w = Less_than_zero(w);
+    cha = Less_than_zero(cha);
     level = l;
     health = h;
     maxhealth = h;
@@ -63,55 +103,16 @@ class Character {
     Int = i;
     Wis = w;
     Cha = cha;
-    StrModifier = (Str - 10) / 2;
-    DexModifier = (DexModifier - 10) / 2;
-    ConModifier = (ConModifier - 10) / 2;
-    IntModifier = (IntModifier - 10) / 2;
-    WisModifier = (WisModifier - 10) / 2;
-    ChaModifier = (ChaModifier - 10) / 2;
+    StrModifier = AbilityModifier(Str);
+    DexModifier = AbilityModifier(Dex);
+    ConModifier = AbilityModifier(Con);
+    IntModifier = AbilityModifier(Int);
+    WisModifier = AbilityModifier(Wis);
+    ChaModifier = AbilityModifier(Cha);
     SetSkill(skill);
-    if (level < 4)proficiency = 2;
-    else if (level > 3 && level < 8)proficiency = 3;
-    else proficiency = 4;
-    passive_perception = 10 + WisModifier; // if creature have advantage +5 if disadvantage -5
-    printf("%s \n",
-           "Your class allows you to Get a proficiencyiciency skills, your proficiencyiciency bonus will be added to them that will made you stronger or smarter, depends what you choose.");
-    /*if(classType == "Barbarian"){health_dice = 12;
-    printf("%s \n", "Choose two from Animal Handling, Athletic, Intimidation, Nature, Perception and Survival");
-    }// save throws, skills,
-    else if(classType == "Bard"){health_dice = 8;
-        printf("%s \n", "Choose any three ");
-    }
-    else if(classType == "Cleric"){health_dice = 8;
-        printf("%s \n", "Choose two from History, .s[6], Medicine, Persuasion and Religion");
-    }
-    else if(classType == "Druid"){health_dice = 8;
-        printf("%s \n", "Choose two from Arcana, Animal Handling, .s[6], Medicine, Nature, Perception, Religion and Survival");
-    }
-    else if(classType == "Fighter"){health_dice = 10;
-        printf("%s \n", "Choose two from Acrobatics, AnimalHandling, Athletics, History, .s[6], Intimidation, Perception and Survival");
-    }
-    else if(classType == "Monk"){health_dice = 8;
-        printf("%s \n", "Choose two from Acrobatics, Athletics, History, .s[6], Religion, and Stealth");
-    }
-    else if(classType == "Paladin"){health_dice = 10;
-        printf("%s \n", "Choose two from Athletics, .s[6], Intimidation, Medicine, Persuasion, and Religion");
-    }
-    else if(classType == "Ranger"){health_dice = 10;
-        printf("%s \n", "Choose two from Animal Handling, Athletics, .s[6], Investigation, Nature, Perception, Stealth and Survival");
-    }
-    else if(classType == "Rouge"){health_dice = 8;
-        printf("%s \n", "Choose four from Acrobatics, Athletics, Deception, .s[6], Intimidation, Investigation, Perception, Performance, Persuasion, Sleight of Hand and Stealth");
-    }
-    else if(classType == "Sorcerer"){health_dice = 6;
-        printf("%s \n", "Choose two from Arcana, Deception, .s[6], Intimidation, Persuasion, and Religion");
-    }
-    else if(classType == "Warlock"){health_dice = 8;
-        printf("%s \n", "Choose two from Arcana, Deception, History, Intimidation, Investigation, Nature, and Religion");
-    }
-    else if(classType == "Wizard"){health_dice = 6;
-        printf("%s \n", "Choose two from Arcana, History, .s[6], Investigation, Medicine, and Religion");
-    }*/
+    proficiency = ProficiencySetter(level);
+    passive_perception = PassivePerceptionSetter(WisModifier, perception_advantage, perception_disadvantage);
+
     if (story == "Acolyte") {
       if (skill.s[6] == WisModifier)skill.s[6] += proficiency;
       if (skill.s[14] == IntModifier)skill.s[14] += proficiency;

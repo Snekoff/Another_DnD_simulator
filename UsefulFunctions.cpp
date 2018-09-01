@@ -1,9 +1,14 @@
-//
-// Created by Oleg on 01.09.2018.
-//
-void Correctness(int a,int lowerlimit, int higherlimit){
 
+#include <iostream>
+
+int Correctness(int a, int lowerlimit, int higherlimit) {
+  while (a < lowerlimit || a > higherlimit) {
+    printf("%s \n", "Incorrect input.");
+    std::cin >> a;
+  }
+  return a;
 }
-void LevelUp(){
+
+void LevelUp() {
 
 }

@@ -74,6 +74,48 @@ class SubClass : public Class {
  public:
   void subClassFeatures() {}
 };
+
+/*printf("%s \n",
+           "Your class allows you to Get a proficiency skills, your proficiency bonus will be added to them that will made you stronger or smarter, depends what you choose.");
+
+ *
+ * if(classType == "Barbarian"){health_dice = 12;
+    printf("%s \n", "Choose two from Animal Handling, Athletic, Intimidation, Nature, Perception and Survival");
+    }// save throws, skills,
+    else if(classType == "Bard"){health_dice = 8;
+        printf("%s \n", "Choose any three ");
+    }
+    else if(classType == "Cleric"){health_dice = 8;
+        printf("%s \n", "Choose two from History, .s[6], Medicine, Persuasion and Religion");
+    }
+    else if(classType == "Druid"){health_dice = 8;
+        printf("%s \n", "Choose two from Arcana, Animal Handling, .s[6], Medicine, Nature, Perception, Religion and Survival");
+    }
+    else if(classType == "Fighter"){health_dice = 10;
+        printf("%s \n", "Choose two from Acrobatics, AnimalHandling, Athletics, History, .s[6], Intimidation, Perception and Survival");
+    }
+    else if(classType == "Monk"){health_dice = 8;
+        printf("%s \n", "Choose two from Acrobatics, Athletics, History, .s[6], Religion, and Stealth");
+    }
+    else if(classType == "Paladin"){health_dice = 10;
+        printf("%s \n", "Choose two from Athletics, .s[6], Intimidation, Medicine, Persuasion, and Religion");
+    }
+    else if(classType == "Ranger"){health_dice = 10;
+        printf("%s \n", "Choose two from Animal Handling, Athletics, .s[6], Investigation, Nature, Perception, Stealth and Survival");
+    }
+    else if(classType == "Rouge"){health_dice = 8;
+        printf("%s \n", "Choose four from Acrobatics, Athletics, Deception, .s[6], Intimidation, Investigation, Perception, Performance, Persuasion, Sleight of Hand and Stealth");
+    }
+    else if(classType == "Sorcerer"){health_dice = 6;
+        printf("%s \n", "Choose two from Arcana, Deception, .s[6], Intimidation, Persuasion, and Religion");
+    }
+    else if(classType == "Warlock"){health_dice = 8;
+        printf("%s \n", "Choose two from Arcana, Deception, History, Intimidation, Investigation, Nature, and Religion");
+    }
+    else if(classType == "Wizard"){health_dice = 6;
+        printf("%s \n", "Choose two from Arcana, History, .s[6], Investigation, Medicine, and Religion");
+    }*/
+
 /* I need to do list of names, also in method Features i must make choice of abilities, if race allows
 Dragonborn 0
 Str +2; Cha +1
