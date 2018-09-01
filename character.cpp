@@ -128,6 +128,33 @@ class Character {
     }
   }
 
+  void Ability_improve(){
+    if (level == 3 || level == 7) {
+      printf("%s %d %s \n",
+             "You reached",
+             level,
+             " level, that means that you have to choose whether improve one ability +2(type 1) or two abilities +1(type 2)");
+      int one_or_two_abilities = -1;//abilityLevel_Up
+      cin >> one_or_two_abilities;
+      one_or_two_abilities = Correctness(one_or_two_abilities, 1, 2);
+      if (one_or_two_abilities == 1) {
+        printf("%s \n", "What ability do you want to improve +2 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6)");
+        cin >> one_or_two_abilities;
+        one_or_two_abilities = Correctness(one_or_two_abilities, 1, 6);
+        Set(one_or_two_abilities + 2, 2);
+      } else {
+        printf("%s \n",
+               "What abilities do you want to improve +1 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6) *Type 2 spaced numbers*");
+        int one_or_two_abilities1 = 0;
+        cin >> one_or_two_abilities >> one_or_two_abilities1;
+        one_or_two_abilities = Correctness(one_or_two_abilities, 1, 6);
+        one_or_two_abilities1 = Correctness(one_or_two_abilities1, 1, 6);
+        Set(one_or_two_abilities + 2, 1);
+        Set(one_or_two_abilities1 + 2, 1);
+      }
+    }
+  }
+
   void SetF(string a, string b, string story, int l, int h, int s, int d, int c, int i, int w, int cha) {
     l = Less_than_zero(l);
     h = Less_than_zero(h);
@@ -202,30 +229,7 @@ class Character {
       proficiency++;
       maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
       health = maxhealth;
-      if (level == 3) {
-        printf("%s %d %s \n",
-               "You reached",
-               level,
-               " level, that means that you have to choose whether improve one ability +2(type 1) or two abilities +1(type 2)");
-        int one_or_two_abilities = -1;//abilityLevel_Up
-        cin >> one_or_two_abilities;
-        one_or_two_abilities = Correctness(one_or_two_abilities, 1, 2);
-        if (one_or_two_abilities == 1) {
-          printf("%s \n", "What ability do you want to improve +2 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6)");
-          cin >> one_or_two_abilities;
-          one_or_two_abilities = Correctness(one_or_two_abilities, 1, 6);
-          Set(one_or_two_abilities + 2, 2);
-        } else {
-          printf("%s \n",
-                 "What abilities do you want to improve +1 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6) *Type 2 spaced numbers*");
-          int one_or_two_abilities1 = 0;
-          cin >> one_or_two_abilities >> one_or_two_abilities1;
-          one_or_two_abilities = Correctness(one_or_two_abilities, 1, 6);
-          one_or_two_abilities1 = Correctness(one_or_two_abilities1, 1, 6);
-          Set(one_or_two_abilities + 2, 1);
-          Set(one_or_two_abilities1 + 2, 1);
-        }
-      }
+      Ability_improve();
       Level_Up();
     } else if (level == 4 && experience > 6499) {
       level++;
@@ -247,34 +251,7 @@ class Character {
       proficiency++;
       maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
       health = maxhealth;
-      printf("%s %d %s \n",
-             "You reached",
-             level,
-             " level, that means that you have to choose whether improve one ability +2(type 1) or two abilities +1(type 2)");
-      int one_or_two_abilities = -1;//abilityLevel_Up
-      cin >> one_or_two_abilities;
-      one_or_two_abilities = Correctness(one_or_two_abilities, 1, 2);
-      if (one_or_two_abilities == 1) {
-        printf("%s \n", "What ability do you want to improve +2 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6)");
-        cin >> one_or_two_abilities;
-        while (one_or_two_abilities < 0 || one_or_two_abilities > 6) {
-          printf("%s \n", "You choose inappropriate value. Try from 1 to 6.");
-          cin >> one_or_two_abilities;
-        }
-        Set(one_or_two_abilities + 2, 2);
-      } else {
-        printf("%s \n",
-               "What abilityes do you want to improve +1 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6) *Type 2 spaced numbers*");
-        int one_or_two_abilities1 = 0;
-        cin >> one_or_two_abilities >> one_or_two_abilities1;
-        while ((one_or_two_abilities < 0 || one_or_two_abilities > 6)
-            || (one_or_two_abilities1 < 0 || one_or_two_abilities1 > 6)) {
-          printf("%s \n", "One or both values incorrect. Try from 1 to 6.");
-          cin >> one_or_two_abilities >> one_or_two_abilities1;
-        }
-        Set(one_or_two_abilities + 2, 1);
-        Set(one_or_two_abilities1 + 2, 1);
-      }
+      Ability_improve();
       Level_Up();
     } else if (level == 8 && experience > 47999) {
       level++;
