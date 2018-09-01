@@ -9,7 +9,7 @@
 #include <malloc.h>
 #include <queue>
 #include <locale>
-#include "interface_races_classes_background.h"
+#include "Interface_races_classes_background.h"
 #include "character.cpp"
 #include "Race_Class_Background.cpp"
 

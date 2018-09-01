@@ -2,6 +2,7 @@
 #include "interface_races_classes_background.h"
 #include <iostream>
 #include "Skills_and_Spells.cpp"
+#include "UsefulFunctions.cpp"
 
 class Race {
  private:
