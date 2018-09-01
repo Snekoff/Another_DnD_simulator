@@ -200,51 +200,52 @@ class Character {
     if (level < 4 && experience > 300 * pow(3, level - 1)) {
       level++;
       proficiency++;
-      maxhealth = Health_Level_Up(health_dice,ConModifier,maxhealth);
+      maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
       health = maxhealth;
-      printf("%s %d %s \n",
-             "You reached",
-             level,
-             " level, that means that you have to choose whether improve one ability +2(type 1) or two abilities +1(type 2)");
-      int one_or_two_abilities = -1;//abilityLevel_Up
-      cin >> one_or_two_abilities;
-      one_or_two_abilities = Correctness(one_or_two_abilities,1,2);
-      if (one_or_two_abilities == 1) {
-        printf("%s \n", "What ability do you want to improve +2 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6)");
+      if (level == 3) {
+        printf("%s %d %s \n",
+               "You reached",
+               level,
+               " level, that means that you have to choose whether improve one ability +2(type 1) or two abilities +1(type 2)");
+        int one_or_two_abilities = -1;//abilityLevel_Up
         cin >> one_or_two_abilities;
-        one_or_two_abilities = Correctness(one_or_two_abilities,1,6);
-        Set(one_or_two_abilities + 2, 2);
-      } else {
-        printf("%s \n",
-               "What abilities do you want to improve +1 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6) *Type 2 spaced numbers*");
-        int one_or_two_abilities1 = 0;
-        cin >> one_or_two_abilities >> one_or_two_abilities1;
-        one_or_two_abilities = Correctness(one_or_two_abilities,1,6);
-        one_or_two_abilities1 = Correctness(one_or_two_abilities1,1,6);
-        Set(one_or_two_abilities + 2, 1);
-        Set(one_or_two_abilities1 + 2, 1);
+        one_or_two_abilities = Correctness(one_or_two_abilities, 1, 2);
+        if (one_or_two_abilities == 1) {
+          printf("%s \n", "What ability do you want to improve +2 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6)");
+          cin >> one_or_two_abilities;
+          one_or_two_abilities = Correctness(one_or_two_abilities, 1, 6);
+          Set(one_or_two_abilities + 2, 2);
+        } else {
+          printf("%s \n",
+                 "What abilities do you want to improve +1 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6) *Type 2 spaced numbers*");
+          int one_or_two_abilities1 = 0;
+          cin >> one_or_two_abilities >> one_or_two_abilities1;
+          one_or_two_abilities = Correctness(one_or_two_abilities, 1, 6);
+          one_or_two_abilities1 = Correctness(one_or_two_abilities1, 1, 6);
+          Set(one_or_two_abilities + 2, 1);
+          Set(one_or_two_abilities1 + 2, 1);
+        }
       }
       Level_Up();
-      } else if (level == 4 && experience > 6499) {
+    } else if (level == 4 && experience > 6499) {
       level++;
-      maxhealth = Health_Level_Up(health_dice,ConModifier,maxhealth);
+      maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
       health = maxhealth;
       Level_Up();
-      /*printf("%s \n", "reserved for skill Level_Up");*/}//proficiency+1, Skills(2 points to one or 1 point to two)
-    else if (level == 5 && experience > 13999) {
+    } else if (level == 5 && experience > 13999) {
       level++;
-      maxhealth = Health_Level_Up(health_dice,ConModifier,maxhealth);
+      maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
       health = maxhealth;
       Level_Up();
-      /*printf("%s \n", "reserved for skill Level_Up");*/} else if (level == 6 && experience > 22999) {
+    } else if (level == 6 && experience > 22999) {
       level++;
-      maxhealth = Health_Level_Up(health_dice,ConModifier,maxhealth);
+      maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
       health = maxhealth;
       Level_Up();
-      /*printf("%s \n", "reserved for skill Level_Up");*/} else if (level == 7 && experience > 33999) {
+    } else if (level == 7 && experience > 33999) {
       level++;
       proficiency++;
-      maxhealth = Health_Level_Up(health_dice,ConModifier,maxhealth);
+      maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
       health = maxhealth;
       printf("%s %d %s \n",
              "You reached",
@@ -252,7 +253,7 @@ class Character {
              " level, that means that you have to choose whether improve one ability +2(type 1) or two abilities +1(type 2)");
       int one_or_two_abilities = -1;//abilityLevel_Up
       cin >> one_or_two_abilities;
-      one_or_two_abilities = Correctness(one_or_two_abilities,1,2);
+      one_or_two_abilities = Correctness(one_or_two_abilities, 1, 2);
       if (one_or_two_abilities == 1) {
         printf("%s \n", "What ability do you want to improve +2 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6)");
         cin >> one_or_two_abilities;
@@ -266,7 +267,8 @@ class Character {
                "What abilityes do you want to improve +1 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6) *Type 2 spaced numbers*");
         int one_or_two_abilities1 = 0;
         cin >> one_or_two_abilities >> one_or_two_abilities1;
-        while ((one_or_two_abilities < 0 || one_or_two_abilities > 6) || (one_or_two_abilities1 < 0 || one_or_two_abilities1 > 6)) {
+        while ((one_or_two_abilities < 0 || one_or_two_abilities > 6)
+            || (one_or_two_abilities1 < 0 || one_or_two_abilities1 > 6)) {
           printf("%s \n", "One or both values incorrect. Try from 1 to 6.");
           cin >> one_or_two_abilities >> one_or_two_abilities1;
         }
@@ -274,18 +276,17 @@ class Character {
         Set(one_or_two_abilities1 + 2, 1);
       }
       Level_Up();
-      /*printf("%s \n", "reserved for skill Level_Up");*/} else if (level == 8 && experience > 47999) {
+    } else if (level == 8 && experience > 47999) {
       level++;
-      maxhealth = Health_Level_Up(health_dice,ConModifier,maxhealth);
+      maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
       health = maxhealth;
       Level_Up();
-      /*printf("%s \n", "reserved for skill Level_Up");*/}//proficiency+1, Skills2 points to one or 1 point to two)
-    else if (level == 9 && experience > 64999) {
+    } else if (level == 9 && experience > 64999) {
       level++;
-      maxhealth = Health_Level_Up(health_dice,ConModifier,maxhealth);
+      maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
       health = maxhealth;
       Level_Up();
-      /*printf("%s \n", "reserved for skill Level_Up");*/}
+    }
     printf("%s %d \n", "Your level:", level);
     printf("%s %d \n", "Your health:", health);
   }
