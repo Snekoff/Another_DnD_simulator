@@ -8,7 +8,7 @@
 
 using namespace std;
 
-struct skills {
+struct Skills {
   int s[18] = {0};/* acrobatics 0,animalHandling 1,arcana 2,athletics 3,deception 4,
 history 5,insight 6,intimidation 7,investigation 8,medicine 9,
 nature 10,perception 11,performance 12,persuasion 13,religion 14,
@@ -35,7 +35,7 @@ class Character {
   bool advantage, disadvantage ;
   bool perception_advantage;
   bool perception_disadvantage;
-  skills skill;
+  Skills skill;
   Item item;
   string inventory;
  public:
@@ -83,7 +83,50 @@ class Character {
     if (b) a += 5;
     if (c) a -= 5;
     return 10 + a;
-  }// if creature have advantage +5 if disadvantage -5
+  }
+  
+  void StorySetsSkills(Skills a, string b) {
+    if (b == "Acolyte") {
+      if (a.s[6] == WisModifier)a.s[6] += proficiency;
+      if (a.s[14] == IntModifier)a.s[14] += proficiency;
+    } else if (b == "Charlatan") {
+      if (a.s[4] == ChaModifier)a.s[4] += proficiency;
+      if (a.s[15] == DexModifier)a.s[15] += proficiency;
+    } else if (b == "Criminal") {
+      if (a.s[4] == ChaModifier)a.s[4] += proficiency;
+      if (a.s[16] == DexModifier)a.s[16] += proficiency;
+    } else if (b == "Entertainer") {
+      if (a.s[0] == IntModifier)a.s[0] += proficiency;
+      if (a.s[12] == ChaModifier)a.s[12] += proficiency;
+    } else if (b == "FolkHero") {
+      if (a.s[1] == WisModifier)a.s[1] += proficiency;
+      if (a.s[17] == WisModifier)a.s[17] += proficiency;
+    } else if (b == "GuildArtisan") {
+      if (a.s[6] == WisModifier)a.s[6] += proficiency;
+      if (a.s[13] == ChaModifier)a.s[13] += proficiency;
+    } else if (b == "Hermit") {
+      if (a.s[9] == WisModifier)a.s[9] += proficiency;
+      if (a.s[14] == IntModifier)a.s[14] += proficiency;
+    } else if (b == "Noble") {
+      if (a.s[5] == IntModifier)a.s[5] += proficiency;
+      if (a.s[13] == ChaModifier)a.s[13] += proficiency;
+    } else if (b == "Outlander") {
+      if (a.s[3] == StrModifier)a.s[3] += proficiency;
+      if (a.s[17] == WisModifier)a.s[17] += proficiency;
+    } else if (b == "Sage") {
+      if (a.s[2] == IntModifier)a.s[2] += proficiency;
+      if (a.s[5] == IntModifier)a.s[5] += proficiency;
+    } else if (b == "Sailor") {
+      if (a.s[3] == StrModifier)a.s[3] += proficiency;
+      if (a.s[11] == WisModifier)a.s[11] += proficiency;
+    } else if (b == "Soldier") {
+      if (a.s[3] == StrModifier)a.s[3] += proficiency;
+      if (a.s[7] == ChaModifier)a.s[7] += proficiency;
+    } else if (b == "Urchin") {
+      if (a.s[15] == DexModifier)a.s[15] += proficiency;
+      if (a.s[16] == DexModifier)a.s[16] += proficiency;
+    }
+  }
 
   void SetF(string a, string b, string story, int l, int h, int s, int d, int c, int i, int w, int cha) {
     l = Less_than_zero(l);
@@ -112,47 +155,7 @@ class Character {
     SetSkill(skill);
     proficiency = ProficiencySetter(level);
     passive_perception = PassivePerceptionSetter(WisModifier, perception_advantage, perception_disadvantage);
-
-    if (story == "Acolyte") {
-      if (skill.s[6] == WisModifier)skill.s[6] += proficiency;
-      if (skill.s[14] == IntModifier)skill.s[14] += proficiency;
-    } else if (story == "Charlatan") {
-      if (skill.s[4] == ChaModifier)skill.s[4] += proficiency;
-      if (skill.s[15] == DexModifier)skill.s[15] += proficiency;
-    } else if (story == "Criminal") {
-      if (skill.s[4] == ChaModifier)skill.s[4] += proficiency;
-      if (skill.s[16] == DexModifier)skill.s[16] += proficiency;
-    } else if (story == "Entertainer") {
-      if (skill.s[0] == IntModifier)skill.s[0] += proficiency;
-      if (skill.s[12] == ChaModifier)skill.s[12] += proficiency;
-    } else if (story == "FolkHero") {
-      if (skill.s[1] == WisModifier)skill.s[1] += proficiency;
-      if (skill.s[17] == WisModifier)skill.s[17] += proficiency;
-    } else if (story == "GuildArtisan") {
-      if (skill.s[6] == WisModifier)skill.s[6] += proficiency;
-      if (skill.s[13] == ChaModifier)skill.s[13] += proficiency;
-    } else if (story == "Hermit") {
-      if (skill.s[9] == WisModifier)skill.s[9] += proficiency;
-      if (skill.s[14] == IntModifier)skill.s[14] += proficiency;
-    } else if (story == "Noble") {
-      if (skill.s[5] == IntModifier)skill.s[5] += proficiency;
-      if (skill.s[13] == ChaModifier)skill.s[13] += proficiency;
-    } else if (story == "Outlander") {
-      if (skill.s[3] == StrModifier)skill.s[3] += proficiency;
-      if (skill.s[17] == WisModifier)skill.s[17] += proficiency;
-    } else if (story == "Sage") {
-      if (skill.s[2] == IntModifier)skill.s[2] += proficiency;
-      if (skill.s[5] == IntModifier)skill.s[5] += proficiency;
-    } else if (story == "Sailor") {
-      if (skill.s[3] == StrModifier)skill.s[3] += proficiency;
-      if (skill.s[11] == WisModifier)skill.s[11] += proficiency;
-    } else if (story == "Soldier") {
-      if (skill.s[3] == StrModifier)skill.s[3] += proficiency;
-      if (skill.s[7] == ChaModifier)skill.s[7] += proficiency;
-    } else if (story == "Urchin") {
-      if (skill.s[15] == DexModifier)skill.s[15] += proficiency;
-      if (skill.s[16] == DexModifier)skill.s[16] += proficiency;
-    }
+    StorySetsSkills(skill,storyline);
   }
 
   void Set(int a, int b) {// a - what parameter will be changed, b - modifier(can be negative)
@@ -176,7 +179,7 @@ class Character {
     else if (a == 8) { Cha += b; }
     else if (a == 9) { AC += b; }
     else if (a == 10) { if (b < 0)deathsaves_f++; else deathsaves_s++; }
-    else if (a == 11) { printf("%s \n", "reserved for skills"); }
+    else if (a == 11) { printf("%s \n", "reserved for Skills"); }
     else if (a == 12) { printf("%s \n", "reserved for weapon"); }
     else if (a == 13) { printf("%s \n", "reserved for inventory"); }
     else if (a == 14) { printf("%s \n", "reserved for story/background"); }
@@ -216,7 +219,7 @@ class Character {
     else if (a == 10) {
       string message = "Failures: " + to_string(deathsaves_f) + " Successes: " + to_string(deathsaves_s);
     } else if (a == 11) {
-      printf("%s \n", "reserved for skills");
+      printf("%s \n", "reserved for Skills");
       return 0;
     } else if (a == 12) {
       printf("%s \n", "reserved for weapon");
@@ -307,7 +310,7 @@ class Character {
         health = maxhealth;
       }//take middle
       Level_Up();
-      /*printf("%s \n", "reserved for skill Level_Up");*/}//proficiency+1, skills(2 points to one or 1 point to two)
+      /*printf("%s \n", "reserved for skill Level_Up");*/}//proficiency+1, Skills(2 points to one or 1 point to two)
     else if (level == 5 && experience > 13999) {
       level++;
       printf("%s \n",
@@ -407,7 +410,7 @@ class Character {
         health = maxhealth;
       }//take middle
       Level_Up();
-      /*printf("%s \n", "reserved for skill Level_Up");*/}//proficiency+1, skills2 points to one or 1 point to two)
+      /*printf("%s \n", "reserved for skill Level_Up");*/}//proficiency+1, Skills2 points to one or 1 point to two)
     else if (level == 9 && experience > 64999) {
       level++;
       printf("%s \n",
@@ -430,7 +433,7 @@ class Character {
     printf("%s %d \n", "Your health:", health);
   }
 
-  void SetSkill(skills c) {
+  void SetSkill(Skills c) {
     for (int j = 0; j < 18; j++) {
       if (j == 0 || j == 2 || j == 5 || j == 8 || j == 10 ||
           j == 14) { c.s[j] += IntModifier; }//acrobatics,arcana,history,investigation,nature,religion
@@ -443,7 +446,7 @@ class Character {
     }
   }
 
-  void GetSkill(skills c) {
+  void GetSkill(Skills c) {
     string a = "acrobatics" + to_string(c.s[0]) + " animalHandling " + to_string(c.s[1]) + " arcana " +
         to_string(c.s[2]) + " athletics " + to_string(c.s[3]) + " deception " + to_string(c.s[4]) +
         " history " + to_string(c.s[5]) + " insight " + to_string(c.s[6]) + " intimidation " +
