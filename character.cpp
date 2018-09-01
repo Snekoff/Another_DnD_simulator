@@ -14,9 +14,22 @@ history 5,insight 6,intimidation 7,investigation 8,medicine 9,
 nature 10,perception 11,performance 12,persuasion 13,religion 14,
 sleightOfHand 15,stealth 16,survival 17*/
 };
-class Item { //all items have got damage,
+class Item { //all items have got damage
  protected:
+  string name;
+  string type;
+  int amount;
   int damage;
+  bool isweapon;
+ public:
+  Item() {
+    name = "clothes";
+    type = "equipment";
+    amount = 1;
+    damage = 0;
+    isweapon = false;
+  }
+  ~Item() {}
 };
 
 class Character {
@@ -281,16 +294,9 @@ class Character {
     }
   }
 
-  void GetSkill(Skills c) {
-    string a = "acrobatics" + to_string(c.s[0]) + " animalHandling " + to_string(c.s[1]) + " arcana " +
-        to_string(c.s[2]) + " athletics " + to_string(c.s[3]) + " deception " + to_string(c.s[4]) +
-        " history " + to_string(c.s[5]) + " insight " + to_string(c.s[6]) + " intimidation " +
-        to_string(c.s[7]) + " investigation " + to_string(c.s[8]) + " medicine " + to_string(c.s[9]) +
-        " nature " + to_string(c.s[10]) + " perception " + to_string(c.s[11]) + " performance " +
-        to_string(c.s[12]) + " persuasion " + to_string(c.s[13]) + " religion " + to_string(c.s[14]) +
-        " sleightOfHand " + to_string(c.s[15]) + " stealth " + to_string(c.s[16]) + " survival " +
-        to_string(c.s[17]);
-    cout << a;
+  int GetSkill(int a) {
+    a = Correctness(a,0,17);
+    return skill.s[a];
   }
 };
 

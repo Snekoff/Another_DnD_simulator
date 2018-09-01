@@ -2,6 +2,18 @@
 #include <iostream>
 #include <random>
 
+struct Existing_Types{
+  int minHeight[39] = {6, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 3, 3, 3, 3, 5, 5, 5, 5, 5, 5, 3, 3, 3, 5, 5, 5, 6, 5, 5, 5, 5,
+                       5, 5, 5, 5, 5, 5, 5};
+  int maxHeight[39] = {6, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, 3, 3, 3, 6, 6, 6, 6, 6, 6, 6, 6,
+                       6, 6, 6, 6, 6, 6, 6};
+  int minWeight[39] = {10};
+  int maxWeight[39] = {140};
+  int minAge[39] = {3};
+  int maxAge[39] = {120};
+  std::string item[10] = {""};
+};
+
 int Correctness(int a, int lowerlimit, int higherlimit) {
   while (a < lowerlimit || a > higherlimit) {
     printf("%s \n", "Incorrect input.");
@@ -34,4 +46,5 @@ int Health_Level_Up(int health_dice, int ConModifier, int maxhealth){
   else {
     maxhealth += health_dice / 2 + 1;
   }//take middle
+  return maxhealth;
 }
