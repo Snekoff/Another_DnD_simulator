@@ -13,7 +13,7 @@ class Race {
   int Str, Dex, Con, Int, Wis, Cha;
   Spell spell;
   std::string raceFeatures;
-  // Abilities0-5,Movement,Size,Darkvision,skill like firebreath,fits,type of damage resistance,Languages//
+  // Abilities0-5,Movement,Size,Darkvision,skill like firebreath,fits,type of damage resistance,Languages
  public:
   Race() {
     type = 0;

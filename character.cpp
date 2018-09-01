@@ -10,7 +10,7 @@
 using namespace std;
 
 struct Skills {
-  int s[18] = {0};/* acrobatics 0,animalHandling 1,arcana 2,athletics 3,deception 4,
+  int s[18] = {0};/*acrobatics 0,animalHandling 1,arcana 2,athletics 3,deception 4,
 history 5,insight 6,intimidation 7,investigation 8,medicine 9,
 nature 10,perception 11,performance 12,persuasion 13,religion 14,
 sleightOfHand 15,stealth 16,survival 17*/

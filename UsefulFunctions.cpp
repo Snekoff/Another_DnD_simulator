@@ -31,10 +31,6 @@ int Correctness(int a, int lowerlimit, int higherlimit) {
   return a;
 }
 
-void LevelUp() {
-
-}
-
 int Random_Generator(int lowerlimit, int higherlimit){
   std::random_device rd;
   std::mt19937 mt(rd());
