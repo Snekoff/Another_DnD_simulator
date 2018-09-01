@@ -209,7 +209,7 @@ class Character {
         printf("%s %d \n", "Rolled health + Constitution modifier:", tHP + ConModifier);
         maxhealth += tHP + ConModifier;
         health = maxhealth;
-      }//roll dices
+      }//roll dices f
       else {
         maxhealth += health_dice / 2 + 1;
         health = maxhealth;
