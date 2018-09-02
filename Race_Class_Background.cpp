@@ -16,6 +16,12 @@ class Race {
   // Abilities0-5,Movement,Size,Darkvision,skill like firebreath,fits,type of damage resistance,Languages`
  public:
   Race() {
+    Str = 0;
+    Dex = 0;
+    Con = 0;
+    Int = 0;
+    Wis = 0;
+    Cha = 0;
     type = 0;
     height = 0;
     weight = 0;
@@ -37,7 +43,9 @@ class Race {
     RaceAbilityBonus();
   }
 
-  virtual int get() {}
+  virtual int get() {
+    return -1;
+  }
 
   void RaceFeature() {}
 
