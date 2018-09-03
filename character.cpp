@@ -18,7 +18,7 @@ sleightOfHand 15,stealth 16,survival 17*/
 
 class Character {
  private:
-  Race race;
+  //Race race;
   Class classType;
   string storyline;
   int experience, level;
@@ -35,9 +35,10 @@ class Character {
   Skills skill;
   Item item;
   string inventory;
+  Existing_Types E;
  public:
   Character() {
-    race.set(24);//human
+    //race.set(24);//human
     //classType.set(0);//barbarian
     storyline = "Acolyte";
     experience = 0;
@@ -59,8 +60,70 @@ class Character {
     //item.set();
     inventory = "empty";//
   }
+  Character(string storyl, int exp, int levl, int Stre, int Dext,
+      int Cons, int Inte, int Wisd, int Charisma, int ArmorClass){
+    exp = Less_than_zero(exp);
+    levl = Less_than_zero(levl);
+    Stre = Less_than_zero(Stre);
+    Dext = Less_than_zero(Dext);
+    Cons = Less_than_zero(Cons);
+    Inte = Less_than_zero(Inte);
+    Wisd = Less_than_zero(Wisd);
+    Charisma = Less_than_zero(Charisma);
+    ArmorClass = Less_than_zero(ArmorClass);
+    health = 0 ;
+    maxhealth = 0 ;
+    health_dice = 0 ;
+    storyline = storyl;
+    if(exp < E.experience_per_level[levl - 1]){ exp = E.experience_per_level[level - 1]; }
+    experience = exp;
+    Str = Stre;
+    Dex = Dext;
+    Con = Cons;
+    Int = Inte;
+    Wis = Wisd;
+    Cha = Charisma;
+    AC = ArmorClass;
+    deathsaves_s = 0 ;
+    deathsaves_f = 0 ;
+    passive_perception = 0 ;
+    proficiency = 0 ;
+    advantage = false; disadvantage = false;
+    perception_advantage = false;
+    perception_disadvantage = false;
+    inventory = "";
+    StrModifier = AbilityModifier(Str);
+    DexModifier = AbilityModifier(Dex);
+    ConModifier = AbilityModifier(Con);
+    IntModifier = AbilityModifier(Int);
+    WisModifier = AbilityModifier(Wis);
+    ChaModifier = AbilityModifier(Cha);
+    SetSkill(skill);
+    proficiency = ProficiencySetter(level);
+    passive_perception = PassivePerceptionSetter(WisModifier, perception_advantage, perception_disadvantage);
+    printf("%s \n", "It is time to choose your race. What it will be?");
+    printf("%s \n", "1. Dragonborn (10 subraces)\n"
+                    "2. Dwarf (3 subraces)\n"
+                    "3. Elf (7 subraces)\n"
+                    "4. Gnome (3 subraces)\n"
+                    "5. Goblin\n"
+                    "6. Half-Elf (5 subraces)\n"
+                    "7. Half-Orc ( or Orc )\n"
+                    "8. Halfling (3 subraces)\n"
+                    "9. Human (2 subraces)\n"
+                    "10. Lizardfolk\n"
+                    "11. Tiefling (11 subraces)\n"
+                    "Type number, and proceed");
+    int race = 9;
+    std::cin >> race;
+    Race_Choosal(race);
+    StorySetsSkills(skill,storyline);
+    // reserved for @Class gives health dice"
+    level = 0;
+    Level_Up();
+  }
 
-  ~Character() {}
+  ~Character() = default;
 
   int Less_than_zero(int a) {
     return a < 0 ? 0 : a;
@@ -126,7 +189,7 @@ class Character {
   }
 
   void Ability_improve(){
-    if (level == 3 || level == 7) {
+    if (level == 4 || level == 8) {
       printf("%s %d %s \n",
              "You reached",
              level,
@@ -152,34 +215,8 @@ class Character {
     }
   }
 
-  void SetF(string a, string b, string story, int l, int h, int s, int d, int c, int i, int w, int cha) {
-    l = Less_than_zero(l);
-    h = Less_than_zero(h);
-    s = Less_than_zero(s);
-    d = Less_than_zero(d);
-    c = Less_than_zero(c);
-    i = Less_than_zero(i);
-    w = Less_than_zero(w);
-    cha = Less_than_zero(cha);
-    level = l;
-    health = h;
-    maxhealth = h;
-    Str = s;
-    Dex = d;
-    Con = c;
-    Int = i;
-    Wis = w;
-    Cha = cha;
-    StrModifier = AbilityModifier(Str);
-    DexModifier = AbilityModifier(Dex);
-    ConModifier = AbilityModifier(Con);
-    IntModifier = AbilityModifier(Int);
-    WisModifier = AbilityModifier(Wis);
-    ChaModifier = AbilityModifier(Cha);
-    SetSkill(skill);
-    proficiency = ProficiencySetter(level);
-    passive_perception = PassivePerceptionSetter(WisModifier, perception_advantage, perception_disadvantage);
-    StorySetsSkills(skill,storyline);
+  void Race_Choosal(int a){
+
   }
 
   void Set(int a, int b) {// a - what parameter will be changed, b - modifier(can be negative)
@@ -221,7 +258,7 @@ class Character {
   }
 
   void Level_Up() {
-    if (level < 4 && experience > 300 * pow(3, level - 1)) {
+    if (level < 4 && experience >= 300 * pow(3, level)) {
       level++;
       proficiency++;
       maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);

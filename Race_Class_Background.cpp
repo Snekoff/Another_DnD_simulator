@@ -47,7 +47,9 @@ class Race {
     RaceAbilityBonus();
   }
 
-  virtual int get() {}
+  virtual int get() {
+    return -1;
+  }
 
   void RaceFeature() {}
 
@@ -495,7 +497,7 @@ class Class {
  protected:
   std::string features = "";
  public:
-  Class() {}
+  Class() { type = 0;}
 
   ~Class()  = default;
 
@@ -514,7 +516,12 @@ class SubClass : public Class {
  private:
   int subtype;
  public:
-  SubClass() : Class(){}
+  SubClass() : Class(){
+    subtype = 0;
+  }
+  SubClass(int a,int b){
+    subtype = a;
+  }
   ~SubClass()  = default;
   void subClassFeatures() {}
 };
