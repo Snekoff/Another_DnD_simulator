@@ -4,7 +4,7 @@
 #include "Skills_and_Spells.cpp"
 #include "UsefulFunctions.cpp"
 
-
+//
 class Race {
  private:
   int type;

@@ -216,7 +216,12 @@ class Character {
   }
 
   void Race_Choosal(int a){
+    if(a == 1){
 
+    }
+    else if(a == 2){
+
+    }
   }
 
   void Set(int a, int b) {// a - what parameter will be changed, b - modifier(can be negative)

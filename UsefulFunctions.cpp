@@ -22,7 +22,7 @@ struct Existing_Types{
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
   int experience_per_level[10] = {0,300,900,2700,6500,14000,23000,34000,48000,64000};
-};
+}; //
 
 int Correctness(int a, int lowerlimit, int higherlimit) {
   if(higherlimit == lowerlimit - 2){
