@@ -86,10 +86,100 @@ class Race {
   }
 };
 
-class SubRace : public Race {
+class Dragonborn : public Race {
  private:
   int subtype;
  public:
+  Dragonborn():Race(){}
+  ~Dragonborn(){}
+  void subRaceFeatures() {}
+};
+
+class Dwarf  : public Race {
+ private:
+  int subtype;
+ public:
+  Dwarf():Race(){}
+  ~Dwarf(){}
+  void subRaceFeatures() {}
+};
+
+class Elf  : public Race {
+ private:
+  int subtype;
+ public:
+  Elf():Race(){}
+  ~Elf(){}
+  void subRaceFeatures() {}
+};
+class Gnome  : public Race {
+ private:
+  int subtype;
+ public:
+  Gnome():Race(){}
+  ~Gnome(){}
+  void subRaceFeatures() {}
+};
+
+class Goblin : public Race {
+ private:
+  int subtype;
+ public:
+  Goblin():Race(){}
+  ~Goblin(){}
+  void subRaceFeatures() {}
+};
+
+class Half_Elf : public Race {
+ private:
+  int subtype;
+ public:
+  Half_Elf():Race(){}
+  ~Half_Elf(){}
+  void subRaceFeatures() {}
+};
+
+class Half_Orc : public Race {
+ private:
+  int subtype;
+ public:
+  Half_Orc():Race(){}
+  ~Half_Orc(){}
+  void subRaceFeatures() {}
+};
+
+class Halfling : public Race {
+ private:
+  int subtype;
+ public:
+  Halfling():Race(){}
+  ~Halfling(){}
+  void subRaceFeatures() {}
+};
+
+class Human : public Race {
+ private:
+  int subtype;
+ public:
+  Human():Race(){}
+  ~Human(){}
+  void subRaceFeatures() {}
+};
+class Lizardfolk : public Race {
+ private:
+  int subtype;
+ public:
+  Lizardfolk():Race(){}
+  ~Lizardfolk(){}
+  void subRaceFeatures() {}
+};
+
+class Tiefling : public Race {
+ private:
+  int subtype;
+ public:
+  Tiefling():Race(){}
+  ~Tiefling(){}
   void subRaceFeatures() {}
 };
 
