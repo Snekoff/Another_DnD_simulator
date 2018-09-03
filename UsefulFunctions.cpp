@@ -24,9 +24,23 @@ struct Existing_Types{
 };
 
 int Correctness(int a, int lowerlimit, int higherlimit) {
-  while (a < lowerlimit || a > higherlimit) {
-    printf("%s \n", "Incorrect input.");
-    std::cin >> a;
+  if(higherlimit == lowerlimit - 2){
+    while(a > lowerlimit){
+      printf("%s \n", "Incorrect input.");
+      std::cin >> a;
+    }
+  }
+  else if(higherlimit == lowerlimit - 1){
+    while(a < lowerlimit){
+      printf("%s \n", "Incorrect input.");
+      std::cin >> a;
+    }
+  }
+  else {
+    while (a < lowerlimit || a > higherlimit) {
+      printf("%s \n", "Incorrect input.");
+      std::cin >> a;
+    }
   }
   return a;
 }

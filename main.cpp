@@ -23,8 +23,8 @@ int main() {
 }
 /*
  * 1. персонажи (characters, weapons, spells etc.)
- * 2. mobs and experience
- * 3. случайные события и инициатива
+ * 2. mobs, animals , all races.
+ * 3. world ( and its randomness )
  * 4. очередь хода
  * 5. поле
  * 6. карта
