@@ -104,11 +104,7 @@ class Dragonborn : public Race {
  public:
   Dragonborn() : Race() { subtype = 0; }
   Dragonborn(int sub_type,int a, int b, int c){
-    subtype = sub_type;
-    height = a;
-    weight = b;
-    age = c;
-    subRaceFeatures();
+    Create(sub_type,a,b,c);
   }
   ~Dragonborn() = default;
   void subRaceFeatures() {
@@ -145,6 +141,14 @@ class Dragonborn : public Race {
       raceFeatures = "30,Medium,No,Cold,fits,Cold,Draconic";
     }
   }
+
+  void Create(int sub_type,int a, int b, int c){
+    subtype = sub_type;
+    height = a;
+    weight = b;
+    age = c;
+    subRaceFeatures();
+  }
 };
 
 class Dwarf  : public Race {
@@ -153,11 +157,7 @@ class Dwarf  : public Race {
  public:
   Dwarf() : Race() { subtype = 0; }
   Dwarf(int sub_type,int a, int b, int c){
-    subtype = sub_type;
-    height = a;
-    weight = b;
-    age = c;
-    subRaceFeatures();
+    Create(sub_type,a,b,c);
   }
   ~Dwarf() = default;
   void subRaceFeatures() {
@@ -176,6 +176,14 @@ class Dwarf  : public Race {
       raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
     }
   }
+
+  void Create(int sub_type,int a, int b, int c){
+    subtype = sub_type;
+    height = a;
+    weight = b;
+    age = c;
+    subRaceFeatures();
+  }
 };
 
 class Elf  : public Race {
@@ -184,11 +192,7 @@ class Elf  : public Race {
  public:
   Elf():Race(){subtype = 0;}
   Elf(int sub_type,int a, int b, int c){
-    subtype = sub_type;
-    height = a;
-    weight = b;
-    age = c;
-    subRaceFeatures();
+    Create(sub_type,a,b,c);
   }
   ~Elf() = default;
   void subRaceFeatures() {
@@ -221,6 +225,14 @@ class Elf  : public Race {
       raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
     }
   }
+
+  void Create(int sub_type,int a, int b, int c){
+    subtype = sub_type;
+    height = a;
+    weight = b;
+    age = c;
+    subRaceFeatures();
+  }
 };
 class Gnome  : public Race {
  private:
@@ -228,11 +240,7 @@ class Gnome  : public Race {
  public:
   Gnome():Race(){subtype = 0;}
   Gnome(int sub_type,int a, int b, int c){
-    subtype = sub_type;
-    height = a;
-    weight = b;
-    age = c;
-    subRaceFeatures();
+    Create(sub_type,a,b,c);
   }
   ~Gnome() = default;
   void subRaceFeatures() {
@@ -249,6 +257,14 @@ class Gnome  : public Race {
       raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
     }
   }
+
+  void Create(int sub_type,int a, int b, int c){
+    subtype = sub_type;
+    height = a;
+    weight = b;
+    age = c;
+    subRaceFeatures();
+  }
 };
 
 class Goblin : public Race {
@@ -257,16 +273,20 @@ class Goblin : public Race {
  public:
   Goblin():Race(){subtype = 0;}
   Goblin(int sub_type,int a, int b, int c){
-    subtype = sub_type;
-    height = a;
-    weight = b;
-    age = c;
-    subRaceFeatures();
+    Create(sub_type,a,b,c);
   }
   ~Goblin() = default;
   void subRaceFeatures() {
     Dex += 2; Con += 1;
     raceFeatures = "30,Small,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+  }
+
+  void Create(int sub_type,int a, int b, int c){
+    subtype = sub_type;
+    height = a;
+    weight = b;
+    age = c;
+    subRaceFeatures();
   }
 };
 
@@ -276,11 +296,7 @@ class Half_Elf : public Race {
  public:
   Half_Elf():Race(){subtype = 0;}
   Half_Elf(int sub_type,int a, int b, int c){
-    subtype = sub_type;
-    height = a;
-    weight = b;
-    age = c;
-    subRaceFeatures();
+    Create(sub_type,a,b,c);
   }
   ~Half_Elf() = default;
   void subRaceFeatures() {
@@ -311,6 +327,14 @@ class Half_Elf : public Race {
     E.race_ability_bonus[a - 1][15 + subtype] -= 1;
     E.race_ability_bonus[b - 1][15 + subtype] -= 1;
   }
+
+  void Create(int sub_type,int a, int b, int c){
+    subtype = sub_type;
+    height = a;
+    weight = b;
+    age = c;
+    subRaceFeatures();
+  }
 };
 
 class Half_Orc : public Race {
@@ -319,11 +343,7 @@ class Half_Orc : public Race {
  public:
   Half_Orc():Race(){subtype = 0;}
   Half_Orc(int sub_type,int a, int b, int c){
-    subtype = sub_type;
-    height = a;
-    weight = b;
-    age = c;
-    subRaceFeatures();
+    Create(sub_type,a,b,c);
   }
   ~Half_Orc() = default;
   void subRaceFeatures() {
@@ -336,6 +356,14 @@ class Half_Orc : public Race {
       raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
     }
   }
+
+  void Create(int sub_type,int a, int b, int c){
+    subtype = sub_type;
+    height = a;
+    weight = b;
+    age = c;
+    subRaceFeatures();
+  }
 };
 
 class Halfling : public Race {
@@ -344,11 +372,7 @@ class Halfling : public Race {
  public:
   Halfling():Race(){subtype = 0;}
   Halfling(int sub_type,int a, int b, int c){
-    subtype = sub_type;
-    height = a;
-    weight = b;
-    age = c;
-    subRaceFeatures();
+    Create(sub_type,a,b,c);
   }
   ~Halfling() = default;
   void subRaceFeatures() {
@@ -366,6 +390,14 @@ class Halfling : public Race {
       raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
     }
   }
+
+  void Create(int sub_type,int a, int b, int c){
+    subtype = sub_type;
+    height = a;
+    weight = b;
+    age = c;
+    subRaceFeatures();
+  }
 };
 
 class Human : public Race {
@@ -374,11 +406,7 @@ class Human : public Race {
  public:
   Human():Race(){subtype = 0;}
   Human(int sub_type,int a, int b, int c){
-    subtype = sub_type;
-    height = a;
-    weight = b;
-    age = c;
-    subRaceFeatures();
+    Create(sub_type,a,b,c);
   }
   ~Human() = default;
   void subRaceFeatures() {
@@ -400,6 +428,14 @@ class Human : public Race {
       E.race_ability_bonus[b - 1][24 +subtype] -= 1;
     }
   }
+
+  void Create(int sub_type,int a, int b, int c){
+    subtype = sub_type;
+    height = a;
+    weight = b;
+    age = c;
+    subRaceFeatures();
+  }
 };
 class Lizardfolk : public Race {
  private:
@@ -407,16 +443,20 @@ class Lizardfolk : public Race {
  public:
   Lizardfolk():Race(){subtype = 0;}
   Lizardfolk(int sub_type,int a, int b, int c){
-    subtype = sub_type;
-    height = a;
-    weight = b;
-    age = c;
-    subRaceFeatures();
+    Create(sub_type,a,b,c);
   }
   ~Lizardfolk() = default;
   void subRaceFeatures() {
     Con += 2; Wis += 1;
     raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+  }
+
+  void Create(int sub_type,int a, int b, int c){
+    subtype = sub_type;
+    height = a;
+    weight = b;
+    age = c;
+    subRaceFeatures();
   }
 };
 
@@ -426,11 +466,7 @@ class Tiefling : public Race {
  public:
   Tiefling():Race(){subtype = 0;}
   Tiefling(int sub_type,int a, int b, int c){
-    subtype = sub_type;
-    height = a;
-    weight = b;
-    age = c;
-    subRaceFeatures();
+    Create(sub_type,a,b,c);
   }
   ~Tiefling() = default;
   void subRaceFeatures() {
@@ -488,6 +524,14 @@ class Tiefling : public Race {
       Str += 1; Cha += 2;
       raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
     }
+  }
+
+  void Create(int sub_type,int a, int b, int c){
+    subtype = sub_type;
+    height = a;
+    weight = b;
+    age = c;
+    subRaceFeatures();
   }
 };
 

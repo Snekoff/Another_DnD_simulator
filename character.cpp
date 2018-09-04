@@ -2,10 +2,11 @@
 
 #include <iostream>
 #include <string>
-#include "interface_races_classes_background.h"
+#include <utility>
+#include "Interface_races_classes_background.h"
 #include "Race_Class_Background.cpp"
 #include "UsefulFunctions.cpp"
-#include "inventory.cpp"
+#include "Inventory.cpp"
 
 using namespace std;
 
@@ -15,6 +16,32 @@ history 5,insight 6,intimidation 7,investigation 8,medicine 9,
 nature 10,perception 11,performance 12,persuasion 13,religion 14,
 sleightOfHand 15,stealth 16,survival 17*/
 };
+
+const int kPLAYER_COUNT = 10;
+int dragonborn_count = 0;
+int dwarf_count = 0;
+int elf_count = 0;
+int gnome_count = 0;
+int goblin_count = 0;
+int half_elf_count = 0;
+int half_orc_count = 0;
+int halfling_count = 0;
+int human_count = 0;
+int lizardfolk_count = 0;
+int tiefling_count = 0;
+
+auto *dragonborn = new Dragonborn[kPLAYER_COUNT]();
+auto *dwarf = new Dwarf [kPLAYER_COUNT]();
+auto *elf = new Elf [kPLAYER_COUNT]();
+auto *gnome = new Gnome [kPLAYER_COUNT]();
+auto *goblin = new Goblin[kPLAYER_COUNT]();
+auto *half_elf = new Half_Elf[kPLAYER_COUNT]();
+auto *half_orc = new Half_Orc[kPLAYER_COUNT]();
+auto *halfling = new Halfling [kPLAYER_COUNT]();
+auto *human = new Human [kPLAYER_COUNT]();
+auto *lizardfolk = new Lizardfolk [kPLAYER_COUNT]();
+auto *tiefling = new Tiefling [kPLAYER_COUNT]();
+
 
 class Character {
  private:
@@ -74,7 +101,7 @@ class Character {
     health = 0 ;
     maxhealth = 0 ;
     health_dice = 0 ;
-    storyline = storyl;
+    storyline = std::move(storyl);
     if(exp < E.experience_per_level[levl - 1]){ exp = E.experience_per_level[level - 1]; }
     experience = exp;
     Str = Stre;
@@ -101,22 +128,7 @@ class Character {
     SetSkill(skill);
     proficiency = ProficiencySetter(level);
     passive_perception = PassivePerceptionSetter(WisModifier, perception_advantage, perception_disadvantage);
-    printf("%s \n", "It is time to choose your race. What it will be?");
-    printf("%s \n", "1. Dragonborn (10 subraces)\n"
-                    "2. Dwarf (3 subraces)\n"
-                    "3. Elf (7 subraces)\n"
-                    "4. Gnome (3 subraces)\n"
-                    "5. Goblin\n"
-                    "6. Half-Elf (5 subraces)\n"
-                    "7. Half-Orc ( or Orc )\n"
-                    "8. Halfling (3 subraces)\n"
-                    "9. Human (2 subraces)\n"
-                    "10. Lizardfolk\n"
-                    "11. Tiefling (11 subraces)\n"
-                    "Type number, and proceed");
-    int race = 9;
-    std::cin >> race;
-    Race_Choosal(race);
+    Race_Choosal();
     StorySetsSkills(skill,storyline);
     // reserved for @Class gives health dice"
     level = 0;
@@ -215,11 +227,66 @@ class Character {
     }
   }
 
-  void Race_Choosal(int a){
-    if(a == 1){
+  void Race_Choosal(){
+    printf("%s \n", "It is time to choose your race. What it will be?");
+    printf("%s \n", "1. Dragonborn (10 subraces)\n"
+                    "2. Dwarf (3 subraces)\n"
+                    "3. Elf (7 subraces)\n"
+                    "4. Gnome (3 subraces)\n"
+                    "5. Goblin\n"
+                    "6. Half-Elf (5 subraces)\n"
+                    "7. Half-Orc ( or Orc )\n"
+                    "8. Halfling (3 subraces)\n"
+                    "9. Human (2 subraces)\n"
+                    "10. Lizardfolk\n"
+                    "11. Tiefling (11 subraces)\n"
+                    "Type number, and proceed");
+    int race = 9;
+    std::cin >> race;
+    race = Correctness(race, 1, 11);
+    int subrace = 0;
+    if (race == 1) {
+      printf("%s \n", "Choose your subrace. What it will be?");
+      printf("%s \n", "1. Black (Acid) 30ft. line\n"
+                      "2. Blue (Lightning) 30ft. line\n"
+                      "3. Brass (Fire) 30ft. line\n"
+                      "4. Bronze (Lightning) 30ft. line\n"
+                      "5. Copper (Acid) 30ft. line\n"
+                      "6. Gold (Fire) 15ft. cone\n"
+                      "7. Green (Poison) 15ft. cone\n"
+                      "8. Red (Fire) 15ft. cone\n"
+                      "9. Silver (Cold) 15ft. cone\n"
+                      "10. White (Cold) 15ft. cone\n"
+                      "Type number, and proceed");
+      cin >> subrace;
+      subrace = Correctness(subrace, 1, 10);
+      int a, b, c;
+      printf("%s \n",
+             "insert height(ft), weight(lbs) and age(y) of your character or type zero(s) (0 100 0) to random");
+      cin >> a >> b >> c;
+      if (a <= 0 || a > E.maxHeight[race - 1]) { a = Random_Generator(E.minHeight[race - 1], E.maxHeight[race - 1]); }
+      if (b <= 0 || b > E.maxWeight[race - 1]) { b = Random_Generator(E.minWeight[race - 1], E.maxWeight[race - 1]); }
+      if (c <= 0 || c > E.maxAge[race - 1]) { c = Random_Generator(E.minAge[race - 1], E.maxAge[race - 1]); }
+      dragonborn[dragonborn_count].Create(subrace, a, b, c);
+    } else if (race == 2) {
 
-    }
-    else if(a == 2){
+    } else if (race == 3) {
+
+    } else if (race == 4) {
+
+    } else if (race == 5) {
+
+    } else if (race == 6) {
+
+    } else if (race == 7) {
+
+    } else if (race == 8) {
+
+    } else if (race == 9) {
+
+    } else if (race == 10) {
+
+    } else if (race == 11) {
 
     }
   }
