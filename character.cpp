@@ -45,7 +45,7 @@ auto *tiefling = new Tiefling [kPLAYER_COUNT]();
 
 class Character {
  private:
-  //Race race;
+  Race* race_of_character;
   Class classType;
   string storyline;
   int experience, level;
@@ -149,6 +149,17 @@ class Character {
     if (level < 4) return 2;
     else if (level > 3 && level < 8) return 3;
     else return 4;
+  }
+
+  void Size_Set(int a, int b, int c,int race1,int subrace,int negative){
+    // negative for class dragonborn
+
+    printf("%s \n",
+           "insert height(ft), weight(lbs) and age(y) of your character or type zero(s) (0 100 0) to random");
+    cin >> a >> b >> c;
+    if (a <= 0 || a > E.maxHeight[race1 + subrace - negative - 1]) { a = Random_Generator(E.minHeight[race1 + subrace - negative - 1], E.maxHeight[race1 + subrace - negative - 1]); }
+    if (b <= 0 || b > E.maxWeight[race1 + subrace - negative - 1]) { b = Random_Generator(E.minWeight[race1 + subrace - negative - 1], E.maxWeight[race1 + subrace - negative - 1]); }
+    if (c <= 0 || c > E.maxAge[race1 - 1]) { c = Random_Generator(E.minAge[race1 + subrace - negative - 1], E.maxAge[race1 + subrace - negative - 1]); }
   }
 
   int PassivePerceptionSetter(int a, bool b, bool c) {
@@ -260,14 +271,10 @@ class Character {
                       "Type number, and proceed");
       cin >> subrace;
       subrace = Correctness(subrace, 1, 10);
-      int a, b, c;
-      printf("%s \n",
-             "insert height(ft), weight(lbs) and age(y) of your character or type zero(s) (0 100 0) to random");
-      cin >> a >> b >> c;
-      if (a <= 0 || a > E.maxHeight[race - 1]) { a = Random_Generator(E.minHeight[race - 1], E.maxHeight[race - 1]); }
-      if (b <= 0 || b > E.maxWeight[race - 1]) { b = Random_Generator(E.minWeight[race - 1], E.maxWeight[race - 1]); }
-      if (c <= 0 || c > E.maxAge[race - 1]) { c = Random_Generator(E.minAge[race - 1], E.maxAge[race - 1]); }
+      int a = 0, b = 0, c = 0;
+      Size_Set(a,b,c,race,subrace,subrace);
       dragonborn[dragonborn_count].Create(subrace, a, b, c);
+      race_of_character = &dragonborn[dragonborn_count];
     } else if (race == 2) {
 
     } else if (race == 3) {

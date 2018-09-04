@@ -570,3 +570,5 @@ class SubClass : public Class {
   void subClassFeatures() {}
 };
 
+// &&&&&&&&^^%^#QQQQQQQQQQQQQQQQQQQ$$$$$$$$$$$$$$$$$$$$$$$##############EEEEEEEEEEEEEEEERRRRRRRRRRRRRRRREEWW
+// factory

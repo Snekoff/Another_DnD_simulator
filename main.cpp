@@ -25,8 +25,8 @@ int main() {
  * 1. персонажи (characters, weapons, spells etc.)
  * 2. mobs, animals , all races.
  * 3. world ( and its randomness )
- * 4. очередь хода
- * 5. поле
+ * 4. std::map can return pointer of function
+ * 5. batle field, turn,
  * 6. карта
  * 7. умное поведение мобов в бою
  * 8. в процесе...
