@@ -3,14 +3,12 @@
 #include <random>
 
 struct Existing_Types{
-  int minHeight[39] = {6, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 3, 3, 3, 3, 5, 5, 5, 5, 5, 5, 3, 3, 3, 5, 5, 5, 6, 5, 5, 5, 5,
-                       5, 5, 5, 5, 5, 5, 5};
-  int maxHeight[39] = {6, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, 3, 3, 3, 6, 6, 6, 6, 6, 6, 6, 6,
-                       6, 6, 6, 6, 6, 6, 6};
-  int minWeight[39] = {10};
-  int maxWeight[39] = {140};
-  int minAge[39] = {3};
-  int maxAge[39] = {120};//
+  int minHeight[11] = {6, 4, 6, 3, 3, 5, 5, 3, 5, 5, 5, };
+  int maxHeight[11] = {6, 5, 6, 4, 4, 6, 6, 3, 6, 6, 6, };
+  int minWeight[11] = {10};
+  int maxWeight[11] = {140};
+  int minAge[11] = {3};
+  int maxAge[11] = {120};//
   std::string item[9] = {"equipment","potions","food","ammo_holder","shield","weapon","armor","ammo","usable"};
   int race_ability_bonus[39][6] =
       {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},

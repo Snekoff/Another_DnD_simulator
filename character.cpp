@@ -156,10 +156,13 @@ class Character {
 
     printf("%s \n",
            "insert height(ft), weight(lbs) and age(y) of your character or type zero(s) (0 100 0) to random");
+    printf("%s %d %s %d %s %d %s %d %s %d %s %d \n",
+           "Normal parameters for your race are: height(ft) from ",E.minHeight[race1 - 1] ,"to ", E.maxHeight[race1 - 1]," weight(lbs)from ",
+           E.minWeight[race1 - 1],"to ", E.maxWeight[race1 - 1]," and age(y) from ",E.minAge[race1 - 1] ,"to ", E.maxAge[race1 - 1]);
     cin >> a >> b >> c;
-    if (a <= 0 || a > E.maxHeight[race1 + subrace - negative - 1]) { a = Random_Generator(E.minHeight[race1 + subrace - negative - 1], E.maxHeight[race1 + subrace - negative - 1]); }
-    if (b <= 0 || b > E.maxWeight[race1 + subrace - negative - 1]) { b = Random_Generator(E.minWeight[race1 + subrace - negative - 1], E.maxWeight[race1 + subrace - negative - 1]); }
-    if (c <= 0 || c > E.maxAge[race1 - 1]) { c = Random_Generator(E.minAge[race1 + subrace - negative - 1], E.maxAge[race1 + subrace - negative - 1]); }
+    if (a <= 0 || a > E.maxHeight[race1 - 1]) { a = Random_Generator(E.minHeight[race1 - 1], E.maxHeight[race1 - 1]); }
+    if (b <= 0 || b > E.maxWeight[race1 - 1]) { b = Random_Generator(E.minWeight[race1 - 1], E.maxWeight[race1 - 1]); }
+    if (c <= 0 || c > E.maxAge[race1 - 1]) { c = Random_Generator(E.minAge[race1 - 1], E.maxAge[race1 - 1]); }
   }
 
   int PassivePerceptionSetter(int a, bool b, bool c) {
@@ -275,26 +278,154 @@ class Character {
       Size_Set(a,b,c,race,subrace,subrace);
       dragonborn[dragonborn_count].Create(subrace, a, b, c);
       race_of_character = &dragonborn[dragonborn_count];
+      dragonborn_count++;
     } else if (race == 2) {
+      printf("%s \n", "Choose your subrace. What it will be?");
+      printf("%s \n", "1. Duergar\n"
+                      "2. Hill\n"
+                      "3. Mountain\n"
+                      "Type number, and proceed");
+      cin >> subrace;
+      subrace = Correctness(subrace, 1, 3);
+      int a = 0, b = 0, c = 0;
+      Size_Set(a,b,c,race,subrace,subrace);
+      dwarf[dwarf_count].Create(subrace, a, b, c);
+      race_of_character = &dwarf[dwarf_count];
+      dwarf_count++;
 
     } else if (race == 3) {
+      printf("%s \n", "Choose your subrace. What it will be?");
+      printf("%s \n", "1. \n"
+                      "2. \n"
+                      "3. \n"
+                      "4. \n"
+                      "5. \n"
+                      "6. \n"
+                      "7. \n"
+                      "8. \n"
+                      "9. \n"
+                      "10. \n"
+                      "Type number, and proceed");
+      cin >> subrace;
+      subrace = Correctness(subrace, 1, 10);
+      int a = 0, b = 0, c = 0;
+      Size_Set(a,b,c,race,subrace,subrace);
+      elf[elf_count].Create(subrace, a, b, c);
+      race_of_character = &elf[elf_count];
+      elf_count++;
 
     } else if (race == 4) {
+      printf("%s \n", "Choose your subrace. What it will be?");
+      printf("%s \n", "1. \n"
+                      "2. \n"
+                      "3. \n"
+                      "4. \n"
+                      "5. \n"
+                      "6. \n"
+                      "7. \n"
+                      "8. \n"
+                      "9. \n"
+                      "10. \n"
+                      "Type number, and proceed");
+      cin >> subrace;
+      subrace = Correctness(subrace, 1, 10);
+      int a = 0, b = 0, c = 0;
+      Size_Set(a,b,c,race,subrace,subrace);
+      gnome[gnome_count].Create(subrace, a, b, c);
+      race_of_character = &gnome[gnome_count];
+      gnome_count++;
 
     } else if (race == 5) {
+      int a = 0, b = 0, c = 0;
+      Size_Set(a,b,c,race,subrace,subrace);
+      goblin[goblin_count].Create(subrace, a, b, c);
+      race_of_character = &goblin[goblin_count];
+      goblin_count++;
 
     } else if (race == 6) {
+      printf("%s \n", "Choose your subrace. What it will be?");
+      printf("%s \n", "1. \n"
+                      "2. \n"
+                      "3. \n"
+                      "4. \n"
+                      "5. \n"
+                      "Type number, and proceed");
+      cin >> subrace;
+      subrace = Correctness(subrace, 1, 10);
+      int a = 0, b = 0, c = 0;
+      Size_Set(a,b,c,race,subrace,subrace);
+      half_elf[half_elf_count].Create(subrace, a, b, c);
+      race_of_character = &half_elf[half_elf_count];
+      half_elf_count++;
 
     } else if (race == 7) {
+      printf("%s \n", "Choose your subrace. What it will be?");
+      printf("%s \n", "1. \n"
+                      "2. \n"
+                      "Type number, and proceed");
+      cin >> subrace;
+      subrace = Correctness(subrace, 1, 10);
+      int a = 0, b = 0, c = 0;
+      Size_Set(a,b,c,race,subrace,subrace);
+      half_orc[half_orc_count].Create(subrace, a, b, c);
+      race_of_character = &half_orc[half_orc_count];
+      half_orc_count++;
 
     } else if (race == 8) {
+      printf("%s \n", "Choose your subrace. What it will be?");
+      printf("%s \n", "1. \n"
+                      "2. \n"
+                      "3. \n"
+                      "Type number, and proceed");
+      cin >> subrace;
+      subrace = Correctness(subrace, 1, 10);
+      int a = 0, b = 0, c = 0;
+      Size_Set(a,b,c,race,subrace,subrace);
+      halfling[halfling_count].Create(subrace, a, b, c);
+      race_of_character = &halfling[halfling_count];
+      halfling_count++;
 
     } else if (race == 9) {
+      printf("%s \n", "Choose your subrace. What it will be?");
+      printf("%s \n", "1. \n"
+                      "2. \n"
+                      "Type number, and proceed");
+      cin >> subrace;
+      subrace = Correctness(subrace, 1, 10);
+      int a = 0, b = 0, c = 0;
+      Size_Set(a,b,c,race,subrace,subrace);
+      human[human_count].Create(subrace, a, b, c);
+      race_of_character = &human[human_count];
+      human_count++;
 
     } else if (race == 10) {
+      int a = 0, b = 0, c = 0;
+      Size_Set(a,b,c,race,subrace,subrace);
+      lizardfolk[lizardfolk_count].Create(subrace, a, b, c);
+      race_of_character = &lizardfolk[lizardfolk_count];
+      lizardfolk_count++;
 
     } else if (race == 11) {
-
+      printf("%s \n", "Choose your subrace. What it will be?");
+      printf("%s \n", "1. \n"
+                      "2. \n"
+                      "3. \n"
+                      "4. \n"
+                      "5. \n"
+                      "6. \n"
+                      "7. \n"
+                      "8. \n"
+                      "9. \n"
+                      "10. \n"
+                      "11. \n"
+                      "Type number, and proceed");
+      cin >> subrace;
+      subrace = Correctness(subrace, 1, 10);
+      int a = 0, b = 0, c = 0;
+      Size_Set(a,b,c,race,subrace,subrace);
+      tiefling[tiefling_count].Create(subrace, a, b, c);
+      race_of_character = &tiefling[tiefling_count];
+      tiefling_count++;
     }
   }
 
