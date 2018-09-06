@@ -1,16 +1,22 @@
 
-#include "interface_races_classes_background.h"
+#include "Interface_races_classes_background.h"
 #include <iostream>
+#include <string>
 #include "Skills_and_Spells.cpp"
 #include "UsefulFunctions.cpp"
 
 //
 class Race {
  private:
-  int type;
  protected:
+  int type;
   int height, weight, age;
   int Str, Dex, Con, Int, Wis, Cha;
+  int Movement;
+  int Size; // 0 - small,1 - medium, etc.
+  int Darkvision;
+  int damage_resistance;
+
   Spell spell;
   std::string raceFeatures;
   Existing_Types E;
@@ -27,6 +33,10 @@ class Race {
     height = 0;
     weight = 0;
     age = 0;
+    Movement = 0;
+    Size = 0;
+    Darkvision = 0;
+    damage_resistance = 0;
   }
 
   ~Race() = default;
@@ -110,39 +120,54 @@ class Dragonborn : public Race {
   void subRaceFeatures() {
     Str +=2;
     Cha +=1;
+    Movement = 30;
+    Size = 1;
+    Darkvision = 0;
+    damage_resistance = 1;
     if(subtype == 0){
-      raceFeatures = "30,Medium,No,Acid,fits,Acid,Draconic";
+      damage_resistance = 1;
+      raceFeatures = "fits,Acid,Draconic";
     }
     else if(subtype == 1){
-      raceFeatures = "30,Medium,No,Lightning,fits,Lightning,Draconic";
+      damage_resistance = 2;
+      raceFeatures = "fits,Lightning,Draconic";
     }
     else if(subtype == 2){
-      raceFeatures = "30,Medium,No,Fire,fits,Fire,Draconic";
+      damage_resistance = 3;
+      raceFeatures = "Fire,fits,Fire,Draconic";
     }
     else if(subtype == 3){
-      raceFeatures = "30,Medium,No,Lightning,fits,Lightning,Draconic";
+      damage_resistance = 2;
+      raceFeatures = "fits,Lightning,Draconic";
     }
     else if(subtype == 4){
-      raceFeatures = "30,Medium,No,Acid,fits,Acid,Draconic";
+      damage_resistance = 1;
+      raceFeatures = "fits,Acid,Draconic";
     }
     else if(subtype == 5){
-      raceFeatures = "30,Medium,No,Fire,fits,Fire,Draconic";
+      damage_resistance = 3;
+      raceFeatures = "fits,Fire,Draconic";
     }
     else if(subtype == 6){
-      raceFeatures = "30,Medium,No,Poison,fits,Poison,Draconic";
+      damage_resistance = 5;
+      raceFeatures = "fits,Poison,Draconic";
     }
     else if(subtype == 7){
-      raceFeatures = "30,Medium,No,Fire,fits,Fire,Draconic";
+      damage_resistance = 3;
+      raceFeatures = "fits,Fire,Draconic";
     }
     else if(subtype == 8){
-      raceFeatures = "30,Medium,No,Cold,fits,Cold,Draconic";
+      damage_resistance = 4;
+      raceFeatures = "fits,Cold,Draconic";
     }
     else if(subtype == 9){
-      raceFeatures = "30,Medium,No,Cold,fits,Cold,Draconic";
+      damage_resistance = 4;
+      raceFeatures = "fits,Cold,Draconic";
     }
   }
 
   void Create(int sub_type,int a, int b, int c){
+    type = 1;
     subtype = sub_type;
     height = a;
     weight = b;
@@ -161,24 +186,29 @@ class Dwarf  : public Race {
   }
   ~Dwarf() = default;
   void subRaceFeatures() {
+    Movement = 25;
+    Size = 1;
+    Darkvision = 120;
+    damage_resistance = 5;
     if(subtype == 0){
       Str += 1;
       Con += 2;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "25,Medium,Darkvision,skill like firebreath,fits,Languages";
     }
     else if(subtype == 1){
       Con += 2;
       Wis += 1;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "25,Medium,Darkvision,skill like firebreath,fits,Languages";
     }
     else if(subtype == 2){
       Str +=2; Con +=2;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "25,Medium,Darkvision,skill like firebreath,fits,Languages";
     }
   }
 
   void Create(int sub_type,int a, int b, int c){
     subtype = sub_type;
+    type = 2;
     height = a;
     weight = b;
     age = c;
@@ -196,37 +226,42 @@ class Elf  : public Race {
   }
   ~Elf() = default;
   void subRaceFeatures() {
+    Movement = 30;
+    Size = 1;
+    Darkvision = 120;
+    damage_resistance = 0;
     if(subtype == 0){
       Dex += 2; Cha += 1;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 1){
       Dex += 2; Int += 1;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 2){
       Dex += 2; Cha += 1;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 3){
       Dex += 2; Int += 1;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 4){
       Dex += 2; Con += 1;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 5){
       Dex += 2; Con += 1;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 6){
       Dex += 2; Wis += 1;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
   }
 
   void Create(int sub_type,int a, int b, int c){
+    type = 3;
     subtype = sub_type;
     height = a;
     weight = b;
@@ -244,21 +279,26 @@ class Gnome  : public Race {
   }
   ~Gnome() = default;
   void subRaceFeatures() {
+    Movement = 25;
+    Size = 1;
+    Darkvision = 120;
+    damage_resistance = 0;
     if(subtype == 0){
       Dex += 1; Int += 2;
-      raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,Languages";
     }
     else if(subtype == 1){
       Dex += 1; Int += 2;
-      raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,Languages";
     }
     else if(subtype == 2){
       Con += 1; Int += 2;
-      raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,Languages";
     }
   }
 
   void Create(int sub_type,int a, int b, int c){
+    type = 4;
     subtype = sub_type;
     height = a;
     weight = b;
@@ -277,11 +317,16 @@ class Goblin : public Race {
   }
   ~Goblin() = default;
   void subRaceFeatures() {
+    Movement = 30;
+    Size = 1;
+    Darkvision = 60;
+    damage_resistance = 0;
     Dex += 2; Con += 1;
-    raceFeatures = "30,Small,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+    raceFeatures = "30,Small,Darkvision,skill like firebreath,fits,Languages";
   }
 
   void Create(int sub_type,int a, int b, int c){
+    type = 5;
     subtype = sub_type;
     height = a;
     weight = b;
@@ -300,6 +345,10 @@ class Half_Elf : public Race {
   }
   ~Half_Elf() = default;
   void subRaceFeatures() {
+    Movement = 30;
+    Size = 2;
+    Darkvision = 60;
+    damage_resistance = 0;
     Cha += 2;
     int a,b;
     printf("%s \n", "type two most wanted abilities to improve except Charisma (1 - 5)");
@@ -309,19 +358,19 @@ class Half_Elf : public Race {
     E.race_ability_bonus[a - 1][15 + subtype] += 1;
     E.race_ability_bonus[b - 1][15 + subtype] += 1;
     if(subtype == 0){
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 1){
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 2){
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 3){
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 4){
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     RaceAbilityBonus();
     E.race_ability_bonus[a - 1][15 + subtype] -= 1;
@@ -329,6 +378,7 @@ class Half_Elf : public Race {
   }
 
   void Create(int sub_type,int a, int b, int c){
+    type = 6;
     subtype = sub_type;
     height = a;
     weight = b;
@@ -347,17 +397,22 @@ class Half_Orc : public Race {
   }
   ~Half_Orc() = default;
   void subRaceFeatures() {
+    Movement = 30;
+    Size = 2;
+    Darkvision = 60;
+    damage_resistance = 0;
     if(subtype == 0){
       Str += 2; Con += 1;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 1){
       Str += 2; Con += 1; Int -=2;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
   }
 
   void Create(int sub_type,int a, int b, int c){
+    type = 7;
     subtype = sub_type;
     height = a;
     weight = b;
@@ -376,22 +431,27 @@ class Halfling : public Race {
   }
   ~Halfling() = default;
   void subRaceFeatures() {
+    Movement = 25;
+    Size = 1;
+    Darkvision = 0;
+    damage_resistance = 0;
     Dex += 2;
     if(subtype == 0){
       Wis += 1;
-      raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,Languages";
     }
     else if(subtype == 1){
       Cha += 1;
-      raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,Languages";
     }
     else if(subtype == 2){
       Con += 1;
-      raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,Languages";
     }
   }
 
   void Create(int sub_type,int a, int b, int c){
+    type = 8;
     subtype = sub_type;
     height = a;
     weight = b;
@@ -410,9 +470,13 @@ class Human : public Race {
   }
   ~Human() = default;
   void subRaceFeatures() {
+    Movement = 30;
+    Size = 2;
+    Darkvision = 0;
+    damage_resistance = 0;
     if(subtype == 0){
       Str += 1; Dex += 1; Con += 1; Int += 1; Wis += 1; Cha += 1;
-      raceFeatures = "30,Medium,No,skill like firebreath,No,type of damage resistance,Languages";
+      raceFeatures = "30,Medium,No,skill like firebreath,No,Languages";
     }
     else if(subtype == 1){
       int a,b;
@@ -422,7 +486,7 @@ class Human : public Race {
       b = Correctness(b, 1, 6);
       E.race_ability_bonus[a - 1][24 +subtype] += 1;
       E.race_ability_bonus[b - 1][24 +subtype] += 1;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
       RaceAbilityBonus();
       E.race_ability_bonus[a - 1][24 +subtype] -= 1;
       E.race_ability_bonus[b - 1][24 +subtype] -= 1;
@@ -430,6 +494,7 @@ class Human : public Race {
   }
 
   void Create(int sub_type,int a, int b, int c){
+    type = 9;
     subtype = sub_type;
     height = a;
     weight = b;
@@ -447,11 +512,21 @@ class Lizardfolk : public Race {
   }
   ~Lizardfolk() = default;
   void subRaceFeatures() {
+    printf("You gain proficiency with two of the following skills of your choice: Animal Handling(2), Nature(11), Perception(12), Stealth(17), and Survival(18).\n");
+    int a,b;
+    std::cin >> a >> b;
+    a = Correctness(a,2,18);
+    b = Correctness(b,2,18);
+    Movement = 30;
+    Size = 2;
+    Darkvision = 0;
+    damage_resistance = 0;
     Con += 2; Wis += 1;
-    raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+    raceFeatures = "fits,Languages,s[" + std::to_string(a) + "],s[" + std::to_string(b) + "]";
   }
 
   void Create(int sub_type,int a, int b, int c){
+    type = 10;
     subtype = sub_type;
     height = a;
     weight = b;
@@ -470,41 +545,45 @@ class Tiefling : public Race {
   }
   ~Tiefling() = default;
   void subRaceFeatures() {
+    Movement = 30;
+    Size = 2;
+    Darkvision = 60;
+    damage_resistance = 3;
     if(subtype == 0){
       Int += 1; Cha += 2;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 1){
       Int += 1; Cha += 2;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 2){
       Int += 1; Cha += 2;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 3){
       Dex += 1; Cha += 2;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 4){
       Wis += 1; Cha += 2;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 5){
       Dex += 1; Cha += 2;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 6){
       Con += 1; Cha += 2;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 7){
       Int += 1; Cha += 2;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 8){
       Int += 1; Cha += 2;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
     else if(subtype == 9){
       Int += 1;
@@ -516,17 +595,18 @@ class Tiefling : public Race {
         std::cin >> a;
       }
       E.race_ability_bonus[a - 1][28 + subtype] += 1;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
       RaceAbilityBonus();
       E.race_ability_bonus[a - 1][28 + subtype] -= 1;
     }
     else if(subtype == 10){
       Str += 1; Cha += 2;
-      raceFeatures = "30,Medium,Darkvision,skill like firebreath,fits,type of damage resistance,Languages";
+      raceFeatures = "fits,Languages";
     }
   }
 
   void Create(int sub_type,int a, int b, int c){
+    type = 11;
     subtype = sub_type;
     height = a;
     weight = b;
