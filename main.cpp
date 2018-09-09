@@ -12,11 +12,13 @@
 #include "Interface_races_classes_background.h"
 #include "character.cpp"
 #include "Race_Class_Background.cpp"
+#include "Item_usage.cpp"
 
 using namespace std;
 
 int main() {
-  setlocale(LC_ALL, "rus");
+  Item_usage();
+  //setlocale(LC_ALL, "rus");
   printf("%s", "Dungeons and Dragons game (PC) starts here");
 
   return 0;
@@ -27,8 +29,8 @@ int main() {
  * 3. world ( and its randomness )
  * 4. std::map can return pointer of function
  * 5. batle field, turn,
- * 6. карта
- * 7. умное поведение мобов в бою
- * 8. в процесе...
- * 9. в процесе...
+ * 6. map
+ * 7. clever enemies
+ * 8. coming
+ * 9. coming...
  */

@@ -24,7 +24,7 @@ class Spell {
   ~Spell() {}
 
   bool doYouKnowIt(int a) {
-    if (a < 0 || a > 50) return -1;
+    if (a < 0 || a > 50) return false;
     if (knowledge[a]) return true;
     else return false;
   }

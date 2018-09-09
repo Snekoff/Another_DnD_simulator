@@ -2,9 +2,9 @@
 #include <iostream>
 #include <random>
 
-struct Existing_Types{
-  int minHeight[11] = {6, 4, 6, 3, 3, 5, 5, 3, 5, 5, 5, };
-  int maxHeight[11] = {6, 5, 6, 4, 4, 6, 6, 3, 6, 6, 6, };
+struct Existing_Types {
+  int minHeight[11] = {6, 4, 6, 3, 3, 5, 5, 3, 5, 5, 5 };
+  int maxHeight[11] = {6, 5, 6, 4, 4, 6, 6, 3, 6, 6, 6 };
   int minWeight[11] = {10};
   int maxWeight[11] = {140};
   int minAge[11] = {3};
