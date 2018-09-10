@@ -1,12 +1,5 @@
-//
-// Created by Oleg on 09.09.2018.
-//
-#include <iostream>
-#include <map>
-#include <memory>
-#include <string>
-#include <vector>
-#include "Item.cpp"
+
+
 #include "Items_Factory.h"
 
 //typedef std::pair<std::string, Item *> MyPair;
@@ -27,16 +20,15 @@ enum Item_name{
 int Item_usage() {
   std::map<std::string, Item *> myMapDude;
   std::vector<Item *> v;
-  Items_Factory<Item,Ranged_Weapon> Item_Factory;
-  v.push_back(new Weapon(new std::string("Shortsword"),1,1,6,0));
-  v.push_back(new Weapon(new std::string("Longsword"),1,1,8,0));
-  v.push_back(new Armor(new std::string("Leatherarmor"),0,1,10,0,false));
+  Items_Factory<Ranged_Weapon> Item_Factory_Ranged_Weapon;
+  v.push_back(new Armor(new std::string("Leatherarmor")));
   v.push_back(new Ammo(new std::string("Arrows"),1,0,0));
   v.push_back(new Ammo(new std::string("Arrows"),11,0,0));
-  Item p = Item_Factory.create(new std::string("Crossbow_hand"));
-  v.push_back(&p);
+  v.push_back(new Ranged_Weapon(new std::string("Longbow")));
+  v.push_back(Item_Factory_Ranged_Weapon.create(new std::string("Sling")));
+  v.push_back(new Weapon(new std::string("Club")));
 
-  for(int i = 0; i < v.size();i++){
+  for(int i = 0; i <= v.size();i++){
     printf("%d %s " , i, " name:");
     std::cout << v[i]->show() << std::endl;
     auto iter = myMapDude.find(v[i]->get_name());

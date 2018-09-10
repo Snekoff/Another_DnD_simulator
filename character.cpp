@@ -1,12 +1,12 @@
-#pragma once
+
 
 #include <iostream>
 #include <string>
 #include <utility>
-#include "Interface_races_classes_background.h"
+#include <math.h>
 #include "Race_Class_Background.cpp"
-#include "UsefulFunctions.cpp"
-#include "Inventory.cpp"
+#include "UsefulFunctions.h"
+//#include "Item.h"
 
 using namespace std;
 
@@ -60,7 +60,7 @@ class Character {
   bool perception_advantage;
   bool perception_disadvantage;
   Skills skill;
-  Item item;
+  //Item item;
   string inventory;
   Existing_Types E;
  public:
@@ -222,19 +222,19 @@ class Character {
              " level, that means that you have to choose whether improve one ability +2(type 1) or two abilities +1(type 2)");
       int one_or_two_abilities = -1;//abilityLevel_Up
       cin >> one_or_two_abilities;
-      one_or_two_abilities = Correctness(one_or_two_abilities, 1, 2);
+      one_or_two_abilities = Correctness_of_input(one_or_two_abilities, 1, 2);
       if (one_or_two_abilities == 1) {
         printf("%s \n", "What ability do you want to improve +2 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6)");
         cin >> one_or_two_abilities;
-        one_or_two_abilities = Correctness(one_or_two_abilities, 1, 6);
+        one_or_two_abilities = Correctness_of_input(one_or_two_abilities, 1, 6);
         Set(one_or_two_abilities + 2, 2);
       } else {
         printf("%s \n",
                "What abilities do you want to improve +1 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6) *Type 2 spaced numbers*");
         int one_or_two_abilities1 = 0;
         cin >> one_or_two_abilities >> one_or_two_abilities1;
-        one_or_two_abilities = Correctness(one_or_two_abilities, 1, 6);
-        one_or_two_abilities1 = Correctness(one_or_two_abilities1, 1, 6);
+        one_or_two_abilities = Correctness_of_input(one_or_two_abilities, 1, 6);
+        one_or_two_abilities1 = Correctness_of_input(one_or_two_abilities1, 1, 6);
         Set(one_or_two_abilities + 2, 1);
         Set(one_or_two_abilities1 + 2, 1);
       }
@@ -257,7 +257,7 @@ class Character {
                     "Type number, and proceed");
     int race = 9;
     std::cin >> race;
-    race = Correctness(race, 1, 11);
+    race = Correctness_of_input(race, 1, 11);
     int subrace = 0;
     if (race == 1) {
       printf("%s \n", "Choose your subrace. What it will be?");
@@ -273,7 +273,7 @@ class Character {
                       "10. White (Cold) 15ft. cone\n"
                       "Type number, and proceed");
       cin >> subrace;
-      subrace = Correctness(subrace, 1, 10);
+      subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       dragonborn[dragonborn_count].Create(subrace, a, b, c);
@@ -286,7 +286,7 @@ class Character {
                       "3. Mountain\n"
                       "Type number, and proceed");
       cin >> subrace;
-      subrace = Correctness(subrace, 1, 3);
+      subrace = Correctness_of_input(subrace, 1, 3);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       dwarf[dwarf_count].Create(subrace, a, b, c);
@@ -307,7 +307,7 @@ class Character {
                       "10. \n"
                       "Type number, and proceed");
       cin >> subrace;
-      subrace = Correctness(subrace, 1, 10);
+      subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       elf[elf_count].Create(subrace, a, b, c);
@@ -328,7 +328,7 @@ class Character {
                       "10. \n"
                       "Type number, and proceed");
       cin >> subrace;
-      subrace = Correctness(subrace, 1, 10);
+      subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       gnome[gnome_count].Create(subrace, a, b, c);
@@ -351,7 +351,7 @@ class Character {
                       "5. \n"
                       "Type number, and proceed");
       cin >> subrace;
-      subrace = Correctness(subrace, 1, 10);
+      subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       half_elf[half_elf_count].Create(subrace, a, b, c);
@@ -364,7 +364,7 @@ class Character {
                       "2. \n"
                       "Type number, and proceed");
       cin >> subrace;
-      subrace = Correctness(subrace, 1, 10);
+      subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       half_orc[half_orc_count].Create(subrace, a, b, c);
@@ -378,7 +378,7 @@ class Character {
                       "3. \n"
                       "Type number, and proceed");
       cin >> subrace;
-      subrace = Correctness(subrace, 1, 10);
+      subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       halfling[halfling_count].Create(subrace, a, b, c);
@@ -391,7 +391,7 @@ class Character {
                       "2. \n"
                       "Type number, and proceed");
       cin >> subrace;
-      subrace = Correctness(subrace, 1, 10);
+      subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       human[human_count].Create(subrace, a, b, c);
@@ -420,7 +420,7 @@ class Character {
                       "11. \n"
                       "Type number, and proceed");
       cin >> subrace;
-      subrace = Correctness(subrace, 1, 10);
+      subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       tiefling[tiefling_count].Create(subrace, a, b, c);
@@ -430,7 +430,7 @@ class Character {
   }
 
   void Set(int a, int b) {// a - what parameter will be changed, b - modifier(can be negative)
-    a = Correctness(a, 0, 14);
+    a = Correctness_of_input(a, 0, 14);
     if (a == 1) { experience += b; }
     else if (a == 2) { health += b; }
     else if (a == 3) { Str += b; }
@@ -448,7 +448,7 @@ class Character {
   }
 
   int Get(int a) {
-    a = Correctness(a, 0, 15);
+    a = Correctness_of_input(a, 0, 15);
     if (a == 1) { return experience; }
     else if (a == 2) { return health; }
     else if (a == 3) { return Str; }
@@ -526,7 +526,7 @@ class Character {
   }
 
   int GetSkill(int a) {
-    a = Correctness(a,0,17);
+    a = Correctness_of_input(a,0,17);
     return skill.s[a];
   }
 };

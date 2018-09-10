@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
-#include "UsefulFunctions.cpp"
+#include "UsefulFunctions.h"
 
 class Spell {
  private:

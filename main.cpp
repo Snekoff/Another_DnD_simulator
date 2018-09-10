@@ -1,5 +1,4 @@
 #define _CRT_SECURE_NO_WARNINGS
-#pragma once
 
 #include <iostream>
 #include <string>
@@ -9,10 +8,10 @@
 #include <malloc.h>
 #include <queue>
 #include <locale>
-#include "Interface_races_classes_background.h"
-#include "character.cpp"
-#include "Race_Class_Background.cpp"
-#include "Item_usage.cpp"
+
+//#include "character.cpp"
+//#include "Race_Class_Background.cpp"
+#include "Inventory(Item)/Item.h"
 
 using namespace std;
 

@@ -1,10 +1,9 @@
-//
-// Created by Oleg on 09.09.2018.
-//
 
-
-#include "Item.h"
+#include <iostream>
+#include <map>
+#include <memory>
 #include <string>
+#include <vector>
 
 const int kWeapon_NUM = 29;
 const int kR_Weapon_NUM = 9;
@@ -13,11 +12,11 @@ const int kArmor_NUM = 13;
 const int kUsable_NUM = 29;
 
 struct Existing_Items{
-  std::string Weapon_s[kWeapon_NUM] = {"Club"," Dagger"," Greatclub"," Handaxe"," Javelin"," Light_hammer",
-                                       " Mace","Quarterstaff","Sickle"," Spear"," Unarmed_strike","Battleaxe"," Flail"," Glaive",
-                                       " Greataxe"," Greatsword"," Halberd"," Lance"," Longsword"," Maul",
-                                       " Morningstar","Pike"," Rapier"," Scimitar"," Shortsword"," Trident",
-                                       " War_pick"," Warhammer"," Whip"};
+  std::string Weapon_s[kWeapon_NUM] = {"Club","Dagger","Greatclub","Handaxe","Javelin","Light_hammer",
+                                       "Mace","Quarterstaff","Sickle","Spear","Unarmed_strike","Battleaxe","Flail","Glaive",
+                                       "Greataxe","Greatsword","Halberd","Lance","Longsword","Maul",
+                                       "Morningstar","Pike","Rapier","Scimitar","Shortsword","Trident",
+                                       "War_pick","Warhammer","Whip"};
   int Weapon_i[kWeapon_NUM][5] = {{10, 1, 4, 2, 0}, {200, 1, 4, 2, 0}, {20, 1, 8, 10, 0}, {500, 1, 6, 2, 0}, {50, 1, 6, 2, 0},
                                   {200, 1, 4, 2, 0}, {500, 1, 6, 4, 0}, {20, 1, 6, 4, 0}, {100, 1, 4, 2, 0}, {100, 1, 6, 3, 0},
                                   {0, 1, 1, 0, 0}, {1000, 1, 8, 4, 0}, {1000, 1, 8, 2, 0}, {2000, 1, 10, 6, 0},
@@ -26,8 +25,8 @@ struct Existing_Items{
                                   {2500, 1, 8, 2, 0}, {2500, 1, 6, 3, 0}, {1000, 1, 6, 2, 0}, {500, 1, 6, 4, 0},
                                   {500, 1, 8, 2, 0}, {1500, 1, 8, 2, 0}, {200, 1, 4, 3, 0}};
   //cost(copper), num_of_dices, damage_dice, weight, type_of_elemental_damage
-  std::string Ranged_Weapon_s[kR_Weapon_NUM] = {"Crossbow_light"," Dart"," Shortbow"," Sling","Blowgun",
-                                                " Crossbow_hand"," Crossbow_heavy"," Longbow"," Net"};
+  std::string Ranged_Weapon_s[kR_Weapon_NUM] = {"Crossbow_light","Dart","Shortbow","Sling","Blowgun",
+                                                "Crossbow_hand","Crossbow_heavy","Longbow","Net"};
   int Ranged_Weapon_i[kR_Weapon_NUM][7] = {{2500,1,8,5,0,80,320},{5,1,4,0,0,20,60},{2500,1,6,2,0,80,320},{10,1,4,0,0,30,120},
                                            {1000,1,1,1,0,25,100},{7500,1,6,3,0,30,120},{5000,1,10,18,0,100,400},{5000,1,8,2,0,150,600},
                                            {100,0,0,3,0,5,15}};
@@ -45,6 +44,31 @@ struct Existing_Items{
   //Cost , Type , Armor_Class , Strength_needed , stealth_disadvantage, weight
   std::string Usable_s[kUsable_NUM] = {};
   int Usable_i[kUsable_NUM] = {};
+};
+
+class Item {
+ protected:
+  std::string *name;
+  int count;
+  bool stackable;
+  int cost;
+  int weight;
+ public:
+  Item() : name(name) {
+    //name = nullptr;
+    count = 0;
+    stackable = false;
+    cost = 0;
+    weight = 0;
+  }
+  ~Item() = default;
+
+  virtual std::string get_name() {
+    return *name;
+  };
+  virtual int show() { return count; };
+  virtual int get_count() { return count; };
+  virtual void set_count(int a) { count +=a;};
 };
 
 class Weapon : public Item {
@@ -85,8 +109,8 @@ class Weapon : public Item {
   }
   int show() {
     std::cout << *name << std::endl;
-    std::cout << "Damage " << num_of_dices << "d" << damage_dice <<
-              " element:" << elements[type_of_elemental_damage] << std::endl;
+    std::cout << "Damage "<< num_of_dices << "d"<< damage_dice <<
+              " element:"<< elements[type_of_elemental_damage] << std::endl;
     return damage_dice;
   }
 };
@@ -96,6 +120,7 @@ class Ranged_Weapon : public Weapon {
   int aiming_range;
   int max_range;
  public:
+  Ranged_Weapon() = default;
   Ranged_Weapon(std::string *name_) {
     Existing_Items E;
     int count_ = 1, num_of_dices_ = 0, damage_dice_ = 0, type_of_elemental_damage_ = 0;
@@ -115,11 +140,13 @@ class Ranged_Weapon : public Weapon {
     }
     set(name_, count_, num_of_dices_, damage_dice_, type_of_elemental_damage_, aiming_range_, max_range_);
   }
-  Ranged_Weapon(std::string *name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_,int aiming_range_, int max_range_){
+  Ranged_Weapon(std::string *name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_,
+      int aiming_range_, int max_range_){
     set(name_, count_, num_of_dices_, damage_dice_, type_of_elemental_damage_, aiming_range_, max_range_);
   }
   ~Ranged_Weapon() = default;
-  void set(std::string *name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_,int aiming_range_, int max_range_) {
+  void set(std::string *name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_,
+      int aiming_range_, int max_range_) {
     name = name_;
     count = count_;
     stackable = false;
@@ -132,8 +159,8 @@ class Ranged_Weapon : public Weapon {
 
   int show(){
     std::cout << *name << std::endl;
-    std::cout << "Damage " << num_of_dices << "d" << damage_dice <<
-              " element:" << elements[type_of_elemental_damage] << std::endl;
+    std::cout << "Damage "<< num_of_dices << "d"<< damage_dice <<
+              " element:"<< elements[type_of_elemental_damage] << std::endl;
     return damage_dice;
   }
 };
@@ -196,7 +223,7 @@ class Armor : public Item {
   }
   int show() {
     std::cout << *name << std::endl;
-    printf(" %s %d %s %d \n", " Armor Class:", armor_class, " stealth disadvantage:", stealth_disadvantage);
+    printf("%s %d %s %d \n", "Armor Class:", armor_class, "stealth disadvantage:", stealth_disadvantage);
     return armor_class;
   }
 };
@@ -242,3 +269,4 @@ class Ammo : public Usables {
   }
 
 };
+

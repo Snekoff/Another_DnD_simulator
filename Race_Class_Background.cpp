@@ -1,9 +1,8 @@
 
-#include "Interface_races_classes_background.h"
 #include <iostream>
 #include <string>
 #include "Skills_and_Spells.cpp"
-#include "UsefulFunctions.cpp"
+#include "UsefulFunctions.h"
 
 //
 class Race {
@@ -70,8 +69,8 @@ class Race {
     } else if (type == 25) {
       printf("%s \n", "type two most wanted abilities to improve (1 - 6)");
       std::cin >> a >> b;
-      a = Correctness(a, 1, 6);
-      b = Correctness(b, 1, 6);
+      a = Correctness_of_input(a, 1, 6);
+      b = Correctness_of_input(b, 1, 6);
       E.race_ability_bonus[a - 1][type] += 1;
       E.race_ability_bonus[b - 1][type] += 1;
     } else if (type == 37) {
@@ -85,13 +84,13 @@ class Race {
     } else {
       printf("%s \n", "type two most wanted abilities to improve (1 - 6)");
       std::cin >> a >> b;
-      a = Correctness(a, 1, 6);
-      b = Correctness(b, 1, 6);
+      a = Correctness_of_input(a, 1, 6);
+      b = Correctness_of_input(b, 1, 6);
       while (a - 1 == 5 || b - 1 == 5) {
         printf("%s \n", "Your charisma is already raised, choose another one");
         std::cin >> a >> b;
-        a = Correctness(a, 1, 6);
-        b = Correctness(b, 1, 6);
+        a = Correctness_of_input(a, 1, 6);
+        b = Correctness_of_input(b, 1, 6);
       }
       E.race_ability_bonus[a - 1][type] += 1;
       E.race_ability_bonus[b - 1][type] += 1;
@@ -353,8 +352,8 @@ class Half_Elf : public Race {
     int a,b;
     printf("%s \n", "type two most wanted abilities to improve except Charisma (1 - 5)");
     std::cin >> a >> b;
-    a = Correctness(a, 1, 5);
-    b = Correctness(b, 1, 5);
+    a = Correctness_of_input(a, 1, 5);
+    b = Correctness_of_input(b, 1, 5);
     E.race_ability_bonus[a - 1][15 + subtype] += 1;
     E.race_ability_bonus[b - 1][15 + subtype] += 1;
     if(subtype == 0){
@@ -482,8 +481,8 @@ class Human : public Race {
       int a,b;
       printf("%s \n", "type two most wanted abilities to improve (1 - 6)");
       std::cin >> a >> b;
-      a = Correctness(a, 1, 6);
-      b = Correctness(b, 1, 6);
+      a = Correctness_of_input(a, 1, 6);
+      b = Correctness_of_input(b, 1, 6);
       E.race_ability_bonus[a - 1][24 +subtype] += 1;
       E.race_ability_bonus[b - 1][24 +subtype] += 1;
       raceFeatures = "fits,Languages";
@@ -515,8 +514,8 @@ class Lizardfolk : public Race {
     printf("You gain proficiency with two of the following skills of your choice: Animal Handling(2), Nature(11), Perception(12), Stealth(17), and Survival(18).\n");
     int a,b;
     std::cin >> a >> b;
-    a = Correctness(a,2,18);
-    b = Correctness(b,2,18);
+    a = Correctness_of_input(a,2,18);
+    b = Correctness_of_input(b,2,18);
     Movement = 30;
     Size = 2;
     Darkvision = 0;

@@ -22,7 +22,7 @@ struct Existing_Types {
   int experience_per_level[10] = {0,300,900,2700,6500,14000,23000,34000,48000,64000};
 }; //
 
-int Correctness(int a, int lowerlimit, int higherlimit) {
+int Correctness_of_input(int a, int lowerlimit, int higherlimit) {
   if(higherlimit == lowerlimit - 2){
     while(a > lowerlimit){
       printf("%s \n", "Incorrect input.");
@@ -55,7 +55,7 @@ int Health_Level_Up(int health_dice, int ConModifier, int maxhealth){
   printf("%s \n",
          "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
   int roll_or_middle = 0;
-  roll_or_middle = Correctness(roll_or_middle,1,2);
+  roll_or_middle = Correctness_of_input(roll_or_middle,1,2);
   if (roll_or_middle == 1) {
     int tHP = Random_Generator(1,health_dice);
     printf("%s %d \n", "Rolled health + Constitution modifier:", tHP + ConModifier);
