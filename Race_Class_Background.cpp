@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include <string>
-#include "Skills_and_Spells.cpp"
+#include "Skills_and_Spells.h"
 #include "UsefulFunctions.h"
 
 //
@@ -40,14 +40,14 @@ class Race {
 
   ~Race() = default;
 
-  virtual void set(int a) {
+  void set(int a) {
     type = a;
     height = Random_Generator(E.minHeight[type],E.maxHeight[type]);
     weight = Random_Generator(E.minWeight[type],E.maxWeight[type]);
     age = Random_Generator(E.minAge[type],E.maxAge[type]);
   }
 
-  virtual void set(int a, int b, int c, int d) {
+  void set(int a, int b, int c, int d) {
     type = a;
     height = b;
     weight = c;
@@ -56,7 +56,16 @@ class Race {
     RaceAbilityBonus();
   }
 
-  virtual int get() {
+  void Create(int sub_type,int a, int b, int c){
+    type = sub_type;
+    //subtype = sub_type;
+    height = a;
+    weight = b;
+    age = c;
+    //subRaceFeatures();
+  }
+
+  int get() {
     return -1;
   }
 

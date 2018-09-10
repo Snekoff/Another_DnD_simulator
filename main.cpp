@@ -9,8 +9,7 @@
 #include <queue>
 #include <locale>
 
-//#include "character.cpp"
-//#include "Race_Class_Background.cpp"
+#include "character.h"
 #include "Inventory(Item)/Item.h"
 
 using namespace std;
@@ -23,7 +22,7 @@ int main() {
   return 0;
 }
 /*
- * 1. персонажи (characters, weapons, spells etc.)
+ * 1. characters, weapons, spells etc.
  * 2. mobs, animals , all races.
  * 3. world ( and its randomness )
  * 4. std::map can return pointer of function

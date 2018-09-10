@@ -2,9 +2,10 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include <utility>
 #include <math.h>
-#include "Race_Class_Background.cpp"
+#include "Race_Class_Background.h"
 #include "UsefulFunctions.h"
 //#include "Item.h"
 
@@ -17,31 +18,7 @@ nature 10,perception 11,performance 12,persuasion 13,religion 14,
 sleightOfHand 15,stealth 16,survival 17*/
 };
 
-const int kPLAYER_COUNT = 10;
-int dragonborn_count = 0;
-int dwarf_count = 0;
-int elf_count = 0;
-int gnome_count = 0;
-int goblin_count = 0;
-int half_elf_count = 0;
-int half_orc_count = 0;
-int halfling_count = 0;
-int human_count = 0;
-int lizardfolk_count = 0;
-int tiefling_count = 0;
-
-auto *dragonborn = new Dragonborn[kPLAYER_COUNT]();
-auto *dwarf = new Dwarf [kPLAYER_COUNT]();
-auto *elf = new Elf [kPLAYER_COUNT]();
-auto *gnome = new Gnome [kPLAYER_COUNT]();
-auto *goblin = new Goblin[kPLAYER_COUNT]();
-auto *half_elf = new Half_Elf[kPLAYER_COUNT]();
-auto *half_orc = new Half_Orc[kPLAYER_COUNT]();
-auto *halfling = new Halfling [kPLAYER_COUNT]();
-auto *human = new Human [kPLAYER_COUNT]();
-auto *lizardfolk = new Lizardfolk [kPLAYER_COUNT]();
-auto *tiefling = new Tiefling [kPLAYER_COUNT]();
-
+vector<Race*> multirace;
 
 class Character {
  private:
@@ -276,9 +253,9 @@ class Character {
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
-      dragonborn[dragonborn_count].Create(subrace, a, b, c);
-      race_of_character = &dragonborn[dragonborn_count];
-      dragonborn_count++;
+      multirace.push_back(new Dragonborn());
+      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      race_of_character = multirace[multirace.size() - 1];
     } else if (race == 2) {
       printf("%s \n", "Choose your subrace. What it will be?");
       printf("%s \n", "1. Duergar\n"
@@ -289,9 +266,9 @@ class Character {
       subrace = Correctness_of_input(subrace, 1, 3);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
-      dwarf[dwarf_count].Create(subrace, a, b, c);
-      race_of_character = &dwarf[dwarf_count];
-      dwarf_count++;
+      multirace.push_back(new Dwarf());
+      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 3) {
       printf("%s \n", "Choose your subrace. What it will be?");
@@ -310,9 +287,9 @@ class Character {
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
-      elf[elf_count].Create(subrace, a, b, c);
-      race_of_character = &elf[elf_count];
-      elf_count++;
+      multirace.push_back(new Elf());
+      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 4) {
       printf("%s \n", "Choose your subrace. What it will be?");
@@ -331,16 +308,16 @@ class Character {
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
-      gnome[gnome_count].Create(subrace, a, b, c);
-      race_of_character = &gnome[gnome_count];
-      gnome_count++;
+      multirace.push_back(new Gnome());
+      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 5) {
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
-      goblin[goblin_count].Create(subrace, a, b, c);
-      race_of_character = &goblin[goblin_count];
-      goblin_count++;
+      multirace.push_back(new Goblin());
+      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 6) {
       printf("%s \n", "Choose your subrace. What it will be?");
@@ -354,9 +331,9 @@ class Character {
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
-      half_elf[half_elf_count].Create(subrace, a, b, c);
-      race_of_character = &half_elf[half_elf_count];
-      half_elf_count++;
+      multirace.push_back(new Half_Elf());
+      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 7) {
       printf("%s \n", "Choose your subrace. What it will be?");
@@ -367,9 +344,9 @@ class Character {
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
-      half_orc[half_orc_count].Create(subrace, a, b, c);
-      race_of_character = &half_orc[half_orc_count];
-      half_orc_count++;
+      multirace.push_back(new Half_Orc());
+      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 8) {
       printf("%s \n", "Choose your subrace. What it will be?");
@@ -381,9 +358,9 @@ class Character {
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
-      halfling[halfling_count].Create(subrace, a, b, c);
-      race_of_character = &halfling[halfling_count];
-      halfling_count++;
+      multirace.push_back(new Halfling());
+      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 9) {
       printf("%s \n", "Choose your subrace. What it will be?");
@@ -394,16 +371,16 @@ class Character {
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
-      human[human_count].Create(subrace, a, b, c);
-      race_of_character = &human[human_count];
-      human_count++;
+      multirace.push_back(new Human());
+      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 10) {
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
-      lizardfolk[lizardfolk_count].Create(subrace, a, b, c);
-      race_of_character = &lizardfolk[lizardfolk_count];
-      lizardfolk_count++;
+      multirace.push_back(new Lizardfolk());
+      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 11) {
       printf("%s \n", "Choose your subrace. What it will be?");
@@ -423,9 +400,9 @@ class Character {
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
-      tiefling[tiefling_count].Create(subrace, a, b, c);
-      race_of_character = &tiefling[tiefling_count];
-      tiefling_count++;
+      multirace.push_back(new Tiefling());
+      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      race_of_character = multirace[multirace.size() - 1];
     }
   }
 
