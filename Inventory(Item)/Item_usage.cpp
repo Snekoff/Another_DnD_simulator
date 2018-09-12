@@ -20,13 +20,19 @@ enum Item_name{
 int Item_usage() {
   std::map<std::string, Item *> myMapDude;
   std::vector<Item *> v;
+  std::string a = "Leatherarmor";
   Items_Factory<Ranged_Weapon> Item_Factory_Ranged_Weapon;
-  v.push_back(new Armor(new std::string("Leatherarmor")));
-  v.push_back(new Ammo(new std::string("Arrows"),1,0,0));
-  v.push_back(new Ammo(new std::string("Arrows"),11,0,0));
-  v.push_back(new Ranged_Weapon(new std::string("Longbow")));
-  v.push_back(Item_Factory_Ranged_Weapon.create(new std::string("Sling")));
-  v.push_back(new Weapon(new std::string("Club")));
+  Items_Factory<Weapon> Item_Factory_Weapon;
+  v.push_back(new Armor(a));
+  a = "Arrows";
+  v.push_back(new Ammo(a,1,0,0));
+  v.push_back(new Ammo(a,11,0,0));
+  a = "Longbow";
+  v.push_back(new Ranged_Weapon(a));
+  a = "Sling";
+  v.push_back(Item_Factory_Ranged_Weapon.create(a));
+  a = "Club";
+  v.push_back(Item_Factory_Weapon.create(a));
 
   for(int i = 0; i <= v.size();i++){
     printf("%d %s " , i, " name:");

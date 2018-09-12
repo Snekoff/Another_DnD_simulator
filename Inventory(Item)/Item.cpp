@@ -48,13 +48,13 @@ struct Existing_Items{
 
 class Item {
  protected:
-  std::string *name;
+  std::string name;
   int count;
   bool stackable;
   int cost;
   int weight;
  public:
-  Item() : name(name) {
+  Item() : name("Rope") { // : name(name) first initialise with reference
     //name = nullptr;
     count = 0;
     stackable = false;
@@ -64,7 +64,7 @@ class Item {
   ~Item() = default;
 
   virtual std::string get_name() {
-    return *name;
+    return name;
   };
   virtual int show() { return count; };
   virtual int get_count() { return count; };
@@ -79,11 +79,11 @@ class Weapon : public Item {
   std::string elements[6] = {"no", "acid", "lightning", "fire", "cold", "poison"};
  public:
   Weapon() = default;
-  Weapon(std::string *name_) {
+  Weapon(std::string &name_) {
     Existing_Items E;
     int count_ = 1, num_of_dices_ = 0, damage_dice_ = 0, type_of_elemental_damage_ = 0;
     for(int i = 0;i < kWeapon_NUM;i++){
-      if(E.Weapon_s[i].compare(*name)){
+      if(E.Weapon_s[i].compare(name_)){
         cost = E.Weapon_i[i][0];
         num_of_dices_ = E.Weapon_i[i][1];
         damage_dice_ = E.Weapon_i[i][2];
@@ -95,11 +95,11 @@ class Weapon : public Item {
     }
     set(name_, count_, num_of_dices_, damage_dice_, type_of_elemental_damage_);
   }
-  Weapon(std::string *name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_){
+  Weapon(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_){
     set(name_, count_, num_of_dices_, damage_dice_, type_of_elemental_damage_);
   }
   ~Weapon() = default;
-  void set(std::string *name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_) {
+  void set(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_) {
     name = name_;
     count = count_;
     stackable = false;
@@ -108,7 +108,7 @@ class Weapon : public Item {
     type_of_elemental_damage = type_of_elemental_damage_;
   }
   int show() {
-    std::cout << *name << std::endl;
+    std::cout << name << std::endl;
     std::cout << "Damage "<< num_of_dices << "d"<< damage_dice <<
               " element:"<< elements[type_of_elemental_damage] << std::endl;
     return damage_dice;
@@ -121,12 +121,12 @@ class Ranged_Weapon : public Weapon {
   int max_range;
  public:
   Ranged_Weapon() = default;
-  Ranged_Weapon(std::string *name_) {
+  Ranged_Weapon(std::string &name_) {
     Existing_Items E;
     int count_ = 1, num_of_dices_ = 0, damage_dice_ = 0, type_of_elemental_damage_ = 0;
     int aiming_range_ = 0,max_range_ = 0;
     for(int i = 0;i < kWeapon_NUM;i++){
-      if(E.Ranged_Weapon_s[i].compare(*name)){
+      if(E.Ranged_Weapon_s[i].compare(name_) == 0){
         cost = E.Ranged_Weapon_i[i][0];
         num_of_dices_ = E.Ranged_Weapon_i[i][1];
         damage_dice_ = E.Ranged_Weapon_i[i][2];
@@ -140,12 +140,12 @@ class Ranged_Weapon : public Weapon {
     }
     set(name_, count_, num_of_dices_, damage_dice_, type_of_elemental_damage_, aiming_range_, max_range_);
   }
-  Ranged_Weapon(std::string *name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_,
+  Ranged_Weapon(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_,
       int aiming_range_, int max_range_){
     set(name_, count_, num_of_dices_, damage_dice_, type_of_elemental_damage_, aiming_range_, max_range_);
   }
   ~Ranged_Weapon() = default;
-  void set(std::string *name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_,
+  void set(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_,
       int aiming_range_, int max_range_) {
     name = name_;
     count = count_;
@@ -158,7 +158,7 @@ class Ranged_Weapon : public Weapon {
   }
 
   int show(){
-    std::cout << *name << std::endl;
+    std::cout << name << std::endl;
     std::cout << "Damage "<< num_of_dices << "d"<< damage_dice <<
               " element:"<< elements[type_of_elemental_damage] << std::endl;
     return damage_dice;
@@ -167,19 +167,19 @@ class Ranged_Weapon : public Weapon {
 
 class Food : public Item {
  public:
-  Food(std::string *name_, int count_) {
+  Food(std::string &name_, int count_) {
     set(name_, count_);
   }
   ~Food() = default;
-  void set(std::string *name_, int count_) {
+  void set(std::string &name_, int count_) {
     name = name_;
     count = count_;
     stackable = true;
   }
   int show() {
     printf("%s", "Usable:");
-    std::cout << *name << std::endl;
-    return -1;
+    std::cout << name << std::endl;
+    return count;
   }
 };
 
@@ -190,12 +190,12 @@ class Armor : public Item {
   int strength_needed;
   bool stealth_disadvantage;
  public:
-  Armor(std::string *name_) {
+  Armor(std::string &name_) {
     Existing_Items E;
     int count_ = 1, type_ = 0, armor_class_ = 0, strength_needed_ = 0;
-    bool stealth_disadvantage_ = 0;
+    bool stealth_disadvantage_ = false;
     for(int i = 0;i < kWeapon_NUM;i++){
-      if(E.Armor_s[i].compare(*name)){
+      if(E.Armor_s[i].compare(name_)){
         cost = E.Armor_i[i][0];
         type_ = E.Armor_i[i][1];
         armor_class_ = E.Armor_i[i][2];
@@ -208,11 +208,11 @@ class Armor : public Item {
     }
     set(name_, type_, count_,  armor_class_, strength_needed_, stealth_disadvantage_);
   }
-  Armor(std::string *name_, int type_, int count_,  int armor_class_,int strength_needed_, bool stealth_disadvantage_){
+  Armor(std::string &name_, int type_, int count_,  int armor_class_,int strength_needed_, bool stealth_disadvantage_){
     set(name_, type_, count_,  armor_class_, strength_needed_, stealth_disadvantage_);
   }
   ~Armor() = default;
-  void set(std::string *name_,int type_, int count_, int armor_class_, int strength_needed_, bool stealth_disadvantage_) {
+  void set(std::string &name_,int type_, int count_, int armor_class_, int strength_needed_, bool stealth_disadvantage_) {
     name = name_;
     type = type_;
     count = count_;
@@ -222,7 +222,7 @@ class Armor : public Item {
     stealth_disadvantage = stealth_disadvantage_;
   }
   int show() {
-    std::cout << *name << std::endl;
+    std::cout << name << std::endl;
     printf("%s %d %s %d \n", "Armor Class:", armor_class, "stealth disadvantage:", stealth_disadvantage);
     return armor_class;
   }
@@ -231,19 +231,19 @@ class Armor : public Item {
 class Usables : public Item {
  public:
   Usables() = default;
-  Usables(std::string *name_, int count_) {
+  Usables(std::string &name_, int count_) {
     set(name_, count_);
   }
   ~Usables() = default;
-  void set(std::string *name_, int count_) {
+  void set(std::string &name_, int count_) {
     name = name_;
     count = count_;
     stackable = true;
   }
   int show() {
     printf("%s", "Usable:");
-    std::cout << *name << std::endl;
-    return -1;
+    std::cout << name << std::endl;
+    return count;
   }
 };
 
@@ -252,10 +252,10 @@ class Ammo : public Usables {
   int ammo_damage;
   int element;
  public:
-  Ammo(std::string *name_, int count_, int ammo_damage_,int element_){
+  Ammo(std::string &name_, int count_, int ammo_damage_,int element_){
     set(name_, count_,ammo_damage_,element_);
   }
-  void set(std::string *name_, int count_, int ammo_damage_, int element_) {
+  void set(std::string &name_, int count_, int ammo_damage_, int element_) {
     name = name_;
     count = count_;
     ammo_damage = ammo_damage_;
@@ -264,8 +264,8 @@ class Ammo : public Usables {
   }
   int show() {
     printf("%s", "Usable:");
-    std::cout << *name << std::endl;
-    return -1;
+    std::cout << name << std::endl;
+    return count;
   }
 
 };
