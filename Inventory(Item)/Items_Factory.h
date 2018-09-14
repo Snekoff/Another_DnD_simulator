@@ -18,6 +18,6 @@ class Items_Factory {
    };
 };
 
-#endif //A// NOTHER_DND_SIMULATOR_ITEMS_FACTORY_H
+#endif //ANOTHER_DND_SIMULATOR_ITEMS_FACTORY_H
 
 

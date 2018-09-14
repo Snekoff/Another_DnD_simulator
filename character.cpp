@@ -6,6 +6,7 @@
 #include <utility>
 #include <math.h>
 #include "Race_Class_Background.h"
+#include "Classes.h"
 #include "UsefulFunctions.h"
 //#include "Item.h"
 
