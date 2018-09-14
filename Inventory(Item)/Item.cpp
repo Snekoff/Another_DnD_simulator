@@ -7,9 +7,9 @@
 
 const int kWeapon_NUM = 29;
 const int kR_Weapon_NUM = 9;
-const int kFood_NUM = 9;
+const int kAmmo_NUM = 4;
 const int kArmor_NUM = 13;
-const int kUsable_NUM = 85;
+const int kUsable_NUM = 81;
 const int kMagic_items_NUM = 13;
 
 struct Existing_Items{
@@ -32,8 +32,9 @@ struct Existing_Items{
                                            {1000,1,1,1,0,25,100},{7500,1,6,3,0,30,120},{5000,1,10,18,0,100,400},{5000,1,8,2,0,150,600},
                                            {100,0,0,3,0,5,15}};
   //cost(copper), num_of_dices, damage_dice, weight, type_of_elemental_damage , aiming_range, max_range
-  std::string Food_s[kFood_NUM] = {};
-  int Food_i[kFood_NUM] = {};
+  std::string Ammo_s[kAmmo_NUM] = {"Arrows", "Blowgun_needles", "Crossbow_bolts", "Sling_bullets"};
+  int Ammo_i[kAmmo_NUM][4] = {{ 1*100,1,0,0}, { 1*100,1,0,0}, { 1*100,1,0,0}, { 4,1,0,0}};
+  //cost, weight, ammo damage, element
   std::string Armor_s[kArmor_NUM] = {"Padded","Leather","Studded_leather",
                                      "Hide","Chain_shirt","Scale_mail","Breastplate","Half_plate",
                                      "Ring_mail","Chain_mail","Splint","Plate",
@@ -45,7 +46,6 @@ struct Existing_Items{
   //Cost , Type , Armor_Class , Strength_needed , stealth_disadvantage, weight
   std::string Usable_s[kUsable_NUM] = {"Abacus", 
                                        "Acid_vial", "Alchemists_fire_flask",
-                                       "Arrows", "Blowgun_needles", "Crossbow_bolts", "Sling_bullets",
                                        "Antitoxin", "Backpack", "Ball_bearings", "Barrel", "Basket", "Bedroll", "Bell",
                                        "Blanket", "Block_and_tackle", "Book", "Bottle_glass", "Bucket", "Caltrops",
                                        "Candle", "Case_crossbow_bolt", "Case_map_or_scroll", "Chain", "Chalk", "Chest",
@@ -62,7 +62,6 @@ struct Existing_Items{
                                        "Torch", "Vial", "Waterskin", "Whetstone"};
   int Usable_i[kUsable_NUM][3] = {{ 200,2,0},
                                { 25*100,1,0}, { 50*100,1,0},
-                               { 1*100,1,0}, { 1*100,1,0}, { 1*100,1,0}, { 4,1,0},
                                { 50*100,0,0}, { 2*100,5,0}, { 1*100,2,0}, { 2*100,70,0}, { 4*10,2,0}, { 1*100,7,0}, { 1*100,0,0},
                                { 5*10,3,0}, { 1*100,5,0}, { 25*100,5,0}, { 2*100,2,0}, { 5*10,2,0}, { 1*100,2,0},
                                { 1*10,0,0}, { 1*100,1,0}, { 1*100,1,0}, { 5*100,10,0}, { 1*10,0,0}, { 5*100,25,0},
@@ -207,7 +206,7 @@ class Ranged_Weapon : public Weapon {
   }
 };
 
-class Food : public Item {
+/*class Food : public Item {
  public:
   Food(std::string &name_, int count_) {
     set(name_, count_);
@@ -223,7 +222,7 @@ class Food : public Item {
     std::cout << name << std::endl;
     return count;
   }
-};
+};*/
 
 class Armor : public Item {
  protected:
@@ -274,23 +273,26 @@ class Usables : public Item {
  private:
   bool is_obstacle;
  public:
-  Usables() = default;
+  Usables() { stackable = false;is_obstacle = false; };
   Usables(std::string &name_, int count_) {
+    stackable = false;
+    is_obstacle = false;
     set(name_, count_);
   }
   ~Usables() = default;
   void set(std::string &name_, int count_) {
     Existing_Items E;
-    name = name_;
     for (int i = 0;i < kMagic_items_NUM;i++) {
-      if(E.Usable_s[i].compare(name)){
+      if(E.Usable_s[i].compare(name_)){
+        name = name_;
         cost = E.Usable_i[i][0];
         weight = E.Usable_i[i][1];
         if(E.Usable_i[i][2] > 0) is_obstacle = true;
+        break;
       }
     }
     count = count_;
-    stackable = true;
+    stackable = false;
   }
   int show() {
     printf("%s", "Usable:");
@@ -304,6 +306,23 @@ class Ammo : public Usables {
   int ammo_damage;
   int element;
  public:
+  Ammo(){ammo_damage = 0; element = 0;}
+  Ammo(std::string &name_,int count_) {
+    Existing_Items E;
+    int ammo_damage_ = 0,element_ = 0;
+    for(int j = 0; j < kAmmo_NUM;j++){
+      if(E.Ammo_s[j].compare(name_)){
+        name = name_;
+        cost = E.Ammo_i[j][0];
+        weight = E.Ammo_i[j][1];
+        ammo_damage_ = E.Ammo_i[j][2];
+        element_  = E.Ammo_i[j][3];
+        stackable = true;
+        break;
+      }
+    }
+    set(name_,count_,ammo_damage_,element_);
+  }
   Ammo(std::string &name_, int count_, int ammo_damage_,int element_){
     set(name_, count_,ammo_damage_,element_);
   }
@@ -338,9 +357,9 @@ class Magic_items : public Item {
   ~Magic_items() = default;
   void set(std::string &name_, int count_) {
     Existing_Items E;
-    name = name_;
     for (int i = 0;i < kMagic_items_NUM;i++) {
-      if(E.Magic_items_s[i].compare(name)){
+      if(E.Magic_items_s[i].compare(name_)){
+        name = name_;
         passive_healing = E.Magic_items_i[i][0];
         if(passive_healing == 2){
           healing_dice = 4;
@@ -349,10 +368,11 @@ class Magic_items : public Item {
         if(E.Magic_items_i[i][1] > 0) arcane_focus = true;
         if(E.Magic_items_i[i][2] > 0) druidic_focus = true;
         if(E.Magic_items_i[i][3] > 0) holy_symbol = true;
+        break;
       }
     }
     count = count_;
-    stackable = true;
+    stackable = false;
   }
   int show() {
     printf("%s", "Usable:");
