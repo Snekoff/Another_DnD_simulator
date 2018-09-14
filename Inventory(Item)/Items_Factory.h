@@ -10,13 +10,13 @@
 template<class C>
 class Items_Factory {
  public:
-   virtual Item * create(std::string &name_);
+   virtual Item * create(std::string &name_){
+     return new C(name_);
+   };
+   virtual Item * create(std::string &name_, int count_){
+     return new C(name_, count_);
+   };
 };
-
-template<class C>
-Item * Items_Factory<C>::create(std::string &name_) {
-  return new C(name_);
-}
 
 #endif //A// NOTHER_DND_SIMULATOR_ITEMS_FACTORY_H
 

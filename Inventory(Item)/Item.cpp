@@ -62,7 +62,7 @@ struct Existing_Items{
                                        "Torch", "Vial", "Waterskin", "Whetstone"};
   int Usable_i[kUsable_NUM][3] = {{ 200,2,0},
                                { 25*100,1,0}, { 50*100,1,0},
-                               { 50*100,0,0}, { 2*100,5,0}, { 1*100,2,0}, { 2*100,70,0}, { 4*10,2,0}, { 1*100,7,0}, { 1*100,0,0},
+                               { 50*100,0,0}, { 2*100,5,0}, { 1*100,2,1}, { 2*100,70,0}, { 4*10,2,0}, { 1*100,7,0}, { 1*100,0,0},
                                { 5*10,3,0}, { 1*100,5,0}, { 25*100,5,0}, { 2*100,2,0}, { 5*10,2,0}, { 1*100,2,0},
                                { 1*10,0,0}, { 1*100,1,0}, { 1*100,1,0}, { 5*100,10,0}, { 1*10,0,0}, { 5*100,25,0},
                                { 25*100,12,0}, { 5*10,3,0}, { 5*100,4,0}, { 15*100,6,0},
@@ -136,6 +136,13 @@ class Weapon : public Item {
     }
     set(name_, count_, num_of_dices_, damage_dice_, type_of_elemental_damage_);
   }
+  Weapon(std::string &name_,int count_){
+    name = name_;
+    count = count_;
+    num_of_dices = 0;
+    damage_dice = 0;
+    type_of_elemental_damage = 0;
+  }
   Weapon(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_){
     set(name_, count_, num_of_dices_, damage_dice_, type_of_elemental_damage_);
   }
@@ -151,7 +158,7 @@ class Weapon : public Item {
   int show() {
     std::cout << name << std::endl;
     std::cout << "Damage "<< num_of_dices << "d"<< damage_dice <<
-              " element:"<< elements[type_of_elemental_damage] << std::endl;
+              " element: "<< elements[type_of_elemental_damage] << std::endl;
     return damage_dice;
   }
 };
@@ -180,6 +187,12 @@ class Ranged_Weapon : public Weapon {
       }
     }
     set(name_, count_, num_of_dices_, damage_dice_, type_of_elemental_damage_, aiming_range_, max_range_);
+  }
+  Ranged_Weapon(std::string &name_,int count_){
+    name = name_;
+    count = count_;
+    aiming_range = 0;
+    max_range = 0;
   }
   Ranged_Weapon(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_,
       int aiming_range_, int max_range_){
@@ -249,6 +262,14 @@ class Armor : public Item {
     }
     set(name_, type_, count_,  armor_class_, strength_needed_, stealth_disadvantage_);
   }
+  Armor(std::string &name_,int count_){
+    name = name_;
+    count = count_;
+    type = 0;
+    armor_class = 0;
+    strength_needed = 0;
+    stealth_disadvantage = false;
+  }
   Armor(std::string &name_, int type_, int count_,  int armor_class_,int strength_needed_, bool stealth_disadvantage_){
     set(name_, type_, count_,  armor_class_, strength_needed_, stealth_disadvantage_);
   }
@@ -279,6 +300,11 @@ class Usables : public Item {
     is_obstacle = false;
     set(name_, count_);
   }
+  Usables(std::string &name_) {
+    stackable = false;
+    is_obstacle = false;
+    set(name_, 1);
+  }
   ~Usables() = default;
   void set(std::string &name_, int count_) {
     Existing_Items E;
@@ -295,7 +321,7 @@ class Usables : public Item {
     stackable = false;
   }
   int show() {
-    printf("%s", "Usable:");
+    printf("%s", "Usable: ");
     std::cout << name << std::endl;
     return count;
   }
@@ -322,6 +348,22 @@ class Ammo : public Usables {
       }
     }
     set(name_,count_,ammo_damage_,element_);
+  }
+  Ammo(std::string &name_) {
+    Existing_Items E;
+    int ammo_damage_ = 0,element_ = 0;
+    for(int j = 0; j < kAmmo_NUM;j++){
+      if(E.Ammo_s[j].compare(name_)){
+        name = name_;
+        cost = E.Ammo_i[j][0];
+        weight = E.Ammo_i[j][1];
+        ammo_damage_ = E.Ammo_i[j][2];
+        element_  = E.Ammo_i[j][3];
+        stackable = true;
+        break;
+      }
+    }
+    set(name_,1,ammo_damage_,element_);
   }
   Ammo(std::string &name_, int count_, int ammo_damage_,int element_){
     set(name_, count_,ammo_damage_,element_);
@@ -351,8 +393,8 @@ class Magic_items : public Item {
   bool holy_symbol;
  public:
   Magic_items() = default;
-  Magic_items(std::string &name_, int count_) {
-    set(name_, count_);
+  Magic_items(std::string &name_) {
+    set(name_, 1);
   }
   ~Magic_items() = default;
   void set(std::string &name_, int count_) {
