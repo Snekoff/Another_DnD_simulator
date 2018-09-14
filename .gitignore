@@ -1,0 +1,13 @@
+*.xml
+
+*.iml
+
+*.cmake
+
+*.cbp
+
+.idea
+cmake-build-debug
+
+*.txt
+*.txt

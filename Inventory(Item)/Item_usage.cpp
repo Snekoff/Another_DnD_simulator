@@ -23,6 +23,9 @@ int Item_usage() {
   std::string a = "Leatherarmor";
   Items_Factory<Ranged_Weapon> Item_Factory_Ranged_Weapon;
   Items_Factory<Weapon> Item_Factory_Weapon;
+  Items_Factory<Armor> Item_Factory_Armor;
+  Items_Factory<Usables> Item_Factory_Usables;
+  Items_Factory<Food> Item_Factory_Food;
   v.push_back(new Armor(a));
   a = "Arrows";
   v.push_back(new Ammo(a,1,0,0));
@@ -32,7 +35,13 @@ int Item_usage() {
   a = "Sling";
   v.push_back(Item_Factory_Ranged_Weapon.create(a));
   a = "Club";
-  v.push_back(Item_Factory_Weapon.create(a));
+  /*v.push_back(Item_Factory_Weapon.create(a));
+  a = "Club";
+  v.push_back(Item_Factory_Armor.create(a));
+  a = "Abacus";
+  v.push_back(Item_Factory_Usables.create(a));
+  a = "apple";
+  v.push_back(Item_Factory_Food.create(a));*/
 
   for(int i = 0; i <= v.size();i++){
     printf("%d %s " , i, " name:");
