@@ -178,34 +178,5 @@ class Tiefling : public Race {
   void Create(int sub_type,int a, int b, int c);
 };
 
-class Class {
- private:
-  int type;
- protected:
-  std::string features = "";
- public:
-  Class();
-
-  ~Class()  = default;
-
-  virtual void set(int a) {}
-
-  virtual void set(int a, int b, int c, int d) {}
-
-  virtual int get();
-
-  void ClassFeatures() {}
-};
-
-class SubClass : public Class {
- private:
-  int subtype;
- public:
-  SubClass() : Class(){}
-  SubClass(int a,int b);
-  ~SubClass()  = default;
-  void subClassFeatures();
-};
-
 // &&&&&&&&^^%^#QQQQQQQQQQQQQQQQQQQ$$$$$$$$$$$$$$$$$$$$$$$##############EEEEEEEEEEEEEEEERRRRRRRRRRRRRRRREEWW
 // factory

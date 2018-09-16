@@ -19,13 +19,15 @@ class Class {
  public:
   Class();
 
+  Class(int type_,bool * s_b[]);
+
   ~Class() = default;
 
-  virtual void set(int a);
+  virtual void set(int type_,bool * s_b[]);
 
   virtual void set_architype();
 
-  virtual void set_skills();
+  virtual void set_skills(bool * s_b[]);
 
   virtual int get(int what);
 };

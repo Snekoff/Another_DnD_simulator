@@ -10,12 +10,12 @@
 #include <locale>
 
 #include "character.h"
-#include "Inventory(Item)/Item.h"
+//#include "Inventory(Item)/Item.h"
 
 using namespace std;
 
 int main() {
-  Item_usage();
+  //Item_usage();
   //setlocale(LC_ALL, "rus");
   printf("%s", "Dungeons and Dragons game (PC) starts here");
 

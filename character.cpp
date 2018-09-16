@@ -8,15 +8,13 @@
 #include "Race_Class_Background.h"
 #include "Classes.h"
 #include "UsefulFunctions.h"
-//#include "Item.h"
+#include "Inventory(Item)/Item.h"
+#include "Inventory(Item)/Items_Factory.h"
 
 using namespace std;
 
 struct Skills {
-  int s[18] = {0};/*acrobatics 0,animalHandling 1,arcana 2,athletics 3,deception 4,
-history 5,insight 6,intimidation 7,investigation 8,medicine 9,
-nature 10,perception 11,performance 12,persuasion 13,religion 14,
-sleightOfHand 15,stealth 16,survival 17*/
+  
 };
 
 vector<Race*> multirace;
@@ -37,12 +35,16 @@ class Character {
   bool advantage, disadvantage ;
   bool perception_advantage;
   bool perception_disadvantage;
-  Skills skill;
-  //Item item;
-  string inventory;
+  int *s[18];
+  /*acrobatics 0,animalHandling 1,arcana 2,athletics 3,deception 4,
+history 5,insight 6,intimidation 7,investigation 8,medicine 9,
+nature 10,perception 11,performance 12,persuasion 13,religion 14,
+sleightOfHand 15,stealth 16,survival 17*/
+  bool *s_b[18];
+  vector<Item *> inventory;
   Existing_Types E;
  public:
-  Character() {
+  Character() : race_of_character(race_of_character) {
     //race.set(24);//human
     //classType.set(0);//barbarian
     storyline = "Acolyte";
@@ -62,10 +64,8 @@ class Character {
     advantage = false; disadvantage = false;
     perception_advantage = false;
     perception_disadvantage = false;
-    //item.set();
-    inventory = "empty";//
   }
-  Character(string storyl, int exp, int levl, int Stre, int Dext,
+  Character(string &storyl, int exp, int levl, int Stre, int Dext,
       int Cons, int Inte, int Wisd, int Charisma, int ArmorClass){
     exp = Less_than_zero(exp);
     levl = Less_than_zero(levl);
@@ -79,7 +79,7 @@ class Character {
     health = 0 ;
     maxhealth = 0 ;
     health_dice = 0 ;
-    storyline = std::move(storyl);
+    storyline = storyl;
     if(exp < E.experience_per_level[levl - 1]){ exp = E.experience_per_level[level - 1]; }
     experience = exp;
     Str = Stre;
@@ -96,19 +96,22 @@ class Character {
     advantage = false; disadvantage = false;
     perception_advantage = false;
     perception_disadvantage = false;
-    inventory = "";
     StrModifier = AbilityModifier(Str);
     DexModifier = AbilityModifier(Dex);
     ConModifier = AbilityModifier(Con);
     IntModifier = AbilityModifier(Int);
     WisModifier = AbilityModifier(Wis);
     ChaModifier = AbilityModifier(Cha);
-    SetSkill(skill);
+    for(int i = 0; i < 18;i++){
+      *s[i] = 0;
+      *s_b[i] = false;
+    }
+    SetSkill(s);
     proficiency = ProficiencySetter(level);
     passive_perception = PassivePerceptionSetter(WisModifier, perception_advantage, perception_disadvantage);
     Race_Choosal();
-    StorySetsSkills(skill,storyline);
-    // reserved for @Class gives health dice"
+    StorySetsSkills(s,s_b,storyline);
+    SetClass();
     level = 0;
     Level_Up();
   }
@@ -149,46 +152,124 @@ class Character {
     return 10 + a;
   }
   
-  void StorySetsSkills(Skills a, string b) {
+  void StorySetsSkills(int *s[],bool *s_b[], string &b) {
     if (b == "Acolyte") {
-      if (a.s[6] == WisModifier)a.s[6] += proficiency;
-      if (a.s[14] == IntModifier)a.s[14] += proficiency;
+      if (!*s_b[6]) {
+        s[6] += proficiency;
+        *s_b[6] = true;
+      }
+      if (!*s_b[14]) {
+        s[14] += proficiency;
+        *s_b[14] = true;
+      }
     } else if (b == "Charlatan") {
-      if (a.s[4] == ChaModifier)a.s[4] += proficiency;
-      if (a.s[15] == DexModifier)a.s[15] += proficiency;
+      if (!*s_b[4]) {
+        s[4] += proficiency;
+        *s_b[4] = true;
+      }
+      if (!*s_b[15]) {
+        s[15] += proficiency;
+        *s_b[15] = true;
+      }
     } else if (b == "Criminal") {
-      if (a.s[4] == ChaModifier)a.s[4] += proficiency;
-      if (a.s[16] == DexModifier)a.s[16] += proficiency;
+      if (!*s_b[4]) {
+        s[4] += proficiency;
+        *s_b[4] = true;
+      }
+      if (!*s_b[16]) {
+        s[16] += proficiency;
+        *s_b[16] = true;
+      }
     } else if (b == "Entertainer") {
-      if (a.s[0] == IntModifier)a.s[0] += proficiency;
-      if (a.s[12] == ChaModifier)a.s[12] += proficiency;
+      if (!*s_b[0]) {
+        s[0] += proficiency;
+        *s_b[0] = true;
+      }
+      if (!*s_b[12]) {
+        s[12] += proficiency;
+        *s_b[12] = true;
+      }
     } else if (b == "FolkHero") {
-      if (a.s[1] == WisModifier)a.s[1] += proficiency;
-      if (a.s[17] == WisModifier)a.s[17] += proficiency;
+      if (!*s_b[1]) {
+        s[1] += proficiency;
+        *s_b[1] = true;
+      }
+      if (!*s_b[17]) {
+        s[17] += proficiency;
+        *s_b[17] = true;
+      }
     } else if (b == "GuildArtisan") {
-      if (a.s[6] == WisModifier)a.s[6] += proficiency;
-      if (a.s[13] == ChaModifier)a.s[13] += proficiency;
+      if (!*s_b[6]) {
+        s[6] += proficiency;
+        *s_b[6] = true;
+      }
+      if (!*s_b[13]) {
+        s[13] += proficiency;
+        *s_b[13] = true;
+      }
     } else if (b == "Hermit") {
-      if (a.s[9] == WisModifier)a.s[9] += proficiency;
-      if (a.s[14] == IntModifier)a.s[14] += proficiency;
+      if (!*s_b[9]) {
+        s[9] += proficiency;
+        *s_b[9] = true;
+      }
+      if (!*s_b[14]) {
+        s[14] += proficiency;
+        *s_b[14] = true;
+      }
     } else if (b == "Noble") {
-      if (a.s[5] == IntModifier)a.s[5] += proficiency;
-      if (a.s[13] == ChaModifier)a.s[13] += proficiency;
+      if (!*s_b[5]) {
+        s[5] += proficiency;
+        *s_b[5] = true;
+      }
+      if (!*s_b[13]) {
+        s[13] += proficiency;
+        *s_b[13] = true;
+      }
     } else if (b == "Outlander") {
-      if (a.s[3] == StrModifier)a.s[3] += proficiency;
-      if (a.s[17] == WisModifier)a.s[17] += proficiency;
+      if (!*s_b[3]) {
+        s[3] += proficiency;
+        *s_b[3] = true;
+      }
+      if (!*s_b[17]) {
+        s[17] += proficiency;
+        *s_b[17] = true;
+      }
     } else if (b == "Sage") {
-      if (a.s[2] == IntModifier)a.s[2] += proficiency;
-      if (a.s[5] == IntModifier)a.s[5] += proficiency;
+      if (!*s_b[2]) {
+        s[2] += proficiency;
+        *s_b[2] = true;
+      }
+      if (!*s_b[5]) {
+        s[5] += proficiency;
+        *s_b[5] = true;
+      }
     } else if (b == "Sailor") {
-      if (a.s[3] == StrModifier)a.s[3] += proficiency;
-      if (a.s[11] == WisModifier)a.s[11] += proficiency;
+      if (!*s_b[3]) {
+        s[3] += proficiency;
+        *s_b[3] = true;
+      }
+      if (!*s_b[11]) {
+        s[11] += proficiency;
+        *s_b[11] = true;
+      }
     } else if (b == "Soldier") {
-      if (a.s[3] == StrModifier)a.s[3] += proficiency;
-      if (a.s[7] == ChaModifier)a.s[7] += proficiency;
+      if (!*s_b[3]) {
+        s[3] += proficiency;
+        *s_b[3] = true;
+      }
+      if (!*s_b[7]) {
+        s[7] += proficiency;
+        *s_b[7] = true;
+      }
     } else if (b == "Urchin") {
-      if (a.s[15] == DexModifier)a.s[15] += proficiency;
-      if (a.s[16] == DexModifier)a.s[16] += proficiency;
+      if (!*s_b[15]) {
+        s[15] += proficiency;
+        *s_b[15] = true;
+      }
+      if (!*s_b[16]) {
+        s[16] += proficiency;
+        *s_b[16] = true;
+      }
     }
   }
 
@@ -255,7 +336,7 @@ class Character {
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       multirace.push_back(new Dragonborn());
-      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
     } else if (race == 2) {
       printf("%s \n", "Choose your subrace. What it will be?");
@@ -268,141 +349,130 @@ class Character {
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       multirace.push_back(new Dwarf());
-      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 3) {
       printf("%s \n", "Choose your subrace. What it will be?");
-      printf("%s \n", "1. \n"
-                      "2. \n"
-                      "3. \n"
-                      "4. \n"
-                      "5. \n"
-                      "6. \n"
-                      "7. \n"
-                      "8. \n"
-                      "9. \n"
-                      "10. \n"
+      printf("%s \n", "1. Drow \n"
+                      "2. Eladrin \n"
+                      "3. High\n"
+                      "4. Sea\n"
+                      "5. Shadar-kai\n"
+                      "6. Wood\n"
                       "Type number, and proceed");
       cin >> subrace;
-      subrace = Correctness_of_input(subrace, 1, 10);
+      subrace = Correctness_of_input(subrace, 1, 6);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       multirace.push_back(new Elf());
-      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 4) {
       printf("%s \n", "Choose your subrace. What it will be?");
-      printf("%s \n", "1. \n"
-                      "2. \n"
-                      "3. \n"
-                      "4. \n"
-                      "5. \n"
-                      "6. \n"
-                      "7. \n"
-                      "8. \n"
-                      "9. \n"
-                      "10. \n"
+      printf("%s \n", "1. Deep/Svirfneblin\n"
+                      "2. Forest\n"
+                      "3. Rock\n"
                       "Type number, and proceed");
       cin >> subrace;
-      subrace = Correctness_of_input(subrace, 1, 10);
+      subrace = Correctness_of_input(subrace, 1, 3);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       multirace.push_back(new Gnome());
-      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 5) {
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       multirace.push_back(new Goblin());
-      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 6) {
       printf("%s \n", "Choose your subrace. What it will be?");
-      printf("%s \n", "1. \n"
-                      "2. \n"
-                      "3. \n"
-                      "4. \n"
-                      "5. \n"
+      printf("%s \n", "1. Common\n"
+                      "2. Aquatic Elf Descent\n"
+                      "3. Drow Descent\n"
+                      "4. Moon Elf or Sun Elf Descent\n"
+                      "5. Wood Elf Descent\n"
                       "Type number, and proceed");
       cin >> subrace;
-      subrace = Correctness_of_input(subrace, 1, 10);
+      subrace = Correctness_of_input(subrace, 1, 5);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       multirace.push_back(new Half_Elf());
-      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 7) {
       printf("%s \n", "Choose your subrace. What it will be?");
-      printf("%s \n", "1. \n"
-                      "2. \n"
+      printf("%s \n", "1. Half-Orc\n"
+                      "2. Orc\n"
                       "Type number, and proceed");
       cin >> subrace;
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       multirace.push_back(new Half_Orc());
-      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 8) {
       printf("%s \n", "Choose your subrace. What it will be?");
-      printf("%s \n", "1. \n"
-                      "2. \n"
-                      "3. \n"
+      printf("%s \n", "1. Ghostwise\n"
+                      "2. Lightfoot\n"
+                      "3. Stout\n"
                       "Type number, and proceed");
       cin >> subrace;
-      subrace = Correctness_of_input(subrace, 1, 10);
+      subrace = Correctness_of_input(subrace, 1, 3);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       multirace.push_back(new Halfling());
-      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 9) {
       printf("%s \n", "Choose your subrace. What it will be?");
-      printf("%s \n", "1. \n"
-                      "2. \n"
+      printf("%s \n", "1. Common\n"
+                      "2. Variant\n"
                       "Type number, and proceed");
       cin >> subrace;
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       multirace.push_back(new Human());
-      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 10) {
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       multirace.push_back(new Lizardfolk());
-      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
 
     } else if (race == 11) {
       printf("%s \n", "Choose your subrace. What it will be?");
-      printf("%s \n", "1. \n"
-                      "2. \n"
-                      "3. \n"
-                      "4. \n"
-                      "5. \n"
-                      "6. \n"
-                      "7. \n"
-                      "8. \n"
-                      "9. \n"
-                      "10. \n"
-                      "11. \n"
+      printf("%s \n", "1. Common\n"
+                      "2. Asmodeus\n"
+                      "3. Baalzebul\n"
+                      "4. Dispater\n"
+                      "5. Fierna\n"
+                      "6. Glasya\n"
+                      "7. Levistus\n"
+                      "8. Mammon\n"
+                      "9. Mephistopheles\n"
+                      "10. Variant\n"
+                      "11. Zariel\n"
                       "Type number, and proceed");
       cin >> subrace;
-      subrace = Correctness_of_input(subrace, 1, 10);
+      subrace = Correctness_of_input(subrace, 1, 11);
       int a = 0, b = 0, c = 0;
       Size_Set(a,b,c,race,subrace,subrace);
       multirace.push_back(new Tiefling());
-      multirace[multirace.size() - 1]->Create(subrace, a, b, c);
+      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
     }
   }
@@ -490,22 +560,49 @@ class Character {
     printf("%s %d \n", "Your health:", health);
   }
 
-  void SetSkill(Skills c) {
+  void SetClass() {
+    printf("Choose your class: \n");
+    int class_type_ = 0;
+    printf("1. Barbarian\n"
+           "2. Bard\n"
+           "3. Cleric\n"
+           "4. Druid\n"
+           "5. Fighter\n"
+           "6. Monk\n"
+           "7. Paladin\n"
+           "8. Ranger\n"
+           "9. Rouge\n"
+           "10. Sorcerer\n"
+           "11. Warlock\n"
+           "12. Wizard\n");
+    cin >> class_type_;
+    class_type_ = Correctness_of_input(class_type_,1,11);
+    classType.set(class_type_ -1,s_b);
+    //21-38 => s[0] - s[17]
+    for(int i = 21; i < 38;i++){
+      if(classType.get(i) == 1 && !s_b[i-21]){
+        *s[i-21] += proficiency;
+        *s_b[i-21] = true;
+      }
+    }
+  }
+
+  void SetSkill(int *c[]) {
     for (int j = 0; j < 18; j++) {
       if (j == 0 || j == 2 || j == 5 || j == 8 || j == 10 ||
-          j == 14) { c.s[j] += IntModifier; }//acrobatics,arcana,history,investigation,nature,religion
+          j == 14) { *c[j] += IntModifier; }//acrobatics,arcana,history,investigation,nature,religion
       else if (j == 1 || j == 6 || j == 9 || j == 11 ||
-          j == 17) { c.s[j] += WisModifier; }//animalHandling,.s[6],medicine,perception,survival
-      else if (j == 3) { c.s[j] += StrModifier; }//athletics
+          j == 17) { *c[j] += WisModifier; }//animalHandling,.s[6],medicine,perception,survival
+      else if (j == 3) { *c[j] += StrModifier; }//athletics
       else if (j == 4 || j == 7 || j == 12 ||
-          j == 13) { c.s[j] += ChaModifier; }//deception,intimidation,performance,persuasion
-      else if (j == 15 || j == 16) { c.s[j] += DexModifier; }//sleightOfHand,stealth
+          j == 13) { *c[j] += ChaModifier; }//deception,intimidation,performance,persuasion
+      else if (j == 15 || j == 16) { *c[j] += DexModifier; }//sleightOfHand,stealth
     }
   }
 
   int GetSkill(int a) {
     a = Correctness_of_input(a,0,17);
-    return skill.s[a];
+    return *s[a];
   }
 };
 
