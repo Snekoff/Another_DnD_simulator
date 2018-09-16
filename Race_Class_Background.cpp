@@ -65,7 +65,21 @@ class Race {
     //subRaceFeatures();
   }
 
-  int get() {
+  int get(int w) {
+    if(w == 0) return type;
+    else if(w == 1) return height;
+    else if(w == 2) return weight;
+    else if(w == 3) return age;
+    else if(w == 4) return Str;
+    else if(w == 5) return Dex;
+    else if(w == 6) return Con;
+    else if(w == 7) return Int;
+    else if(w == 8) return Wis;
+    else if(w == 9) return Cha;
+    else if(w == 10) return Movement;
+    else if(w == 11) return Size;
+    else if(w == 12) return Darkvision;
+    else if(w == 13) return damage_resistance;
     return -1;
   }
 

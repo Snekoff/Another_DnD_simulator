@@ -5,6 +5,8 @@
 #ifndef ANOTHER_DND_SIMULATOR_CLASSES_H
 #define ANOTHER_DND_SIMULATOR_CLASSES_H
 
+#include <iostream>
+
 class Class {
  protected:
   int type;
@@ -13,6 +15,7 @@ class Class {
   bool saving_throw_proficiencies[6];
   bool armor_and_weapon_proficiencies[6];
   int s[18];
+  std::string architype;
  public:
   Class();
 
@@ -20,11 +23,11 @@ class Class {
 
   virtual void set(int a);
 
-  virtual void set(int a, int b, int c, int d);
+  virtual void set_architype();
 
-  virtual int get();
+  virtual void set_skills();
 
-  void ClassFeatures();
+  virtual int get(int what);
 };
 
 #endif //ANOTHER_DND_SIMULATOR_CLASSES_H

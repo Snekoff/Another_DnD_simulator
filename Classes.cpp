@@ -268,7 +268,6 @@ sleightOfHand 15,stealth 16,survival 17*/
     return -1;
   }
 
-  void ClassFeatures() {}
 };
 
 class MultiClass : public Class {
