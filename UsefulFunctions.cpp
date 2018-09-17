@@ -19,7 +19,7 @@ struct Existing_Types {
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
-  int experience_per_level[10] = {0,300,900,2700,6500,14000,23000,34000,48000,64000};
+  int experience_per_level[21] = {0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000,120000002};
 }; //
 
 int Correctness_of_input(int a, int lowerlimit, int higherlimit) {
@@ -55,6 +55,7 @@ int Health_Level_Up(int health_dice, int ConModifier, int maxhealth){
   printf("%s \n",
          "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?");
   int roll_or_middle = 0;
+  std::cin >> roll_or_middle;
   roll_or_middle = Correctness_of_input(roll_or_middle,1,2);
   if (roll_or_middle == 1) {
     int tHP = Random_Generator(1,health_dice);

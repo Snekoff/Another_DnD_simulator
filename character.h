@@ -6,7 +6,10 @@
 
 #include <iostream>
 #include "UsefulFunctions.h"
+#include "Classes.h"
 #include "Race_Class_Background.h"
+#include "Inventory(Item)/Item.h"
+#include "Inventory(Item)/Items_Factory.h"
 
 using namespace std;
 
@@ -51,8 +54,8 @@ class Character {
   Existing_Types E;
  public:
   Character();
-  Character(string storyl, int exp, int levl, int Stre, int Dext,
-            int Cons, int Inte, int Wisd, int Charisma, int ArmorClass);
+  Character(string &storyl, int exp, int levl, int Stre, int Dext,
+            int Cons, int Inte, int Wisd, int Charisma);
 
   ~Character() = default;
 
@@ -60,25 +63,35 @@ class Character {
 
   int AbilityModifier(int a);
 
-  int ProficiencySetter(int level);
+  void ConcreteAbilityModifier();
+
+  int ProficiencySetter();
 
   void Size_Set(int a, int b, int c,int race1,int subrace,int negative);
 
   int PassivePerceptionSetter(int a, bool b, bool c);
 
-  void StorySetsSkills(Skills a, string b);
+  void StorySetsSkills(int *s[],bool *s_b[], string &b);
 
   void Ability_improve();
 
   void Race_Choosal();
 
+  void Race_Get_Abilities();
+
   void Set(int a, int b);
 
   int Get(int a);
 
+  void Open_Inventory();
+
   void Level_Up();
 
-  void SetSkill(Skills c);
+  void SetSkill(int *c[]);
+
+  void SetClass();
+
+  void Starting_Health();
 
   int GetSkill(int a);
 };

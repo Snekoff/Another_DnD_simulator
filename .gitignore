@@ -7,7 +7,7 @@
 *.cbp
 
 .idea
+
 cmake-build-debug
 
-*.txt
 *.txt

@@ -66,7 +66,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     perception_disadvantage = false;
   }
   Character(string &storyl, int exp, int levl, int Stre, int Dext,
-      int Cons, int Inte, int Wisd, int Charisma, int ArmorClass){
+      int Cons, int Inte, int Wisd, int Charisma){
     exp = Less_than_zero(exp);
     levl = Less_than_zero(levl);
     Stre = Less_than_zero(Stre);
@@ -75,7 +75,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     Inte = Less_than_zero(Inte);
     Wisd = Less_than_zero(Wisd);
     Charisma = Less_than_zero(Charisma);
-    ArmorClass = Less_than_zero(ArmorClass);
+    //ArmorClass = Less_than_zero(ArmorClass);
     health = 0 ;
     maxhealth = 0 ;
     health_dice = 0 ;
@@ -88,7 +88,8 @@ sleightOfHand 15,stealth 16,survival 17*/
     Int = Inte;
     Wis = Wisd;
     Cha = Charisma;
-    AC = ArmorClass;
+    AC = 0;
+    //AC = ArmorClass;
     deathsaves_s = 0 ;
     deathsaves_f = 0 ;
     passive_perception = 0 ;
@@ -96,22 +97,19 @@ sleightOfHand 15,stealth 16,survival 17*/
     advantage = false; disadvantage = false;
     perception_advantage = false;
     perception_disadvantage = false;
-    StrModifier = AbilityModifier(Str);
-    DexModifier = AbilityModifier(Dex);
-    ConModifier = AbilityModifier(Con);
-    IntModifier = AbilityModifier(Int);
-    WisModifier = AbilityModifier(Wis);
-    ChaModifier = AbilityModifier(Cha);
+    ConcreteAbilityModifier();
     for(int i = 0; i < 18;i++){
       *s[i] = 0;
       *s_b[i] = false;
     }
     SetSkill(s);
-    proficiency = ProficiencySetter(level);
+    proficiency = ProficiencySetter();
     passive_perception = PassivePerceptionSetter(WisModifier, perception_advantage, perception_disadvantage);
     Race_Choosal();
     StorySetsSkills(s,s_b,storyline);
     SetClass();
+    Starting_Health();
+    if(race_of_character->get(0) == 0) AC = 10 + DexModifier + ConModifier;
     level = 0;
     Level_Up();
   }
@@ -126,10 +124,21 @@ sleightOfHand 15,stealth 16,survival 17*/
     return (a - 10) / 2;
   }
 
-  int ProficiencySetter(int level) {
-    if (level < 4) return 2;
-    else if (level > 3 && level < 8) return 3;
-    else return 4;
+  void ConcreteAbilityModifier(){
+    StrModifier = AbilityModifier(Str);
+    DexModifier = AbilityModifier(Dex);
+    ConModifier = AbilityModifier(Con);
+    IntModifier = AbilityModifier(Int);
+    WisModifier = AbilityModifier(Wis);
+    ChaModifier = AbilityModifier(Cha);
+  }
+  //new
+  int ProficiencySetter() {
+    if (level < 5) return 2;
+    else if (level > 4 && level < 9) return 3;
+    else if (level > 8 && level < 13) return 4;
+    else if (level > 12 && level < 17) return 5;
+    else if (level > 16 && level < 21) return 6;
   }
 
   void Size_Set(int a, int b, int c,int race1,int subrace,int negative){
@@ -155,126 +164,126 @@ sleightOfHand 15,stealth 16,survival 17*/
   void StorySetsSkills(int *s[],bool *s_b[], string &b) {
     if (b == "Acolyte") {
       if (!*s_b[6]) {
-        s[6] += proficiency;
+        *s[6] += proficiency;
         *s_b[6] = true;
       }
       if (!*s_b[14]) {
-        s[14] += proficiency;
+        *s[14] += proficiency;
         *s_b[14] = true;
       }
     } else if (b == "Charlatan") {
       if (!*s_b[4]) {
-        s[4] += proficiency;
+        *s[4] += proficiency;
         *s_b[4] = true;
       }
       if (!*s_b[15]) {
-        s[15] += proficiency;
+        *s[15] += proficiency;
         *s_b[15] = true;
       }
     } else if (b == "Criminal") {
       if (!*s_b[4]) {
-        s[4] += proficiency;
+        *s[4] += proficiency;
         *s_b[4] = true;
       }
       if (!*s_b[16]) {
-        s[16] += proficiency;
+        *s[16] += proficiency;
         *s_b[16] = true;
       }
     } else if (b == "Entertainer") {
       if (!*s_b[0]) {
-        s[0] += proficiency;
+        *s[0] += proficiency;
         *s_b[0] = true;
       }
       if (!*s_b[12]) {
-        s[12] += proficiency;
+        *s[12] += proficiency;
         *s_b[12] = true;
       }
     } else if (b == "FolkHero") {
       if (!*s_b[1]) {
-        s[1] += proficiency;
+        *s[1] += proficiency;
         *s_b[1] = true;
       }
       if (!*s_b[17]) {
-        s[17] += proficiency;
+        *s[17] += proficiency;
         *s_b[17] = true;
       }
     } else if (b == "GuildArtisan") {
       if (!*s_b[6]) {
-        s[6] += proficiency;
+        *s[6] += proficiency;
         *s_b[6] = true;
       }
       if (!*s_b[13]) {
-        s[13] += proficiency;
+        *s[13] += proficiency;
         *s_b[13] = true;
       }
     } else if (b == "Hermit") {
       if (!*s_b[9]) {
-        s[9] += proficiency;
+        *s[9] += proficiency;
         *s_b[9] = true;
       }
       if (!*s_b[14]) {
-        s[14] += proficiency;
+        *s[14] += proficiency;
         *s_b[14] = true;
       }
     } else if (b == "Noble") {
       if (!*s_b[5]) {
-        s[5] += proficiency;
+        *s[5] += proficiency;
         *s_b[5] = true;
       }
       if (!*s_b[13]) {
-        s[13] += proficiency;
+        *s[13] += proficiency;
         *s_b[13] = true;
       }
     } else if (b == "Outlander") {
       if (!*s_b[3]) {
-        s[3] += proficiency;
+        *s[3] += proficiency;
         *s_b[3] = true;
       }
       if (!*s_b[17]) {
-        s[17] += proficiency;
+        *s[17] += proficiency;
         *s_b[17] = true;
       }
     } else if (b == "Sage") {
       if (!*s_b[2]) {
-        s[2] += proficiency;
+        *s[2] += proficiency;
         *s_b[2] = true;
       }
       if (!*s_b[5]) {
-        s[5] += proficiency;
+        *s[5] += proficiency;
         *s_b[5] = true;
       }
     } else if (b == "Sailor") {
       if (!*s_b[3]) {
-        s[3] += proficiency;
+        *s[3] += proficiency;
         *s_b[3] = true;
       }
       if (!*s_b[11]) {
-        s[11] += proficiency;
+        *s[11] += proficiency;
         *s_b[11] = true;
       }
     } else if (b == "Soldier") {
       if (!*s_b[3]) {
-        s[3] += proficiency;
+        *s[3] += proficiency;
         *s_b[3] = true;
       }
       if (!*s_b[7]) {
-        s[7] += proficiency;
+        *s[7] += proficiency;
         *s_b[7] = true;
       }
     } else if (b == "Urchin") {
       if (!*s_b[15]) {
-        s[15] += proficiency;
+        *s[15] += proficiency;
         *s_b[15] = true;
       }
       if (!*s_b[16]) {
-        s[16] += proficiency;
+        *s[16] += proficiency;
         *s_b[16] = true;
       }
     }
   }
 
   void Ability_improve(){
-    if (level == 4 || level == 8) {
+    if (level == 4 || level == 8 || level == 12 || level == 16  || level == 19) {
       printf("%s %d %s \n",
              "You reached",
              level,
@@ -300,7 +309,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
-  void Race_Choosal(){
+  void Race_Choosal() {
     printf("%s \n", "It is time to choose your race. What it will be?");
     printf("%s \n", "1. Dragonborn (10 subraces)\n"
                     "2. Dwarf (3 subraces)\n"
@@ -334,10 +343,12 @@ sleightOfHand 15,stealth 16,survival 17*/
       cin >> subrace;
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
-      Size_Set(a,b,c,race,subrace,subrace);
+      Size_Set(a, b, c, race, subrace, subrace);
       multirace.push_back(new Dragonborn());
       multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
+      Race_Get_Abilities();
+      ConcreteAbilityModifier();
     } else if (race == 2) {
       printf("%s \n", "Choose your subrace. What it will be?");
       printf("%s \n", "1. Duergar\n"
@@ -347,11 +358,12 @@ sleightOfHand 15,stealth 16,survival 17*/
       cin >> subrace;
       subrace = Correctness_of_input(subrace, 1, 3);
       int a = 0, b = 0, c = 0;
-      Size_Set(a,b,c,race,subrace,subrace);
+      Size_Set(a, b, c, race, subrace, subrace);
       multirace.push_back(new Dwarf());
       multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
-
+      Race_Get_Abilities();
+      ConcreteAbilityModifier();
     } else if (race == 3) {
       printf("%s \n", "Choose your subrace. What it will be?");
       printf("%s \n", "1. Drow \n"
@@ -364,11 +376,12 @@ sleightOfHand 15,stealth 16,survival 17*/
       cin >> subrace;
       subrace = Correctness_of_input(subrace, 1, 6);
       int a = 0, b = 0, c = 0;
-      Size_Set(a,b,c,race,subrace,subrace);
+      Size_Set(a, b, c, race, subrace, subrace);
       multirace.push_back(new Elf());
       multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
-
+      Race_Get_Abilities();
+      ConcreteAbilityModifier();
     } else if (race == 4) {
       printf("%s \n", "Choose your subrace. What it will be?");
       printf("%s \n", "1. Deep/Svirfneblin\n"
@@ -378,18 +391,20 @@ sleightOfHand 15,stealth 16,survival 17*/
       cin >> subrace;
       subrace = Correctness_of_input(subrace, 1, 3);
       int a = 0, b = 0, c = 0;
-      Size_Set(a,b,c,race,subrace,subrace);
+      Size_Set(a, b, c, race, subrace, subrace);
       multirace.push_back(new Gnome());
       multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
-
+      Race_Get_Abilities();
+      ConcreteAbilityModifier();
     } else if (race == 5) {
       int a = 0, b = 0, c = 0;
-      Size_Set(a,b,c,race,subrace,subrace);
+      Size_Set(a, b, c, race, subrace, subrace);
       multirace.push_back(new Goblin());
       multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
-
+      Race_Get_Abilities();
+      ConcreteAbilityModifier();
     } else if (race == 6) {
       printf("%s \n", "Choose your subrace. What it will be?");
       printf("%s \n", "1. Common\n"
@@ -401,11 +416,12 @@ sleightOfHand 15,stealth 16,survival 17*/
       cin >> subrace;
       subrace = Correctness_of_input(subrace, 1, 5);
       int a = 0, b = 0, c = 0;
-      Size_Set(a,b,c,race,subrace,subrace);
+      Size_Set(a, b, c, race, subrace, subrace);
       multirace.push_back(new Half_Elf());
       multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
-
+      Race_Get_Abilities();
+      ConcreteAbilityModifier();
     } else if (race == 7) {
       printf("%s \n", "Choose your subrace. What it will be?");
       printf("%s \n", "1. Half-Orc\n"
@@ -414,11 +430,12 @@ sleightOfHand 15,stealth 16,survival 17*/
       cin >> subrace;
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
-      Size_Set(a,b,c,race,subrace,subrace);
+      Size_Set(a, b, c, race, subrace, subrace);
       multirace.push_back(new Half_Orc());
       multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
-
+      Race_Get_Abilities();
+      ConcreteAbilityModifier();
     } else if (race == 8) {
       printf("%s \n", "Choose your subrace. What it will be?");
       printf("%s \n", "1. Ghostwise\n"
@@ -428,11 +445,12 @@ sleightOfHand 15,stealth 16,survival 17*/
       cin >> subrace;
       subrace = Correctness_of_input(subrace, 1, 3);
       int a = 0, b = 0, c = 0;
-      Size_Set(a,b,c,race,subrace,subrace);
+      Size_Set(a, b, c, race, subrace, subrace);
       multirace.push_back(new Halfling());
       multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
-
+      Race_Get_Abilities();
+      ConcreteAbilityModifier();
     } else if (race == 9) {
       printf("%s \n", "Choose your subrace. What it will be?");
       printf("%s \n", "1. Common\n"
@@ -441,18 +459,20 @@ sleightOfHand 15,stealth 16,survival 17*/
       cin >> subrace;
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
-      Size_Set(a,b,c,race,subrace,subrace);
+      Size_Set(a, b, c, race, subrace, subrace);
       multirace.push_back(new Human());
       multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
-
+      Race_Get_Abilities();
+      ConcreteAbilityModifier();
     } else if (race == 10) {
       int a = 0, b = 0, c = 0;
-      Size_Set(a,b,c,race,subrace,subrace);
+      Size_Set(a, b, c, race, subrace, subrace);
       multirace.push_back(new Lizardfolk());
       multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
-
+      Race_Get_Abilities();
+      ConcreteAbilityModifier();
     } else if (race == 11) {
       printf("%s \n", "Choose your subrace. What it will be?");
       printf("%s \n", "1. Common\n"
@@ -470,13 +490,24 @@ sleightOfHand 15,stealth 16,survival 17*/
       cin >> subrace;
       subrace = Correctness_of_input(subrace, 1, 11);
       int a = 0, b = 0, c = 0;
-      Size_Set(a,b,c,race,subrace,subrace);
+      Size_Set(a, b, c, race, subrace, subrace);
       multirace.push_back(new Tiefling());
       multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
       race_of_character = multirace[multirace.size() - 1];
+      Race_Get_Abilities();
+      ConcreteAbilityModifier();
     }
   }
 
+  void Race_Get_Abilities(){
+    Str += race_of_character->get(4);
+    Dex += race_of_character->get(5);
+    Con += race_of_character->get(6);
+    Int += race_of_character->get(7);
+    Wis += race_of_character->get(8);
+    Cha += race_of_character->get(9);
+  }
+  
   void Set(int a, int b) {// a - what parameter will be changed, b - modifier(can be negative)
     a = Correctness_of_input(a, 0, 14);
     if (a == 1) { experience += b; }
@@ -515,48 +546,24 @@ sleightOfHand 15,stealth 16,survival 17*/
     return -1;
   }
 
+  void Open_Inventory(){
+    printf("Your Backpack is a black hole without any limits, but you can carry not as much weight,"
+           " so choose wisely what to take with you in future journeys\n");
+  }
+
   void Level_Up() {
-    if (level < 4 && experience >= 300 * pow(3, level)) {
+    Existing_Types E;
+    if(experience > E.experience_per_level[level]){
       level++;
-      proficiency++;
-      maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
+      proficiency = ProficiencySetter();
       health = maxhealth;
       Ability_improve();
-      Level_Up();
-    } else if (level == 4 && experience > 6499) {
-      level++;
+      ConcreteAbilityModifier();
       maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
-      health = maxhealth;
-      Level_Up();
-    } else if (level == 5 && experience > 13999) {
-      level++;
-      maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
-      health = maxhealth;
-      Level_Up();
-    } else if (level == 6 && experience > 22999) {
-      level++;
-      maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
-      health = maxhealth;
-      Level_Up();
-    } else if (level == 7 && experience > 33999) {
-      level++;
-      proficiency++;
-      maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
-      health = maxhealth;
-      Ability_improve();
-      Level_Up();
-    } else if (level == 8 && experience > 47999) {
-      level++;
-      maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
-      health = maxhealth;
-      Level_Up();
-    } else if (level == 9 && experience > 64999) {
-      level++;
-      maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
-      health = maxhealth;
       Level_Up();
     }
     printf("%s %d \n", "Your level:", level);
+    printf("%s %d \n", "Your max health:", maxhealth);
     printf("%s %d \n", "Your health:", health);
   }
 
@@ -578,6 +585,8 @@ sleightOfHand 15,stealth 16,survival 17*/
     cin >> class_type_;
     class_type_ = Correctness_of_input(class_type_,1,11);
     classType.set(class_type_ -1,s_b);
+    health_dice = classType.get(20);
+    proficiency = ProficiencySetter();
     //21-38 => s[0] - s[17]
     for(int i = 21; i < 38;i++){
       if(classType.get(i) == 1 && !s_b[i-21]){
@@ -603,6 +612,15 @@ sleightOfHand 15,stealth 16,survival 17*/
   int GetSkill(int a) {
     a = Correctness_of_input(a,0,17);
     return *s[a];
+  }
+
+  void Starting_Health(){
+    if(maxhealth == 0){
+      maxhealth = health_dice + ConModifier;
+    }
+    else{
+      printf("Health Increase: Error\n");
+    }
   }
 };
 

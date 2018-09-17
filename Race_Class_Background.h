@@ -39,7 +39,7 @@ class Race {
 
   void Create(int sub_type,int a, int b, int c);
 
-  int get() ;
+  int get(int w) ;
 
   void RaceFeature() ;
 
