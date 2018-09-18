@@ -32,7 +32,7 @@ class Character {
   int AC;
   int deathsaves_s, deathsaves_f;//success/failure
   int passive_perception, proficiency;
-  bool advantage, disadvantage ;
+  bool advantage, disadvantage;
   bool perception_advantage;
   bool perception_disadvantage;
   int *s[18];
@@ -41,6 +41,7 @@ history 5,insight 6,intimidation 7,investigation 8,medicine 9,
 nature 10,perception 11,performance 12,persuasion 13,religion 14,
 sleightOfHand 15,stealth 16,survival 17*/
   bool *s_b[18];
+  int money[4]; // copper, silver, gold, platinum
   vector<Item *> inventory;
   map<std::string, Item *> items_map;
   Existing_Types E;
@@ -103,6 +104,10 @@ sleightOfHand 15,stealth 16,survival 17*/
       *s[i] = 0;
       *s_b[i] = false;
     }
+    money[0] = 0;//copper
+    money[1] = 0;
+    money[2] = 0;
+    money[3] = 0;//Pt
     SetSkill(s);
     proficiency = ProficiencySetter();
     passive_perception = PassivePerceptionSetter(WisModifier, perception_advantage, perception_disadvantage);
@@ -566,7 +571,11 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
-  int Open_Inventory(){
+  void Add_Money(int type,int sum){
+    money[type] += sum;
+  }
+
+  int Add_To_Inventory(){
     Items_Factory<Usables> Usables_Factory1;
     string a = "Backpack";
     inventory.push_back(Usables_Factory1.create(a));
@@ -695,6 +704,10 @@ sleightOfHand 15,stealth 16,survival 17*/
     else{
       printf("Health Increase: Error\n");
     }
+  }
+
+  void Starting_Wealth(){
+
   }
 };
 

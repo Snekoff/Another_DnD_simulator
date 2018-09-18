@@ -85,7 +85,9 @@ class Character {
 
   Item * Factory_Complex(string &a);
 
-  void Open_Inventory();
+  void Add_Money(int type,int sum);
+
+  void Add_To_Inventory();
 
   void Level_Up();
 
