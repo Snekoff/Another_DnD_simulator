@@ -83,6 +83,8 @@ class Character {
 
   int Get(int a);
 
+  Item * Factory_Complex(string &a);
+
   void Open_Inventory();
 
   void Level_Up();

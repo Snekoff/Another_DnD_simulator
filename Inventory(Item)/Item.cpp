@@ -6,11 +6,12 @@
 #include <vector>
 
 const int kWeapon_NUM = 29;
-const int kR_Weapon_NUM = 9;
+const int kRanged_Weapon_NUM = 9;
 const int kAmmo_NUM = 4;
 const int kArmor_NUM = 13;
 const int kUsable_NUM = 81;
-const int kMagic_items_NUM = 13;
+const int kMagic_Items_NUM = 13;
+const int kAll_Num = kWeapon_NUM + kRanged_Weapon_NUM + kAmmo_NUM + kArmor_NUM + kUsable_NUM + kMagic_Items_NUM;
 
 struct Existing_Items{
   std::string Weapon_s[kWeapon_NUM] = {"Club","Dagger","Greatclub","Handaxe","Javelin","Light_hammer",
@@ -26,9 +27,9 @@ struct Existing_Items{
                                   {2500, 1, 8, 2, 0}, {2500, 1, 6, 3, 0}, {1000, 1, 6, 2, 0}, {500, 1, 6, 4, 0},
                                   {500, 1, 8, 2, 0}, {1500, 1, 8, 2, 0}, {200, 1, 4, 3, 0}};
   //cost(copper), num_of_dices, damage_dice, weight, type_of_elemental_damage
-  std::string Ranged_Weapon_s[kR_Weapon_NUM] = {"Crossbow_light","Dart","Shortbow","Sling","Blowgun",
+  std::string Ranged_Weapon_s[kRanged_Weapon_NUM] = {"Crossbow_light","Dart","Shortbow","Sling","Blowgun",
                                                 "Crossbow_hand","Crossbow_heavy","Longbow","Net"};
-  int Ranged_Weapon_i[kR_Weapon_NUM][7] = {{2500,1,8,5,0,80,320},{5,1,4,0,0,20,60},{2500,1,6,2,0,80,320},{10,1,4,0,0,30,120},
+  int Ranged_Weapon_i[kRanged_Weapon_NUM][7] = {{2500,1,8,5,0,80,320},{5,1,4,0,0,20,60},{2500,1,6,2,0,80,320},{10,1,4,0,0,30,120},
                                            {1000,1,1,1,0,25,100},{7500,1,6,3,0,30,120},{5000,1,10,18,0,100,400},{5000,1,8,2,0,150,600},
                                            {100,0,0,3,0,5,15}};
   //cost(copper), num_of_dices, damage_dice, weight, type_of_elemental_damage , aiming_range, max_range
@@ -77,14 +78,44 @@ struct Existing_Items{
                                { 2,0,0}, { 50*100,3,0}, { 1*100,5,0}, { 1000*100,1,0}, { 2*100,20,0}, { 5*10,1,0},
                                { 1,1,0}, { 1*100,0,0}, { 2*10,5,0}, { 1,1,0}};
   //cost, weight, is_obstacle,
-  std::string Magic_items_s[kMagic_items_NUM] = {"Crystal", "Orb", "Rod", "Staff", "Wand", "Spring_of_mistletoe", "Totem",
+  std::string Magic_Items_s[kMagic_Items_NUM] = {"Crystal", "Orb", "Rod", "Staff", "Wand", "Spring_of_mistletoe", "Totem",
                                           "Wooden_staff", "Yew_wand", "Amulet", "Emblem", "Reliquary", "Potion_of_healing"};
-  int Magic_items_i[kMagic_items_NUM][6] = {{ 1000,1,0,1,0,0}, { 2000,3,0,1,0,0}, { 1000,2,0,1,0,0},
+  int Magic_Items_i[kMagic_Items_NUM][6] = {{ 1000,1,0,1,0,0}, { 2000,3,0,1,0,0}, { 1000,2,0,1,0,0},
                                             { 500,4,0,1,0,0}, { 1000,1,0,1,0,0}, { 100,0,0,0,1,0}, { 100,0,0,0,1,0},
                                             { 500,4,0,0,1,0}, { 1000,1,0,0,1,0}, { 500,1,0,0,0,1}, { 500,0,0,0,0,1},
                                             { 500,2,0,0,0,1},
                                             { 5000,1,2,0,0,0}};//2d4 + 2
   //cost, weight, healing, arcane_focus, druidic_focus, holy_symbol;
+  std::string All_s[kAll_Num] = { "Club","Dagger","Greatclub","Handaxe","Javelin","Light_hammer",
+                             "Mace","Quarterstaff","Sickle","Spear","Unarmed_strike","Battleaxe","Flail","Glaive",
+                             "Greataxe","Greatsword","Halberd","Lance","Longsword","Maul",
+                             "Morningstar","Pike","Rapier","Scimitar","Shortsword","Trident",
+                             "War_pick","Warhammer","Whip",
+                             "Crossbow_light","Dart","Shortbow","Sling","Blowgun",
+                             "Crossbow_hand","Crossbow_heavy","Longbow","Net",
+                             "Arrows", "Blowgun_needles", "Crossbow_bolts", "Sling_bullets",
+                             "Padded","Leather","Studded_leather",
+                             "Hide","Chain_shirt","Scale_mail","Breastplate","Half_plate",
+                             "Ring_mail","Chain_mail","Splint","Plate",
+                             "Shield",
+                             "Abacus",
+                             "Acid_vial", "Alchemists_fire_flask",
+                             "Antitoxin", "Backpack", "Ball_bearings", "Barrel", "Basket", "Bedroll", "Bell",
+                             "Blanket", "Block_and_tackle", "Book", "Bottle_glass", "Bucket", "Caltrops",
+                             "Candle", "Case_crossbow_bolt", "Case_map_or_scroll", "Chain", "Chalk", "Chest",
+                             "Climber`s_kit", "Clothes_common", "Clothes_costume", "Clothes_fine",
+                             "Clothes_traveler`s", "Component_pounch", "Crowbar", "Fishing_tackle",
+                             "Flask_or_tankard", "Grappling_hook", "Hammer", "Hammer_sledge", "Healer`s kit",
+                             "Holy_water", "Hourglass", "Hunting_trap", "Ink", "Ink_pen", "Jug_or_pitcher",
+                             "Ladder", "Lamp", "Lantern_bullseye", "Lantern_hooded", "Lock",
+                             "Magnifying_glass", "Manacles", "Mess_kit", "Oil", "Paper", "Parchment", "Perfume",
+                             "Pick_miner`s", "Piton", "Poison_basic", "Pole", "Pot_iron", "Pouch", "Quiver",
+                             "Ram_portable", "Rations", "Robes", "Rope_hempen", "Rope_silk", "Sack",
+                             "Scale_merchant`s", "Sealing_wax", "Shovel", "Signal_whistle", "Signet_ring",
+                             "Soap", "Spellbook", "Spikes_iron", "Spyglass", "Tent_two_person", "Tinderbox",
+                             "Torch", "Vial", "Waterskin", "Whetstone",
+                             "Crystal", "Orb", "Rod", "Staff", "Wand", "Spring_of_mistletoe", "Totem",
+                             "Wooden_staff", "Yew_wand", "Amulet", "Emblem", "Reliquary", "Potion_of_healing"};
 };
 
 class Item {
@@ -308,7 +339,7 @@ class Usables : public Item {
   ~Usables() = default;
   void set(std::string &name_, int count_) {
     Existing_Items E;
-    for (int i = 0;i < kMagic_items_NUM;i++) {
+    for (int i = 0;i < kMagic_Items_NUM;i++) {
       if(E.Usable_s[i].compare(name_)){
         name = name_;
         cost = E.Usable_i[i][0];
@@ -383,7 +414,7 @@ class Ammo : public Usables {
 
 };
 
-class Magic_items : public Item {
+class Magic_Items : public Item {
  private:
   int healing_dice;
   int num_of_dices;
@@ -392,24 +423,24 @@ class Magic_items : public Item {
   bool druidic_focus;
   bool holy_symbol;
  public:
-  Magic_items() = default;
-  Magic_items(std::string &name_) {
+  Magic_Items() = default;
+  Magic_Items(std::string &name_) {
     set(name_, 1);
   }
-  ~Magic_items() = default;
+  ~Magic_Items() = default;
   void set(std::string &name_, int count_) {
     Existing_Items E;
-    for (int i = 0;i < kMagic_items_NUM;i++) {
-      if(E.Magic_items_s[i].compare(name_)){
+    for (int i = 0;i < kMagic_Items_NUM;i++) {
+      if(E.Magic_Items_s[i].compare(name_)){
         name = name_;
-        passive_healing = E.Magic_items_i[i][0];
+        passive_healing = E.Magic_Items_i[i][0];
         if(passive_healing == 2){
           healing_dice = 4;
           num_of_dices = 2;
         }
-        if(E.Magic_items_i[i][1] > 0) arcane_focus = true;
-        if(E.Magic_items_i[i][2] > 0) druidic_focus = true;
-        if(E.Magic_items_i[i][3] > 0) holy_symbol = true;
+        if(E.Magic_Items_i[i][1] > 0) arcane_focus = true;
+        if(E.Magic_Items_i[i][2] > 0) druidic_focus = true;
+        if(E.Magic_Items_i[i][3] > 0) holy_symbol = true;
         break;
       }
     }

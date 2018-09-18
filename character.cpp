@@ -42,6 +42,7 @@ nature 10,perception 11,performance 12,persuasion 13,religion 14,
 sleightOfHand 15,stealth 16,survival 17*/
   bool *s_b[18];
   vector<Item *> inventory;
+  map<std::string, Item *> items_map;
   Existing_Types E;
  public:
   Character() : race_of_character(race_of_character) {
@@ -546,9 +547,82 @@ sleightOfHand 15,stealth 16,survival 17*/
     return -1;
   }
 
-  void Open_Inventory(){
+  Item * Factory_Complex(string &a){
+    Items_Factory<Weapon> Weapon_Factory;
+    Items_Factory<Ranged_Weapon> Ranged_Weapon_Factory;
+    Items_Factory<Armor> Armor_Factory;
+    Items_Factory<Usables> Usables_Factory;
+    Items_Factory<Ammo> Ammo_Factory;
+    Items_Factory<Magic_Items> Magic_Items_Factory;
+    Existing_Items E_I;
+    for(int i = 0;i < kUsable_NUM;i++){
+      if(a == E_I.Weapon_s[i]){return Weapon_Factory.create(a);}
+      else if(a == E_I.Ranged_Weapon_s[i]){return Ranged_Weapon_Factory.create(a);}
+      else if(a == E_I.Armor_s[i]){return Armor_Factory.create(a);}
+      else if(a == E_I.Usable_s[i]){return Usables_Factory.create(a);}
+      else if(a == E_I.Ammo_s[i]){return Ammo_Factory.create(a);}
+      else if(a == E_I.Magic_Items_s[i]){return Magic_Items_Factory.create(a);}
+      else if(i == kUsable_NUM-1){printf("Error in Factory complex\n");return nullptr;}
+    }
+  }
+
+  int Open_Inventory(){
+    Items_Factory<Usables> Usables_Factory1;
+    string a = "Backpack";
+    inventory.push_back(Usables_Factory1.create(a));
+    auto iter = items_map.find(inventory[inventory.size() - 1]->get_name());
+    if(iter != items_map.end()){
+      inventory.pop_back();
+    }
+    else{
+      items_map.insert(std::pair(a,inventory[inventory.size() - 1]));
+    }
     printf("Your Backpack is a black hole without any limits, but you can carry not as much weight,"
            " so choose wisely what to take with you in future journeys\n");
+    printf("Do you want to take anything with you ? (Y)/(N)\n");
+    cin >> a;
+    if(a[0] == 'N'){
+      return 0;
+    } else {
+      bool some_more = true;
+      while(some_more){
+        int item_;
+        printf("You can add this types of items:\n"
+               "1. Weapon\n"
+               "2. Ranged weapon\n"
+               "3. Armor\n"
+               "4. Usables\n"
+               "5. Ammo\n"
+               "6. Magic Items\n"
+               "(this list will be extended in future versions)\n");
+        cin >> item_;
+        item_ = Correctness_of_input(item_,1,6);
+        int limit[7] = {0,kWeapon_NUM,kRanged_Weapon_NUM + limit[1],kArmor_NUM+ limit[2],kUsable_NUM+ limit[3],
+                        kAmmo_NUM+ limit[4],kMagic_Items_NUM+ limit[5]};
+        Existing_Items E_P;
+        for(int i = limit[item_ - 1];i < limit[item_];i++){
+          cout << i + 1<< ". " << E_P.All_s[i];
+        }
+        cin >> item_;
+        item_ = Correctness_of_input(item_,1,limit[6] + 1);
+        a = E_P.All_s[item_ - 1];
+        inventory.push_back(Factory_Complex(a));
+        iter = items_map.find(inventory[inventory.size() - 1]->get_name());
+        if(iter != items_map.end()){
+          items_map.at(inventory[inventory.size() - 1]->get_name())->set_count(inventory[inventory.size() - 1]->get_count());
+          inventory.pop_back();
+        }
+        else{
+          items_map.insert(std::pair(a,inventory[inventory.size() - 1]));
+        }
+        printf("Do you want to add something?(Y)/(N)\n");
+        cin >> a;
+        if(a[0] == 'N'){
+          some_more = false;
+        }
+      }
+      return 0;
+    }
   }
 
   void Level_Up() {
