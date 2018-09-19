@@ -141,6 +141,7 @@ class Item {
   virtual int show() { return count; };
   virtual int get_count() { return count; };
   virtual void set_count(int a) { count +=a;};
+  virtual int get_cost() { return cost; }
 };
 
 class Weapon : public Item {

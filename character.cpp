@@ -41,7 +41,7 @@ history 5,insight 6,intimidation 7,investigation 8,medicine 9,
 nature 10,perception 11,performance 12,persuasion 13,religion 14,
 sleightOfHand 15,stealth 16,survival 17*/
   bool *s_b[18];
-  int money[4]; // copper, silver, gold, platinum
+  int money[5]; // copper, silver, gold, platinum, Total money(in copper equivalent)
   vector<Item *> inventory;
   map<std::string, Item *> items_map;
   Existing_Types E;
@@ -108,6 +108,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     money[1] = 0;
     money[2] = 0;
     money[3] = 0;//Pt
+    money[4] = 0;
     SetSkill(s);
     proficiency = ProficiencySetter();
     passive_perception = PassivePerceptionSetter(WisModifier, perception_advantage, perception_disadvantage);
@@ -572,20 +573,57 @@ sleightOfHand 15,stealth 16,survival 17*/
   }
 
   void Add_Money(int type,int sum){
+    type = Correctness_of_input(type,0,3);
     money[type] += sum;
+    money[4] += static_cast<int>(money[type] * pow(10,type)); // im sure integer will be in "()"
+  }
+
+  void Add_To_Item_Map(string &a){
+    auto iter = items_map.find(inventory[inventory.size() - 1]->get_name());
+    if(iter != items_map.end()){
+      if(a != "Backpack"){
+      items_map.at(inventory[inventory.size() - 1]->get_name())->set_count(inventory[inventory.size() - 1]->get_count());
+      }
+      inventory.pop_back();
+    }
+    else{
+      items_map.insert(std::pair(a,inventory[inventory.size() - 1]));
+    }
+  }
+
+  bool Paying_Money(int how_many_copper) {
+    if (money[4] < how_many_copper) {
+      return false;
+    } else {
+      money[4] -= how_many_copper;
+      int dif = 1, i = 0;
+      while (dif != 0) {
+        dif = static_cast<int>(how_many_copper - money[i] * pow(10, i));
+        money[i] = 0;
+        cout <<"dif = " << dif << endl;
+        how_many_copper = dif;
+        cout <<"how_many_copper = " << how_many_copper << endl;
+        if(how_many_copper < 0){
+          dif *= (-1);
+          for(int j = i; j > -1;j--){
+            int t = static_cast<int>(dif / pow(10,j));
+            cout <<"t = " << t << endl;
+            money[j] += t;
+            dif -= static_cast<int>(t*pow(10,j));
+            if(dif == 0) break;
+          }
+          break;
+        }
+        i++;
+      }
+    }
   }
 
   int Add_To_Inventory(){
     Items_Factory<Usables> Usables_Factory1;
     string a = "Backpack";
     inventory.push_back(Usables_Factory1.create(a));
-    auto iter = items_map.find(inventory[inventory.size() - 1]->get_name());
-    if(iter != items_map.end()){
-      inventory.pop_back();
-    }
-    else{
-      items_map.insert(std::pair(a,inventory[inventory.size() - 1]));
-    }
+    Add_To_Item_Map(a);
     printf("Your Backpack is a black hole without any limits, but you can carry not as much weight,"
            " so choose wisely what to take with you in future journeys\n");
     printf("Do you want to take anything with you ? (Y)/(N)\n");
@@ -616,14 +654,11 @@ sleightOfHand 15,stealth 16,survival 17*/
         item_ = Correctness_of_input(item_,1,limit[6] + 1);
         a = E_P.All_s[item_ - 1];
         inventory.push_back(Factory_Complex(a));
-        iter = items_map.find(inventory[inventory.size() - 1]->get_name());
-        if(iter != items_map.end()){
-          items_map.at(inventory[inventory.size() - 1]->get_name())->set_count(inventory[inventory.size() - 1]->get_count());
-          inventory.pop_back();
-        }
-        else{
-          items_map.insert(std::pair(a,inventory[inventory.size() - 1]));
-        }
+        if(Paying_Money(inventory[inventory.size() - 1]->get_cost())){
+          Add_To_Item_Map(a);
+        } else printf("%s %d %s %d \n","You have not enough money for that. Your money(in copper equivalent) are:"
+            ,money[4]," and price is ",inventory[inventory.size() - 1]->get_cost());
+
         printf("Do you want to add something?(Y)/(N)\n");
         cin >> a;
         if(a[0] == 'N'){
