@@ -5,11 +5,11 @@
 #include <vector>
 #include <utility>
 #include <math.h>
-#include "Race_Class_Background.h"
+#include "Race.h"
 #include "Classes.h"
 #include "UsefulFunctions.h"
-#include "Inventory(Item)/Item.h"
-#include "Inventory(Item)/Items_Factory.h"
+#include "../Inventory(Item)/Item.h"
+#include "../Inventory(Item)/Items_Factory.h"
 
 using namespace std;
 
@@ -29,7 +29,7 @@ class Character {
   int health_dice;
   int Str, Dex, Con, Int, Wis, Cha;
   int StrModifier, DexModifier, ConModifier, IntModifier, WisModifier, ChaModifier;
-  int AC;
+  int armor_class;
   int deathsaves_s, deathsaves_f;//success/failure
   int passive_perception, proficiency;
   bool advantage, disadvantage;
@@ -45,6 +45,9 @@ sleightOfHand 15,stealth 16,survival 17*/
   vector<Item *> inventory;
   map<std::string, Item *> items_map;
   Existing_Types E;
+  Item * left_hand;
+  Item * right_hand;
+  Item * armor;
  public:
   Character() : race_of_character(race_of_character) {
     //race.set(24);//human
@@ -58,7 +61,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     Str = 0 ;Dex = 0 ; Con = 0 ; Int = 0 ; Wis = 0 ; Cha = 0 ;
     StrModifier = 0 ; DexModifier = 0 ; ConModifier = 0 ;
     IntModifier = 0 ; WisModifier = 0 ; ChaModifier = 0 ;
-    AC = 0 ;
+    armor_class = 0 ;
     deathsaves_s = 0 ;
     deathsaves_f = 0 ;//success/failure
     passive_perception = 0 ;
@@ -90,8 +93,8 @@ sleightOfHand 15,stealth 16,survival 17*/
     Int = Inte;
     Wis = Wisd;
     Cha = Charisma;
-    AC = 0;
-    //AC = ArmorClass;
+    armor_class = 0;
+    //armor_class = ArmorClass;
     deathsaves_s = 0 ;
     deathsaves_f = 0 ;
     passive_perception = 0 ;
@@ -116,9 +119,10 @@ sleightOfHand 15,stealth 16,survival 17*/
     StorySetsSkills(s,s_b,storyline);
     SetClass();
     Starting_Health();
-    if(race_of_character->get(0) == 0) AC = 10 + DexModifier + ConModifier;
+    if(classType.get(0) == 0) armor_class = 10 + DexModifier + ConModifier;
     level = 0;
     Level_Up();
+    Add_To_Inventory();
   }
 
   ~Character() = default;
@@ -169,6 +173,7 @@ sleightOfHand 15,stealth 16,survival 17*/
   }
   
   void StorySetsSkills(int *s[],bool *s_b[], string &b) {
+    Add_Money(2,15);
     if (b == "Acolyte") {
       if (!*s_b[6]) {
         *s[6] += proficiency;
@@ -525,7 +530,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     else if (a == 6) { Int += b; }
     else if (a == 7) { Wis += b; }
     else if (a == 8) { Cha += b; }
-    else if (a == 9) { AC += b; }
+    else if (a == 9) { armor_class += b; }
     else if (a == 10) { if (b < 0)deathsaves_f++; else deathsaves_s++; }
     else if (a == 11) { printf("%s \n", "reserved for Skills"); }
     else if (a == 12) { printf("%s \n", "reserved for weapon"); }
@@ -543,12 +548,12 @@ sleightOfHand 15,stealth 16,survival 17*/
     else if (a == 6) { return Int; }
     else if (a == 7) { return Wis; }
     else if (a == 8) { return Cha; }
-    else if (a == 9) { return AC; }
+    else if (a == 9) { return armor_class; }
     else if (a == 10) { return deathsaves_f; }
     else if (a == 11) { return deathsaves_s; }
-    else if (a == 12) { return -1; } //reserved for weapon
-    else if (a == 13) { return -1; } //reserved for inventory
-    else if (a == 14) { return -1; }//reserved for story/background
+    else if (a == 12) { return -1; } //reserved for left_hand
+    else if (a == 13) { return -1; } //reserved for right_hand
+    else if (a == 14) { cout << storyline << endl; return 1; }//reserved for story/background
     else if (a == 15) { return passive_perception; }
     return -1;
   }
@@ -598,18 +603,22 @@ sleightOfHand 15,stealth 16,survival 17*/
       money[4] -= how_many_copper;
       int dif = 1, i = 0;
       while (dif != 0) {
-        dif = static_cast<int>(how_many_copper - money[i] * pow(10, i));
-        money[i] = 0;
-        cout <<"dif = " << dif << endl;
-        how_many_copper = dif;
-        cout <<"how_many_copper = " << how_many_copper << endl;
+        if(how_many_copper > 0){
+          dif = static_cast<int>(how_many_copper - money[i] * pow(10, i));
+          money[i] = 0;
+          how_many_copper = dif;
+        }
+        else {
+          dif = how_many_copper;
+          i = 3;
+        }
         if(how_many_copper < 0){
           dif *= (-1);
           for(int j = i; j > -1;j--){
             int t = static_cast<int>(dif / pow(10,j));
-            cout <<"t = " << t << endl;
+            //cout <<"t = " << t << endl;
             money[j] += t;
-            dif -= static_cast<int>(t*pow(10,j));
+            dif -= t*pow(10,j);
             if(dif == 0) break;
           }
           break;
@@ -669,6 +678,23 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
+  void Equip_Item(int where, Item *what) {
+    if (where == 0) {
+      left_hand = what;
+    } else if (where == 1) {
+      right_hand = what;
+    } else if (where == 2) {
+      if(classType.get(0) == 0){
+        armor_class = 10 + DexModifier + ConModifier;
+      } else {
+        armor_class = 0;
+      }
+      armor = what;
+      int armor_class_bonus[3] = {DexModifier,min(DexModifier,2),0};
+      armor_class = armor->get(2) + armor_class_bonus[armor->get(0)];
+    }
+  }
+
   void Level_Up() {
     Existing_Types E;
     if(experience > E.experience_per_level[level]){
@@ -683,6 +709,19 @@ sleightOfHand 15,stealth 16,survival 17*/
     printf("%s %d \n", "Your level:", level);
     printf("%s %d \n", "Your max health:", maxhealth);
     printf("%s %d \n", "Your health:", health);
+  }
+
+  void Class_Set_Wealth(){
+    int wealth[12][3] = {{2,4,10},{5,4,10},{5,4,10},{2,4,10},{5,4,10},{5,4,1},
+                         {5,4,10},{5,4,10},{4,4,10},{3,4,10},{4,4,10},{4,4,10}};
+    int ctype = classType.get(0);
+    // num of dices, dice* , modifier
+    // *in gold
+    int funds = 0;
+    for(int i = 0; i < wealth[ctype][0];i++){
+      funds += Random_Generator(1,wealth[ctype][1])*wealth[ctype][2];
+    }
+    Add_Money(2,funds);
   }
 
   void SetClass() {
@@ -706,6 +745,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     health_dice = classType.get(20);
     proficiency = ProficiencySetter();
     //21-38 => s[0] - s[17]
+    Class_Set_Wealth();
     for(int i = 21; i < 38;i++){
       if(classType.get(i) == 1 && !s_b[i-21]){
         *s[i-21] += proficiency;
@@ -741,9 +781,6 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
-  void Starting_Wealth(){
-
-  }
 };
 
 

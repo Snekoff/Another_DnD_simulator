@@ -43,7 +43,7 @@ struct Existing_Items{
   int Armor_i[kArmor_NUM][6] = {{500,0,11,0,1,8},{1000,0,11,0,0,10},{4500,0,12,0,0,13},
                                 {1000,1,12,0,0,12},{5000,1,13,0,0,20},{5000,1,14,0,1,45},{40000,1,14,0,0,20},{75000,1,15,0,1,40},
                                 {3000,2,14,0,1,40},{7500,2,16,13,1,55},{20000,2,17,15,1,60},{150000,2,18,15,1,65},
-                                {1000,3,2,0,0,6}};
+                                {1000,2,2,0,0,6}};
   //Cost , Type , Armor_Class , Strength_needed , stealth_disadvantage, weight
   std::string Usable_s[kUsable_NUM] = {"Abacus", 
                                        "Acid_vial", "Alchemists_fire_flask",
@@ -142,6 +142,7 @@ class Item {
   virtual int get_count() { return count; };
   virtual void set_count(int a) { count +=a;};
   virtual int get_cost() { return cost; }
+  virtual int get(int a) { if(a == 1) return weight;}
 };
 
 class Weapon : public Item {
@@ -193,6 +194,7 @@ class Weapon : public Item {
               " element: "<< elements[type_of_elemental_damage] << std::endl;
     return damage_dice;
   }
+  int get(int a){ return weight; }
 };
 
 class Ranged_Weapon : public Weapon {
@@ -249,6 +251,8 @@ class Ranged_Weapon : public Weapon {
               " element:"<< elements[type_of_elemental_damage] << std::endl;
     return damage_dice;
   }
+
+  int get(int a){ return weight; }
 };
 
 /*class Food : public Item {
@@ -320,6 +324,13 @@ class Armor : public Item {
     printf("%s %d %s %d \n", "Armor Class:", armor_class, "stealth disadvantage:", stealth_disadvantage);
     return armor_class;
   }
+  
+  int get(int a){
+    if(a == 0) return type;
+    else if(a == 1){return weight;}
+    else if(a == 2){ return armor_class;}
+    else if(a == 3){ return strength_needed;}
+  }
 };
 
 class Usables : public Item {
@@ -357,6 +368,8 @@ class Usables : public Item {
     std::cout << name << std::endl;
     return count;
   }
+
+  int get(int a){ return weight; }
 };
 
 class Ammo : public Usables {
@@ -413,6 +426,8 @@ class Ammo : public Usables {
     return count;
   }
 
+  int get(int a){ return weight; }
+
 };
 
 class Magic_Items : public Item {
@@ -453,5 +468,7 @@ class Magic_Items : public Item {
     std::cout << name << std::endl;
     return count;
   }
+
+  int get(int a){ return weight; }
 };
 

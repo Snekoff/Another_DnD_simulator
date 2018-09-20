@@ -9,7 +9,7 @@
 #include <queue>
 #include <locale>
 
-#include "character.h"
+#include "Character/character.h"
 //#include "Inventory(Item)/Item.h"
 
 using namespace std;

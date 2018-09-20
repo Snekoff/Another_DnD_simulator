@@ -7,9 +7,9 @@
 #include <iostream>
 #include "UsefulFunctions.h"
 #include "Classes.h"
-#include "Race_Class_Background.h"
-#include "Inventory(Item)/Item.h"
-#include "Inventory(Item)/Items_Factory.h"
+#include "Race.h"
+#include "../Inventory(Item)/Item.h"
+#include "../Inventory(Item)/Items_Factory.h"
 
 using namespace std;
 
@@ -34,7 +34,7 @@ int tiefling_count;
 
 class Character {
  private:
-  Race* race_of_character;
+  /*Race* race_of_character;
   Class classType;
   string storyline;
   int experience, level;
@@ -51,7 +51,7 @@ class Character {
   Skills skill;
   //Item item;
   string inventory;
-  Existing_Types E;
+  Existing_Types E;*/
  public:
   Character();
   Character(string &storyl, int exp, int levl, int Stre, int Dext,
@@ -87,6 +87,10 @@ class Character {
 
   void Add_Money(int type,int sum);
 
+  void Add_To_Item_Map(string &a);
+
+  bool Paying_Money(int how_many_copper);
+
   void Add_To_Inventory();
 
   void Level_Up();
@@ -98,6 +102,7 @@ class Character {
   void Starting_Health();
 
   int GetSkill(int a);
+
 };
 
 
