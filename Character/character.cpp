@@ -577,7 +577,6 @@ sleightOfHand 15,stealth 16,survival 17*/
   }
 
   int Get(int a) {
-    a = Correctness_of_input(a, 0, 15);
     if (a == 1) { return experience; }
     else if (a == 2) { return health; }
     else if (a == 3) { return Str; }
@@ -589,10 +588,31 @@ sleightOfHand 15,stealth 16,survival 17*/
     else if (a == 9) { return armor_class; }
     else if (a == 10) { return deathsaves_f; }
     else if (a == 11) { return deathsaves_s; }
-    else if (a == 12) { return -1; } //reserved for left_hand
-    else if (a == 13) { return -1; } //reserved for right_hand
-    else if (a == 14) { cout << storyline << endl; return 1; }//reserved for story/background
-    else if (a == 15) { return passive_perception; }
+    else if (a == 12) { cout << Equiped[0].get_name() << endl; return -3; } // left_hand
+    else if (a == 13) { cout << Equiped[1].get_name() << endl; return -3; } // right_hand
+    else if (a == 14) { cout << Equiped[2].get_name() << endl; return -3; }
+    else if (a == 15) { cout << storyline << endl; return 1; }//reserved for story/background
+    else if (a == 16) { return passive_perception; }
+    else if (a == 17) { return state; }
+    else if (a == 18) { return sex; }
+    else if (a == 19) { return money[4]; }
+    else if (a == 20) { return maxhealth; }
+    else if (a == 21) { return health_dice; }
+    else if (a == 22) { return advantage; }
+    else if (a == 23) { return disadvantage; }
+    else if (a == 24) { return perception_advantage; }
+    else if (a == 25) { return classType.get(0); }
+    else if (a == 26) { return race_of_character->get(0); }//type
+    else if (a == 27) { return race_of_character->get(1); }//height
+    else if (a == 28) { return race_of_character->get(2); }//weight
+    else if (a == 29) { return race_of_character->get(10); }//Movement
+    else if (a == 31) { return race_of_character->get(11); }//Size
+    else if (a == 32) { return race_of_character->get(12); }//Darkvision
+    else if (a == 33) { return race_of_character->get(13); }//damage resist
+    //else if (a == ) { return ; }
+    //else if (a == ) { return ; }
+    //else if (a == ) { return ; }
+    //else if (a == ) { return ; }
     return -1;
   }
 
