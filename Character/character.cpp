@@ -24,6 +24,7 @@ class Character {
   Race* race_of_character;
   Class classType;
   string storyline;
+  int sex; //0 - female,1 - male, 3 - Futa, 4 - creature
   int experience, level;
   int health, maxhealth;
   int health_dice;
@@ -35,24 +36,24 @@ class Character {
   bool advantage, disadvantage;
   bool perception_advantage;
   bool perception_disadvantage;
-  int *s[18];
+  int *s;
   /*acrobatics 0,animalHandling 1,arcana 2,athletics 3,deception 4,
 history 5,insight 6,intimidation 7,investigation 8,medicine 9,
 nature 10,perception 11,performance 12,persuasion 13,religion 14,
 sleightOfHand 15,stealth 16,survival 17*/
-  bool *s_b[18];
+  bool *s_b;
   int money[5]; // copper, silver, gold, platinum, Total money(in copper equivalent)
   vector<Item *> inventory;
   map<std::string, Item *> items_map;
   Existing_Types E;
-  Item * left_hand;
-  Item * right_hand;
-  Item * armor;
+  Item * Equiped;
+  int state; // norm, incapacitated, arested, dead
  public:
   Character() : race_of_character(race_of_character) {
     //race.set(24);//human
     //classType.set(0);//barbarian
     storyline = "Acolyte";
+    sex = 0;
     experience = 0;
     level = 0 ;
     health = 0 ;
@@ -71,7 +72,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     perception_disadvantage = false;
   }
   Character(string &storyl, int exp, int levl, int Stre, int Dext,
-      int Cons, int Inte, int Wisd, int Charisma){
+      int Cons, int Inte, int Wisd, int Charisma,int sex_){
     exp = Less_than_zero(exp);
     levl = Less_than_zero(levl);
     Stre = Less_than_zero(Stre);
@@ -85,6 +86,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     maxhealth = 0 ;
     health_dice = 0 ;
     storyline = storyl;
+    sex = sex_;
     if(exp < E.experience_per_level[levl - 1]){ exp = E.experience_per_level[level - 1]; }
     experience = exp;
     Str = Stre;
@@ -93,8 +95,8 @@ sleightOfHand 15,stealth 16,survival 17*/
     Int = Inte;
     Wis = Wisd;
     Cha = Charisma;
+    Ability_Random_Sets();
     armor_class = 0;
-    //armor_class = ArmorClass;
     deathsaves_s = 0 ;
     deathsaves_f = 0 ;
     passive_perception = 0 ;
@@ -103,29 +105,65 @@ sleightOfHand 15,stealth 16,survival 17*/
     perception_advantage = false;
     perception_disadvantage = false;
     ConcreteAbilityModifier();
-    for(int i = 0; i < 18;i++){
-      *s[i] = 0;
-      *s_b[i] = false;
-    }
+    s = new int[18];
+    s_b = new bool[18];
     money[0] = 0;//copper
     money[1] = 0;
     money[2] = 0;
     money[3] = 0;//Pt
     money[4] = 0;
-    SetSkill(s);
+    Equiped = new Item[10];
+    SetSkill(&s);
     proficiency = ProficiencySetter();
     passive_perception = PassivePerceptionSetter(WisModifier, perception_advantage, perception_disadvantage);
     Race_Choosal();
-    StorySetsSkills(s,s_b,storyline);
+    StorySetsSkills(&s,&s_b,storyline);
     SetClass();
     Starting_Health();
     if(classType.get(0) == 0) armor_class = 10 + DexModifier + ConModifier;
     level = 0;
     Level_Up();
     Add_To_Inventory();
+    state = 0;
   }
 
-  ~Character() = default;
+  ~Character() {
+    delete race_of_character;
+    delete [] s;
+    delete [] s_b;
+    inventory.clear();
+    items_map.clear();
+    delete [] Equiped;
+  };
+
+  int Ability_Random_Sets(){
+    if(Str == 0 && Dex == 0 && Con == 0 && Int == 0 && Wis == 0 && Cha == 0 ){
+      int Sets[12] = {0};
+      for(int k = 0; k < 12;k++){
+        if(k == 0) cout << "Set 1:\n";
+        if(k == 6) cout << "Set 2:\n";
+        Sets[k] = Random_Generator(10,16);
+        cout << " " << Sets[k] << endl;
+      }
+      cout << "which one do you prefer most?";
+      cout << "*Or type 13 to re-roll\n";
+      int s[7];
+      cin >> s[6];
+      if(s[6] == 13) return Ability_Random_Sets();
+      s[6] = Correctness_of_input(s[6],1,2);
+      cout << "type six numbers what represents to what skill you apply each value\n";
+      for(int i = 0; i < 6; i++){
+        cin >> s[i];
+        if(i == 0){ Str = Sets[(int)(pow(6,s[6] - 1)) - 1 + i];}
+        else if(i == 1){ Dex = Sets[(int)(pow(6,s[6] - 1)) - 1 + i];}
+        else if(i == 2){ Con = Sets[(int)(pow(6,s[6] - 1)) - 1 + i];}
+        else if(i == 3){ Int = Sets[(int)(pow(6,s[6] - 1)) - 1 + i];}
+        else if(i == 4){ Wis = Sets[(int)(pow(6,s[6] - 1)) - 1 + i];}
+        else if(i == 5){ Cha = Sets[(int)(pow(6,s[6] - 1)) - 1 + i];}
+      }
+      return 0;
+    }
+  }
 
   int Less_than_zero(int a) {
     return a < 0 ? 0 : a;
@@ -679,19 +717,80 @@ sleightOfHand 15,stealth 16,survival 17*/
   }
 
   void Equip_Item(int where, Item *what) {
-    if (where == 0) {
-      left_hand = what;
-    } else if (where == 1) {
-      right_hand = what;
+    if (where < 2) {
+      if(&Equiped[where] != nullptr){// need to try it hard
+        Equiped[where].equip(-1);
+      }
+      Equiped[where] = *what;
     } else if (where == 2) {
       if(classType.get(0) == 0){
         armor_class = 10 + DexModifier + ConModifier;
       } else {
         armor_class = 0;
       }
-      armor = what;
+      Equiped[where] = *what;
       int armor_class_bonus[3] = {DexModifier,min(DexModifier,2),0};
-      armor_class = armor->get(2) + armor_class_bonus[armor->get(0)];
+      armor_class = Equiped[where].get(2) + armor_class_bonus[Equiped[where].get(0)];
+    } else{
+      printf("non-standart body\n");
+      Equiped[where] = *what;
+    }
+  }
+
+  void Equiping_Item(){
+    Item * what;
+    cout << "You might Equip Something. Choose where and what.\n";
+    cout << "Now lets see what you have got in your backpack\n";
+    vector <string> names;
+    int k = 0;
+    for(auto it = items_map.begin(); it != items_map.end();it++){
+      names.push_back(it->first);
+      cout << k+1 << '.' << it->first << endl;
+      k++;
+    }
+    if(k > 1){
+      cout << "You can equip something. Choose what.(type number)\n";
+      int what_;
+      cin >> what_;
+      if(what_ == 1){ cout << " You already got "<< names[what_ - 1] << " on you\n"; what_ = 0;}
+      what_ = Correctness_of_input(what_,1,k+1);
+      if(items_map.find(names[what_])->second->is_equiped()){
+        cout << "it is already equipped!\n";
+      }
+      else{
+        what = items_map.find(names[what_])->second;
+        items_map.find(names[what_])->second->equip(1);
+        cout << "Possible places to equip are:\n";
+        cout << "Hands: Left(0), Right(1), extra(3-4)\n";
+        cout << "Body: upper/upper+lower(2)\n";
+        cout << "Fingers: (5-9)\n";
+        int where;
+        cin >> where;
+        where = Correctness_of_input(where,0,9);
+        Equip_Item(where,what);
+        printf("Do u want to add something to your equipment? Yes(0), No(1)\n");
+        cin >> k;
+        delete what;
+        if(k == 0){Equiping_Item();}
+      }
+    }
+    cout << "You can Equip Nothing.\n";
+  }
+
+  int Healing_Injuring(int value){
+    if(value > 0){
+      health +=value;
+      if(health > maxhealth) health = maxhealth;
+    } else {
+      if(health <= value && value - health < maxhealth){
+        state = 1; // incapacitated
+      }
+      else if(value - health >= maxhealth){
+        state = 3; // instantly dead;
+      }
+      else{
+        health -= value;
+      }
     }
   }
 
@@ -741,15 +840,15 @@ sleightOfHand 15,stealth 16,survival 17*/
            "12. Wizard\n");
     cin >> class_type_;
     class_type_ = Correctness_of_input(class_type_,1,11);
-    classType.set(class_type_ -1,s_b);
+    classType.set(class_type_ -1,&s_b);
     health_dice = classType.get(20);
     proficiency = ProficiencySetter();
     //21-38 => s[0] - s[17]
     Class_Set_Wealth();
     for(int i = 21; i < 38;i++){
       if(classType.get(i) == 1 && !s_b[i-21]){
-        *s[i-21] += proficiency;
-        *s_b[i-21] = true;
+        s[i-21] += proficiency;
+        s_b[i-21] = true;
       }
     }
   }
@@ -769,7 +868,7 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   int GetSkill(int a) {
     a = Correctness_of_input(a,0,17);
-    return *s[a];
+    return s[a];
   }
 
   void Starting_Health(){
