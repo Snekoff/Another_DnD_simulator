@@ -1,11 +1,9 @@
-//
-// Created by Oleg on 14.09.2018.
-//
 
 #ifndef ANOTHER_DND_SIMULATOR_CLASSES_H
 #define ANOTHER_DND_SIMULATOR_CLASSES_H
 
 #include <iostream>
+#include "UsefulFunctions.h"
 
 class Class {
  protected:
@@ -13,23 +11,36 @@ class Class {
   int hit_dice;
   bool primary_ability[6];
   bool saving_throw_proficiencies[6];
-  bool armor_and_weapon_proficiencies[6];
+  bool armor_and_weapon_proficiencies[7];
   int s[18];
+  /*acrobatics 0,animalHandling 1,arcana 2,athletics 3,deception 4,
+history 5,insight 6,intimidation 7,investigation 8,medicine 9,
+nature 10,perception 11,performance 12,persuasion 13,religion 14,
+sleightOfHand 15,stealth 16,survival 17*/
   std::string architype;
  public:
   Class();
 
-  Class(int type_,bool * s_b[]);
+  Class(int type_, bool *s_b[]);
+  ~Class();
 
-  ~Class() = default;
-
-  virtual void set(int type_,bool * s_b[]);
+  virtual void set(int type_, bool *s_b[]);
 
   virtual void set_architype();
 
-  virtual void set_skills(bool * s_b[]);
+  virtual void set_skills(bool *s_b[]);
 
   virtual int get(int what);
+
+};
+
+class MultiClass : public Class {
+ private:
+  int multitype;
+ public:
+  MultiClass();
+  ~MultiClass();
+  void subClassFeatures();
 };
 
 #endif //ANOTHER_DND_SIMULATOR_CLASSES_H

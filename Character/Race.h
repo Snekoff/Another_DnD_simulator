@@ -1,18 +1,12 @@
 #pragma  once
-//#include "Race_Class_Background.cpp"
-
-#ifndef ANOTHER_DND_SIMULATOR_RACE_H
-#define ANOTHER_DND_SIMULATOR_RACE_H
-
-#endif //ANOTHER_DND_SIMULATOR_RACE_CLASS_BACKGROUND_H
-
-
 #include <iostream>
 #include <string>
 #include "Skills_and_Spells.h"
 #include "UsefulFunctions.h"
 
-//
+#ifndef ANOTHER_DND_SIMULATOR_RACE_H
+#define ANOTHER_DND_SIMULATOR_RACE_H
+
 class Race {
  private:
  protected:
@@ -29,21 +23,21 @@ class Race {
   Existing_Types E;
   // Movement,Size,Darkvision,skill like firebreath,fits,type of damage resistance,Languages//
  public:
-  Race() = default;
+  Race();
 
-  ~Race() = default;
+  ~Race();
 
-  void set(int a) ;
+  void set(int a);
 
-  void set(int a, int b, int c, int d) ;
+  void set(int a, int b, int c, int d);
 
-  void Create(int sub_type,int a, int b, int c);
+  virtual void Create(int sub_type, int a, int b, int c);
 
-  int get(int w) ;
+  int get(int w);
 
-  void RaceFeature() ;
+  void RaceFeature();
 
-  void SetRaceAbilityBonus() ;
+  void SetRaceAbilityBonus();
 
   void RaceAbilityBonus();
 };
@@ -52,131 +46,131 @@ class Dragonborn : public Race {
  private:
   int subtype;
  public:
-  Dragonborn() : Race() { }
-  Dragonborn(int sub_type,int a, int b, int c);
-  ~Dragonborn() = default;
+  Dragonborn();
+  Dragonborn(int sub_type, int a, int b, int c);
+  ~Dragonborn();
   void subRaceFeatures();
 
-  void Create(int sub_type,int a, int b, int c);
+  void Create(int sub_type, int a, int b, int c) override;
 };
 
-class Dwarf  : public Race {
+class Dwarf : public Race {
  private:
   int subtype;
  public:
-  Dwarf() : Race() { }
-  Dwarf(int sub_type,int a, int b, int c);
-  ~Dwarf() = default;
+  Dwarf();
+  Dwarf(int sub_type, int a, int b, int c);
+  ~Dwarf();
   void subRaceFeatures();
 
-  void Create(int sub_type,int a, int b, int c);
+  void Create(int sub_type, int a, int b, int c) override;
 };
 
-class Elf  : public Race {
+class Elf : public Race {
  private:
   int subtype;
  public:
-  Elf():Race(){}
-  Elf(int sub_type,int a, int b, int c);
-  ~Elf() = default;
-  void subRaceFeatures() ;
+  Elf();
+  Elf(int sub_type, int a, int b, int c);
+  ~Elf();
+  void subRaceFeatures();
 
-  void Create(int sub_type,int a, int b, int c);
+  void Create(int sub_type, int a, int b, int c) override;
 };
-class Gnome  : public Race {
+class Gnome : public Race {
  private:
   int subtype;
  public:
-  Gnome():Race(){}
-  Gnome(int sub_type,int a, int b, int c);
-  ~Gnome() = default;
-  void subRaceFeatures() ;
+  Gnome();
+  Gnome(int sub_type, int a, int b, int c);
+  ~Gnome();
+  void subRaceFeatures();
 
-  void Create(int sub_type,int a, int b, int c);
+  void Create(int sub_type, int a, int b, int c) override;
 };
 
 class Goblin : public Race {
  private:
   int subtype;
  public:
-  Goblin():Race(){}
-  Goblin(int sub_type,int a, int b, int c);
-  ~Goblin() = default;
-  void subRaceFeatures() ;
+  Goblin();
+  Goblin(int sub_type, int a, int b, int c);
+  ~Goblin();
+  void subRaceFeatures();
 
-  void Create(int sub_type,int a, int b, int c);
+  void Create(int sub_type, int a, int b, int c) override;
 };
 
 class Half_Elf : public Race {
  private:
   int subtype;
  public:
-  Half_Elf():Race(){}
-  Half_Elf(int sub_type,int a, int b, int c);
-  ~Half_Elf() = default;
-  void subRaceFeatures() ;
+  Half_Elf();
+  Half_Elf(int sub_type, int a, int b, int c);
+  ~Half_Elf();
+  void subRaceFeatures();
 
-  void Create(int sub_type,int a, int b, int c);
+  void Create(int sub_type, int a, int b, int c) override;
 };
 
 class Half_Orc : public Race {
  private:
   int subtype;
  public:
-  Half_Orc():Race(){}
-  Half_Orc(int sub_type,int a, int b, int c);
-  ~Half_Orc() = default;
-  void subRaceFeatures() ;
+  Half_Orc();
+  Half_Orc(int sub_type, int a, int b, int c);
+  ~Half_Orc();
+  void subRaceFeatures();
 
-  void Create(int sub_type,int a, int b, int c);
+  void Create(int sub_type, int a, int b, int c) override;
 };
 
 class Halfling : public Race {
  private:
   int subtype;
  public:
-  Halfling():Race(){}
-  Halfling(int sub_type,int a, int b, int c);
-  ~Halfling() = default;
-  void subRaceFeatures() ;
+  Halfling();
+  Halfling(int sub_type, int a, int b, int c);
+  ~Halfling();
+  void subRaceFeatures();
 
-  void Create(int sub_type,int a, int b, int c);
+  void Create(int sub_type, int a, int b, int c) override;
 };
 
 class Human : public Race {
  private:
   int subtype;
  public:
-  Human():Race(){}
-  Human(int sub_type,int a, int b, int c);
-  ~Human() = default;
-  void subRaceFeatures() ;
+  Human();
+  Human(int sub_type, int a, int b, int c);
+  ~Human();
+  void subRaceFeatures();
 
-  void Create(int sub_type,int a, int b, int c);
+  void Create(int sub_type, int a, int b, int c) override;
 };
 class Lizardfolk : public Race {
  private:
   int subtype;
  public:
-  Lizardfolk():Race(){}
-  Lizardfolk(int sub_type,int a, int b, int c);
-  ~Lizardfolk() = default;
-  void subRaceFeatures() ;
+  Lizardfolk();
+  Lizardfolk(int sub_type, int a, int b, int c);
+  ~Lizardfolk();
+  void subRaceFeatures();
 
-  void Create(int sub_type,int a, int b, int c);
+  void Create(int sub_type, int a, int b, int c) override;
 };
 
 class Tiefling : public Race {
  private:
   int subtype;
  public:
-  Tiefling():Race(){}
-  Tiefling(int sub_type,int a, int b, int c);
-  ~Tiefling() = default;
+  Tiefling();
+  Tiefling(int sub_type, int a, int b, int c);
+  ~Tiefling();
   void subRaceFeatures();
 
-  void Create(int sub_type,int a, int b, int c);
+  void Create(int sub_type, int a, int b, int c) override;
 };
 
-// &&&&&&&&^^%^#QQQQQQQQQQQQQQQQQQQ$$$$$$$$$$$$$$$$$$$$$$$##############EEEEEEEEEEEEEEEERRRRRRRRRRRRRRRREEWW
-// factory
+#endif //ANOTHER_DND_SIMULATOR_RACE_CLASS_BACKGROUND_H
+

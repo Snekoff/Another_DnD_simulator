@@ -1,9 +1,6 @@
-//
-// Created by Oleg on 14.09.2018.
-//
-#include <iostream>
-#include "UsefulFunctions.h"
-//#include "Classes.h"
+
+
+#include "Classes.h"
 
 struct Existing_classes{ // classes simplified!
   int Class_atribute[12][20] = {{12,1,0,0,0,0,0,1,0,1,0,0,0,1,1,0,1,0,1,0},{8,0,0,0,0,0,1,0,1,0,0,0,1,1,0,0,1,1,1,0},
@@ -15,23 +12,8 @@ struct Existing_classes{ // classes simplified!
   //hit_dice(0), primary ability (1-6) , saving_throw_proficiencies (7-12) , armor_and_weapon_proficiencies (12-19)
 };
 
-//                                      str, dex, con, int, wis, cha
 
-class Class {
- protected:
-  int type;
-  int hit_dice;
-  bool primary_ability[6];
-  bool saving_throw_proficiencies[6];
-  bool armor_and_weapon_proficiencies[7];
-  int s[18]; 
-  /*acrobatics 0,animalHandling 1,arcana 2,athletics 3,deception 4,
-history 5,insight 6,intimidation 7,investigation 8,medicine 9,
-nature 10,perception 11,performance 12,persuasion 13,religion 14,
-sleightOfHand 15,stealth 16,survival 17*/
-  std::string architype;
- public:
-  Class() {
+  Class::Class() {
     type = 0;
     hit_dice = 0;
     for(int i = 0; i < 6;i++){
@@ -45,12 +27,12 @@ sleightOfHand 15,stealth 16,survival 17*/
     architype = "";
   }
 
-  Class(int type_, bool *s_b[]) {
+Class::Class(int type_, bool *s_b[]) {
     set(type_,s_b);
   }
-  ~Class() = default;
+Class::~Class() = default;
 
-  virtual void set(int type_, bool *s_b[]) {
+  void Class::set(int type_, bool *s_b[]) {
     Existing_classes E;
     type = type_;
     hit_dice = E.Class_atribute[type][0];
@@ -66,13 +48,13 @@ sleightOfHand 15,stealth 16,survival 17*/
     set_architype();
   }
 
-  virtual void set_architype() {
+  void Class::set_architype() {
     if(type == -1){
       std::cout << "Choose your way:\n";
     }
   }
 
-  virtual void set_skills(bool *s_b[]){
+  void Class::set_skills(bool *s_b[]){
     int skill_1 = 0,skill_2 = 0,skill_3 = 0,skill_4 = 0; //tmp
     if(type == 0){
       int skills_identifier[6] = {1,3,7,10,11,17};
@@ -319,7 +301,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
-  virtual int get(int what) {
+  int Class::get(int what) {
     if(what == 0) { return type; }
     else if( 0 < what && what < 7) return primary_ability[what - 1];
     else if( 6 < what && what < 13) return saving_throw_proficiencies[what - 7];
@@ -329,15 +311,9 @@ sleightOfHand 15,stealth 16,survival 17*/
     return -1;
   }
 
-};
 
-class MultiClass : public Class {
- private:
-  int multitype;
- public:
-  MultiClass() : Class() {
+  MultiClass::MultiClass() : Class() {
     multitype = 0;
   }
-  ~MultiClass() = default;
-  void subClassFeatures() {}
-};
+  MultiClass::~MultiClass() = default;
+  void MultiClass::subClassFeatures() {}

@@ -165,7 +165,7 @@ class Item {
   virtual int get_count() { return count; };
   virtual void set_count(int a) { count += a; };
   virtual int get_cost() { return cost; }
-  virtual int get(int a) { if (a == 1) return weight; }
+  virtual int get(int a) { if (a == 1) return weight; return -1;}
   virtual void equip(int a) { num_equiped+=a;if(num_equiped == count) equiped = true; else equiped = false;}
   virtual bool is_equiped() { return equiped; }
 };
@@ -363,6 +363,7 @@ class Armor : public Item {
     else if (a == 1) { return weight; }
     else if (a == 2) { return armor_class; }
     else if (a == 3) { return strength_needed; }
+    return -1;
   }
 };
 
@@ -484,6 +485,9 @@ class Magic_Items : public Item {
   Magic_Items() = default;
   Magic_Items(std::string &name_) {
     set(name_, 1);
+  }
+  Magic_Items(std::string &name_,int count_) {
+    set(name_, count_);
   }
   ~Magic_Items() = default;
   void set(std::string &name_, int count_) {

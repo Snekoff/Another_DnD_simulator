@@ -5,6 +5,10 @@
 #endif //ANOTHER_DND_SIMULATOR_CHARACTER_H
 
 #include <iostream>
+#include <string>
+#include <vector>
+#include <utility>
+#include <math.h>
 #include "UsefulFunctions.h"
 #include "Classes.h"
 #include "Race.h"
@@ -13,35 +17,38 @@
 
 using namespace std;
 
-struct Skills {
-  int s[18];/*acrobatics 0,animalHandling 1,arcana 2,athletics 3,deception 4,
-history 5,insight 6,intimidation 7,investigation 8,medicine 9,
-nature 10,perception 11,performance 12,persuasion 13,religion 14,
-sleightOfHand 15,stealth 16,survival 17*/
-};
 
-vector<Race*> multirace;
+//vector<Race*> multirace;
 
 class Character {
  private:
-  /*Race* race_of_character;
+  Race* race_of_character;
   Class classType;
   string storyline;
+  int sex; //0 - female,1 - male, 3 - Futa, 4 - creature
   int experience, level;
   int health, maxhealth;
   int health_dice;
   int Str, Dex, Con, Int, Wis, Cha;
   int StrModifier, DexModifier, ConModifier, IntModifier, WisModifier, ChaModifier;
-  int AC;
+  int armor_class;
   int deathsaves_s, deathsaves_f;//success/failure
   int passive_perception, proficiency;
-  bool advantage, disadvantage ;
+  bool advantage, disadvantage;
   bool perception_advantage;
   bool perception_disadvantage;
-  Skills skill;
-  //Item item;
-  string inventory;
-  Existing_Types E;*/
+  int *s;
+  /*acrobatics 0,animalHandling 1,arcana 2,athletics 3,deception 4,
+history 5,insight 6,intimidation 7,investigation 8,medicine 9,
+nature 10,perception 11,performance 12,persuasion 13,religion 14,
+sleightOfHand 15,stealth 16,survival 17*/
+  bool *s_b;
+  int money[5]; // copper, silver, gold, platinum, Total money(in copper equivalent)
+  vector<Item *> inventory;
+  map<std::string, Item *> items_map;
+  Existing_Types E;
+  Item * Equiped;
+  int state; // norm, incapacitated, arested, dead
  public:
   Character();
   Character(string &storyl, int exp, int levl, int Stre, int Dext,
@@ -49,12 +56,14 @@ class Character {
 
   ~Character();
 
+  int Ability_Random_Sets();
+
   int Less_than_zero(int a);
 
   int AbilityModifier(int a);
 
   void ConcreteAbilityModifier();
-
+  //new
   int ProficiencySetter();
 
   void Size_Set(int a, int b, int c,int race1,int subrace,int negative);
@@ -81,7 +90,9 @@ class Character {
 
   bool Paying_Money(int how_many_copper);
 
-  void Add_To_Inventory();
+  int Add_To_Inventory();
+
+  void Equip_Item(int where, Item *what);
 
   void Equiping_Item();
 
@@ -89,13 +100,15 @@ class Character {
 
   void Level_Up();
 
-  void SetSkill(int *c[]);
+  void Class_Set_Wealth();
 
   void SetClass();
 
-  void Starting_Health();
+  void SetSkill(int *c[]);
 
   int GetSkill(int a);
+
+  void Starting_Health();
 
 };
 

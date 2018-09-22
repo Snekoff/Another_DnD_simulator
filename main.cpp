@@ -9,16 +9,14 @@
 #include <queue>
 #include <locale>
 
-#include "Character/Character_Creation.h"
-//#include "Inventory(Item)/Item.h"
+#include "GameOfImagination.h"
 
 using namespace std;
 
 int main() {
-  //setlocale(LC_ALL, "rus");
-  //Character_create();
   printf("%s", "Dungeons and Dragons game (PC) starts here");
-
+  auto starts = new Game();
+  cout << starts->is_Created() << endl;
   return 0;
 }
 /*

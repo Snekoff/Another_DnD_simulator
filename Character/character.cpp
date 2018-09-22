@@ -1,142 +1,109 @@
 
 
 #include <iostream>
-#include <string>
-#include <vector>
-#include <utility>
-#include <math.h>
-#include "Race.h"
-#include "Classes.h"
-#include "UsefulFunctions.h"
-#include "../Inventory(Item)/Item.h"
-#include "../Inventory(Item)/Items_Factory.h"
+#include "character.h"
 
 using namespace std;
 
-struct Skills {
-  
+
+Character::Character() {
+  race_of_character = new Race();
+  storyline = "Acolyte";
+  sex = 0;
+  experience = 0;
+  level = 0;
+  health = 0;
+  maxhealth = 0;
+  health_dice = 0;
+  Str = 0;
+  Dex = 0;
+  Con = 0;
+  Int = 0;
+  Wis = 0;
+  Cha = 0;
+  StrModifier = 0;
+  DexModifier = 0;
+  ConModifier = 0;
+  IntModifier = 0;
+  WisModifier = 0;
+  ChaModifier = 0;
+  armor_class = 0;
+  deathsaves_s = 0;
+  deathsaves_f = 0;//success/failure
+  passive_perception = 0;
+  proficiency = 0;
+  advantage = false;
+  disadvantage = false;
+  perception_advantage = false;
+  perception_disadvantage = false;
+}
+Character::Character(string &storyl, int exp, int levl, int Stre, int Dext,
+                     int Cons, int Inte, int Wisd, int Charisma, int sex_) {
+  exp = Less_than_zero(exp);
+  levl = Less_than_zero(levl);
+  Stre = Less_than_zero(Stre);
+  Dext = Less_than_zero(Dext);
+  Cons = Less_than_zero(Cons);
+  Inte = Less_than_zero(Inte);
+  Wisd = Less_than_zero(Wisd);
+  Charisma = Less_than_zero(Charisma);
+  //ArmorClass = Less_than_zero(ArmorClass);
+  health = 0;
+  maxhealth = 0;
+  health_dice = 0;
+  storyline = storyl;
+  sex = sex_;
+  if (exp < E.experience_per_level[levl - 1]) { exp = E.experience_per_level[level - 1]; }
+  experience = exp;
+  Str = Stre;
+  Dex = Dext;
+  Con = Cons;
+  Int = Inte;
+  Wis = Wisd;
+  Cha = Charisma;
+  Ability_Random_Sets();
+  armor_class = 0;
+  deathsaves_s = 0;
+  deathsaves_f = 0;
+  passive_perception = 0;
+  proficiency = 0;
+  advantage = false;
+  disadvantage = false;
+  perception_advantage = false;
+  perception_disadvantage = false;
+  ConcreteAbilityModifier();
+  s = new int[18];
+  s_b = new bool[18];
+  money[0] = 0;//copper
+  money[1] = 0;
+  money[2] = 0;
+  money[3] = 0;//Pt
+  money[4] = 0;
+  Equiped = new Item[10];
+  SetSkill(&s);
+  proficiency = ProficiencySetter();
+  passive_perception = PassivePerceptionSetter(WisModifier, perception_advantage, perception_disadvantage);
+  Race_Choosal();
+  StorySetsSkills(&s, &s_b, storyline);
+  SetClass();
+  Starting_Health();
+  if (classType.get(0) == 0) armor_class = 10 + DexModifier + ConModifier;
+  level = 0;
+  Level_Up();
+  Add_To_Inventory();
+  state = 0;
+}
+
+Character::~Character() {
+  delete race_of_character;
+  delete[] s;
+  delete[] s_b;
+  inventory.clear();
+  items_map.clear();
+  delete[] Equiped;
 };
 
-vector<Race*> multirace;
-
-class Character {
- private:
-  Race* race_of_character;
-  Class classType;
-  string storyline;
-  int sex; //0 - female,1 - male, 3 - Futa, 4 - creature
-  int experience, level;
-  int health, maxhealth;
-  int health_dice;
-  int Str, Dex, Con, Int, Wis, Cha;
-  int StrModifier, DexModifier, ConModifier, IntModifier, WisModifier, ChaModifier;
-  int armor_class;
-  int deathsaves_s, deathsaves_f;//success/failure
-  int passive_perception, proficiency;
-  bool advantage, disadvantage;
-  bool perception_advantage;
-  bool perception_disadvantage;
-  int *s;
-  /*acrobatics 0,animalHandling 1,arcana 2,athletics 3,deception 4,
-history 5,insight 6,intimidation 7,investigation 8,medicine 9,
-nature 10,perception 11,performance 12,persuasion 13,religion 14,
-sleightOfHand 15,stealth 16,survival 17*/
-  bool *s_b;
-  int money[5]; // copper, silver, gold, platinum, Total money(in copper equivalent)
-  vector<Item *> inventory;
-  map<std::string, Item *> items_map;
-  Existing_Types E;
-  Item * Equiped;
-  int state; // norm, incapacitated, arested, dead
- public:
-  Character() : race_of_character(race_of_character) {
-    //race.set(24);//human
-    //classType.set(0);//barbarian
-    storyline = "Acolyte";
-    sex = 0;
-    experience = 0;
-    level = 0 ;
-    health = 0 ;
-    maxhealth = 0 ;
-    health_dice = 0 ;
-    Str = 0 ;Dex = 0 ; Con = 0 ; Int = 0 ; Wis = 0 ; Cha = 0 ;
-    StrModifier = 0 ; DexModifier = 0 ; ConModifier = 0 ;
-    IntModifier = 0 ; WisModifier = 0 ; ChaModifier = 0 ;
-    armor_class = 0 ;
-    deathsaves_s = 0 ;
-    deathsaves_f = 0 ;//success/failure
-    passive_perception = 0 ;
-    proficiency = 0 ;
-    advantage = false; disadvantage = false;
-    perception_advantage = false;
-    perception_disadvantage = false;
-  }
-  Character(string &storyl, int exp, int levl, int Stre, int Dext,
-      int Cons, int Inte, int Wisd, int Charisma,int sex_){
-    exp = Less_than_zero(exp);
-    levl = Less_than_zero(levl);
-    Stre = Less_than_zero(Stre);
-    Dext = Less_than_zero(Dext);
-    Cons = Less_than_zero(Cons);
-    Inte = Less_than_zero(Inte);
-    Wisd = Less_than_zero(Wisd);
-    Charisma = Less_than_zero(Charisma);
-    //ArmorClass = Less_than_zero(ArmorClass);
-    health = 0 ;
-    maxhealth = 0 ;
-    health_dice = 0 ;
-    storyline = storyl;
-    sex = sex_;
-    if(exp < E.experience_per_level[levl - 1]){ exp = E.experience_per_level[level - 1]; }
-    experience = exp;
-    Str = Stre;
-    Dex = Dext;
-    Con = Cons;
-    Int = Inte;
-    Wis = Wisd;
-    Cha = Charisma;
-    Ability_Random_Sets();
-    armor_class = 0;
-    deathsaves_s = 0 ;
-    deathsaves_f = 0 ;
-    passive_perception = 0 ;
-    proficiency = 0 ;
-    advantage = false; disadvantage = false;
-    perception_advantage = false;
-    perception_disadvantage = false;
-    ConcreteAbilityModifier();
-    s = new int[18];
-    s_b = new bool[18];
-    money[0] = 0;//copper
-    money[1] = 0;
-    money[2] = 0;
-    money[3] = 0;//Pt
-    money[4] = 0;
-    Equiped = new Item[10];
-    SetSkill(&s);
-    proficiency = ProficiencySetter();
-    passive_perception = PassivePerceptionSetter(WisModifier, perception_advantage, perception_disadvantage);
-    Race_Choosal();
-    StorySetsSkills(&s,&s_b,storyline);
-    SetClass();
-    Starting_Health();
-    if(classType.get(0) == 0) armor_class = 10 + DexModifier + ConModifier;
-    level = 0;
-    Level_Up();
-    Add_To_Inventory();
-    state = 0;
-  }
-
-  ~Character() {
-    delete race_of_character;
-    delete [] s;
-    delete [] s_b;
-    inventory.clear();
-    items_map.clear();
-    delete [] Equiped;
-  };
-
-  int Ability_Random_Sets(){
+  int Character::Ability_Random_Sets(){
     if(Str == 0 && Dex == 0 && Con == 0 && Int == 0 && Wis == 0 && Cha == 0 ){
       int Sets[12] = {0};
       for(int k = 0; k < 12;k++){
@@ -165,15 +132,15 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
-  int Less_than_zero(int a) {
+  int Character::Less_than_zero(int a) {
     return a < 0 ? 0 : a;
   }
 
-  int AbilityModifier(int a) {
+  int Character::AbilityModifier(int a) {
     return (a - 10) / 2;
   }
 
-  void ConcreteAbilityModifier(){
+  void Character::ConcreteAbilityModifier(){
     StrModifier = AbilityModifier(Str);
     DexModifier = AbilityModifier(Dex);
     ConModifier = AbilityModifier(Con);
@@ -182,7 +149,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     ChaModifier = AbilityModifier(Cha);
   }
   //new
-  int ProficiencySetter() {
+  int Character::ProficiencySetter() {
     if (level < 5) return 2;
     else if (level > 4 && level < 9) return 3;
     else if (level > 8 && level < 13) return 4;
@@ -190,7 +157,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     else if (level > 16 && level < 21) return 6;
   }
 
-  void Size_Set(int a, int b, int c,int race1,int subrace,int negative){
+  void Character::Size_Set(int a, int b, int c,int race1,int subrace,int negative){
     // negative for class dragonborn
 
     printf("%s \n",
@@ -204,13 +171,13 @@ sleightOfHand 15,stealth 16,survival 17*/
     if (c <= 0 || c > E.maxAge[race1 - 1]) { c = Random_Generator(E.minAge[race1 - 1], E.maxAge[race1 - 1]); }
   }
 
-  int PassivePerceptionSetter(int a, bool b, bool c) {
+  int Character::PassivePerceptionSetter(int a, bool b, bool c) {
     if (b) a += 5;
     if (c) a -= 5;
     return 10 + a;
   }
   
-  void StorySetsSkills(int *s[],bool *s_b[], string &b) {
+  void Character::StorySetsSkills(int *s[],bool *s_b[], string &b) {
     Add_Money(2,15);
     if (b == "Acolyte") {
       if (!*s_b[6]) {
@@ -332,7 +299,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
-  void Ability_improve(){
+  void Character::Ability_improve(){
     if (level == 4 || level == 8 || level == 12 || level == 16  || level == 19) {
       printf("%s %d %s \n",
              "You reached",
@@ -359,7 +326,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
-  void Race_Choosal() {
+  void Character::Race_Choosal() {
     printf("%s \n", "It is time to choose your race. What it will be?");
     printf("%s \n", "1. Dragonborn (10 subraces)\n"
                     "2. Dwarf (3 subraces)\n"
@@ -394,9 +361,8 @@ sleightOfHand 15,stealth 16,survival 17*/
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a, b, c, race, subrace, subrace);
-      multirace.push_back(new Dragonborn());
-      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
-      race_of_character = multirace[multirace.size() - 1];
+      race_of_character = new Dragonborn();
+      race_of_character->Create(subrace - 1, a, b, c);
       Race_Get_Abilities();
       ConcreteAbilityModifier();
     } else if (race == 2) {
@@ -409,9 +375,9 @@ sleightOfHand 15,stealth 16,survival 17*/
       subrace = Correctness_of_input(subrace, 1, 3);
       int a = 0, b = 0, c = 0;
       Size_Set(a, b, c, race, subrace, subrace);
-      multirace.push_back(new Dwarf());
-      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
-      race_of_character = multirace[multirace.size() - 1];
+      //multirace
+      race_of_character = new Dwarf();
+      race_of_character->Create(subrace - 1, a, b, c);
       Race_Get_Abilities();
       ConcreteAbilityModifier();
     } else if (race == 3) {
@@ -427,9 +393,8 @@ sleightOfHand 15,stealth 16,survival 17*/
       subrace = Correctness_of_input(subrace, 1, 6);
       int a = 0, b = 0, c = 0;
       Size_Set(a, b, c, race, subrace, subrace);
-      multirace.push_back(new Elf());
-      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
-      race_of_character = multirace[multirace.size() - 1];
+      race_of_character = new Elf();
+      race_of_character->Create(subrace - 1, a, b, c);
       Race_Get_Abilities();
       ConcreteAbilityModifier();
     } else if (race == 4) {
@@ -442,17 +407,17 @@ sleightOfHand 15,stealth 16,survival 17*/
       subrace = Correctness_of_input(subrace, 1, 3);
       int a = 0, b = 0, c = 0;
       Size_Set(a, b, c, race, subrace, subrace);
-      multirace.push_back(new Gnome());
-      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
-      race_of_character = multirace[multirace.size() - 1];
+
+      race_of_character = new Gnome();
+      race_of_character->Create(subrace - 1, a, b, c);
       Race_Get_Abilities();
       ConcreteAbilityModifier();
     } else if (race == 5) {
       int a = 0, b = 0, c = 0;
       Size_Set(a, b, c, race, subrace, subrace);
-      multirace.push_back(new Goblin());
-      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
-      race_of_character = multirace[multirace.size() - 1];
+
+      race_of_character = new Goblin();
+      race_of_character->Create(subrace - 1, a, b, c);
       Race_Get_Abilities();
       ConcreteAbilityModifier();
     } else if (race == 6) {
@@ -467,9 +432,8 @@ sleightOfHand 15,stealth 16,survival 17*/
       subrace = Correctness_of_input(subrace, 1, 5);
       int a = 0, b = 0, c = 0;
       Size_Set(a, b, c, race, subrace, subrace);
-      multirace.push_back(new Half_Elf());
-      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
-      race_of_character = multirace[multirace.size() - 1];
+      race_of_character = new Half_Elf();
+      race_of_character->Create(subrace - 1, a, b, c);
       Race_Get_Abilities();
       ConcreteAbilityModifier();
     } else if (race == 7) {
@@ -481,9 +445,8 @@ sleightOfHand 15,stealth 16,survival 17*/
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a, b, c, race, subrace, subrace);
-      multirace.push_back(new Half_Orc());
-      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
-      race_of_character = multirace[multirace.size() - 1];
+      race_of_character = new Half_Orc();
+      race_of_character->Create(subrace - 1, a, b, c);
       Race_Get_Abilities();
       ConcreteAbilityModifier();
     } else if (race == 8) {
@@ -496,9 +459,8 @@ sleightOfHand 15,stealth 16,survival 17*/
       subrace = Correctness_of_input(subrace, 1, 3);
       int a = 0, b = 0, c = 0;
       Size_Set(a, b, c, race, subrace, subrace);
-      multirace.push_back(new Halfling());
-      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
-      race_of_character = multirace[multirace.size() - 1];
+      race_of_character = new Halfling();
+      race_of_character->Create(subrace - 1, a, b, c);
       Race_Get_Abilities();
       ConcreteAbilityModifier();
     } else if (race == 9) {
@@ -510,17 +472,17 @@ sleightOfHand 15,stealth 16,survival 17*/
       subrace = Correctness_of_input(subrace, 1, 10);
       int a = 0, b = 0, c = 0;
       Size_Set(a, b, c, race, subrace, subrace);
-      multirace.push_back(new Human());
-      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
-      race_of_character = multirace[multirace.size() - 1];
+
+      race_of_character = new Human();
+      race_of_character->Create(subrace - 1, a, b, c);
       Race_Get_Abilities();
       ConcreteAbilityModifier();
     } else if (race == 10) {
       int a = 0, b = 0, c = 0;
       Size_Set(a, b, c, race, subrace, subrace);
-      multirace.push_back(new Lizardfolk());
-      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
-      race_of_character = multirace[multirace.size() - 1];
+
+      race_of_character = new Lizardfolk();
+      race_of_character->Create(subrace - 1, a, b, c);
       Race_Get_Abilities();
       ConcreteAbilityModifier();
     } else if (race == 11) {
@@ -541,15 +503,15 @@ sleightOfHand 15,stealth 16,survival 17*/
       subrace = Correctness_of_input(subrace, 1, 11);
       int a = 0, b = 0, c = 0;
       Size_Set(a, b, c, race, subrace, subrace);
-      multirace.push_back(new Tiefling());
-      multirace[multirace.size() - 1]->Create(subrace - 1, a, b, c);
-      race_of_character = multirace[multirace.size() - 1];
+
+      race_of_character = new Tiefling();
+      race_of_character->Create(subrace - 1, a, b, c);
       Race_Get_Abilities();
       ConcreteAbilityModifier();
     }
   }
 
-  void Race_Get_Abilities(){
+  void Character::Race_Get_Abilities(){
     Str += race_of_character->get(4);
     Dex += race_of_character->get(5);
     Con += race_of_character->get(6);
@@ -558,7 +520,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     Cha += race_of_character->get(9);
   }
   
-  void Set(int a, int b) {// a - what parameter will be changed, b - modifier(can be negative)
+  void Character::Set(int a, int b) {// a - what parameter will be changed, b - modifier(can be negative)
     a = Correctness_of_input(a, 0, 14);
     if (a == 1) { experience += b; }
     else if (a == 2) { health += b; }
@@ -576,7 +538,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     else if (a == 14) { printf("%s \n", "reserved for story/background"); }
   }
 
-  int Get(int a) {
+  int Character::Get(int a) {
     if (a == 1) { return experience; }
     else if (a == 2) { return health; }
     else if (a == 3) { return Str; }
@@ -616,7 +578,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     return -1;
   }
 
-  Item * Factory_Complex(string &a){
+  Item * Character::Factory_Complex(string &a){
     Items_Factory<Weapon> Weapon_Factory;
     Items_Factory<Ranged_Weapon> Ranged_Weapon_Factory;
     Items_Factory<Armor> Armor_Factory;
@@ -635,13 +597,13 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
-  void Add_Money(int type,int sum){
+  void Character::Add_Money(int type,int sum){
     type = Correctness_of_input(type,0,3);
     money[type] += sum;
     money[4] += static_cast<int>(money[type] * pow(10,type)); // im sure integer will be in "()"
   }
 
-  void Add_To_Item_Map(string &a){
+  void Character::Add_To_Item_Map(string &a){
     auto iter = items_map.find(inventory[inventory.size() - 1]->get_name());
     if(iter != items_map.end()){
       if(a != "Backpack"){
@@ -654,7 +616,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
-  bool Paying_Money(int how_many_copper) {
+  bool Character::Paying_Money(int how_many_copper) {
     if (money[4] < how_many_copper) {
       return false;
     } else {
@@ -686,7 +648,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
-  int Add_To_Inventory(){
+  int Character::Add_To_Inventory(){
     Items_Factory<Usables> Usables_Factory1;
     string a = "Backpack";
     inventory.push_back(Usables_Factory1.create(a));
@@ -736,7 +698,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
-  void Equip_Item(int where, Item *what) {
+  void Character::Equip_Item(int where, Item *what) {
     if (where < 2) {
       if(&Equiped[where] != nullptr){// need to try it hard
         Equiped[where].equip(-1);
@@ -757,7 +719,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
-  void Equiping_Item(){
+  void Character::Equiping_Item(){
     Item * what;
     cout << "You might Equip Something. Choose where and what.\n";
     cout << "Now lets see what you have got in your backpack\n";
@@ -797,7 +759,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     cout << "You can Equip Nothing.\n";
   }
 
-  int Healing_Injuring(int value){
+  int Character::Healing_Injuring(int value){
     if(value > 0){
       health +=value;
       if(health > maxhealth) health = maxhealth;
@@ -812,9 +774,10 @@ sleightOfHand 15,stealth 16,survival 17*/
         health -= value;
       }
     }
+    return health;
   }
 
-  void Level_Up() {
+  void Character::Level_Up() {
     Existing_Types E;
     if(experience > E.experience_per_level[level]){
       level++;
@@ -830,7 +793,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     printf("%s %d \n", "Your health:", health);
   }
 
-  void Class_Set_Wealth(){
+  void Character::Class_Set_Wealth(){
     int wealth[12][3] = {{2,4,10},{5,4,10},{5,4,10},{2,4,10},{5,4,10},{5,4,1},
                          {5,4,10},{5,4,10},{4,4,10},{3,4,10},{4,4,10},{4,4,10}};
     int ctype = classType.get(0);
@@ -843,7 +806,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     Add_Money(2,funds);
   }
 
-  void SetClass() {
+  void Character::SetClass() {
     printf("Choose your class: \n");
     int class_type_ = 0;
     printf("1. Barbarian\n"
@@ -873,7 +836,7 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
-  void SetSkill(int *c[]) {
+  void Character::SetSkill(int *c[]) {
     for (int j = 0; j < 18; j++) {
       if (j == 0 || j == 2 || j == 5 || j == 8 || j == 10 ||
           j == 14) { *c[j] += IntModifier; }//acrobatics,arcana,history,investigation,nature,religion
@@ -886,12 +849,12 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
-  int GetSkill(int a) {
+  int Character::GetSkill(int a) {
     a = Correctness_of_input(a,0,17);
     return s[a];
   }
 
-  void Starting_Health(){
+  void Character::Starting_Health(){
     if(maxhealth == 0){
       maxhealth = health_dice + ConModifier;
     }
@@ -900,4 +863,4 @@ sleightOfHand 15,stealth 16,survival 17*/
     }
   }
 
-};
+
