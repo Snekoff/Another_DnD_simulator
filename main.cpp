@@ -14,8 +14,8 @@
 using namespace std;
 
 int main() {
-  printf("%s", "Dungeons and Dragons game (PC) starts here");
-  auto starts = new Game();
+  printf("%s \n", "Dungeons and Dragons game (PC) starts here");
+  Game * starts = new Game(1,1);
   cout << starts->is_Created() << endl;
   return 0;
 }

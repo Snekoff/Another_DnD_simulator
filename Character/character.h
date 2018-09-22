@@ -70,7 +70,7 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   int PassivePerceptionSetter(int a, bool b, bool c);
 
-  void StorySetsSkills(int *s[],bool *s_b[], string &b);
+  void StorySetsSkills(int s[],bool s_b[], string &b);
 
   void Ability_improve();
 
@@ -98,13 +98,13 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   int Healing_Injuring(int value);
 
-  void Level_Up();
+  int Level_Up();
 
   void Class_Set_Wealth();
 
   void SetClass();
 
-  void SetSkill(int *c[]);
+  void SetSkill(int c[]);
 
   int GetSkill(int a);
 

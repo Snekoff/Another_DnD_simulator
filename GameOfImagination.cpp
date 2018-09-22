@@ -19,7 +19,7 @@ void Game::Character_create() {
   cin >> number_of_characters;
   number_of_characters = Correctness_of_input(number_of_characters, 0, -1);
   for (int i = 0; i < number_of_characters; i++) {
-    printf("%s %d %s", "For player", i, "Type: experience, level\n");
+    printf("%s %d %s", "For player", i + 1, "Type: experience, level\n");
     int exp_, level_, sex_;
     cin >> exp_ >> level_;
     exp_ = Correctness_of_input(exp_, 0, 355000);
@@ -46,8 +46,10 @@ void Game::Character_create() {
     string stories[13] = {"Acolyte", "Charlatan", "Criminal", "Entertainer", "FolkHero", "GuildArtisan",
                           "Hermit", "Noble", "Outlander", "Sage", "Sailor", "Soldier", "Urchin"};
     first_choosal = Correctness_of_input(first_choosal, 1, 13);
-    characters.push_back(new Character(stories[first_choosal - 1], exp_, level_, abilities[0], abilities[1],
-                                       abilities[2], abilities[3], abilities[4], abilities[5], sex_ - 1));
+    auto a = new Character(stories[first_choosal - 1], exp_, level_, abilities[0], abilities[1],
+                           abilities[2], abilities[3], abilities[4], abilities[5], sex_ - 1);
+    characters.push_back(a);
+    delete a;
     bool testing_method_Get = true;
     int what = 1;
     while (testing_method_Get) {
