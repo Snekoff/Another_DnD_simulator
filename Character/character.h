@@ -20,17 +20,7 @@ nature 10,perception 11,performance 12,persuasion 13,religion 14,
 sleightOfHand 15,stealth 16,survival 17*/
 };
 
-int dragonborn_count;
-int dwarf_count;
-int elf_count;
-int gnome_count;
-int goblin_count;
-int half_elf_count;
-int half_orc_count;
-int halfling_count;
-int human_count;
-int lizardfolk_count;
-int tiefling_count;
+vector<Race*> multirace;
 
 class Character {
  private:
@@ -55,9 +45,9 @@ class Character {
  public:
   Character();
   Character(string &storyl, int exp, int levl, int Stre, int Dext,
-            int Cons, int Inte, int Wisd, int Charisma);
+            int Cons, int Inte, int Wisd, int Charisma,int sex_);
 
-  ~Character() = default;
+  ~Character();
 
   int Less_than_zero(int a);
 
@@ -92,6 +82,10 @@ class Character {
   bool Paying_Money(int how_many_copper);
 
   void Add_To_Inventory();
+
+  void Equiping_Item();
+
+  int Healing_Injuring(int value);
 
   void Level_Up();
 

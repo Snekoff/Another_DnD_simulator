@@ -26,18 +26,21 @@ int Correctness_of_input(int a, int lowerlimit, int higherlimit) {
   if(higherlimit == lowerlimit - 2){
     while(a > lowerlimit){
       printf("%s \n", "Incorrect input.");
+      std::cout << "value must be equal or lower than " << lowerlimit << std::endl;
       std::cin >> a;
     }
   }
   else if(higherlimit == lowerlimit - 1){
     while(a < lowerlimit){
       printf("%s \n", "Incorrect input.");
+      std::cout << "value must be equal or lower higher than " << higherlimit << std::endl;
       std::cin >> a;
     }
   }
   else {
     while (a < lowerlimit || a > higherlimit) {
       printf("%s \n", "Incorrect input.");
+      std::cout << "value must be between " << lowerlimit << " and " << higherlimit << std::endl;
       std::cin >> a;
     }
   }

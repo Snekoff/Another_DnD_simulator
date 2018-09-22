@@ -9,14 +9,14 @@
 #include <queue>
 #include <locale>
 
-#include "Character/character.h"
+#include "Character/Character_Creation.h"
 //#include "Inventory(Item)/Item.h"
 
 using namespace std;
 
 int main() {
-  //Item_usage();
   //setlocale(LC_ALL, "rus");
+  //Character_create();
   printf("%s", "Dungeons and Dragons game (PC) starts here");
 
   return 0;
