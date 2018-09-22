@@ -5,7 +5,7 @@
 #define ANOTHER_DND_SIMULATOR_ITEMS_FACTORY_H
 
 
-#include "Item.cpp"
+#include "Item.h"
 
 template<class C>
 class Items_Factory {
