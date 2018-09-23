@@ -27,7 +27,7 @@ class Race {
 
   ~Race();
 
-  void set(int a);
+  void set(Random_Generator_ * Rand_gen,int a);
 
   void set(int a, int b, int c, int d);
 

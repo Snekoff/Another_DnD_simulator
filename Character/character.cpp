@@ -36,7 +36,8 @@ Character::Character() {
   perception_advantage = false;
   perception_disadvantage = false;
 }
-Character::Character(string &storyl, int exp, int levl, int Stre, int Dext,
+
+Character::Character(Random_Generator_ * Rand_gen,string &storyl, int exp, int levl, int Stre, int Dext,
                      int Cons, int Inte, int Wisd, int Charisma, int sex_) {
   printf("Control reach 1\n");
   exp = Less_than_zero(exp);
@@ -61,7 +62,7 @@ Character::Character(string &storyl, int exp, int levl, int Stre, int Dext,
   Int = Inte;
   Wis = Wisd;
   Cha = Charisma;
-  int t1 = Ability_Random_Sets();
+  int t1 = Ability_Random_Sets(Rand_gen);
   printf("Control reach 2\n");
   armor_class = 0;
   deathsaves_s = 0;
@@ -89,22 +90,24 @@ Character::Character(string &storyl, int exp, int levl, int Stre, int Dext,
   printf("Control reach 6\n");
   passive_perception = PassivePerceptionSetter(WisModifier, perception_advantage, perception_disadvantage);
   printf("Control reach 7\n");
-  Race_Choosal();
+  Race_Choosal(Rand_gen);
   printf("Control reach 8\n");
   StorySetsSkills(s, s_b, storyline);
   printf("Control reach 9\n");
-  SetClass();
+  SetClass(Rand_gen);
   printf("Control reach 10\n");
   Starting_Health();
   printf("Control reach 11\n");
   if (classType.get(0) == 0) armor_class = 10 + DexModifier + ConModifier;
-  level = 1;
+  level = 0;
   printf("Control reach 12\n");
-  t1 = Level_Up();
+  cout << experience << " " << level << endl;
+  t1 = Level_Up(Rand_gen);
   printf("Control reach 13\n");
   Add_To_Inventory();
   printf("Control reach 14\n");
   state = 0;
+  Equiping_Item();
 }
 
 Character::~Character() {
@@ -116,27 +119,30 @@ Character::~Character() {
   delete[] Equiped;
 };
 
-int Character::Ability_Random_Sets() {
-  std::random_device rd;
-  std::mt19937 mt(rd());
-  std::uniform_int_distribution<int> dist(10,16);
+int Character::Ability_Random_Sets(Random_Generator_ * Rand_gen) {
+  //std::random_device rd;
+  //std::mt19937 mt(rd());
+  //std::uniform_int_distribution<int> dist(10,16);
   //return dist(mt);
+  //Random_Generator_ * Rand_gen = new Random_Generator_();
   if (Str == 0 && Dex == 0 && Con == 0 && Int == 0 && Wis == 0 && Cha == 0) {
     int Sets[12] = {0};
     for (int k = 0; k < 12; k++) {
       if (k == 0) cout << "Set 1:\n";
-      if (k == 6) cout << "Set 2:\n";
-      Sets[k] = dist(mt);
-          //Random_Generator(10, 16);
-      cout << " " << Sets[k] << endl;
+      if (k == 6) cout << "\nSet 2:\n";
+      Sets[k] = Rand_gen->Rand(10,16);
+          //dist(mt);
+          //Random_Generator(mt,10, 16);
+      cout << " " << Sets[k] << " ";
     }
     cout << "which one do you prefer most?";
     cout << "*Or type 13 to re-roll\n";
     int s[7];
     cin >> s[6];
-    if (s[6] == 13) return Ability_Random_Sets();
+    if (s[6] == 13) return Ability_Random_Sets(Rand_gen);
     s[6] = Correctness_of_input(s[6], 1, 2);
-    cout << "type six numbers what represents to what skill you apply each value 1-6\n";
+    cout << "type six numbers what represents to what skill you apply each value "
+            "Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6)\n";
     for (int i = 0; i < 6; i++) {
       cin >> s[i];
       if (i == 0) { Str = Sets[(int) (pow(6, s[6] - 1)) - 1 + i]; }
@@ -149,6 +155,7 @@ int Character::Ability_Random_Sets() {
     //printf("Control reach end of Ability random sets\n");
     return 0;
   }
+  delete Rand_gen;
   return -2;
 }
 
@@ -178,7 +185,7 @@ int Character::ProficiencySetter() {
   return -3;
 }
 
-void Character::Size_Set(int a, int b, int c, int race1, int subrace, int negative) {
+void Character::Size_Set(Random_Generator_ * Rand_gen,int a, int b, int c, int race1, int subrace, int negative) {
   // negative for class dragonborn
 
   printf("%s \n",
@@ -197,9 +204,9 @@ void Character::Size_Set(int a, int b, int c, int race1, int subrace, int negati
          "to ",
          E.maxAge[race1 - 1]);
   cin >> a >> b >> c;
-  if (a <= 0 || a > E.maxHeight[race1 - 1]) { a = Random_Generator(E.minHeight[race1 - 1], E.maxHeight[race1 - 1]); }
-  if (b <= 0 || b > E.maxWeight[race1 - 1]) { b = Random_Generator(E.minWeight[race1 - 1], E.maxWeight[race1 - 1]); }
-  if (c <= 0 || c > E.maxAge[race1 - 1]) { c = Random_Generator(E.minAge[race1 - 1], E.maxAge[race1 - 1]); }
+  if (a <= 0 || a > E.maxHeight[race1 - 1]) { a = Rand_gen->Rand(E.minHeight[race1 - 1], E.maxHeight[race1 - 1]); }
+  if (b <= 0 || b > E.maxWeight[race1 - 1]) { b = Rand_gen->Rand(E.minWeight[race1 - 1], E.maxWeight[race1 - 1]); }
+  if (c <= 0 || c > E.maxAge[race1 - 1]) { c = Rand_gen->Rand(E.minAge[race1 - 1], E.maxAge[race1 - 1]); }
 }
 
 int Character::PassivePerceptionSetter(int a, bool b, bool c) {
@@ -357,7 +364,7 @@ void Character::Ability_improve() {
   }
 }
 
-void Character::Race_Choosal() {
+void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
   printf("%s \n", "It is time to choose your race. What it will be?");
   printf("%s \n", "1. Dragonborn (10 subraces)\n"
                   "2. Dwarf (3 subraces)\n"
@@ -391,7 +398,7 @@ void Character::Race_Choosal() {
     cin >> subrace;
     subrace = Correctness_of_input(subrace, 1, 10);
     int a = 0, b = 0, c = 0;
-    Size_Set(a, b, c, race, subrace, subrace);
+    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
     race_of_character = new Dragonborn();
     race_of_character->Create(subrace - 1, a, b, c);
     Race_Get_Abilities();
@@ -405,7 +412,7 @@ void Character::Race_Choosal() {
     cin >> subrace;
     subrace = Correctness_of_input(subrace, 1, 3);
     int a = 0, b = 0, c = 0;
-    Size_Set(a, b, c, race, subrace, subrace);
+    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
     //multirace
     race_of_character = new Dwarf();
     race_of_character->Create(subrace - 1, a, b, c);
@@ -423,7 +430,7 @@ void Character::Race_Choosal() {
     cin >> subrace;
     subrace = Correctness_of_input(subrace, 1, 6);
     int a = 0, b = 0, c = 0;
-    Size_Set(a, b, c, race, subrace, subrace);
+    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
     race_of_character = new Elf();
     race_of_character->Create(subrace - 1, a, b, c);
     Race_Get_Abilities();
@@ -437,7 +444,7 @@ void Character::Race_Choosal() {
     cin >> subrace;
     subrace = Correctness_of_input(subrace, 1, 3);
     int a = 0, b = 0, c = 0;
-    Size_Set(a, b, c, race, subrace, subrace);
+    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
 
     race_of_character = new Gnome();
     race_of_character->Create(subrace - 1, a, b, c);
@@ -445,7 +452,7 @@ void Character::Race_Choosal() {
     ConcreteAbilityModifier();
   } else if (race == 5) {
     int a = 0, b = 0, c = 0;
-    Size_Set(a, b, c, race, subrace, subrace);
+    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
 
     race_of_character = new Goblin();
     race_of_character->Create(subrace - 1, a, b, c);
@@ -462,7 +469,7 @@ void Character::Race_Choosal() {
     cin >> subrace;
     subrace = Correctness_of_input(subrace, 1, 5);
     int a = 0, b = 0, c = 0;
-    Size_Set(a, b, c, race, subrace, subrace);
+    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
     race_of_character = new Half_Elf();
     race_of_character->Create(subrace - 1, a, b, c);
     Race_Get_Abilities();
@@ -475,7 +482,7 @@ void Character::Race_Choosal() {
     cin >> subrace;
     subrace = Correctness_of_input(subrace, 1, 10);
     int a = 0, b = 0, c = 0;
-    Size_Set(a, b, c, race, subrace, subrace);
+    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
     race_of_character = new Half_Orc();
     race_of_character->Create(subrace - 1, a, b, c);
     Race_Get_Abilities();
@@ -489,7 +496,7 @@ void Character::Race_Choosal() {
     cin >> subrace;
     subrace = Correctness_of_input(subrace, 1, 3);
     int a = 0, b = 0, c = 0;
-    Size_Set(a, b, c, race, subrace, subrace);
+    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
     race_of_character = new Halfling();
     race_of_character->Create(subrace - 1, a, b, c);
     Race_Get_Abilities();
@@ -502,7 +509,7 @@ void Character::Race_Choosal() {
     cin >> subrace;
     subrace = Correctness_of_input(subrace, 1, 10);
     int a = 0, b = 0, c = 0;
-    Size_Set(a, b, c, race, subrace, subrace);
+    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
 
     race_of_character = new Human();
     race_of_character->Create(subrace - 1, a, b, c);
@@ -510,7 +517,7 @@ void Character::Race_Choosal() {
     ConcreteAbilityModifier();
   } else if (race == 10) {
     int a = 0, b = 0, c = 0;
-    Size_Set(a, b, c, race, subrace, subrace);
+    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
 
     race_of_character = new Lizardfolk();
     race_of_character->Create(subrace - 1, a, b, c);
@@ -533,7 +540,7 @@ void Character::Race_Choosal() {
     cin >> subrace;
     subrace = Correctness_of_input(subrace, 1, 11);
     int a = 0, b = 0, c = 0;
-    Size_Set(a, b, c, race, subrace, subrace);
+    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
 
     race_of_character = new Tiefling();
     race_of_character->Create(subrace - 1, a, b, c);
@@ -621,7 +628,8 @@ int Character::Get(int a) {
   return -1;
 }
 
-Item *Character::Factory_Complex(string &a) {
+Item * Character::Factory_Complex(string &a) {
+  printf("Control reached Factory_complex 0\n");
   Items_Factory<Weapon> Weapon_Factory;
   Items_Factory<Ranged_Weapon> Ranged_Weapon_Factory;
   Items_Factory<Armor> Armor_Factory;
@@ -629,18 +637,20 @@ Item *Character::Factory_Complex(string &a) {
   Items_Factory<Ammo> Ammo_Factory;
   Items_Factory<Magic_Items> Magic_Items_Factory;
   Existing_Items E_I;
-  for (int i = 0; i < kUsable_NUM; i++) {
-    if (a == E_I.Weapon_s[i]) { return Weapon_Factory.create(a); }
-    else if (a == E_I.Ranged_Weapon_s[i]) { return Ranged_Weapon_Factory.create(a); }
-    else if (a == E_I.Armor_s[i]) { return Armor_Factory.create(a); }
-    else if (a == E_I.Usable_s[i]) { return Usables_Factory.create(a); }
-    else if (a == E_I.Ammo_s[i]) { return Ammo_Factory.create(a); }
-    else if (a == E_I.Magic_Items_s[i]) { return Magic_Items_Factory.create(a); }
+  printf("Control reached Factory_complex 1\n");
+  for (int i = 0; i < kAll_Num; i++) {
+    if (i < kWeapon_NUM && a == E_I.Weapon_s[i]) {printf("Control reached Factory_complex 1_1\n"); return Weapon_Factory.create(a); }
+    else if (i < kRanged_Weapon_NUM &&a == E_I.Ranged_Weapon_s[i]) {printf("Control reached Factory_complex 1_2\n"); return Ranged_Weapon_Factory.create(a); }
+    else if (i < kAmmo_NUM &&a == E_I.Ammo_s[i]) {printf("Control reached Factory_complex 1_5\n"); return Ammo_Factory.create(a); }
+    else if (i < kArmor_NUM &&a == E_I.Armor_s[i]) {printf("Control reached Factory_complex 1_3\n"); return Armor_Factory.create(a); }
+    else if (i < kUsable_NUM &&a == E_I.Usable_s[i]) {printf("Control reached Factory_complex 1_4\n"); return Usables_Factory.create(a); }
+    else if (i < kMagic_Items_NUM &&a == E_I.Magic_Items_s[i]) {printf("Control reached Factory_complex 1_6\n"); return Magic_Items_Factory.create(a); }
     else if (i == kUsable_NUM - 1) {
       printf("Error in Factory complex\n");
       return nullptr;
     }
   }
+  printf("Control reached Factory_complex 3\n");
   return nullptr;
 }
 
@@ -713,24 +723,31 @@ int Character::Add_To_Inventory() {
       printf("You can add this types of items:\n"
              "1. Weapon\n"
              "2. Ranged weapon\n"
-             "3. Armor\n"
-             "4. Usables\n"
-             "5. Ammo\n"
+             "3. Ammo\n"
+             "4. Armor\n"
+             "5. Usables\n"
              "6. Magic Items\n"
              "(this list will be extended in future versions)\n");
       cin >> item_;
       item_ = Correctness_of_input(item_, 1, 6);
+      cout << "Control reach method Add_To_Inventory 0\n";
+      cout << money[4] << endl;
       int limit[7] = {0, kWeapon_NUM, kRanged_Weapon_NUM + limit[1], kAmmo_NUM + limit[2], kArmor_NUM + limit[3], kUsable_NUM + limit[4],
                        kMagic_Items_NUM + limit[5]};
       Existing_Items E_P;
+      cout << "Control reach method Add_To_Inventory 1\n";
       for (int i = limit[item_ - 1]; i < limit[item_]; i++) {
         cout << i + 1 << ". " << E_P.All_s[i] << endl;
       }
       cin >> item_;
       item_ = Correctness_of_input(item_, 1, limit[6] + 1);
+      cout << "Control reach method Add_To_Inventory 2\n";
       a = E_P.All_s[item_ - 1];
+      cout << "Control reach method Add_To_Inventory 2_2\n";
       inventory.push_back(Factory_Complex(a));
+      cout << "Control reach method Add_To_Inventory 3\n";
       if (Paying_Money(inventory[inventory.size() - 1]->get_cost())) {
+        cout << "Control reach method Add_To_Inventory 4\n";
         Add_To_Item_Map(a);
       } else
         printf("%s %d %s %d \n",
@@ -771,6 +788,7 @@ void Character::Equip_Item(int where, Item *what) {
 }
 
 void Character::Equiping_Item() {
+  printf("Control reached Equiping_Item 0 \n");
   Item *what;
   cout << "You might Equip Something. Choose where and what.\n";
   cout << "Now lets see what you have got in your backpack\n";
@@ -781,20 +799,24 @@ void Character::Equiping_Item() {
     cout << k + 1 << '.' << it->first << endl;
     k++;
   }
+  printf("Control reached Equiping_Item 1 \n");
   if (k > 1) {
     cout << "You can equip something. Choose what.(type number)\n";
     int what_;
     cin >> what_;
+    printf("Control reached Equiping_Item 2 \n");
     if (what_ == 1) {
       cout << " You already got " << names[what_ - 1] << " on you\n";
       what_ = 0;
     }
+    printf("Control reached Equiping_Item 3 \n");
     what_ = Correctness_of_input(what_, 1, k + 1);
-    if (items_map.find(names[what_])->second->is_equiped()) {
+    if (items_map.find(names[what_ - 1])->second->is_equiped()) {
       cout << "it is already equipped!\n";
     } else {
-      what = items_map.find(names[what_])->second;
-      items_map.find(names[what_])->second->equip(1);
+      printf("Control reached Equiping_Item 4 \n");
+      what = items_map.find(names[what_ - 1])->second;
+      items_map.find(names[what_ - 1])->second->equip(1);
       cout << "Possible places to equip are:\n";
       cout << "Hands: Left(0), Right(1), extra(3-4)\n";
       cout << "Body: upper/upper+lower(2)\n";
@@ -802,6 +824,7 @@ void Character::Equiping_Item() {
       int where;
       cin >> where;
       where = Correctness_of_input(where, 0, 9);
+      printf("Control reached Equiping_Item 5 \n");
       Equip_Item(where, what);
       printf("Do u want to add something to your equipment? Yes(0), No(1)\n");
       cin >> k;
@@ -828,7 +851,7 @@ int Character::Healing_Injuring(int value) {
   return health;
 }
 
-int Character::Level_Up() {
+int Character::Level_Up(Random_Generator_ * Rand_gen) {
   Existing_Types E;
   if (experience > E.experience_per_level[level]) {
     level++;
@@ -836,8 +859,8 @@ int Character::Level_Up() {
     health = maxhealth;
     Ability_improve();
     ConcreteAbilityModifier();
-    maxhealth = Health_Level_Up(health_dice, ConModifier, maxhealth);
-    return Level_Up();
+    maxhealth = Health_Level_Up(Rand_gen, health_dice, ConModifier, maxhealth);
+    return Level_Up(Rand_gen);
   }
   printf("%s %d \n", "Your level:", level);
   printf("%s %d \n", "Your max health:", maxhealth);
@@ -845,7 +868,7 @@ int Character::Level_Up() {
   return 0;
 }
 
-void Character::Class_Set_Wealth() {
+void Character::Class_Set_Wealth(Random_Generator_ * Rand_gen) {
   int wealth[12][3] = {{2, 4, 10}, {5, 4, 10}, {5, 4, 10}, {2, 4, 10}, {5, 4, 10}, {5, 4, 1},
                        {5, 4, 10}, {5, 4, 10}, {4, 4, 10}, {3, 4, 10}, {4, 4, 10}, {4, 4, 10}};
   int ctype = classType.get(0);
@@ -853,12 +876,12 @@ void Character::Class_Set_Wealth() {
   // *in gold
   int funds = 0;
   for (int i = 0; i < wealth[ctype][0]; i++) {
-    funds += Random_Generator(1, wealth[ctype][1]) * wealth[ctype][2];
+    funds += Rand_gen->Rand(1, wealth[ctype][1]) * wealth[ctype][2];
   }
   Add_Money(2, funds);
 }
 
-void Character::SetClass() {
+void Character::SetClass(Random_Generator_ * Rand_gen) {
   printf("Choose your class: \n");
   int class_type_ = 0;
   printf("1. Barbarian\n"
@@ -874,12 +897,12 @@ void Character::SetClass() {
          "11. Warlock\n"
          "12. Wizard\n");
   cin >> class_type_;
-  class_type_ = Correctness_of_input(class_type_, 1, 11);
+  class_type_ = Correctness_of_input(class_type_, 1, 12);
   classType.set(class_type_ - 1, &s_b);
   health_dice = classType.get(20);
   proficiency = ProficiencySetter();
   //21-38 => s[0] - s[17]
-  Class_Set_Wealth();
+  Class_Set_Wealth(Rand_gen);
   for (int i = 21; i < 38; i++) {
     if (classType.get(i) == 1 && !s_b[i - 21]) {
       s[i - 21] += proficiency;
@@ -909,6 +932,7 @@ int Character::GetSkill(int a) {
 void Character::Starting_Health() {
   if (maxhealth == 0) {
     maxhealth = health_dice + ConModifier;
+    health = maxhealth;
   } else {
     printf("Health Increase: Error\n");
   }

@@ -20,11 +20,11 @@ Race::Race() {
   damage_resistance = 0;
 }
 Race::~Race() = default;
-void Race::set(int a) {
+void Race::set(Random_Generator_ * Rand_gen,int a) {
   type = a;
-  height = Random_Generator(E.minHeight[type], E.maxHeight[type]);
-  weight = Random_Generator(E.minWeight[type], E.maxWeight[type]);
-  age = Random_Generator(E.minAge[type], E.maxAge[type]);
+  height = Rand_gen->Rand(E.minHeight[type], E.maxHeight[type]);
+  weight = Rand_gen->Rand(E.minWeight[type], E.maxWeight[type]);
+  age = Rand_gen->Rand(E.minAge[type], E.maxAge[type]);
 }
 void Race::set(int a, int b, int c, int d) {
   type = a;

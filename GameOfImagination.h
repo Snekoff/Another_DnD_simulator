@@ -16,7 +16,7 @@ class Game {
 
   ~Game();
 
-  void Character_create();
+  void Character_create(Random_Generator_ * Rand_gen);
 
   bool is_Created();
 };

@@ -3,15 +3,18 @@
 #include "Character/character.h"
 #include "GameOfImagination.h"
 
+using namespace std;
+
 Game::Game(int start, int journey) {
-  Character_create();
+  Random_Generator_ * Rand_gen = new Random_Generator_();
+  Character_create(Rand_gen);
 }
 
 Game::~Game() {
   characters.clear();
 };
 
-void Game::Character_create() {
+void Game::Character_create(Random_Generator_ * Rand_gen) {
   cout << "Hello, adventurer. We start with character creation, shouldn't we?\n";
   cout << "Lets start with a number of current players except master. Type it.\n";
   cout << "( You will be able to add or delete character during your game )\n";
@@ -46,14 +49,15 @@ void Game::Character_create() {
     string stories[13] = {"Acolyte", "Charlatan", "Criminal", "Entertainer", "FolkHero", "GuildArtisan",
                           "Hermit", "Noble", "Outlander", "Sage", "Sailor", "Soldier", "Urchin"};
     first_choosal = Correctness_of_input(first_choosal, 1, 13);
-    auto a = new Character(stories[first_choosal - 1], exp_, level_, abilities[0], abilities[1],
+
+    auto a = new Character(Rand_gen,stories[first_choosal - 1], exp_, level_, abilities[0], abilities[1],
                            abilities[2], abilities[3], abilities[4], abilities[5], sex_ - 1);
     characters.push_back(a);
     delete a;
     bool testing_method_Get = true;
     int what = 1;
     while (testing_method_Get) {
-      characters[characters.size() - 1]->Get(what);
+      cout << characters[characters.size() - 1]->Get(what) << endl;
       printf("Continue ? Yes(1), No(2)\n");
       cin >> what;
       if (what != 1) { testing_method_Get = false; }

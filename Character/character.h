@@ -51,12 +51,12 @@ sleightOfHand 15,stealth 16,survival 17*/
   int state; // norm, incapacitated, arested, dead
  public:
   Character();
-  Character(string &storyl, int exp, int levl, int Stre, int Dext,
+  Character(Random_Generator_ * Rand_gen,string &storyl, int exp, int levl, int Stre, int Dext,
             int Cons, int Inte, int Wisd, int Charisma,int sex_);
 
   ~Character();
 
-  int Ability_Random_Sets();
+  int Ability_Random_Sets(Random_Generator_ * Rand_gen);
 
   int Less_than_zero(int a);
 
@@ -66,7 +66,7 @@ sleightOfHand 15,stealth 16,survival 17*/
   //new
   int ProficiencySetter();
 
-  void Size_Set(int a, int b, int c,int race1,int subrace,int negative);
+  void Size_Set(Random_Generator_ * Rand_gen,int a, int b, int c,int race1,int subrace,int negative);
 
   int PassivePerceptionSetter(int a, bool b, bool c);
 
@@ -74,7 +74,7 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   void Ability_improve();
 
-  void Race_Choosal();
+  void Race_Choosal(Random_Generator_ * Rand_gen);
 
   void Race_Get_Abilities();
 
@@ -98,11 +98,11 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   int Healing_Injuring(int value);
 
-  int Level_Up();
+  int Level_Up(Random_Generator_ * Rand_gen);
 
-  void Class_Set_Wealth();
+  void Class_Set_Wealth(Random_Generator_ * Rand_gen);
 
-  void SetClass();
+  void SetClass(Random_Generator_ * Rand_gen);
 
   void SetSkill(int c[]);
 

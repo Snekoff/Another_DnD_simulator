@@ -58,6 +58,7 @@ Class::~Class() = default;
       skill_2 = Correctness_of_input(skill_2,0,5);
       while(skill_2 == skill_1 || s_b[skills_identifier[skill_2]]) {
         skill_2 = -1;
+        printf("you already got proficiency in this skill\n");
         skill_2 = Correctness_of_input(skill_2,0,5);
       }
 

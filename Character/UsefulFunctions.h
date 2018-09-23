@@ -13,7 +13,7 @@ struct Existing_Types {
   int maxWeight[11] = {140};
   int minAge[11] = {3};
   int maxAge[11] = {120};//
-  std::string item[9] = {"equipment","potions","food","ammo_holder","shield","weapon","armor","ammo","usable"};
+  //std::string item[9] = {"equipment","potions","food","ammo_holder","shield","weapon","armor","ammo","usable"};
   int race_ability_bonus[39][6] =
       {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
@@ -28,7 +28,19 @@ struct Existing_Types {
 
 int Correctness_of_input(int a, int lowerlimit, int higherlimit);
 
-int Random_Generator(int lowerlimit, int higherlimit);
+int Random_Generator(std::mt19937 mt,int lowerlimit, int higherlimit);
 
-int Health_Level_Up(int health_dice, int ConModifier, int maxhealth);
+class Random_Generator_ {
+ private:
+  std::random_device rd;
+  //std::mt19937 mt;
+ public:
+  Random_Generator_();
+  ~Random_Generator_();
+
+  int Rand(int lowerlimit, int higherlimit);
+};
+
+int Health_Level_Up(Random_Generator_ * Rand_gen, int health_dice, int ConModifier, int maxhealth);
+
 #endif //ANOTHER_DND_SIMULATOR_USEFULFUNCTIONS_H
