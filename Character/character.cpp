@@ -97,10 +97,10 @@ Character::Character(Random_Generator_ * Rand_gen,string &storyl, int exp, int l
   SetClass(Rand_gen);
   printf("Control reach 10\n");
   Starting_Health();
-  printf("Control reach 11\n");
+  printf("%s %d ","Control reach 11 armor class = ", armor_class);
   if (classType.get(0) == 0) armor_class = 10 + DexModifier + ConModifier;
   level = 0;
-  printf("Control reach 12\n");
+  printf("%s %d ","Control reach 12\n", armor_class);
   cout << experience << " " << level << endl;
   t1 = Level_Up(Rand_gen);
   printf("Control reach 13\n");
@@ -138,6 +138,7 @@ int Character::Ability_Random_Sets(Random_Generator_ * Rand_gen) {
     cout << "which one do you prefer most?";
     cout << "*Or type 13 to re-roll\n";
     int s[7];
+    bool checked[6] = {false};
     cin >> s[6];
     if (s[6] == 13) return Ability_Random_Sets(Rand_gen);
     s[6] = Correctness_of_input(s[6], 1, 2);
@@ -145,6 +146,15 @@ int Character::Ability_Random_Sets(Random_Generator_ * Rand_gen) {
             "Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6)\n";
     for (int i = 0; i < 6; i++) {
       cin >> s[i];
+      s[i] = Correctness_of_input(s[i],1,6);
+      if(!checked[s[i]])checked[s[i]] = true;
+      else{
+        while(checked[s[i]]){
+          printf("You have already used this number\n");
+          cin >> s[i];
+          s[i] = Correctness_of_input(s[i],1,6);
+        }
+      }
       if (i == 0) { Str = Sets[(int) (pow(6, s[6] - 1)) - 1 + i]; }
       else if (i == 1) { Dex = Sets[(int) (pow(6, s[6] - 1)) - 1 + i]; }
       else if (i == 2) { Con = Sets[(int) (pow(6, s[6] - 1)) - 1 + i]; }
@@ -398,6 +408,7 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
     cin >> subrace;
     subrace = Correctness_of_input(subrace, 1, 10);
     int a = 0, b = 0, c = 0;
+    printf("Control reach Race_Choosal 1\n");
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
     race_of_character = new Dragonborn();
     race_of_character->Create(subrace - 1, a, b, c);
@@ -412,12 +423,16 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
     cin >> subrace;
     subrace = Correctness_of_input(subrace, 1, 3);
     int a = 0, b = 0, c = 0;
+    printf("Control reach Race_Choosal 2\n");
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
     //multirace
     race_of_character = new Dwarf();
     race_of_character->Create(subrace - 1, a, b, c);
+    printf("Control reach Race_Choosal 2-a\n");
     Race_Get_Abilities();
+    printf("Control reach Race_Choosal 2-b\n");
     ConcreteAbilityModifier();
+    printf("Control reach Race_Choosal 2c\n");
   } else if (race == 3) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Drow \n"
@@ -621,9 +636,9 @@ int Character::Get(int a) {
   else if (a == 31) { return race_of_character->get(11); }//Size
   else if (a == 32) { return race_of_character->get(12); }//Darkvision
   else if (a == 33) { return race_of_character->get(13); }//damage resist
-  //else if (a == ) { return ; }
-  //else if (a == ) { return ; }
-  //else if (a == ) { return ; }
+  else if (a == 34) { return ConModifier; }
+  else if (a == 35) { return ChaModifier; }
+  else if (a == 36) { return DexModifier; }
   //else if (a == ) { return ; }
   return -1;
 }
@@ -638,7 +653,44 @@ Item * Character::Factory_Complex(string &a) {
   Items_Factory<Magic_Items> Magic_Items_Factory;
   Existing_Items E_I;
   printf("Control reached Factory_complex 1\n");
-  for (int i = 0; i < kAll_Num; i++) {
+  for (int i = 0; i < kWeapon_NUM; i++) {
+    if (a == E_I.Weapon_s[i]) {
+      printf("Control reached Factory_complex 1_1\n");
+      return Weapon_Factory.create(a);
+    }
+  }
+  for (int i = 0; i < kRanged_Weapon_NUM; i++) {
+    if (i < kRanged_Weapon_NUM && a == E_I.Ranged_Weapon_s[i]) {
+      printf("Control reached Factory_complex 1_2\n");
+      return Ranged_Weapon_Factory.create(a);
+    }
+  }
+  for (int i = 0; i < kAmmo_NUM; i++) {
+    if (i < kAmmo_NUM && a == E_I.Ammo_s[i]) {
+      printf("Control reached Factory_complex 1_5\n");
+      return Ammo_Factory.create(a);
+    }
+  }
+  for (int i = 0; i < kArmor_NUM; i++) {
+    if (i < kArmor_NUM && a == E_I.Armor_s[i]) {
+      printf("Control reached Factory_complex 1_3\n");
+      return Armor_Factory.create(a);
+    }
+  }
+  for (int i = 0; i < kUsable_NUM; i++) {
+    if (i < kUsable_NUM && a == E_I.Usable_s[i]) {
+      printf("Control reached Factory_complex 1_4\n");
+      return Usables_Factory.create(a);
+    }
+  }
+  for (int i = 0; i < kMagic_Items_NUM; i++) {
+    if (i < kMagic_Items_NUM && a == E_I.Magic_Items_s[i]) {
+      printf("Control reached Factory_complex 1_6\n");
+      return Magic_Items_Factory.create(a);
+    }
+  }
+
+  /*for (int i = 0; i < kAll_Num; i++) {
     if (i < kWeapon_NUM && a == E_I.Weapon_s[i]) {printf("Control reached Factory_complex 1_1\n"); return Weapon_Factory.create(a); }
     else if (i < kRanged_Weapon_NUM &&a == E_I.Ranged_Weapon_s[i]) {printf("Control reached Factory_complex 1_2\n"); return Ranged_Weapon_Factory.create(a); }
     else if (i < kAmmo_NUM &&a == E_I.Ammo_s[i]) {printf("Control reached Factory_complex 1_5\n"); return Ammo_Factory.create(a); }
@@ -649,7 +701,7 @@ Item * Character::Factory_Complex(string &a) {
       printf("Error in Factory complex\n");
       return nullptr;
     }
-  }
+  }*/
   printf("Control reached Factory_complex 3\n");
   return nullptr;
 }
@@ -756,9 +808,9 @@ int Character::Add_To_Inventory() {
                " and price is ",
                inventory[inventory.size() - 1]->get_cost());
 
-      printf("Do you want to add something?(Y)/(N)\n");
-      cin >> a;
-      if (a[0] == 'N') {
+      printf("Do you want to add something? Yes(1)  No(2)\n");
+      cin >> item_;
+      if (item_ == 2) {
         some_more = false;
       }
     }
@@ -768,11 +820,13 @@ int Character::Add_To_Inventory() {
 
 void Character::Equip_Item(int where, Item *what) {
   if (where < 2) {
-    if (&Equiped[where] != nullptr) {// need to try it hard
+    if (Equiped[where].get_count() != 0) {// need to try it hard
       Equiped[where].equip(-1);
-    }
+    } else { cout << "nullptr check fine\n";}
     Equiped[where] = *what;
+    cout << "Equipped " << Equiped[where].get_name() << endl;
   } else if (where == 2) {
+    cout << "equip armor, armor class before: " << armor_class << endl;
     if (classType.get(0) == 0) {
       armor_class = 10 + DexModifier + ConModifier;
     } else {
@@ -781,9 +835,16 @@ void Character::Equip_Item(int where, Item *what) {
     Equiped[where] = *what;
     int armor_class_bonus[3] = {DexModifier, min(DexModifier, 2), 0};
     armor_class = Equiped[where].get(2) + armor_class_bonus[Equiped[where].get(0)];
-  } else {
+    cout << "armor class after: " << armor_class << endl;
+    cout << "Equipped " << Equiped[where].get_name() << endl;
+  } else if (where < 10){
+    Equiped[where] = *what;
+    cout << "Equipped " << Equiped[where].get_name() << endl;
+  }
+  else {
     printf("non-standart body\n");
     Equiped[where] = *what;
+    cout << "Equipped " << Equiped[where].get_name() << endl;
   }
 }
 
@@ -818,18 +879,18 @@ void Character::Equiping_Item() {
       what = items_map.find(names[what_ - 1])->second;
       items_map.find(names[what_ - 1])->second->equip(1);
       cout << "Possible places to equip are:\n";
-      cout << "Hands: Left(0), Right(1), extra(3-4)\n";
-      cout << "Body: upper/upper+lower(2)\n";
-      cout << "Fingers: (5-9)\n";
+      cout << "Hands: Left(1), Right(2), extra(4-5)\n";
+      cout << "Body: upper/upper+lower(4)\n";
+      cout << "Fingers: (6-10)\n";
       int where;
       cin >> where;
-      where = Correctness_of_input(where, 0, 9);
-      printf("Control reached Equiping_Item 5 \n");
-      Equip_Item(where, what);
-      printf("Do u want to add something to your equipment? Yes(0), No(1)\n");
+      where = Correctness_of_input(where, 1, 10);
+      printf("Control reached Equipping_Item 5 \n");
+      Equip_Item(where - 1, what);
+      printf("Do u want to add something to your equipment? Yes(1), No(2)\n");
       cin >> k;
       delete what;
-      if (k == 0) { Equiping_Item(); }
+      if ((int)k == 0) { Equiping_Item(); }
     }
   }
   cout << "You can Equip Nothing.\n";
@@ -856,10 +917,10 @@ int Character::Level_Up(Random_Generator_ * Rand_gen) {
   if (experience > E.experience_per_level[level]) {
     level++;
     proficiency = ProficiencySetter();
-    health = maxhealth;
     Ability_improve();
     ConcreteAbilityModifier();
     maxhealth = Health_Level_Up(Rand_gen, health_dice, ConModifier, maxhealth);
+    health = maxhealth;
     return Level_Up(Rand_gen);
   }
   printf("%s %d \n", "Your level:", level);

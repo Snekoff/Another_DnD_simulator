@@ -6,8 +6,10 @@
 using namespace std;
 
 Game::Game(int start, int journey) {
-  Random_Generator_ * Rand_gen = new Random_Generator_();
+  auto * Rand_gen = new Random_Generator_();
   Character_create(Rand_gen);
+
+  delete Rand_gen;
 }
 
 Game::~Game() {
@@ -34,10 +36,10 @@ void Game::Character_create(Random_Generator_ * Rand_gen) {
     cin >> first_choosal;
     int abilities[6] = {0};
     if (first_choosal != 0) {
-      printf("Type six numbers, for each stats. Str, Dex, Con, Int, Wis, Cha. From 0 to 38\n");
+      printf("Type six numbers, for each stats. Str, Dex, Con, Int, Wis, Cha. From 0 to 20\n");
       for (int j = 0; j < 6; j++) {
         cin >> abilities[j];
-        abilities[j] = Correctness_of_input(abilities[j], 0, 38);
+        abilities[j] = Correctness_of_input(abilities[j], 0, 20);
       }
     }
     cout << "Choose sex of your character.Female(1), Male(2), Futa(3), Creature(4)\n";
@@ -69,6 +71,5 @@ void Game::Character_create(Random_Generator_ * Rand_gen) {
 }
 
 bool Game::is_Created() {
-  if (characters.size() != 0) return true;
-  else return false;
+  return characters.empty() ;
 }
