@@ -120,11 +120,6 @@ Character::~Character() {
 };
 
 int Character::Ability_Random_Sets(Random_Generator_ * Rand_gen) {
-  //std::random_device rd;
-  //std::mt19937 mt(rd());
-  //std::uniform_int_distribution<int> dist(10,16);
-  //return dist(mt);
-  //Random_Generator_ * Rand_gen = new Random_Generator_();
   if (Str == 0 && Dex == 0 && Con == 0 && Int == 0 && Wis == 0 && Cha == 0) {
     int Sets[12] = {0};
     for (int k = 0; k < 12; k++) {
@@ -136,23 +131,23 @@ int Character::Ability_Random_Sets(Random_Generator_ * Rand_gen) {
       cout << " " << Sets[k] << " ";
     }
     cout << "which one do you prefer most?";
-    cout << "*Or type 13 to re-roll\n";
+    cout << "*Or type 3 to re-roll\n";
     int s[7];
     bool checked[6] = {false};
-    cin >> s[6];
-    if (s[6] == 13) return Ability_Random_Sets(Rand_gen);
-    s[6] = Correctness_of_input(s[6], 1, 2);
+    s[6] = IsNumber(s[6], 1, 3);
+    if (s[6] == 3) return Ability_Random_Sets(Rand_gen);
     cout << "type six numbers what represents to what skill you apply each value "
             "Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6)\n";
     for (int i = 0; i < 6; i++) {
-      cin >> s[i];
-      s[i] = Correctness_of_input(s[i],1,6);
-      if(!checked[s[i]])checked[s[i]] = true;
+      //cin >> s[i];
+      s[i] = IsNumber(s[i],1,6);
+      if (!checked[s[i]]) checked[s[i]] = true;
       else{
         while(checked[s[i]]){
-          printf("You have already used this number\n");
-          cin >> s[i];
-          s[i] = Correctness_of_input(s[i],1,6);
+          printf("You have already used this number ");
+          cout << s[i] << endl;
+          //cin >> s[i];
+          s[i] = IsNumber(s[i],1,6);
         }
       }
       if (i == 0) { Str = Sets[(int) (pow(6, s[6] - 1)) - 1 + i]; }
@@ -213,7 +208,10 @@ void Character::Size_Set(Random_Generator_ * Rand_gen,int a, int b, int c, int r
          E.minAge[race1 - 1],
          "to ",
          E.maxAge[race1 - 1]);
-  cin >> a >> b >> c;
+  //cin >> a >> b >> c;
+  a = IsNumber(a,0,200);
+  b = IsNumber(b,0,200);
+  c = IsNumber(c,0,200);
   if (a <= 0 || a > E.maxHeight[race1 - 1]) { a = Rand_gen->Rand(E.minHeight[race1 - 1], E.maxHeight[race1 - 1]); }
   if (b <= 0 || b > E.maxWeight[race1 - 1]) { b = Rand_gen->Rand(E.minWeight[race1 - 1], E.maxWeight[race1 - 1]); }
   if (c <= 0 || c > E.maxAge[race1 - 1]) { c = Rand_gen->Rand(E.minAge[race1 - 1], E.maxAge[race1 - 1]); }
@@ -354,20 +352,20 @@ void Character::Ability_improve() {
            level,
            " level, that means that you have to choose whether improve one ability +2(type 1) or two abilities +1(type 2)");
     int one_or_two_abilities = -1;//abilityLevel_Up
-    cin >> one_or_two_abilities;
-    one_or_two_abilities = Correctness_of_input(one_or_two_abilities, 1, 2);
+    //cin >> one_or_two_abilities;
+    one_or_two_abilities = IsNumber(one_or_two_abilities, 1, 2);
     if (one_or_two_abilities == 1) {
       printf("%s \n", "What ability do you want to improve +2 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6)");
-      cin >> one_or_two_abilities;
-      one_or_two_abilities = Correctness_of_input(one_or_two_abilities, 1, 6);
+      //cin >> one_or_two_abilities;
+      one_or_two_abilities = IsNumber(one_or_two_abilities, 1, 6);
       Set(one_or_two_abilities + 2, 2);
     } else {
       printf("%s \n",
              "What abilities do you want to improve +1 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6) *Type 2 spaced numbers*");
       int one_or_two_abilities1 = 0;
-      cin >> one_or_two_abilities >> one_or_two_abilities1;
-      one_or_two_abilities = Correctness_of_input(one_or_two_abilities, 1, 6);
-      one_or_two_abilities1 = Correctness_of_input(one_or_two_abilities1, 1, 6);
+      //cin >> one_or_two_abilities >> one_or_two_abilities1;
+      one_or_two_abilities = IsNumber(one_or_two_abilities, 1, 6);
+      one_or_two_abilities1 = IsNumber(one_or_two_abilities1, 1, 6);
       Set(one_or_two_abilities + 2, 1);
       Set(one_or_two_abilities1 + 2, 1);
     }
@@ -389,8 +387,8 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                   "11. Tiefling (11 subraces)\n"
                   "Type number, and proceed");
   int race = 9;
-  std::cin >> race;
-  race = Correctness_of_input(race, 1, 11);
+  //cin >> race;
+  race = IsNumber(race, 1, 11);
   int subrace = 0;
   if (race == 1) {
     printf("%s \n", "Choose your subrace. What it will be?");
@@ -405,8 +403,8 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "9. Silver (Cold) 15ft. cone\n"
                     "10. White (Cold) 15ft. cone\n"
                     "Type number, and proceed");
-    cin >> subrace;
-    subrace = Correctness_of_input(subrace, 1, 10);
+    //cin >> subrace;
+    subrace = IsNumber(subrace, 1, 10);
     int a = 0, b = 0, c = 0;
     printf("Control reach Race_Choosal 1\n");
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
@@ -420,8 +418,8 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "2. Hill\n"
                     "3. Mountain\n"
                     "Type number, and proceed");
-    cin >> subrace;
-    subrace = Correctness_of_input(subrace, 1, 3);
+    //cin >> subrace;
+    subrace = IsNumber(subrace, 1, 3);
     int a = 0, b = 0, c = 0;
     printf("Control reach Race_Choosal 2\n");
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
@@ -442,8 +440,8 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "5. Shadar-kai\n"
                     "6. Wood\n"
                     "Type number, and proceed");
-    cin >> subrace;
-    subrace = Correctness_of_input(subrace, 1, 6);
+    //cin >> subrace;
+    subrace = IsNumber(subrace, 1, 6);
     int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
     race_of_character = new Elf();
@@ -456,8 +454,8 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "2. Forest\n"
                     "3. Rock\n"
                     "Type number, and proceed");
-    cin >> subrace;
-    subrace = Correctness_of_input(subrace, 1, 3);
+    //cin >> subrace;
+    subrace = IsNumber(subrace, 1, 3);
     int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
 
@@ -481,8 +479,8 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "4. Moon Elf or Sun Elf Descent\n"
                     "5. Wood Elf Descent\n"
                     "Type number, and proceed");
-    cin >> subrace;
-    subrace = Correctness_of_input(subrace, 1, 5);
+    //cin >> subrace;
+    subrace = IsNumber(subrace, 1, 5);
     int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
     race_of_character = new Half_Elf();
@@ -494,8 +492,8 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
     printf("%s \n", "1. Half-Orc\n"
                     "2. Orc\n"
                     "Type number, and proceed");
-    cin >> subrace;
-    subrace = Correctness_of_input(subrace, 1, 10);
+    //cin >> subrace;
+    subrace = IsNumber(subrace, 1, 10);
     int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
     race_of_character = new Half_Orc();
@@ -508,8 +506,8 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "2. Lightfoot\n"
                     "3. Stout\n"
                     "Type number, and proceed");
-    cin >> subrace;
-    subrace = Correctness_of_input(subrace, 1, 3);
+    //cin >> subrace;
+    subrace = IsNumber(subrace, 1, 3);
     int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
     race_of_character = new Halfling();
@@ -521,8 +519,8 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
     printf("%s \n", "1. Common\n"
                     "2. Variant\n"
                     "Type number, and proceed");
-    cin >> subrace;
-    subrace = Correctness_of_input(subrace, 1, 10);
+    //cin >> subrace;
+    subrace = IsNumber(subrace, 1, 10);
     int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
 
@@ -552,8 +550,8 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "10. Variant\n"
                     "11. Zariel\n"
                     "Type number, and proceed");
-    cin >> subrace;
-    subrace = Correctness_of_input(subrace, 1, 11);
+    //cin >> subrace;
+    subrace = IsNumber(subrace, 1, 11);
     int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
 
@@ -574,7 +572,7 @@ void Character::Race_Get_Abilities() {
 }
 
 void Character::Set(int a, int b) {// a - what parameter will be changed, b - modifier(can be negative)
-  a = Correctness_of_input(a, 0, 14);
+  a = IsNumber(a, 0, 14);
   if (a == 1) { experience += b; }
   else if (a == 2) { health += b; }
   else if (a == 3) { Str += b; }
@@ -707,7 +705,7 @@ Item * Character::Factory_Complex(string &a) {
 }
 
 void Character::Add_Money(int type, int sum) {
-  type = Correctness_of_input(type, 0, 3);
+  type = IsNumber(type, 0, 3);
   money[type] += sum;
   money[4] += static_cast<int>(money[type] * pow(10, type)); // im sure integer will be in "()"
 }
@@ -761,12 +759,13 @@ int Character::Add_To_Inventory() {
   Items_Factory<Usables> Usables_Factory1;
   string a = "Backpack";
   inventory.push_back(Usables_Factory1.create(a));
+  int choose_to_proceed = 0;
   Add_To_Item_Map(a);
   printf("Your Backpack is a black hole without any limits, but you can carry not as much weight,"
          " so choose wisely what to take with you in future journeys\n");
-  printf("Do you want to take anything with you ? (Y)/(N)\n");
-  cin >> a;
-  if (a[0] == 'N') {
+  printf("Do you want to take anything with you ?  Yes(1)  No(2) *\n");
+  choose_to_proceed = IsNumber(choose_to_proceed,1,2);
+  if (choose_to_proceed == 2) {
     return 0;
   } else {
     bool some_more = true;
@@ -780,8 +779,8 @@ int Character::Add_To_Inventory() {
              "5. Usables\n"
              "6. Magic Items\n"
              "(this list will be extended in future versions)\n");
-      cin >> item_;
-      item_ = Correctness_of_input(item_, 1, 6);
+      //cin >> item_;
+      item_ = IsNumber(item_, 1, 6);
       cout << "Control reach method Add_To_Inventory 0\n";
       cout << money[4] << endl;
       int limit[7] = {0, kWeapon_NUM, kRanged_Weapon_NUM + limit[1], kAmmo_NUM + limit[2], kArmor_NUM + limit[3], kUsable_NUM + limit[4],
@@ -791,8 +790,8 @@ int Character::Add_To_Inventory() {
       for (int i = limit[item_ - 1]; i < limit[item_]; i++) {
         cout << i + 1 << ". " << E_P.All_s[i] << endl;
       }
-      cin >> item_;
-      item_ = Correctness_of_input(item_, 1, limit[6] + 1);
+      //cin >> item_;
+      item_ = IsNumber(item_, 1, limit[6] + 1);
       cout << "Control reach method Add_To_Inventory 2\n";
       a = E_P.All_s[item_ - 1];
       cout << "Control reach method Add_To_Inventory 2_2\n";
@@ -809,7 +808,8 @@ int Character::Add_To_Inventory() {
                inventory[inventory.size() - 1]->get_cost());
 
       printf("Do you want to add something? Yes(1)  No(2)\n");
-      cin >> item_;
+      //cin >> item_;
+      item_ = IsNumber(item_,1,2);
       if (item_ == 2) {
         some_more = false;
       }
@@ -864,14 +864,15 @@ void Character::Equiping_Item() {
   if (k > 1) {
     cout << "You can equip something. Choose what.(type number)\n";
     int what_;
-    cin >> what_;
+    //cin >> what_;
+    what_ = IsNumber(what_,1,k+1);
     printf("Control reached Equiping_Item 2 \n");
     if (what_ == 1) {
       cout << " You already got " << names[what_ - 1] << " on you\n";
       what_ = 0;
     }
     printf("Control reached Equiping_Item 3 \n");
-    what_ = Correctness_of_input(what_, 1, k + 1);
+    what_ = IsNumber(what_, 1, k + 1);
     if (items_map.find(names[what_ - 1])->second->is_equiped()) {
       cout << "it is already equipped!\n";
     } else {
@@ -883,12 +884,13 @@ void Character::Equiping_Item() {
       cout << "Body: upper/upper+lower(4)\n";
       cout << "Fingers: (6-10)\n";
       int where;
-      cin >> where;
-      where = Correctness_of_input(where, 1, 10);
+      //cin >> where;
+      where = IsNumber(where, 1, 10);
       printf("Control reached Equipping_Item 5 \n");
       Equip_Item(where - 1, what);
       printf("Do u want to add something to your equipment? Yes(1), No(2)\n");
-      cin >> k;
+      //cin >> k;
+      k = IsNumber(k,1,2);
       delete what;
       if ((int)k == 0) { Equiping_Item(); }
     }
@@ -957,8 +959,8 @@ void Character::SetClass(Random_Generator_ * Rand_gen) {
          "10. Sorcerer\n"
          "11. Warlock\n"
          "12. Wizard\n");
-  cin >> class_type_;
-  class_type_ = Correctness_of_input(class_type_, 1, 12);
+  //cin >> class_type_;
+  class_type_ = IsNumber(class_type_, 1, 12);
   classType.set(class_type_ - 1, &s_b);
   health_dice = classType.get(20);
   proficiency = ProficiencySetter();
@@ -986,7 +988,7 @@ void Character::SetSkill(int c[]) {
 }
 
 int Character::GetSkill(int a) {
-  a = Correctness_of_input(a, 0, 17);
+  a = IsNumber(a, 0, 17);
   return s[a];
 }
 

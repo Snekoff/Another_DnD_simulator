@@ -43,4 +43,6 @@ class Random_Generator_ {
 
 int Health_Level_Up(Random_Generator_ * Rand_gen, int health_dice, int ConModifier, int maxhealth);
 
+int IsNumber(int a, int lowerlimit, int higherlimit);
+
 #endif //ANOTHER_DND_SIMULATOR_USEFULFUNCTIONS_H

@@ -61,34 +61,36 @@ int Race::get(int w) {
 }
 void Race::RaceFeature() {}
 void Race::SetRaceAbilityBonus() {
-  int a, b;
+  int a = 0, b = 0;
   if (type < 15 || (type > 19 && type != 25 && type != 37)) {// 15-19(3)  25(2) 37(Dex or Cha)
     printf("%s \n", "Your type got non flexible ability bonuses");
   } else if (type == 25) {
     printf("%s \n", "type two most wanted abilities to improve (1 - 6)");
-    std::cin >> a >> b;
-    a = Correctness_of_input(a, 1, 6);
-    b = Correctness_of_input(b, 1, 6);
+    //std::cin >> a >> b;
+    a = IsNumber(a, 1, 6);
+    b = IsNumber(b, 1, 6);
     E.race_ability_bonus[a - 1][type] += 1;
     E.race_ability_bonus[b - 1][type] += 1;
   } else if (type == 37) {
     printf("%s \n", "Choose only one ability Dexterity(2) or Charisma(6) )");
-    std::cin >> a;
+    //std::cin >> a;
+    a = IsNumber(a, 2, 6);
     while (a != 2 && a != 6) {
       printf("%s \n", "Choose only one ability Dexterity(2) or Charisma(6) )");
-      std::cin >> a;
-      E.race_ability_bonus[a - 1][type] += 1;
+      //std::cin >> a;
+      a = IsNumber(a, 2, 6);
     }
+    E.race_ability_bonus[a - 1][type] += 1;
   } else {
     printf("%s \n", "type two most wanted abilities to improve (1 - 6)");
-    std::cin >> a >> b;
-    a = Correctness_of_input(a, 1, 6);
-    b = Correctness_of_input(b, 1, 6);
+    //std::cin >> a >> b;
+    a = IsNumber(a, 1, 6);
+    b = IsNumber(b, 1, 6);
     while (a - 1 == 5 || b - 1 == 5) {
-      printf("%s \n", "Your charisma is already raised, choose another one");
-      std::cin >> a >> b;
-      a = Correctness_of_input(a, 1, 6);
-      b = Correctness_of_input(b, 1, 6);
+      printf("%s \n", "Your charisma is already raised, choose another pair");
+      //std::cin >> a >> b;
+      a = IsNumber(a, 1, 6);
+      b = IsNumber(b, 1, 6);
     }
     E.race_ability_bonus[a - 1][type] += 1;
     E.race_ability_bonus[b - 1][type] += 1;
@@ -357,9 +359,9 @@ void Half_Elf::subRaceFeatures() {
   Cha += 2;
   int a, b;
   printf("%s \n", "type two most wanted abilities to improve except Charisma (1 - 5)");
-  std::cin >> a >> b;
-  a = Correctness_of_input(a, 1, 5);
-  b = Correctness_of_input(b, 1, 5);
+  //std::cin >> a >> b;
+  a = IsNumber(a, 1, 5);
+  b = IsNumber(b, 1, 5);
   E.race_ability_bonus[a - 1][15 + subtype] += 1;
   E.race_ability_bonus[b - 1][15 + subtype] += 1;
   if (subtype == 0) {
@@ -498,9 +500,9 @@ void Human::subRaceFeatures() {
   } else if (subtype == 1) {
     int a, b;
     printf("%s \n", "type two most wanted abilities to improve (1 - 6)");
-    std::cin >> a >> b;
-    a = Correctness_of_input(a, 1, 6);
-    b = Correctness_of_input(b, 1, 6);
+    //std::cin >> a >> b;
+    a = IsNumber(a, 1, 6);
+    b = IsNumber(b, 1, 6);
     E.race_ability_bonus[a - 1][24 + subtype] += 1;
     E.race_ability_bonus[b - 1][24 + subtype] += 1;
     raceFeatures = "fits,Languages";
@@ -537,9 +539,9 @@ void Lizardfolk::subRaceFeatures() {
   printf(
       "You gain proficiency with two of the following skills of your choice: Animal Handling(2), Nature(11), Perception(12), Stealth(17), and Survival(18).\n");
   int a, b;
-  std::cin >> a >> b;
-  a = Correctness_of_input(a, 2, 18);
-  b = Correctness_of_input(b, 2, 18);
+  //std::cin >> a >> b;
+  a = IsNumber(a, 2, 18);
+  b = IsNumber(b, 2, 18);
   Movement = 30;
   Size = 2;
   Darkvision = 0;
@@ -617,10 +619,12 @@ void Tiefling::subRaceFeatures() {
     Int += 1;
     int a;
     printf("%s \n", "Choose only one ability Dexterity(2) or Charisma(6) )");
-    std::cin >> a;
+    //std::cin >> a;
+    a = IsNumber(a, 2, 6);
     while (a != 2 && a != 6) {
       printf("%s \n", "Choose only one ability Dexterity(2) or Charisma(6) )");
-      std::cin >> a;
+      //std::cin >> a;
+      a = IsNumber(a, 2, 6);
     }
     E.race_ability_bonus[a - 1][28 + subtype] += 1;
     raceFeatures = "fits,Languages";

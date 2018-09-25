@@ -6,21 +6,24 @@ int Correctness_of_input(int a, int lowerlimit, int higherlimit) {
     while(a > lowerlimit){
       printf("%s \n", "Incorrect input.");
       std::cout << "value must be equal or lower than " << lowerlimit << std::endl;
-      std::cin >> a;
+      //std::cin >> a;
+      a = IsNumber(a,lowerlimit,higherlimit);
     }
   }
   else if(higherlimit == lowerlimit - 1){
     while(a < lowerlimit){
       printf("%s \n", "Incorrect input.");
       std::cout << "value must be equal or lower higher than " << higherlimit << std::endl;
-      std::cin >> a;
+      //std::cin >> a;
+      a = IsNumber(a,lowerlimit,higherlimit);
     }
   }
   else {
     while (a < lowerlimit || a > higherlimit) {
       printf("%s \n", "Incorrect input.");
       std::cout << "value must be between " << lowerlimit << " and " << higherlimit << std::endl;
-      std::cin >> a;
+      //std::cin >> a;
+      a = IsNumber(a,lowerlimit,higherlimit);
     }
   }
   return a;
@@ -56,4 +59,15 @@ Random_Generator_::~Random_Generator_() = default;
 int Random_Generator_::Rand(int lowerlimit, int higherlimit) {
   std::uniform_int_distribution<int> dist(lowerlimit, higherlimit);
   return dist(rd);
+}
+
+int IsNumber(int a, int lowerlimit, int higherlimit){
+  for (;;)
+  {
+    std::cout << "Input: ";
+    if (std::cin >> a) {a = Correctness_of_input(a,lowerlimit,higherlimit);break;}
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  }
+  return a;
 }
