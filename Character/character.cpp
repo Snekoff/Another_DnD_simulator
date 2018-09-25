@@ -97,7 +97,7 @@ Character::Character(Random_Generator_ * Rand_gen,string &storyl, int exp, int l
   SetClass(Rand_gen);
   printf("Control reach 10\n");
   Starting_Health();
-  printf("%s %d ","Control reach 11 armor class = ", armor_class);
+  printf("%s %d \n","Control reach 11 armor class = ", armor_class);
   if (classType.get(0) == 0) armor_class = 10 + DexModifier + ConModifier;
   level = 0;
   printf("%s %d ","Control reach 12\n", armor_class);
@@ -141,7 +141,7 @@ int Character::Ability_Random_Sets(Random_Generator_ * Rand_gen) {
     for (int i = 0; i < 6; i++) {
       //cin >> s[i];
       s[i] = IsNumber(s[i],1,6);
-      if (!checked[s[i]]) checked[s[i]] = true;
+      if (!checked[s[i] - 1]) checked[s[i] - 1] = true;
       else{
         while(checked[s[i]]){
           printf("You have already used this number ");
@@ -705,7 +705,7 @@ Item * Character::Factory_Complex(string &a) {
 }
 
 void Character::Add_Money(int type, int sum) {
-  type = IsNumber(type, 0, 3);
+  type = Correctness_of_input(type, 0, 3);
   money[type] += sum;
   money[4] += static_cast<int>(money[type] * pow(10, type)); // im sure integer will be in "()"
 }
@@ -770,7 +770,7 @@ int Character::Add_To_Inventory() {
   } else {
     bool some_more = true;
     while (some_more) {
-      int item_;
+      int item_ = 0;
       printf("You can add this types of items:\n"
              "1. Weapon\n"
              "2. Ranged weapon\n"
@@ -863,7 +863,7 @@ void Character::Equiping_Item() {
   printf("Control reached Equiping_Item 1 \n");
   if (k > 1) {
     cout << "You can equip something. Choose what.(type number)\n";
-    int what_;
+    int what_ = 0;
     //cin >> what_;
     what_ = IsNumber(what_,1,k+1);
     printf("Control reached Equiping_Item 2 \n");
@@ -872,7 +872,7 @@ void Character::Equiping_Item() {
       what_ = 0;
     }
     printf("Control reached Equiping_Item 3 \n");
-    what_ = IsNumber(what_, 1, k + 1);
+    what_ = Correctness_of_input(what_, 1, k + 1);
     if (items_map.find(names[what_ - 1])->second->is_equiped()) {
       cout << "it is already equipped!\n";
     } else {
@@ -883,7 +883,7 @@ void Character::Equiping_Item() {
       cout << "Hands: Left(1), Right(2), extra(4-5)\n";
       cout << "Body: upper/upper+lower(4)\n";
       cout << "Fingers: (6-10)\n";
-      int where;
+      int where = 0;
       //cin >> where;
       where = IsNumber(where, 1, 10);
       printf("Control reached Equipping_Item 5 \n");
@@ -891,8 +891,8 @@ void Character::Equiping_Item() {
       printf("Do u want to add something to your equipment? Yes(1), No(2)\n");
       //cin >> k;
       k = IsNumber(k,1,2);
-      delete what;
-      if ((int)k == 0) { Equiping_Item(); }
+      //delete what; bug here?
+      if (k == 1) { Equiping_Item(); }
     }
   }
   cout << "You can Equip Nothing.\n";

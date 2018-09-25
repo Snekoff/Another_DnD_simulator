@@ -56,7 +56,7 @@ void Game::Character_create(Random_Generator_ * Rand_gen) {
     first_choosal = IsNumber(first_choosal, 1, 13);
     string stories[13] = {"Acolyte", "Charlatan", "Criminal", "Entertainer", "FolkHero", "GuildArtisan",
                           "Hermit", "Noble", "Outlander", "Sage", "Sailor", "Soldier", "Urchin"};
-    first_choosal = IsNumber(first_choosal, 1, 13);
+    //first_choosal = IsNumber(first_choosal, 1, 13);
 
     auto a = new Character(Rand_gen,stories[first_choosal - 1], exp_, level_, abilities[0], abilities[1],
                            abilities[2], abilities[3], abilities[4], abilities[5], sex_ - 1);

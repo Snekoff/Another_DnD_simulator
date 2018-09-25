@@ -357,7 +357,7 @@ void Half_Elf::subRaceFeatures() {
   Darkvision = 60;
   damage_resistance = 0;
   Cha += 2;
-  int a, b;
+  int a = 0, b = 0;
   printf("%s \n", "type two most wanted abilities to improve except Charisma (1 - 5)");
   //std::cin >> a >> b;
   a = IsNumber(a, 1, 5);
@@ -498,7 +498,7 @@ void Human::subRaceFeatures() {
     Cha += 1;
     raceFeatures = "30,Medium,No,skill like firebreath,No,Languages";
   } else if (subtype == 1) {
-    int a, b;
+    int a = 0, b = 0;
     printf("%s \n", "type two most wanted abilities to improve (1 - 6)");
     //std::cin >> a >> b;
     a = IsNumber(a, 1, 6);
@@ -538,7 +538,7 @@ Lizardfolk::~Lizardfolk() = default;
 void Lizardfolk::subRaceFeatures() {
   printf(
       "You gain proficiency with two of the following skills of your choice: Animal Handling(2), Nature(11), Perception(12), Stealth(17), and Survival(18).\n");
-  int a, b;
+  int a = 0, b = 0;
   //std::cin >> a >> b;
   a = IsNumber(a, 2, 18);
   b = IsNumber(b, 2, 18);
@@ -617,7 +617,7 @@ void Tiefling::subRaceFeatures() {
     raceFeatures = "fits,Languages";
   } else if (subtype == 9) {
     Int += 1;
-    int a;
+    int a = 0;
     printf("%s \n", "Choose only one ability Dexterity(2) or Charisma(6) )");
     //std::cin >> a;
     a = IsNumber(a, 2, 6);
