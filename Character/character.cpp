@@ -62,6 +62,7 @@ Character::Character(Random_Generator_ * Rand_gen,string &storyl, int exp, int l
   Int = Inte;
   Wis = Wisd;
   Cha = Charisma;
+  Maximum_Parameter_Value();
   int t1 = Ability_Random_Sets(Rand_gen);
   printf("Control reach 2\n");
   armor_class = 0;
@@ -118,6 +119,15 @@ Character::~Character() {
   items_map.clear();
   delete[] Equiped;
 };
+
+void Character::Maximum_Parameter_Value(){
+  if(Str > 20) Str = 20;
+  if(Dex > 20) Dex = 20;
+  if(Con > 20) Con = 20;
+  if(Int > 20) Int = 20;
+  if(Wis > 20) Wis = 20;
+  if(Cha > 20) Cha = 20;
+}
 
 int Character::Ability_Random_Sets(Random_Generator_ * Rand_gen) {
   if (Str == 0 && Dex == 0 && Con == 0 && Int == 0 && Wis == 0 && Cha == 0) {
@@ -569,6 +579,7 @@ void Character::Race_Get_Abilities() {
   Int += race_of_character->get(7);
   Wis += race_of_character->get(8);
   Cha += race_of_character->get(9);
+  Maximum_Parameter_Value();
 }
 
 void Character::Set(int a, int b) {// a - what parameter will be changed, b - modifier(can be negative)
@@ -587,6 +598,7 @@ void Character::Set(int a, int b) {// a - what parameter will be changed, b - mo
   else if (a == 12) { printf("%s \n", "reserved for weapon"); }
   else if (a == 13) { printf("%s \n", "reserved for inventory"); }
   else if (a == 14) { printf("%s \n", "reserved for story/background"); }
+  Maximum_Parameter_Value();
 }
 
 int Character::Get(int a) {

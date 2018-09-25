@@ -60,6 +60,8 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   int Less_than_zero(int a);
 
+  void Maximum_Parameter_Value();
+
   int AbilityModifier(int a);
 
   void ConcreteAbilityModifier();
