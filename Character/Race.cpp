@@ -61,6 +61,7 @@ int Race::get(int w) {
   return -1;
 }
 void Race::RaceFeature() {}
+// what
 void Race::SetRaceAbilityBonus() {
   int a = 0, b = 0;
   if (type < 15 || (type > 19 && type != 25 && type != 37)) {// 15-19(3)  25(2) 37(Dex or Cha)

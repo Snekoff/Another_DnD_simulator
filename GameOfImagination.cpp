@@ -25,7 +25,7 @@ Game::Game(int start, int journey) {
         player_to_be_checked = IsNumber(player_to_be_checked, 0, characters.size());
         if (player_to_be_checked == 0) {
           repeat = false;
-          break;
+          break;//h
         }
         printf("Now showing params: \n");
         for (int j = 1; j < 90; j++) {
