@@ -114,7 +114,7 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   void Starting_Health();
 
-  bool Load(int *a[]);
+  bool Load(int a[]);
 
 };
 

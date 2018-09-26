@@ -1039,61 +1039,66 @@ void Character::Starting_Health() {
   }
 }
 
-bool Character::Load(int *a[]){
+bool Character::Load(int a[]){
+  s = new int[18];
+  s_b = new bool[18];
+  Equiped = new Item[10];
+  printf("Control reach Character method Load 0\n");
   for(int i = 1; i < 70;i++){
-    if (i == 1) { storyline_i = *a[i]; }
-    else if (i == 2) {  sex = *a[i]; }
-    else if (i == 3) {  experience = *a[i]; }
-    else if (i == 4) {  level = *a[i]; }
-    else if (i == 5) {  health = *a[i]; }
-    else if (i == 6) {  maxhealth = *a[i]; }
-    else if (i == 7) {  health_dice = *a[i]; }
-    else if (i == 8) {  Str = *a[i]; }
-    else if (i == 9) {  Dex = *a[i]; }
-    else if (i == 10) {  Con = *a[i]; }
-    else if (i == 11) {  Int = *a[i]; }
-    else if (i == 12) {  Wis = *a[i]; }
-    else if (i == 13) {  Cha = *a[i]; }
-    else if (i == 14) {  armor_class = *a[i]; }
-    else if (i == 15) {  deathsaves_s = *a[i]; }
-    else if (i == 16) {  deathsaves_f = *a[i]; }
-    else if (i == 17) {  advantage = (bool)*a[i]; }
-    else if (i == 18) {  disadvantage =  (bool)*a[i]; }
-    else if (i == 19) {  perception_advantage =  (bool)*a[i]; }
-    else if (i == 20) {  perception_disadvantage =  (bool)*a[i]; }
-    else if (i == 21) {  s_b[0] =  (bool)*a[i]; }
-    else if (i == 22) {  s_b[1] =  (bool)*a[i]; }
-    else if (i == 23) {  s_b[2] =  (bool)*a[i]; }
-    else if (i == 24) {  s_b[3] =  (bool)*a[i]; }
-    else if (i == 25) {  s_b[4] =  (bool)*a[i]; }
-    else if (i == 26) {  s_b[5] =  (bool)*a[i]; }
-    else if (i == 27) {  s_b[6] =  (bool)*a[i]; }
-    else if (i == 28) {  s_b[7] =  (bool)*a[i]; }//height
-    else if (i == 29) {  s_b[8] =  (bool)*a[i]; }//weight
-    else if (i == 30) {  s_b[9] =  (bool)*a[i]; }//Movement
-    else if (i == 31) {  s_b[10] =  (bool)*a[i]; }//Size
-    else if (i == 32) {  s_b[11] =  (bool)*a[i]; }//Darkvision
-    else if (i == 33) {  s_b[12] =  (bool)*a[i]; }//damage resist
-    else if (i == 34) {  s_b[13] =  (bool)*a[i]; }
-    else if (i == 35) {  s_b[14] =  (bool)*a[i]; }
-    else if (i == 36) {  s_b[15] =  (bool)*a[i]; }
-    else if (i == 37) {  s_b[16] =  (bool)*a[i]; }
-    else if (i == 38) {  s_b[17] =  (bool)*a[i]; }
-    else if (i == 39) {  money[0] = *a[i]; }
-    else if (i == 40) {  money[1] = *a[i]; }
-    else if (i == 41) {  money[2] = *a[i]; }
-    else if (i == 42) {  money[3] = *a[i]; }
-    else if (i == 43) {  money[4] = *a[i]; }
-    else if (i == 44) {  state = *a[i]; }
-    else if (i == 45) {
-      //classType = new Class();
-      classType.Load(*a[i],*a[i+1],*a[i+2],*a[i+3],*a[i+4],*a[i+5],*a[i+6],*a[i+7], *a[i+8],*a[i+9],*a[i+10],
-        *a[i+11], *a[i+12],*a[i+13],*a[i+14]);
-    }
-    else if (i == 60) {
-      race_of_character = new Race();
-      race_of_character->Load(*a[i],*a[i+1],*a[i+2],*a[i+3],*a[i+4],*a[i+5],*a[i+6],*a[i+7], *a[i+8],*a[i+9]);
-    }
+    if (i == 1) { printf("Control reach Character method Load 1\n"); storyline_i = a[i]; printf("%i \n", storyline_i); }
+    else if (i == 2) {  sex = a[i]; }
+    else if (i == 3) {  printf("Control reach Character method Load 3\n");experience = a[i]; }
+    else if (i == 4) {  level = a[i]; }
+    else if (i == 5) {  health = a[i]; }
+    else if (i == 6) {  maxhealth = a[i]; }
+    else if (i == 7) {  health_dice = a[i]; }
+    else if (i == 8) {  Str = a[i]; }
+    else if (i == 9) {  Dex = a[i]; }
+    else if (i == 10) { printf("Control reach Character method Load 10\n"); Con = a[i]; }
+    else if (i == 11) {  Int = a[i]; }
+    else if (i == 12) {  Wis = a[i]; }
+    else if (i == 13) {  Cha = a[i]; }
+    else if (i == 14) {  armor_class = a[i]; }
+    else if (i == 15) {  deathsaves_s = a[i]; }
+    else if (i == 16) {  deathsaves_f = a[i]; }
+    else if (i == 17) {  advantage = (bool)a[i]; }
+    else if (i == 18) {  disadvantage =  (bool)a[i]; }
+    else if (i == 19) {  perception_advantage =  (bool)a[i]; }
+    else if (i == 20) { printf("Control reach Character method Load 20\n"); perception_disadvantage =  (bool)a[i]; }
+    else if (i == 21) { printf("Control reach Character method Load 21\n"); s_b[0] =  &a[i]; }
+    else if (i == 22) { printf("Control reach Character method Load 22\n"); s_b[1] =  (bool)&a[i]; }
+    else if (i == 23) {  s_b[2] =  (bool)&a[i]; }
+    else if (i == 24) {  s_b[3] =  (bool)&a[i]; }
+    else if (i == 25) {  s_b[4] =  (bool)&a[i]; }
+    else if (i == 26) {  s_b[5] =  (bool)&a[i]; }
+    else if (i == 27) {  s_b[6] =  (bool)&a[i]; }
+    else if (i == 28) {  s_b[7] =  (bool)&a[i]; }//height
+    else if (i == 29) {  s_b[8] =  (bool)&a[i]; }//weight
+    else if (i == 30) { printf("Control re&ach Character method Load 30\n"); s_b[9] =  (bool)&a[i]; }//Movement
+    else if (i == 31) {  s_b[10] =  (bool)&a[i]; }//Size
+    else if (i == 32) {  s_b[11] =  (bool)&a[i]; }//Darkvision
+    else if (i == 33) {  s_b[12] =  (bool)&a[i]; }//damage resist
+    else if (i == 34) {  s_b[13] =  (bool)&a[i]; }
+    else if (i == 35) {  s_b[14] =  (bool)&a[i]; }
+    else if (i == 36) {  s_b[15] =  (bool)&a[i]; }
+    else if (i == 37) {  s_b[16] =  (bool)&a[i]; }
+    else if (i == 38) {  s_b[17] =  (bool)&a[i]; }
+    else if (i == 39) {  money[0] = a[i]; }
+    else if (i == 40) { printf("Control reach Character method Load 40\n"); money[1] = a[i]; }
+    else if (i == 41) {  money[2] = a[i]; }
+    else if (i == 42) {  money[3] = a[i]; }
+    else if (i == 43) {  money[4] = a[i]; }
+    else if (i == 44) {  state = a[i]; }
+      /*else if (i == 45) {
+        //classType = new Class();
+        classType.Load(*a[i],*a[i+1],*a[i+2],*a[i+3],*a[i+4],*a[i+5],*a[i+6],*a[i+7], *a[i+8],*a[i+9],*a[i+10],
+          *a[i+11], *a[i+12],*a[i+13],*a[i+14]);
+      }
+      else if (i == 60) {
+        printf("Control reach Character method Load 60\n");
+        race_of_character = new Race();
+        race_of_character->Load(*a[i],*a[i+1],*a[i+2],*a[i+3],*a[i+4],*a[i+5],*a[i+6],*a[i+7], *a[i+8],*a[i+9]);
+      }*/
     else if (i == 69) {  cout <<"###architype not implemented yet\n"; }
   }
   return true;

@@ -1,4 +1,5 @@
 #pragma once
+#include <iomanip>
 #include "Character\character.h"
 #include "WorkWithJson.h"
 #ifndef ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
@@ -22,6 +23,6 @@ class Game {
 
   bool Party_Save();
 
-  bool Party_Load(nlohmann::json party);
+  bool Party_Load();
 
 };
