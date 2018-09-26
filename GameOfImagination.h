@@ -1,7 +1,7 @@
 #pragma once
 #include <iomanip>
 #include "Character\character.h"
-#include "WorkWithJson.h"
+#include "json.hpp"
 #ifndef ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 #define ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 

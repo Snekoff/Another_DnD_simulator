@@ -2,8 +2,6 @@
 \.idea
 \cmake-build-debug
 cmake-build-debug
-json_nlohmann
-!json_nlohmann/single_include
 *.txt
 Notepad.txt
 codeStyleConfig.xml
