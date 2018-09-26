@@ -43,7 +43,8 @@ void Class::set_architype() {
   }
 }
 
-bool Class::Load(int a, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14){
+bool Class::Load(int a, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10,
+    int a11, int a12, int a13, int a14){
   Existing_classes E;
   type = a;
   architype = a14;
@@ -184,6 +185,7 @@ void Class::set_skills(bool *s_b[]) {
     //skill_1 = IsNumber(skill_1, 0, 5);
     //skill_2 = IsNumber(skill_2, 0, 5);
     while (skill_2 == skill_1 || s_b[skills_identifier[skill_2]]) {
+      printf("you already got proficiency in this skill\n");
       skill_2 = -1;
       skill_2 = IsNumber(skill_2, 0, 5);
     }
@@ -203,6 +205,7 @@ void Class::set_skills(bool *s_b[]) {
       skill_1 = IsNumber(skill_1, 0, 5);
     }
     while (skill_2 == skill_1 || s_b[skills_identifier[skill_2]]) {
+      printf("you already got proficiency in this skill\n");
       skill_2 = -1;
       skill_2 = IsNumber(skill_2, 0, 5);
     }
@@ -222,6 +225,7 @@ void Class::set_skills(bool *s_b[]) {
     skill_1 = IsNumber(skill_1, 0, 7);
     skill_2 = IsNumber(skill_2, 0, 7);
     while (skill_2 == skill_1 || s_b[skills_identifier[skill_2]]) {
+      printf("you already got proficiency in this skill\n");
       skill_2 = -1;
       skill_2 = IsNumber(skill_2, 0, 7);
     }
@@ -243,16 +247,19 @@ void Class::set_skills(bool *s_b[]) {
     skill_3 = IsNumber(skill_3, 0, 10);
     skill_4 = IsNumber(skill_4, 0, 10);
     while (skill_2 == skill_1 || s_b[skills_identifier[skill_2]]) {
+      printf("you already got proficiency in this skill\n");
       skill_2 = -1;
       skill_2 = IsNumber(skill_2, 0, 10);
     }
     skill_3 = IsNumber(skill_3, 0, 10);
     while (skill_2 == skill_3 || skill_1 == skill_3 || s_b[skills_identifier[skill_3]]) {
+      printf("you already got proficiency in this skill\n");
       skill_3 = -1;
       skill_3 = IsNumber(skill_3, 0, 10);
     }
     skill_4 = IsNumber(skill_4, 0, 10);
     while (skill_2 == skill_4 || skill_1 == skill_4 || skill_3 == skill_4 || s_b[skills_identifier[skill_4]]) {
+      printf("you already got proficiency in this skill\n");
       skill_4 = -1;
       skill_4 = IsNumber(skill_4, 0, 10);
     }
@@ -273,6 +280,7 @@ void Class::set_skills(bool *s_b[]) {
     skill_1 = IsNumber(skill_1, 0, 5);
     skill_2 = IsNumber(skill_2, 0, 5);
     while (skill_2 == skill_1 || s_b[skills_identifier[skill_2]]) {
+      printf("you already got proficiency in this skill\n");
       skill_2 = -1;
       skill_2 = IsNumber(skill_2, 0, 5);
     }
@@ -292,6 +300,7 @@ void Class::set_skills(bool *s_b[]) {
     skill_1 = IsNumber(skill_1, 0, 6);
     skill_2 = IsNumber(skill_2, 0, 6);
     while (skill_2 == skill_1 || s_b[skills_identifier[skill_2]]) {
+      printf("you already got proficiency in this skill\n");
       skill_2 = -1;
       skill_2 = IsNumber(skill_2, 0, 6);
     }
@@ -311,6 +320,7 @@ void Class::set_skills(bool *s_b[]) {
     skill_1 = IsNumber(skill_1, 0, 5);
     skill_2 = IsNumber(skill_2, 0, 5);
     while (skill_2 == skill_1 || s_b[skills_identifier[skill_2]]) {
+      printf("you already got proficiency in this skill\n");
       skill_2 = -1;
       skill_2 = IsNumber(skill_2, 0, 5);
     }

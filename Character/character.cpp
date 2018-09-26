@@ -53,7 +53,7 @@ Character::Character(Random_Generator_ * Rand_gen,int storyline_, int exp, int l
   maxhealth = 0;
   health_dice = 0;
   storyline_i = storyline_;
-  storyline = stories[storyline_];
+  storyline = "";
   sex = sex_;
   if (exp < E.experience_per_level[levl - 1]) { exp = E.experience_per_level[levl - 1]; }
   experience = exp;
@@ -94,7 +94,7 @@ Character::Character(Random_Generator_ * Rand_gen,int storyline_, int exp, int l
   printf("Control reach 7\n");
   Race_Choosal(Rand_gen);
   printf("Control reach 8\n");
-  StorySetsSkills(s, s_b, storyline);
+  StorySetsSkills(s, s_b, storyline_i);
   printf("Control reach 9\n");
   SetClass(Rand_gen);
   printf("Control reach 10\n");
@@ -234,7 +234,10 @@ int Character::PassivePerceptionSetter(int a, bool b, bool c) {
   return 10 + a;
 }
 
-void Character::StorySetsSkills(int s[], bool s_b[], string &b) {
+void Character::StorySetsSkills(int s[], bool s_b[], int storyline_i) {
+  Existing_Types E;
+  storyline = E.stories[storyline_i];
+  string b = storyline;
   Add_Money(2, 15);
   if (b == "Acolyte") {
     if (!s_b[6]) {
@@ -354,7 +357,7 @@ void Character::StorySetsSkills(int s[], bool s_b[], string &b) {
       s_b[16] = true;
     }
   }
-}
+} // to be reconsidered?
 
 void Character::Ability_improve() {
   if (level == 4 || level == 8 || level == 12 || level == 16 || level == 19) {
@@ -950,6 +953,7 @@ int Character::Healing_Injuring(int value) {
 
 int Character::Level_Up(Random_Generator_ * Rand_gen) {
   Existing_Types E;
+  storyline = E.stories[storyline_i];
   if (experience > E.experience_per_level[level]) {
     level++;
     proficiency = ProficiencySetter();
@@ -1033,5 +1037,65 @@ void Character::Starting_Health() {
   } else {
     printf("Health Increase: Error\n");
   }
+}
+
+bool Character::Load(int *a[]){
+  for(int i = 1; i < 70;i++){
+    if (i == 1) { storyline_i = *a[i]; }
+    else if (i == 2) {  sex = *a[i]; }
+    else if (i == 3) {  experience = *a[i]; }
+    else if (i == 4) {  level = *a[i]; }
+    else if (i == 5) {  health = *a[i]; }
+    else if (i == 6) {  maxhealth = *a[i]; }
+    else if (i == 7) {  health_dice = *a[i]; }
+    else if (i == 8) {  Str = *a[i]; }
+    else if (i == 9) {  Dex = *a[i]; }
+    else if (i == 10) {  Con = *a[i]; }
+    else if (i == 11) {  Int = *a[i]; }
+    else if (i == 12) {  Wis = *a[i]; }
+    else if (i == 13) {  Cha = *a[i]; }
+    else if (i == 14) {  armor_class = *a[i]; }
+    else if (i == 15) {  deathsaves_s = *a[i]; }
+    else if (i == 16) {  deathsaves_f = *a[i]; }
+    else if (i == 17) {  advantage = (bool)*a[i]; }
+    else if (i == 18) {  disadvantage =  (bool)*a[i]; }
+    else if (i == 19) {  perception_advantage =  (bool)*a[i]; }
+    else if (i == 20) {  perception_disadvantage =  (bool)*a[i]; }
+    else if (i == 21) {  s_b[0] =  (bool)*a[i]; }
+    else if (i == 22) {  s_b[1] =  (bool)*a[i]; }
+    else if (i == 23) {  s_b[2] =  (bool)*a[i]; }
+    else if (i == 24) {  s_b[3] =  (bool)*a[i]; }
+    else if (i == 25) {  s_b[4] =  (bool)*a[i]; }
+    else if (i == 26) {  s_b[5] =  (bool)*a[i]; }
+    else if (i == 27) {  s_b[6] =  (bool)*a[i]; }
+    else if (i == 28) {  s_b[7] =  (bool)*a[i]; }//height
+    else if (i == 29) {  s_b[8] =  (bool)*a[i]; }//weight
+    else if (i == 30) {  s_b[9] =  (bool)*a[i]; }//Movement
+    else if (i == 31) {  s_b[10] =  (bool)*a[i]; }//Size
+    else if (i == 32) {  s_b[11] =  (bool)*a[i]; }//Darkvision
+    else if (i == 33) {  s_b[12] =  (bool)*a[i]; }//damage resist
+    else if (i == 34) {  s_b[13] =  (bool)*a[i]; }
+    else if (i == 35) {  s_b[14] =  (bool)*a[i]; }
+    else if (i == 36) {  s_b[15] =  (bool)*a[i]; }
+    else if (i == 37) {  s_b[16] =  (bool)*a[i]; }
+    else if (i == 38) {  s_b[17] =  (bool)*a[i]; }
+    else if (i == 39) {  money[0] = *a[i]; }
+    else if (i == 40) {  money[1] = *a[i]; }
+    else if (i == 41) {  money[2] = *a[i]; }
+    else if (i == 42) {  money[3] = *a[i]; }
+    else if (i == 43) {  money[4] = *a[i]; }
+    else if (i == 44) {  state = *a[i]; }
+    else if (i == 45) {
+      //classType = new Class();
+      classType.Load(*a[i],*a[i+1],*a[i+2],*a[i+3],*a[i+4],*a[i+5],*a[i+6],*a[i+7], *a[i+8],*a[i+9],*a[i+10],
+        *a[i+11], *a[i+12],*a[i+13],*a[i+14]);
+    }
+    else if (i == 60) {
+      race_of_character = new Race();
+      race_of_character->Load(*a[i],*a[i+1],*a[i+2],*a[i+3],*a[i+4],*a[i+5],*a[i+6],*a[i+7], *a[i+8],*a[i+9]);
+    }
+    else if (i == 69) {  cout <<"###architype not implemented yet\n"; }
+  }
+  return true;
 }
 

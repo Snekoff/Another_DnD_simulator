@@ -11,7 +11,36 @@ Game::Game(int start, int journey) {
   /*auto Json1 = new WorkWithJson();
   //Json1->Write_(10);
   cout << "wow\n";*/
-  Character_create(Rand_gen);
+  printf("Start new game: 1\nLoad saved game: 2\n");
+  int new_or_load = 0;
+  new_or_load = IsNumber(new_or_load,1,2);
+  if(new_or_load == 2){
+    ifstream party_save_file;
+    party_save_file.open("E:\\Den`s\\programming\\Git_c++\\Another_DnD_simulator\\MyJson1.json");
+    if(!party_save_file.is_open()){ cout << "Error in loading file\n";}
+    else {
+      json party = json::parse(party_save_file);
+      Party_Load(party);
+      // to be deleted
+      if(!characters.empty()) {
+        bool repeat = true;
+        int player_to_be_checked = 0;
+        int what_to_check = 0;
+        while(repeat){
+          cout << "Who to check? Size of the party: " << characters.size() << endl;
+          player_to_be_checked = IsNumber(player_to_be_checked, 0, characters.size());
+          cout << "what to check 1-90 , 0 to exit\n";
+          what_to_check = IsNumber(what_to_check,0,90);
+          if(what_to_check == 0) repeat = false;
+          else{
+            cout << characters[player_to_be_checked]->Get(what_to_check) << endl;
+          }
+        }
+      }
+
+    }
+  }
+  else Character_create(Rand_gen);
 
   delete Rand_gen;
 }
@@ -70,24 +99,44 @@ void Game::Character_create(Random_Generator_ * Rand_gen) {
 
     }
   }
+  cout << "Do you want to save your party ?\n Yes - 1 , No - 2\n";
+  int save_or_not = 0;
+  save_or_not = IsNumber(save_or_not,1,2);
+  if(save_or_not == 1) Party_Save();
 }
 
 bool Game::is_Created() {
   return characters.empty() ;
 }
 
-nlohmann::json * Game::Party_Save() {
+bool Game::Party_Save() {
   nlohmann::json party;
-  party["Num"] = characters.size();
+  party["Size"] = characters.size();
   for(int i = 0;i < characters.size();i++){
-    for(int p = 0; p < 68;p++){
-      if(p > 11 && p < 15) continue;
+    for(int p = 0; p < 69;p++){
       party["Character"][i][p] = characters[i]->Get(p);
     }
   }
-
+  std::ofstream outp;
+  outp.open("E:\\Den`s\\programming\\Git_c++\\Another_DnD_simulator\\MyJson.json", std::ofstream::out);
+  if(!outp.is_open()) return false;
+  outp << party;
+  outp.close();
+  return true;
 }
 
 bool Game::Party_Load(nlohmann::json party) {
-
+  int * p = new int[69];
+  int Size = party["Size"];
+  for(int n = 0;n < Size;n++){
+    for (int i = 0; i < 69;i++) {
+      p[i] = party["Character"][n][i];
+    }
+    auto a = new Character();
+    a->Load(&p);
+    characters.push_back(a);
+    delete a;
+  }
+  delete[] p;
+  return true;
 }

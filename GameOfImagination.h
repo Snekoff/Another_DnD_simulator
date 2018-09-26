@@ -1,6 +1,6 @@
 #pragma once
 #include "Character\character.h"
-//#include "WorkWithJson.h"
+#include "WorkWithJson.h"
 #ifndef ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 #define ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 
@@ -20,7 +20,7 @@ class Game {
 
   bool is_Created();
 
-  nlohmann::json * Party_Save();
+  bool Party_Save();
 
   bool Party_Load(nlohmann::json party);
 

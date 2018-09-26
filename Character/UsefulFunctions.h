@@ -24,6 +24,9 @@ struct Existing_Types {
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
   int experience_per_level[21] = {0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000,120000002};
+
+  std::string  stories[13] = {"Acolyte", "Charlatan", "Criminal", "Entertainer", "FolkHero", "GuildArtisan",
+        "Hermit", "Noble", "Outlander", "Sage", "Sailor", "Soldier", "Urchin"};
 }; //
 
 int Correctness_of_input(int a, int lowerlimit, int higherlimit);
@@ -45,7 +48,5 @@ int Health_Level_Up(Random_Generator_ * Rand_gen, int health_dice, int ConModifi
 
 int IsNumber(int a, int lowerlimit, int higherlimit);
 
-std::string stories[13] = {"Acolyte", "Charlatan", "Criminal", "Entertainer", "FolkHero", "GuildArtisan",
-                           "Hermit", "Noble", "Outlander", "Sage", "Sailor", "Soldier", "Urchin"};
 
 #endif //ANOTHER_DND_SIMULATOR_USEFULFUNCTIONS_H

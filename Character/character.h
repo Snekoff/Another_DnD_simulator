@@ -74,7 +74,7 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   int PassivePerceptionSetter(int a, bool b, bool c);
 
-  void StorySetsSkills(int s[],bool s_b[], string &b);
+  void StorySetsSkills(int s[],bool s_b[], int storyline_i);
 
   void Ability_improve();
 
@@ -114,9 +114,7 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   void Starting_Health();
 
-  nlohmann::json * Save();
-
-  bool Load();
+  bool Load(int *a[]);
 
 };
 
