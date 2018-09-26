@@ -33,7 +33,8 @@ struct Existing_Types {
                             " disadvantage(18)", " perception_advantage(19)", " perception_disadvantage(20)",
                             " *s_b[](21-38)", " *s_b[1]", " *s_b[2]", " *s_b[3]", " *s_b[4]", " *s_b[5]", " *s_b[6]",
                             " *s_b[7]", " *s_b[8]", " *s_b[9]", " *s_b[10]", " *s_b[11]", " *s_b[12]", " *s_b[13]",
-                            " *s_b[14]", " money[0](39-43)", " money[1]", " money[2]",
+                            " *s_b[14]", " *s_b[15]", " *s_b[16]", " *s_b[17]",
+                            " money[0](39-43)", " money[1]", " money[2]",
                             " money[3]", " money[4]", " state(44)", " type(45)",
                             " saving_throw_proficiencies[0](46-51)", " saving_throw_proficiencies[1]",
                             " saving_throw_proficiencies[2]", " saving_throw_proficiencies[3]",
@@ -44,7 +45,7 @@ struct Existing_Types {
                             " armor_and_weapon_proficiencies[6]", " architype(59)", " type(60)", " height(61)",
                             " weight(62)", " age(63)", " Movement(64)", " Size(65)", " Darkvision(66)",
                             " damage_resistance(67)", " subtype(68)", " raceFeatures(69)",
-                            " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+                             " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
                             " ", " ", " ", " ", " "
  };
 }; //

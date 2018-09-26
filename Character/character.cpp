@@ -577,6 +577,7 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
 }
 
 void Character::Race_Get_Abilities() {
+  cout << "race_of_character->get(4) = " << race_of_character->get(4) <<"\n";
   Str += race_of_character->get(4);
   Dex += race_of_character->get(5);
   Con += race_of_character->get(6);
@@ -1040,12 +1041,13 @@ void Character::Starting_Health() {
 }
 
 bool Character::Load(int a[]){
+  Existing_Types E;
   s = new int[18];
   s_b = new bool[18];
   Equiped = new Item[10];
   printf("Control reach Character method Load 0\n");
   for(int i = 1; i < 70;i++){
-    if (i == 1) { printf("Control reach Character method Load 1\n"); storyline_i = a[i]; printf("%i \n", storyline_i); }
+    if (i == 1) { printf("Control reach Character method Load 1\n"); storyline_i = a[i]; cout << storyline_i << " is story of " << E.stories[storyline_i] << endl; }
     else if (i == 2) {  sex = a[i]; }
     else if (i == 3) {  printf("Control reach Character method Load 3\n");experience = a[i]; }
     else if (i == 4) {  level = a[i]; }
@@ -1065,8 +1067,8 @@ bool Character::Load(int a[]){
     else if (i == 18) {  disadvantage =  (bool)a[i]; }
     else if (i == 19) {  perception_advantage =  (bool)a[i]; }
     else if (i == 20) { printf("Control reach Character method Load 20\n"); perception_disadvantage =  (bool)a[i]; }
-    else if (i == 21) { printf("Control reach Character method Load 21\n"); s_b[0] =  &a[i]; }
-    else if (i == 22) { printf("Control reach Character method Load 22\n"); s_b[1] =  (bool)&a[i]; }
+    else if (i == 21) {  s_b[0] =  &a[i]; }
+    else if (i == 22) {  s_b[1] =  (bool)&a[i]; }
     else if (i == 23) {  s_b[2] =  (bool)&a[i]; }
     else if (i == 24) {  s_b[3] =  (bool)&a[i]; }
     else if (i == 25) {  s_b[4] =  (bool)&a[i]; }
@@ -1089,17 +1091,15 @@ bool Character::Load(int a[]){
     else if (i == 42) {  money[3] = a[i]; }
     else if (i == 43) {  money[4] = a[i]; }
     else if (i == 44) {  state = a[i]; }
-      /*else if (i == 45) {
+    else if (i == 45) {
         //classType = new Class();
-        classType.Load(*a[i],*a[i+1],*a[i+2],*a[i+3],*a[i+4],*a[i+5],*a[i+6],*a[i+7], *a[i+8],*a[i+9],*a[i+10],
-          *a[i+11], *a[i+12],*a[i+13],*a[i+14]);
-      }
-      else if (i == 60) {
+        classType.Load(a[i],a[i+1],a[i+2],a[i+3],a[i+4],a[i+5],a[i+6],a[i+7], a[i+8],a[i+9],a[i+10],
+          a[i+11], a[i+12],a[i+13],a[i+14]);
+    } else if (i == 60) {
         printf("Control reach Character method Load 60\n");
         race_of_character = new Race();
-        race_of_character->Load(*a[i],*a[i+1],*a[i+2],*a[i+3],*a[i+4],*a[i+5],*a[i+6],*a[i+7], *a[i+8],*a[i+9]);
-      }*/
-    else if (i == 69) {  cout <<"###architype not implemented yet\n"; }
+        race_of_character->Load(a[i],a[i+1],a[i+2],a[i+3],a[i+4],a[i+5],a[i+6],a[i+7], a[i+8],a[i+9]);
+    } else if (i == 69) { cout << "###architype not implemented yet\n"; }
   }
   return true;
 }

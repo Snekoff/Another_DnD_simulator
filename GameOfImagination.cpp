@@ -23,11 +23,15 @@ Game::Game(int start, int journey) {
         Existing_Types E;
         cout << "Who to check? //0 to exit// Size of the party: " << characters.size() << endl;
         player_to_be_checked = IsNumber(player_to_be_checked, 0, characters.size());
+        if (player_to_be_checked == 0) {
+          repeat = false;
+          break;
+        }
         printf("Now showing params: \n");
         for (int j = 1; j < 90; j++) {
           cout << j << " " << E.params[j - 1] << " : " << characters[player_to_be_checked - 1]->Get(j) << endl;
         }
-        if (player_to_be_checked == 0) repeat = false;
+
       }
     }
   } else Character_create(Rand_gen);
