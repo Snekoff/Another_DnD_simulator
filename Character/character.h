@@ -14,6 +14,7 @@
 #include "Race.h"
 #include "../Inventory(Item)/Item.h"
 #include "../Inventory(Item)/Items_Factory.h"
+#include "../json_nlohmann/single_include/nlohmann/json.hpp"
 
 using namespace std;
 
@@ -25,24 +26,25 @@ class Character {
   Race* race_of_character;
   Class classType;
   string storyline;
+  int storyline_i;
   int sex; //0 - female,1 - male, 3 - Futa, 4 - creature
   int experience, level;
   int health, maxhealth;
   int health_dice;
-  int Str, Dex, Con, Int, Wis, Cha;
+  int Str, Dex, Con, Int, Wis, Cha;//13
   int StrModifier, DexModifier, ConModifier, IntModifier, WisModifier, ChaModifier;
   int armor_class;
   int deathsaves_s, deathsaves_f;//success/failure
   int passive_perception, proficiency;
   bool advantage, disadvantage;
   bool perception_advantage;
-  bool perception_disadvantage;
+  bool perception_disadvantage;//20
   int *s;
   /*acrobatics 0,animalHandling 1,arcana 2,athletics 3,deception 4,
 history 5,insight 6,intimidation 7,investigation 8,medicine 9,
 nature 10,perception 11,performance 12,persuasion 13,religion 14,
 sleightOfHand 15,stealth 16,survival 17*/
-  bool *s_b;
+  bool *s_b;//38
   int money[5]; // copper, silver, gold, platinum, Total money(in copper equivalent)
   vector<Item *> inventory;
   map<std::string, Item *> items_map;
@@ -51,7 +53,7 @@ sleightOfHand 15,stealth 16,survival 17*/
   int state; // norm, incapacitated, arested, dead
  public:
   Character();
-  Character(Random_Generator_ * Rand_gen,string &storyl, int exp, int levl, int Stre, int Dext,
+  Character(Random_Generator_ * Rand_gen,int storyline_, int exp, int levl, int Stre, int Dext,
             int Cons, int Inte, int Wisd, int Charisma,int sex_);
 
   ~Character();
@@ -111,6 +113,10 @@ sleightOfHand 15,stealth 16,survival 17*/
   int GetSkill(int a);
 
   void Starting_Health();
+
+  nlohmann::json * Save();
+
+  bool Load();
 
 };
 

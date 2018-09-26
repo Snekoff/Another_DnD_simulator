@@ -45,4 +45,7 @@ int Health_Level_Up(Random_Generator_ * Rand_gen, int health_dice, int ConModifi
 
 int IsNumber(int a, int lowerlimit, int higherlimit);
 
+std::string stories[13] = {"Acolyte", "Charlatan", "Criminal", "Entertainer", "FolkHero", "GuildArtisan",
+                           "Hermit", "Noble", "Outlander", "Sage", "Sailor", "Soldier", "Urchin"};
+
 #endif //ANOTHER_DND_SIMULATOR_USEFULFUNCTIONS_H

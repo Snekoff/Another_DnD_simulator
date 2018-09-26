@@ -37,7 +37,7 @@ Character::Character() {
   perception_disadvantage = false;
 }
 
-Character::Character(Random_Generator_ * Rand_gen,string &storyl, int exp, int levl, int Stre, int Dext,
+Character::Character(Random_Generator_ * Rand_gen,int storyline_, int exp, int levl, int Stre, int Dext,
                      int Cons, int Inte, int Wisd, int Charisma, int sex_) {
   printf("Control reach 1\n");
   exp = Less_than_zero(exp);
@@ -52,7 +52,8 @@ Character::Character(Random_Generator_ * Rand_gen,string &storyl, int exp, int l
   health = 0;
   maxhealth = 0;
   health_dice = 0;
-  storyline = storyl;
+  storyline_i = storyline_;
+  storyline = stories[storyline_];
   sex = sex_;
   if (exp < E.experience_per_level[levl - 1]) { exp = E.experience_per_level[levl - 1]; }
   experience = exp;
@@ -602,54 +603,75 @@ void Character::Set(int a, int b) {// a - what parameter will be changed, b - mo
 }
 
 int Character::Get(int a) {
-  if (a == 1) { return experience; }
-  else if (a == 2) { return health; }
-  else if (a == 3) { return Str; }
-  else if (a == 4) { return Dex; }
-  else if (a == 5) { return Con; }
-  else if (a == 6) { return Int; }
-  else if (a == 7) { return Wis; }
-  else if (a == 8) { return Cha; }
-  else if (a == 9) { return armor_class; }
-  else if (a == 10) { return deathsaves_f; }
-  else if (a == 11) { return deathsaves_s; }
-  else if (a == 12) {
-    cout << Equiped[0].get_name() << endl;
-    return -3;
-  } // left_hand
-  else if (a == 13) {
-    cout << Equiped[1].get_name() << endl;
-    return -3;
-  } // right_hand
-  else if (a == 14) {
-    cout << Equiped[2].get_name() << endl;
-    return -3;
-  }
-  else if (a == 15) {
-    cout << storyline << endl;
-    return 1;
-  }//reserved for story/background
-  else if (a == 16) { return passive_perception; }
-  else if (a == 17) { return state; }
-  else if (a == 18) { return sex; }
-  else if (a == 19) { return money[4]; }
-  else if (a == 20) { return maxhealth; }
-  else if (a == 21) { return health_dice; }
-  else if (a == 22) { return advantage; }
-  else if (a == 23) { return disadvantage; }
-  else if (a == 24) { return perception_advantage; }
-  else if (a == 25) { return classType.get(0); }
-  else if (a == 26) { return race_of_character->get(0); }//type
-  else if (a == 27) { return race_of_character->get(1); }//height
-  else if (a == 28) { return race_of_character->get(2); }//weight
-  else if (a == 29) { return race_of_character->get(10); }//Movement
-  else if (a == 31) { return race_of_character->get(11); }//Size
-  else if (a == 32) { return race_of_character->get(12); }//Darkvision
-  else if (a == 33) { return race_of_character->get(13); }//damage resist
-  else if (a == 34) { return ConModifier; }
-  else if (a == 35) { return ChaModifier; }
-  else if (a == 36) { return DexModifier; }
-  //else if (a == ) { return ; }
+  if (a == 1) { return storyline_i; }
+  else if (a == 2) { return sex; }
+  else if (a == 3) { return experience; }
+  else if (a == 4) { return level; }
+  else if (a == 5) { return health; }
+  else if (a == 6) { return maxhealth; }
+  else if (a == 7) { return health_dice; }
+  else if (a == 8) { return Str; }
+  else if (a == 9) { return Dex; }
+  else if (a == 10) { return Con; }
+  else if (a == 11) { return Int; }
+  else if (a == 12) { return Wis; }
+  else if (a == 13) { return Cha; }
+  else if (a == 14) { return armor_class; }
+  else if (a == 15) { return deathsaves_s; }
+  else if (a == 16) { return deathsaves_f; }
+  else if (a == 17) { return advantage; }
+  else if (a == 18) { return disadvantage; }
+  else if (a == 19) { return perception_advantage; }
+  else if (a == 20) { return perception_disadvantage; }
+  else if (a == 21) { return s_b[0]; }
+  else if (a == 22) { return s_b[1]; }
+  else if (a == 23) { return s_b[2]; }
+  else if (a == 24) { return s_b[3]; }
+  else if (a == 25) { return s_b[4]; }
+  else if (a == 26) { return s_b[5]; }
+  else if (a == 27) { return s_b[6]; }
+  else if (a == 28) { return s_b[7]; }//height
+  else if (a == 29) { return s_b[8]; }//weight
+  else if (a == 30) { return s_b[9]; }//Movement
+  else if (a == 31) { return s_b[10]; }//Size
+  else if (a == 32) { return s_b[11]; }//Darkvision
+  else if (a == 33) { return s_b[12]; }//damage resist
+  else if (a == 34) { return s_b[13]; }
+  else if (a == 35) { return s_b[14]; }
+  else if (a == 36) { return s_b[15]; }
+  else if (a == 37) { return s_b[16]; }
+  else if (a == 38) { return s_b[17]; }
+  else if (a == 39) { return money[0]; }
+  else if (a == 40) { return money[1]; }
+  else if (a == 41) { return money[2]; }
+  else if (a == 42) { return money[3]; }
+  else if (a == 43) { return money[4]; }
+  else if (a == 44) { return state; }
+  else if (a == 45) { return classType.get(0); }
+  else if (a == 46) { return classType.get(7); }
+  else if (a == 47) { return classType.get(8); }
+  else if (a == 48) { return classType.get(9); }
+  else if (a == 49) { return classType.get(10); }
+  else if (a == 50) { return classType.get(11); }
+  else if (a == 51) { return classType.get(12); }
+  else if (a == 52) { return classType.get(13); }
+  else if (a == 53) { return classType.get(14); }
+  else if (a == 54) { return classType.get(15); }
+  else if (a == 55) { return classType.get(16); }
+  else if (a == 56) { return classType.get(17); }
+  else if (a == 57) { return classType.get(18); }
+  else if (a == 58) { return classType.get(19); }
+  else if (a == 59) { return classType.get(39); }//architype
+  else if (a == 60) { return race_of_character->get(0); }//type
+  else if (a == 61) { return race_of_character->get(1); }
+  else if (a == 62) { return race_of_character->get(2); }
+  else if (a == 63) { return race_of_character->get(3); }
+  else if (a == 64) { return race_of_character->get(10); }
+  else if (a == 65) { return race_of_character->get(11); }
+  else if (a == 66) { return race_of_character->get(12); }//Darkvision
+  else if (a == 67) { return race_of_character->get(13); }
+  else if (a == 68) { return race_of_character->get(14); }
+  else if (a == 69) { return (int)'R'; }
   return -1;
 }
 
@@ -1012,5 +1034,4 @@ void Character::Starting_Health() {
     printf("Health Increase: Error\n");
   }
 }
-
 

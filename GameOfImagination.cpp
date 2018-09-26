@@ -2,7 +2,7 @@
 
 #include "Character/character.h"
 #include "GameOfImagination.h"
-//#include "WorkWithJson.h"
+
 
 using namespace std;
 
@@ -48,17 +48,14 @@ void Game::Character_create(Random_Generator_ * Rand_gen) {
       }
     }
     cout << "Choose sex of your character.Female(1), Male(2), Futa(3), Creature(4)\n";
-    //cin >> sex_;
     sex_ = IsNumber(sex_, 1, 4);
     cout << "Choose background. Acolyte(1), Charlatan(2), Criminal(3), Entertainer(4), FolkHero(5), GuildArtisan(6), "
             "Hermit(7), Noble(8), Outlander(9), Sage(10), Sailor(11), Soldier(12), Urchin(13)\n";
-    //cin >> first_choosal;
     first_choosal = IsNumber(first_choosal, 1, 13);
-    string stories[13] = {"Acolyte", "Charlatan", "Criminal", "Entertainer", "FolkHero", "GuildArtisan",
-                          "Hermit", "Noble", "Outlander", "Sage", "Sailor", "Soldier", "Urchin"};
-    //first_choosal = IsNumber(first_choosal, 1, 13);
+    //string stories[13] = {"Acolyte", "Charlatan", "Criminal", "Entertainer", "FolkHero", "GuildArtisan",
+     //                     "Hermit", "Noble", "Outlander", "Sage", "Sailor", "Soldier", "Urchin"};
 
-    auto a = new Character(Rand_gen,stories[first_choosal - 1], exp_, level_, abilities[0], abilities[1],
+    auto a = new Character(Rand_gen,first_choosal - 1, exp_, level_, abilities[0], abilities[1],
                            abilities[2], abilities[3], abilities[4], abilities[5], sex_ - 1);
     characters.push_back(a);
     delete a;
@@ -77,4 +74,20 @@ void Game::Character_create(Random_Generator_ * Rand_gen) {
 
 bool Game::is_Created() {
   return characters.empty() ;
+}
+
+nlohmann::json * Game::Party_Save() {
+  nlohmann::json party;
+  party["Num"] = characters.size();
+  for(int i = 0;i < characters.size();i++){
+    for(int p = 0; p < 68;p++){
+      if(p > 11 && p < 15) continue;
+      party["Character"][i][p] = characters[i]->Get(p);
+    }
+  }
+
+}
+
+bool Game::Party_Load(nlohmann::json party) {
+
 }

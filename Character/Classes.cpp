@@ -13,7 +13,7 @@ Class::Class() {
     s[i + 6] = 0;
     s[i + 12] = 0;
   }
-  architype = "";
+  architype = 0;
 }
 
 Class::Class(int type_, bool *s_b[]) {
@@ -32,7 +32,7 @@ void Class::set(int type_, bool *s_b[]) {
     }
     if (E.Class_atribute[type][i + 12] > 0) armor_and_weapon_proficiencies[i] = true;
   }
-  architype = "";
+  architype = 0;
   set_skills(s_b);
   set_architype();
 }
@@ -41,6 +41,33 @@ void Class::set_architype() {
   if (type == -1) {
     std::cout << "Choose your way:\n";
   }
+}
+
+bool Class::Load(int a, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14){
+  Existing_classes E;
+  type = a;
+  architype = a14;
+  saving_throw_proficiencies[0] = (bool)a1;
+  saving_throw_proficiencies[1] = (bool)a2;
+  saving_throw_proficiencies[2] = (bool)a3;
+  saving_throw_proficiencies[3] = (bool)a4;
+  saving_throw_proficiencies[4] = (bool)a5;
+  saving_throw_proficiencies[5] = (bool)a6;
+  armor_and_weapon_proficiencies[0] = (bool)a7;
+  armor_and_weapon_proficiencies[1] = (bool)a8;
+  armor_and_weapon_proficiencies[2] = (bool)a9;
+  armor_and_weapon_proficiencies[3] = (bool)a10;
+  armor_and_weapon_proficiencies[4] = (bool)a11;
+  armor_and_weapon_proficiencies[5] = (bool)a12;
+  armor_and_weapon_proficiencies[6] = (bool)a13;
+  hit_dice = E.Class_atribute[type][0];
+  for(int i = 0; i < 6;i++){
+    primary_ability[i] = false;
+    s[i] = 0;
+    s[6+i] = 0;
+    s[12+i] = 0;
+  }
+  return true;
 }
 
 void Class::set_skills(bool *s_b[]) {
@@ -300,6 +327,7 @@ int Class::get(int what) {
   else if (12 < what && what < 20) return armor_and_weapon_proficiencies[what - 13];
   else if (what == 20) return hit_dice;
   else if (20 < what && what < 39) return s[what - 21];
+  else if(what == 39) return architype;
   return -1;
 }
 

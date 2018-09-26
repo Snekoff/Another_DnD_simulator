@@ -1,6 +1,6 @@
 #pragma once
 #include "Character\character.h"
-//#include "GameOfImagination.cpp"
+//#include "WorkWithJson.h"
 #ifndef ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 #define ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 
@@ -19,4 +19,9 @@ class Game {
   void Character_create(Random_Generator_ * Rand_gen);
 
   bool is_Created();
+
+  nlohmann::json * Party_Save();
+
+  bool Party_Load(nlohmann::json party);
+
 };

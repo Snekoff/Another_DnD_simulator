@@ -11,6 +11,7 @@ class Race {
  private:
  protected:
   int type;
+  int subtype;
   int height, weight, age;
   int Str, Dex, Con, Int, Wis, Cha;
   int Movement;
@@ -40,11 +41,14 @@ class Race {
   void SetRaceAbilityBonus();
 
   void RaceAbilityBonus();
+
+  bool Load(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int race_features);
+
 };
 
 class Dragonborn : public Race {
  private:
-  int subtype;
+  //int subtype;
  public:
   Dragonborn();
   Dragonborn(int sub_type, int a, int b, int c);
@@ -56,7 +60,7 @@ class Dragonborn : public Race {
 
 class Dwarf : public Race {
  private:
-  int subtype;
+  //int subtype;
  public:
   Dwarf();
   Dwarf(int sub_type, int a, int b, int c);
@@ -68,7 +72,7 @@ class Dwarf : public Race {
 
 class Elf : public Race {
  private:
-  int subtype;
+  //int subtype;
  public:
   Elf();
   Elf(int sub_type, int a, int b, int c);
@@ -79,7 +83,7 @@ class Elf : public Race {
 };
 class Gnome : public Race {
  private:
-  int subtype;
+  //int subtype;
  public:
   Gnome();
   Gnome(int sub_type, int a, int b, int c);
@@ -91,7 +95,7 @@ class Gnome : public Race {
 
 class Goblin : public Race {
  private:
-  int subtype;
+  //int subtype;
  public:
   Goblin();
   Goblin(int sub_type, int a, int b, int c);
@@ -103,7 +107,7 @@ class Goblin : public Race {
 
 class Half_Elf : public Race {
  private:
-  int subtype;
+  //int subtype;
  public:
   Half_Elf();
   Half_Elf(int sub_type, int a, int b, int c);
@@ -115,7 +119,7 @@ class Half_Elf : public Race {
 
 class Half_Orc : public Race {
  private:
-  int subtype;
+  //int subtype;
  public:
   Half_Orc();
   Half_Orc(int sub_type, int a, int b, int c);
@@ -127,7 +131,7 @@ class Half_Orc : public Race {
 
 class Halfling : public Race {
  private:
-  int subtype;
+  //int subtype;
  public:
   Halfling();
   Halfling(int sub_type, int a, int b, int c);
@@ -139,7 +143,7 @@ class Halfling : public Race {
 
 class Human : public Race {
  private:
-  int subtype;
+  //int subtype;
  public:
   Human();
   Human(int sub_type, int a, int b, int c);
@@ -150,7 +154,7 @@ class Human : public Race {
 };
 class Lizardfolk : public Race {
  private:
-  int subtype;
+  //int subtype;
  public:
   Lizardfolk();
   Lizardfolk(int sub_type, int a, int b, int c);
@@ -162,7 +166,7 @@ class Lizardfolk : public Race {
 
 class Tiefling : public Race {
  private:
-  int subtype;
+  //int subtype;
  public:
   Tiefling();
   Tiefling(int sub_type, int a, int b, int c);

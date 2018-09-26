@@ -57,6 +57,7 @@ int Race::get(int w) {
   else if (w == 11) return Size;
   else if (w == 12) return Darkvision;
   else if (w == 13) return damage_resistance;
+  else if (w == 14) return subtype;
   return -1;
 }
 void Race::RaceFeature() {}
@@ -103,6 +104,25 @@ void Race::RaceAbilityBonus() {
   Int = E.race_ability_bonus[3][type];
   Wis = E.race_ability_bonus[4][type];
   Cha = E.race_ability_bonus[5][type];
+}
+bool Race::Load(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int race_features_){
+  type = a1;
+  subtype = a9;
+  height = a2;
+  weight = a3;
+  age = a4;
+  Movement = a5;
+  Size = a6;
+  Darkvision = a7;
+  damage_resistance = a8;
+  Str = 0;
+  Dex = 0;
+  Con = 0;
+  Int = 0;
+  Wis = 0;
+  Cha = 0;
+  raceFeatures = "loaded " + std::to_string(race_features_);
+  return true;
 }
 
 Dragonborn::Dragonborn() : Race() { subtype = 0; }
