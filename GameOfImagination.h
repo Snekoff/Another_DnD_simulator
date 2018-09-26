@@ -1,12 +1,13 @@
 #pragma once
 #include <iomanip>
+#include <fstream>
 #include "Character\character.h"
 #include "json.hpp"
 #ifndef ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 #define ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 
 #endif //ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
-
+using json = nlohmann::json;
 class Game {
  private:
   vector<Character*> characters;

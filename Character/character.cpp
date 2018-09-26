@@ -113,7 +113,8 @@ Character::Character(Random_Generator_ * Rand_gen,int storyline_, int exp, int l
 }
 
 Character::~Character() {
-  delete race_of_character;
+  //delete race_of_character;
+  //race_of_character = nullptr;
   delete[] s;
   delete[] s_b;
   inventory.clear();
@@ -577,7 +578,21 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
 }
 
 void Character::Race_Get_Abilities() {
-  cout << "race_of_character->get(4) = " << race_of_character->get(4) <<"\n";
+   /*cout << " type = " << race_of_character->get(0) <<"\n";
+  cout << " height = " << race_of_character->get(1) <<"\n";
+  cout << " weight = " << race_of_character->get(2) <<"\n";
+  cout << " age = " << race_of_character->get(3) <<"\n";
+  cout << " Str = " << race_of_character->get(4) <<"\n";
+  cout << " Dex = " << race_of_character->get(5) <<"\n";
+  cout << " Con = " << race_of_character->get(6) <<"\n";
+  cout << " Int = " << race_of_character->get(7) <<"\n";
+  cout << " Wis = " << race_of_character->get(8) <<"\n";
+  cout << " Cha = " << race_of_character->get(9) <<"\n";
+  cout << " Movement = " << race_of_character->get(10) <<"\n";
+  cout << " Size = " << race_of_character->get(11) <<"\n";
+  cout << " Darkvision = " << race_of_character->get(12) <<"\n";
+  cout << " damage_resistance = " << race_of_character->get(13) <<"\n";
+  cout << " subtype = " << race_of_character->get(14) <<"\n";*/
   Str += race_of_character->get(4);
   Dex += race_of_character->get(5);
   Con += race_of_character->get(6);
@@ -1097,7 +1112,7 @@ bool Character::Load(int a[]){
           a[i+11], a[i+12],a[i+13],a[i+14]);
     } else if (i == 60) {
         printf("Control reach Character method Load 60\n");
-        race_of_character = new Race();
+        race_of_character = new Race();// kjk
         race_of_character->Load(a[i],a[i+1],a[i+2],a[i+3],a[i+4],a[i+5],a[i+6],a[i+7], a[i+8],a[i+9]);
     } else if (i == 69) { cout << "###architype not implemented yet\n"; }
   }
