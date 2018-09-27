@@ -11,6 +11,7 @@ using json = nlohmann::json;
 class Game {
  private:
   vector<Character*> characters;
+  Random_Generator_ * Rand_gen;
  public:
   Game() = default;
 

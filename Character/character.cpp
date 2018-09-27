@@ -101,7 +101,7 @@ Character::Character(Random_Generator_ * Rand_gen,int storyline_, int exp, int l
   Starting_Health();
   printf("%s %d \n","Control reach 11 armor class = ", armor_class);
   if (classType.get(0) == 0) armor_class = 10 + DexModifier + ConModifier;
-  level = 0;
+  level = 1;
   printf("%s %d ","Control reach 12\n", armor_class);
   cout << experience << " " << level << endl;
   t1 = Level_Up(Rand_gen);
@@ -113,7 +113,7 @@ Character::Character(Random_Generator_ * Rand_gen,int storyline_, int exp, int l
 }
 
 Character::~Character() {
-  //delete race_of_character;
+  delete race_of_character;
   //race_of_character = nullptr;
   delete[] s;
   delete[] s_b;
@@ -970,7 +970,7 @@ int Character::Healing_Injuring(int value) {
 int Character::Level_Up(Random_Generator_ * Rand_gen) {
   Existing_Types E;
   storyline = E.stories[storyline_i];
-  if (experience > E.experience_per_level[level]) {
+  if (experience >= E.experience_per_level[level]) {
     level++;
     proficiency = ProficiencySetter();
     Ability_improve();
