@@ -3,7 +3,7 @@
 #include "Character/character.h"
 #include "GameOfImagination.h"
 
-#define data_size 69
+#define data_size 70
 
 using namespace std;
 
@@ -62,8 +62,6 @@ void Game::Character_create(Random_Generator_ *Rand_gen) {
     if (first_choosal != 0) {
       printf("Type six numbers, for each stats. Str, Dex, Con, Int, Wis, Cha. From 0 to 20\n");
       for (int j : {1,2,3,4,5,6}) {
-        //
-
         abilities[j] = IsNumber(abilities[j], 0, 20);
       }
     }
@@ -79,7 +77,9 @@ void Game::Character_create(Random_Generator_ *Rand_gen) {
 
     printf("Now showing params: \n");
     for (int j = 1; j < 90; j++) {
-      cout << j << " " << E.params[j - 1] << " : " << characters[characters.size() - 1]->Get(j) << endl;
+      cout << j << " " << E.params[j - 1] << " : " ;
+      if(j > 35) cout << characters[i]->Get_bool(j) << endl;
+      else cout << characters[i]->Get(j) << endl;
     }
   }
   cout << "Do you want to save your party ?\n Yes - 1 , No - 2\n";
@@ -96,12 +96,16 @@ bool Game::Party_Save() {
   nlohmann::json party;
   party["Size"] = characters.size();
   vector<vector<int>> params;
+  vector<vector<bool>> bool_params;
   params.resize(characters.size());
+  bool_params.resize(characters.size());
   for (int i = 0; i < characters.size(); i++) {
     for (int p = 0; p < data_size; p++) {
-      params[i].push_back(characters[i]->Get(p));
+      if (p > 35) bool_params[i].push_back(characters[i]->Get_bool(p));
+      else params[i].push_back(characters[i]->Get(p));
     }
     party["Character"][i] = params[i];
+    party["Character"][i] += bool_params[i];
   }
   std::ofstream outp;
   outp.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/MyJson.json", std::ofstream::out);
@@ -121,18 +125,21 @@ bool Game::Party_Load() {
   json party = json::parse(party_save_file);
   printf("Control reach method Party Load 0\n");
   int *p = new int[data_size];
+  bool *bool_p = new bool[data_size];
   int Size = party["Size"];
-  vector<vector<int>> l_params;
-  l_params.resize((unsigned) Size);
+  //vector<vector<int>> l_params;
+  //l_params.resize((unsigned) Size);
   printf("Control reach method Party Load 1\n");
   characters.resize((unsigned)Size);//
   for (int n = 0; n < Size; n++) {
     for (int i = 0; i < data_size; i++) {
-      p[i] = party["Character"][n][i];
-    } // l_params[n] = party["Character"][n];
+      if(i == 24) continue;
+      if(i < 36) p[i] = party["Character"][n][i];
+      else bool_p[i-36] = party["Character"][n][i];
+    }
     characters[n] = new Character();
     printf("Control reach method Party Load 4\n");
-    characters[n]->Load(p);
+    characters[n]->Load(p,bool_p);
     printf("Control reach method Party Load 5\n");
   }
   delete[] p;

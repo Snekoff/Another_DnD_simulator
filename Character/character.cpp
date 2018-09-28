@@ -389,6 +389,7 @@ void Character::Ability_improve() {
 
 void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
   printf("%s \n", "It is time to choose your race. What it will be?");
+  Race_Factory Race_Factory_;
   printf("%s \n", "1. Dragonborn (10 subraces)\n"
                   "2. Dwarf (3 subraces)\n"
                   "3. Elf (7 subraces)\n"
@@ -402,7 +403,7 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                   "11. Tiefling (11 subraces)\n"
                   "Type number, and proceed");
   int race = 9;
-  //cin >> race;
+  int a = 0, b = 0, c = 0;
   race = IsNumber(race, 1, 11);
   int subrace = 0;
   if (race == 1) {
@@ -420,13 +421,13 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "Type number, and proceed");
     //cin >> subrace;
     subrace = IsNumber(subrace, 1, 10);
-    int a = 0, b = 0, c = 0;
+    //int a = 0, b = 0, c = 0;
     printf("Control reach Race_Choosal 1\n");
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-    race_of_character = new Dragonborn();
-    race_of_character->Create(subrace - 1, a, b, c);
-    Race_Get_Abilities();
-    ConcreteAbilityModifier();
+    //race_of_character = new Dragonborn();
+    //race_of_character->Create(subrace - 1, a, b, c);
+    //Race_Get_Abilities();
+    //ConcreteAbilityModifier();
   } else if (race == 2) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Duergar\n"
@@ -435,16 +436,16 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "Type number, and proceed");
     //cin >> subrace;
     subrace = IsNumber(subrace, 1, 3);
-    int a = 0, b = 0, c = 0;
+    //int a = 0, b = 0, c = 0;
     printf("Control reach Race_Choosal 2\n");
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
     //multirace
-    race_of_character = new Dwarf();
-    race_of_character->Create(subrace - 1, a, b, c);
+    //race_of_character = new Dwarf();
+    //race_of_character->Create(subrace - 1, a, b, c);
     printf("Control reach Race_Choosal 2-a\n");
-    Race_Get_Abilities();
+    //Race_Get_Abilities();
     printf("Control reach Race_Choosal 2-b\n");
-    ConcreteAbilityModifier();
+    //ConcreteAbilityModifier();
     printf("Control reach Race_Choosal 2c\n");
   } else if (race == 3) {
     printf("%s \n", "Choose your subrace. What it will be?");
@@ -457,12 +458,12 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "Type number, and proceed");
     //cin >> subrace;
     subrace = IsNumber(subrace, 1, 6);
-    int a = 0, b = 0, c = 0;
+    //int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-    race_of_character = new Elf();
-    race_of_character->Create(subrace - 1, a, b, c);
-    Race_Get_Abilities();
-    ConcreteAbilityModifier();
+    //race_of_character = new Elf();
+    //race_of_character->Create(subrace - 1, a, b, c);
+    //Race_Get_Abilities();
+    //ConcreteAbilityModifier();
   } else if (race == 4) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Deep/Svirfneblin\n"
@@ -471,21 +472,21 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "Type number, and proceed");
     //cin >> subrace;
     subrace = IsNumber(subrace, 1, 3);
-    int a = 0, b = 0, c = 0;
+    //int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
 
-    race_of_character = new Gnome();
-    race_of_character->Create(subrace - 1, a, b, c);
-    Race_Get_Abilities();
-    ConcreteAbilityModifier();
+    //race_of_character = new Gnome();
+    //race_of_character->Create(subrace - 1, a, b, c);
+    //Race_Get_Abilities();
+    //ConcreteAbilityModifier();
   } else if (race == 5) {
-    int a = 0, b = 0, c = 0;
+    //int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
 
-    race_of_character = new Goblin();
-    race_of_character->Create(subrace - 1, a, b, c);
-    Race_Get_Abilities();
-    ConcreteAbilityModifier();
+    //race_of_character = new Goblin();
+    //race_of_character->Create(subrace - 1, a, b, c);
+    //Race_Get_Abilities();
+    //ConcreteAbilityModifier();
   } else if (race == 6) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Common\n"
@@ -496,12 +497,12 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "Type number, and proceed");
     //cin >> subrace;
     subrace = IsNumber(subrace, 1, 5);
-    int a = 0, b = 0, c = 0;
+    //int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-    race_of_character = new Half_Elf();
-    race_of_character->Create(subrace - 1, a, b, c);
-    Race_Get_Abilities();
-    ConcreteAbilityModifier();
+    //race_of_character = new Half_Elf();
+    //race_of_character->Create(subrace - 1, a, b, c);
+    //Race_Get_Abilities();
+    //ConcreteAbilityModifier();
   } else if (race == 7) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Half-Orc\n"
@@ -509,12 +510,12 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "Type number, and proceed");
     //cin >> subrace;
     subrace = IsNumber(subrace, 1, 10);
-    int a = 0, b = 0, c = 0;
+    //int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-    race_of_character = new Half_Orc();
-    race_of_character->Create(subrace - 1, a, b, c);
-    Race_Get_Abilities();
-    ConcreteAbilityModifier();
+    //race_of_character = new Half_Orc();
+    //race_of_character->Create(subrace - 1, a, b, c);
+    //Race_Get_Abilities();
+    //ConcreteAbilityModifier();
   } else if (race == 8) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Ghostwise\n"
@@ -523,12 +524,12 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "Type number, and proceed");
     //cin >> subrace;
     subrace = IsNumber(subrace, 1, 3);
-    int a = 0, b = 0, c = 0;
+    //int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-    race_of_character = new Halfling();
-    race_of_character->Create(subrace - 1, a, b, c);
-    Race_Get_Abilities();
-    ConcreteAbilityModifier();
+    //race_of_character = new Halfling();
+    //race_of_character->Create(subrace - 1, a, b, c);
+    //Race_Get_Abilities();
+    //ConcreteAbilityModifier();
   } else if (race == 9) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Common\n"
@@ -536,21 +537,21 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "Type number, and proceed");
     //cin >> subrace;
     subrace = IsNumber(subrace, 1, 10);
-    int a = 0, b = 0, c = 0;
+    //int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
 
-    race_of_character = new Human();
-    race_of_character->Create(subrace - 1, a, b, c);
-    Race_Get_Abilities();
-    ConcreteAbilityModifier();
+    //race_of_character = new Human();
+    //race_of_character->Create(subrace - 1, a, b, c);
+    //Race_Get_Abilities();
+    //ConcreteAbilityModifier();
   } else if (race == 10) {
-    int a = 0, b = 0, c = 0;
+    //int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
 
-    race_of_character = new Lizardfolk();
-    race_of_character->Create(subrace - 1, a, b, c);
-    Race_Get_Abilities();
-    ConcreteAbilityModifier();
+    //race_of_character = new Lizardfolk();
+    //race_of_character->Create(subrace - 1, a, b, c);
+    //Race_Get_Abilities();
+    //ConcreteAbilityModifier();
   } else if (race == 11) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Common\n"
@@ -567,14 +568,18 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "Type number, and proceed");
     //cin >> subrace;
     subrace = IsNumber(subrace, 1, 11);
-    int a = 0, b = 0, c = 0;
+    //int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
 
-    race_of_character = new Tiefling();
-    race_of_character->Create(subrace - 1, a, b, c);
-    Race_Get_Abilities();
-    ConcreteAbilityModifier();
+    //race_of_character = new Tiefling();
+    //race_of_character->Create(subrace - 1, a, b, c);
+    //Race_Get_Abilities();
+    //ConcreteAbilityModifier();
   }
+  race_of_character = Race_Factory_.Create(race - 1,subrace - 1);
+  race_of_character->Create(subrace - 1, a, b, c);
+  Race_Get_Abilities();
+  ConcreteAbilityModifier();
 }
 
 void Character::Race_Get_Abilities() {
@@ -638,62 +643,65 @@ int Character::Get(int a) {
   else if (a == 14) { return armor_class; }
   else if (a == 15) { return deathsaves_s; }
   else if (a == 16) { return deathsaves_f; }
-  else if (a == 17) { return advantage; }
-  else if (a == 18) { return disadvantage; }
-  else if (a == 19) { return perception_advantage; }
-  else if (a == 20) { return perception_disadvantage; }
-  else if (a == 21) { return s_b[0]; }
-  else if (a == 22) { return s_b[1]; }
-  else if (a == 23) { return s_b[2]; }
-  else if (a == 24) { return s_b[3]; }
-  else if (a == 25) { return s_b[4]; }
-  else if (a == 26) { return s_b[5]; }
-  else if (a == 27) { return s_b[6]; }
-  else if (a == 28) { return s_b[7]; }//height
-  else if (a == 29) { return s_b[8]; }//weight
-  else if (a == 30) { return s_b[9]; }//Movement
-  else if (a == 31) { return s_b[10]; }//Size
-  else if (a == 32) { return s_b[11]; }//Darkvision
-  else if (a == 33) { return s_b[12]; }//damage resist
-  else if (a == 34) { return s_b[13]; }
-  else if (a == 35) { return s_b[14]; }
-  else if (a == 36) { return s_b[15]; }
-  else if (a == 37) { return s_b[16]; }
-  else if (a == 38) { return s_b[17]; }
-  else if (a == 39) { return money[0]; }
-  else if (a == 40) { return money[1]; }
-  else if (a == 41) { return money[2]; }
-  else if (a == 42) { return money[3]; }
-  else if (a == 43) { return money[4]; }
-  else if (a == 44) { return state; }
-  else if (a == 45) { return classType.get(0); }
-  else if (a == 46) { return classType.get(7); }
-  else if (a == 47) { return classType.get(8); }
-  else if (a == 48) { return classType.get(9); }
-  else if (a == 49) { return classType.get(10); }
-  else if (a == 50) { return classType.get(11); }
-  else if (a == 51) { return classType.get(12); }
-  else if (a == 52) { return classType.get(13); }
-  else if (a == 53) { return classType.get(14); }
-  else if (a == 54) { return classType.get(15); }
-  else if (a == 55) { return classType.get(16); }
-  else if (a == 56) { return classType.get(17); }
-  else if (a == 57) { return classType.get(18); }
-  else if (a == 58) { return classType.get(19); }
-  else if (a == 59) { return classType.get(39); }//architype
-  else if (a == 60) { return race_of_character->get(0); }//type
-  else if (a == 61) { return race_of_character->get(1); }
-  else if (a == 62) { return race_of_character->get(2); }
-  else if (a == 63) { return race_of_character->get(3); }
-  else if (a == 64) { return race_of_character->get(10); }
-  else if (a == 65) { return race_of_character->get(11); }
-  else if (a == 66) { return race_of_character->get(12); }//Darkvision
-  else if (a == 67) { return race_of_character->get(13); }
-  else if (a == 68) { return race_of_character->get(14); }
-  else if (a == 69) { return (int)'R'; }
+  else if (a == 17) { return money[0]; }
+  else if (a == 18) { return money[1]; }
+  else if (a == 19) { return money[2]; }
+  else if (a == 20) { return money[3]; }
+  else if (a == 21) { return money[4]; }
+  else if (a == 22) { return state; }
+  else if (a == 23) { return classType.get(0); }
+  else if (a == 24) { return 0; }
+  else if (a == 25) { return classType.get(39); }//architype
+  else if (a == 26) { return race_of_character->get(0); }//type
+  else if (a == 27) { return race_of_character->get(1); }
+  else if (a == 28) { return race_of_character->get(2); }
+  else if (a == 29) { return race_of_character->get(3); }
+  else if (a == 30) { return race_of_character->get(10); }
+  else if (a == 31) { return race_of_character->get(11); }
+  else if (a == 32) { return race_of_character->get(12); }//Darkvision
+  else if (a == 33) { return race_of_character->get(13); }
+  else if (a == 34) { return race_of_character->get(14); }
+  else if (a == 35) { return (int)'R'; }
   return -1;
 }
-
+bool Character::Get_bool(int a) {
+  else if (a == 36) { return advantage; }
+  else if (a == 37) { return disadvantage; }
+  else if (a == 38) { return perception_advantage; }
+  else if (a == 39) { return perception_disadvantage; }
+  else if (a == 40) { return s_b[0]; }
+  else if (a == 41) { return s_b[1]; }
+  else if (a == 42) { return s_b[2]; }
+  else if (a == 43) { return s_b[3]; }
+  else if (a == 44) { return s_b[4]; }
+  else if (a == 45) { return s_b[5]; }
+  else if (a == 46) { return s_b[6]; }
+  else if (a == 47) { return s_b[7]; }//height
+  else if (a == 48) { return s_b[8]; }//weight
+  else if (a == 49) { return s_b[9]; }//Movement
+  else if (a == 50) { return s_b[10]; }//Size
+  else if (a == 51) { return s_b[11]; }//Darkvision
+  else if (a == 52) { return s_b[12]; }//damage resist
+  else if (a == 53) { return s_b[13]; }
+  else if (a == 54) { return s_b[14]; }
+  else if (a == 55) { return s_b[15]; }
+  else if (a == 56) { return s_b[16]; }
+  else if (a == 57) { return s_b[17]; }
+  else if (a == 58) { return classType.get(7); }//23
+  else if (a == 59) { return classType.get(8); }
+  else if (a == 60) { return classType.get(9); }
+  else if (a == 61) { return classType.get(10); }
+  else if (a == 62) { return classType.get(11); }
+  else if (a == 63) { return classType.get(12); }
+  else if (a == 64) { return classType.get(13); }
+  else if (a == 65) { return classType.get(14); }
+  else if (a == 66) { return classType.get(15); }
+  else if (a == 67) { return classType.get(16); }
+  else if (a == 68) { return classType.get(17); }
+  else if (a == 69) { return classType.get(18); }
+  else if (a == 70) { return classType.get(19); }
+  return false;
+}
 Item * Character::Factory_Complex(string &a) {
   printf("Control reached Factory_complex 0\n");
   Items_Factory<Weapon> Weapon_Factory;
@@ -1055,11 +1063,12 @@ void Character::Starting_Health() {
   }
 }
 
-bool Character::Load(int a[]){
+bool Character::Load(int a[], bool b[]){
   Existing_Types E;
   s = new int[18];
   s_b = new bool[18];
   Equiped = new Item[10];
+  //Race = new Dragomborn();
   printf("Control reach Character method Load 0\n");
   for(int i = 1; i < 70;i++){
     if (i == 1) { printf("Control reach Character method Load 1\n"); storyline_i = a[i]; cout << storyline_i << " is story of " << E.stories[storyline_i] << endl; }
@@ -1078,43 +1087,24 @@ bool Character::Load(int a[]){
     else if (i == 14) {  armor_class = a[i]; }
     else if (i == 15) {  deathsaves_s = a[i]; }
     else if (i == 16) {  deathsaves_f = a[i]; }
-    else if (i == 17) {  advantage = (bool)a[i]; }
-    else if (i == 18) {  disadvantage =  (bool)a[i]; }
-    else if (i == 19) {  perception_advantage =  (bool)a[i]; }
-    else if (i == 20) { printf("Control reach Character method Load 20\n"); perception_disadvantage =  (bool)a[i]; }
-    else if (i == 21) {  s_b[0] =  &a[i]; }
-    else if (i == 22) {  s_b[1] =  (bool)&a[i]; }
-    else if (i == 23) {  s_b[2] =  (bool)&a[i]; }
-    else if (i == 24) {  s_b[3] =  (bool)&a[i]; }
-    else if (i == 25) {  s_b[4] =  (bool)&a[i]; }
-    else if (i == 26) {  s_b[5] =  (bool)&a[i]; }
-    else if (i == 27) {  s_b[6] =  (bool)&a[i]; }
-    else if (i == 28) {  s_b[7] =  (bool)&a[i]; }//height
-    else if (i == 29) {  s_b[8] =  (bool)&a[i]; }//weight
-    else if (i == 30) { printf("Control re&ach Character method Load 30\n"); s_b[9] =  (bool)&a[i]; }//Movement
-    else if (i == 31) {  s_b[10] =  (bool)&a[i]; }//Size
-    else if (i == 32) {  s_b[11] =  (bool)&a[i]; }//Darkvision
-    else if (i == 33) {  s_b[12] =  (bool)&a[i]; }//damage resist
-    else if (i == 34) {  s_b[13] =  (bool)&a[i]; }
-    else if (i == 35) {  s_b[14] =  (bool)&a[i]; }
-    else if (i == 36) {  s_b[15] =  (bool)&a[i]; }
-    else if (i == 37) {  s_b[16] =  (bool)&a[i]; }
-    else if (i == 38) {  s_b[17] =  (bool)&a[i]; }
-    else if (i == 39) {  money[0] = a[i]; }
-    else if (i == 40) { printf("Control reach Character method Load 40\n"); money[1] = a[i]; }
-    else if (i == 41) {  money[2] = a[i]; }
-    else if (i == 42) {  money[3] = a[i]; }
-    else if (i == 43) {  money[4] = a[i]; }
-    else if (i == 44) {  state = a[i]; }
-    else if (i == 45) {
-        //classType = new Class();
-        classType.Load(a[i],a[i+1],a[i+2],a[i+3],a[i+4],a[i+5],a[i+6],a[i+7], a[i+8],a[i+9],a[i+10],
-          a[i+11], a[i+12],a[i+13],a[i+14]);
-    } else if (i == 60) {
-        printf("Control reach Character method Load 60\n");
-        race_of_character = new Race();// kjk
-        race_of_character->Load(a[i],a[i+1],a[i+2],a[i+3],a[i+4],a[i+5],a[i+6],a[i+7], a[i+8],a[i+9]);
-    } else if (i == 69) { cout << "###architype not implemented yet\n"; }
+    else if (i == 17) {  money[0] = a[i]; }
+    else if (i == 18) { printf("Control reach Character method Load 40\n"); money[1] = a[i]; }
+    else if (i == 19) {  money[2] = a[i]; }
+    else if (i == 20) {  money[3] = a[i]; }
+    else if (i == 21) {  money[4] = a[i]; }
+    else if (i == 22) { state = a[i]; }
+    else if (i == 23) {
+      //classType = new Class();
+      classType.Load(a[23], b, a[35]);
+    } else if (i == 26) {
+      printf("Control reach Character method Load 60\n");
+      race_of_character = new Race();// kjk
+      race_of_character->Load(a);
+    } else if (i == 36) { advantage = b[i - 36]; }
+    else if (i == 37) { disadvantage = b[i - 36]; }
+    else if (i == 38) { perception_advantage = b[i - 36]; }
+    else if (i == 39) { perception_disadvantage = b[i - 36]; }
+    else if (i > 39 && i < 58) { s_b[i - 40] = b[i - 36]; }
   }
   return true;
 }

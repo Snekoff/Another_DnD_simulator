@@ -86,6 +86,8 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   int Get(int a);
 
+  bool Get_bool(int a);
+
   Item * Factory_Complex(string &a);
 
   void Add_Money(int type,int sum);
@@ -114,7 +116,7 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   void Starting_Health();
 
-  bool Load(int a[]);
+  bool Load(int a[], bool b[]);
 
 };
 

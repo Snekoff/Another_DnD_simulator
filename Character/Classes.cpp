@@ -43,30 +43,23 @@ void Class::set_architype() {
   }
 }
 
-bool Class::Load(int a, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10,
-    int a11, int a12, int a13, int a14){
+bool Class::Load(int a,bool b[], int a14){
   Existing_classes E;
   type = a;
   architype = a14;
-  saving_throw_proficiencies[0] = (bool)a1;
-  saving_throw_proficiencies[1] = (bool)a2;
-  saving_throw_proficiencies[2] = (bool)a3;
-  saving_throw_proficiencies[3] = (bool)a4;
-  saving_throw_proficiencies[4] = (bool)a5;
-  saving_throw_proficiencies[5] = (bool)a6;
-  armor_and_weapon_proficiencies[0] = (bool)a7;
-  armor_and_weapon_proficiencies[1] = (bool)a8;
-  armor_and_weapon_proficiencies[2] = (bool)a9;
-  armor_and_weapon_proficiencies[3] = (bool)a10;
-  armor_and_weapon_proficiencies[4] = (bool)a11;
-  armor_and_weapon_proficiencies[5] = (bool)a12;
-  armor_and_weapon_proficiencies[6] = (bool)a13;
+  for (int i = 0; i < 7; i++) {
+    armor_and_weapon_proficiencies[i] = b[29 + i];
+  }
   hit_dice = E.Class_atribute[type][0];
   for(int i = 0; i < 6;i++){
     primary_ability[i] = false;
     s[i] = 0;
     s[6+i] = 0;
     s[12+i] = 0;
+  }
+  for (int i = 0; i < 6; i++) {
+    if (E.Class_atribute[type][i + 1] > 0) primary_ability[i] = true;
+    saving_throw_proficiencies[i] = b[23 + i];
   }
   return true;
 }
@@ -332,13 +325,17 @@ void Class::set_skills(bool *s_b[]) {
 
 int Class::get(int what) {
   if (what == 0) { return type; }
-  else if (0 < what && what < 7) return primary_ability[what - 1];
-  else if (6 < what && what < 13) return saving_throw_proficiencies[what - 7];
-  else if (12 < what && what < 20) return armor_and_weapon_proficiencies[what - 13];
   else if (what == 20) return hit_dice;
   else if (20 < what && what < 39) return s[what - 21];
   else if(what == 39) return architype;
   return -1;
+}
+
+bool Class::get_bool(int what){
+  if (0 < what && what < 7) return primary_ability[what - 1];
+  else if (6 < what && what < 13) return saving_throw_proficiencies[what - 7];
+  else if (12 < what && what < 20) return armor_and_weapon_proficiencies[what - 13];
+return false;
 }
 
 MultiClass::MultiClass() : Class() {

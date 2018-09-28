@@ -21,7 +21,7 @@ Race::Race() {
 }
 Race::~Race() = default;
 void Race::set(Random_Generator_ * Rand_gen,int a) {
-  type = a;
+  //type = a;
   height = Rand_gen->Rand(E.minHeight[type], E.maxHeight[type]);
   weight = Rand_gen->Rand(E.minWeight[type], E.maxWeight[type]);
   age = Rand_gen->Rand(E.minAge[type], E.maxAge[type]);
@@ -106,23 +106,23 @@ void Race::RaceAbilityBonus() {
   Wis = E.race_ability_bonus[4][type];
   Cha = E.race_ability_bonus[5][type];
 }
-bool Race::Load(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int race_features_){
-  type = a1;
-  subtype = a9;
-  height = a2;
-  weight = a3;
-  age = a4;
-  Movement = a5;
-  Size = a6;
-  Darkvision = a7;
-  damage_resistance = a8;
+bool Race::Load(int a[]){
+  type = a[26];
+  subtype = a[34];
+  height = a[27];
+  weight = a[28];
+  age = a[29];
+  Movement = a[30];
+  Size = a[31];
+  Darkvision = a[32];
+  damage_resistance = a[33];
   Str = 0;
   Dex = 0;
   Con = 0;
   Int = 0;
   Wis = 0;
   Cha = 0;
-  raceFeatures = "loaded " + std::to_string(race_features_);
+  raceFeatures = "loaded " + std::to_string(a[35]);
   return true;
 }
 

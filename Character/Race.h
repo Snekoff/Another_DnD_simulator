@@ -28,7 +28,7 @@ class Race {
 
   ~Race();
 
-  void set(Random_Generator_ * Rand_gen,int a);
+  void set(Random_Generator_ *Rand_gen, int a);
 
   void set(int a, int b, int c, int d);
 
@@ -42,7 +42,7 @@ class Race {
 
   void RaceAbilityBonus();
 
-  bool Load(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int race_features);
+  bool Load(int a[]);
 
 };
 
@@ -81,6 +81,7 @@ class Elf : public Race {
 
   void Create(int sub_type, int a, int b, int c) override;
 };
+
 class Gnome : public Race {
  private:
   //int subtype;
@@ -176,5 +177,122 @@ class Tiefling : public Race {
   void Create(int sub_type, int a, int b, int c) override;
 };
 
+class Dragonborn_Factory {
+ public:
+  Dragonborn *Create(int subtype) {
+    return new Dragonborn(subtype, 0, 0, 0);
+  }
+};
+class Dwarf_Factory {
+ public:
+  Dwarf *Create(int subtype) {
+    return new Dwarf(subtype, 0, 0, 0);
+  }
+};
+class Elf_Factory {
+ public:
+  Elf *Create(int subtype) {
+    return new Elf(subtype, 0, 0, 0);
+  }
+};
+class Gnome_Factory {
+ public:
+  Gnome *Create(int subtype) {
+    return new Gnome(subtype, 0, 0, 0);
+  }
+};
+class Goblin_Factory {
+ public:
+  Goblin *Create(int subtype) {
+    return new Goblin(subtype, 0, 0, 0);
+  }
+};
+class Half_Elf_Factory {
+ public:
+  Half_Elf *Create(int subtype) {
+    return new Half_Elf(subtype, 0, 0, 0);
+  }
+};
+class Half_Orc_Factory {
+ public:
+  Half_Orc *Create(int subtype) {
+    return new Half_Orc(subtype, 0, 0, 0);
+  }
+};
+class Halfling_Factory {
+ public:
+  Halfling *Create(int subtype) {
+    return new Halfling(subtype, 0, 0, 0);
+  }
+};
+class Human_Factory {
+ public:
+  Human *Create(int subtype) {
+    return new Human(subtype, 0, 0, 0);
+  }
+};
+class Lizardfolk_Factory {
+ public:
+  Lizardfolk *Create(int subtype) {
+    return new Lizardfolk(subtype, 0, 0, 0);
+  }
+};
+class Tiefling_Factory {
+ public:
+  Tiefling *Create(int subtype) {
+    return new Tiefling(subtype, 0, 0, 0);
+  }
+};
+
+class Race_Factory {
+ public:
+  Race *Create(int type, int subtype) {
+    if (type == 0) {
+      Dragonborn_Factory Dragonborn_;
+      return Dragonborn_.Create(subtype);
+    }
+    else if (type == 1) {
+      Dwarf_Factory Dwarf_;
+      return Dwarf_.Create(subtype);
+    }
+    else if (type == 2) {
+      Elf_Factory Elf_;
+      return Elf_.Create(subtype);
+    }
+    else if (type == 3) {
+      Gnome_Factory Gnome_;
+      return Gnome_.Create(subtype);
+    }
+    else if (type == 4) {
+      Goblin_Factory Goblin_;
+      return Goblin_.Create(subtype);
+    }
+    else if (type == 5) {
+      Half_Elf_Factory Half_Elf_;
+      return Half_Elf_.Create(subtype);
+    }
+    else if (type == 6) {
+      Half_Orc_Factory Half_Orc_;
+      return Half_Orc_.Create(subtype);
+    }
+    else if (type == 7) {
+      Halfling_Factory Halfling_;
+      return Halfling_.Create(subtype);
+    }
+    else if (type == 8) {
+      Human_Factory Human_;
+      return Human_.Create(subtype);
+    }
+    else if (type == 9) {
+      Lizardfolk_Factory Lizardfolk_;
+      return Lizardfolk_.Create(subtype);
+    }
+    else if (type == 10) {
+      Tiefling_Factory Tiefling_;
+      return Tiefling_.Create(subtype);
+    }
+    return new Race();
+  }
+};
 #endif //ANOTHER_DND_SIMULATOR_RACE_CLASS_BACKGROUND_H
 

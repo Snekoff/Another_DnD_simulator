@@ -40,10 +40,11 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   virtual void set_skills(bool *s_b[]);
 
-  bool Load(int a, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14);
+  bool Load(int a, bool b[], int a14);
 
   virtual int get(int what);
 
+  bool get_bool(int what);
 };
 
 class MultiClass : public Class {
