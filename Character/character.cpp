@@ -605,19 +605,19 @@ bool Character::Get_bool(int a) {
   else if (a == 55) { return s_b[15]; }
   else if (a == 56) { return s_b[16]; }
   else if (a == 57) { return s_b[17]; }
-  else if (a == 58) { return classType.get(7); }//23
-  else if (a == 59) { return classType.get(8); }
-  else if (a == 60) { return classType.get(9); }
-  else if (a == 61) { return classType.get(10); }
-  else if (a == 62) { return classType.get(11); }
-  else if (a == 63) { return classType.get(12); }
-  else if (a == 64) { return classType.get(13); }
-  else if (a == 65) { return classType.get(14); }
-  else if (a == 66) { return classType.get(15); }
-  else if (a == 67) { return classType.get(16); }
-  else if (a == 68) { return classType.get(17); }
-  else if (a == 69) { return classType.get(18); }
-  else if (a == 70) { return classType.get(19); }
+  else if (a == 58) { return classType.get_bool(7); }//23
+  else if (a == 59) { return classType.get_bool(8); }
+  else if (a == 60) { return classType.get_bool(9); }
+  else if (a == 61) { return classType.get_bool(10); }
+  else if (a == 62) { return classType.get_bool(11); }
+  else if (a == 63) { return classType.get_bool(12); }
+  else if (a == 64) { return classType.get_bool(13); }
+  else if (a == 65) { return classType.get_bool(14); }
+  else if (a == 66) { return classType.get_bool(15); }
+  else if (a == 67) { return classType.get_bool(16); }
+  else if (a == 68) { return classType.get_bool(17); }
+  else if (a == 69) { return classType.get_bool(18); }
+  else if (a == 70) { return classType.get_bool(19); }
   return false;
 }
 Item * Character::Factory_Complex(string &a) {
@@ -686,7 +686,9 @@ Item * Character::Factory_Complex(string &a) {
 void Character::Add_Money(int type, int sum) {
   type = Correctness_of_input(type, 0, 3);
   money[type] += sum;
-  money[4] += static_cast<int>(money[type] * pow(10, type)); // im sure integer will be in "()"
+  cout <<"money[" << type << "] = " << money[type] << endl;
+  money[4] += (int)(money[type] * pow(10, type)); // im sure integer will be in "()"
+  cout <<"money[4] = " << money[4] << endl;
 }
 
 void Character::Add_To_Item_Map(string &a) {
@@ -721,9 +723,11 @@ bool Character::Paying_Money(int how_many_copper) {
         dif *= (-1);
         for (int j = i; j > -1; j--) {
           int t = static_cast<int>(dif / pow(10, j));
-          //cout <<"t = " << t << endl;
+          cout <<"t = " << t << endl;
           money[j] += t;
-          dif -= t * pow(10, j);
+          cout <<"money[j] = " << money[j] << endl;
+          dif -= (int)(t * pow(10, j));
+          cout <<"dif = " << dif << endl;
           if (dif == 0) break;
         }
         break;
@@ -767,7 +771,7 @@ int Character::Add_To_Inventory() {
       Existing_Items E_P;
       cout << "Control reach method Add_To_Inventory 1\n";
       for (int i = limit[item_ - 1]; i < limit[item_]; i++) {
-        cout << i + 1 << ". " << E_P.All_s[i] << endl;
+        cout << i + 1 << ". " << E_P.All_s[i] << endl;//
       }
       //cin >> item_;
       item_ = IsNumber(item_, 1, limit[6] + 1);
@@ -1006,7 +1010,7 @@ bool Character::Load(int a[], bool b[]){
     else if (i == 15) {  deathsaves_s = a[i]; }
     else if (i == 16) {  deathsaves_f = a[i]; }
     else if (i == 17) {  money[0] = a[i]; }
-    else if (i == 18) { printf("Control reach Character method Load 40\n"); money[1] = a[i]; }
+    else if (i == 18) {  money[1] = a[i]; }
     else if (i == 19) {  money[2] = a[i]; }
     else if (i == 20) {  money[3] = a[i]; }
     else if (i == 21) {  money[4] = a[i]; }
@@ -1018,7 +1022,7 @@ bool Character::Load(int a[], bool b[]){
       printf("Control reach Character method Load 60\n");
       race_of_character = new Race();// kjk
       race_of_character->Load(a);
-    } else if (i == 36) { advantage = b[i - 36]; }
+    } else if (i == 36) { printf("Control reach Character method Load (bool)\n");advantage = b[i - 36]; }
     else if (i == 37) { disadvantage = b[i - 36]; }
     else if (i == 38) { perception_advantage = b[i - 36]; }
     else if (i == 39) { perception_disadvantage = b[i - 36]; }
