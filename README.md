@@ -4,4 +4,4 @@ By now there is only console version. But I'm going to add Gui and then graphics
 Versions shows how many things I have done yet in comparison with what I planed.
 (Version 1.0 - fully implemented all what I wanted in very begining)
 
-Special thanks to nlohmann for his json lib
+Special thanks to nlohmann for his json lib (https://github.com/nlohmann/json)
