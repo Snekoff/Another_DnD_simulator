@@ -419,34 +419,16 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "9. Silver (Cold) 15ft. cone\n"
                     "10. White (Cold) 15ft. cone\n"
                     "Type number, and proceed");
-    //cin >> subrace;
     subrace = IsNumber(subrace, 1, 10);
-    //int a = 0, b = 0, c = 0;
     printf("Control reach Race_Choosal 1\n");
-    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-    //race_of_character = new Dragonborn();
-    //race_of_character->Create(subrace - 1, a, b, c);
-    //Race_Get_Abilities();
-    //ConcreteAbilityModifier();
   } else if (race == 2) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Duergar\n"
                     "2. Hill\n"
                     "3. Mountain\n"
                     "Type number, and proceed");
-    //cin >> subrace;
     subrace = IsNumber(subrace, 1, 3);
-    //int a = 0, b = 0, c = 0;
     printf("Control reach Race_Choosal 2\n");
-    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-    //multirace
-    //race_of_character = new Dwarf();
-    //race_of_character->Create(subrace - 1, a, b, c);
-    printf("Control reach Race_Choosal 2-a\n");
-    //Race_Get_Abilities();
-    printf("Control reach Race_Choosal 2-b\n");
-    //ConcreteAbilityModifier();
-    printf("Control reach Race_Choosal 2c\n");
   } else if (race == 3) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Drow \n"
@@ -456,37 +438,16 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "5. Shadar-kai\n"
                     "6. Wood\n"
                     "Type number, and proceed");
-    //cin >> subrace;
     subrace = IsNumber(subrace, 1, 6);
-    //int a = 0, b = 0, c = 0;
-    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-    //race_of_character = new Elf();
-    //race_of_character->Create(subrace - 1, a, b, c);
-    //Race_Get_Abilities();
-    //ConcreteAbilityModifier();
   } else if (race == 4) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Deep/Svirfneblin\n"
                     "2. Forest\n"
                     "3. Rock\n"
                     "Type number, and proceed");
-    //cin >> subrace;
     subrace = IsNumber(subrace, 1, 3);
-    //int a = 0, b = 0, c = 0;
     Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-
-    //race_of_character = new Gnome();
-    //race_of_character->Create(subrace - 1, a, b, c);
-    //Race_Get_Abilities();
-    //ConcreteAbilityModifier();
   } else if (race == 5) {
-    //int a = 0, b = 0, c = 0;
-    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-
-    //race_of_character = new Goblin();
-    //race_of_character->Create(subrace - 1, a, b, c);
-    //Race_Get_Abilities();
-    //ConcreteAbilityModifier();
   } else if (race == 6) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Common\n"
@@ -495,63 +456,27 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "4. Moon Elf or Sun Elf Descent\n"
                     "5. Wood Elf Descent\n"
                     "Type number, and proceed");
-    //cin >> subrace;
     subrace = IsNumber(subrace, 1, 5);
-    //int a = 0, b = 0, c = 0;
-    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-    //race_of_character = new Half_Elf();
-    //race_of_character->Create(subrace - 1, a, b, c);
-    //Race_Get_Abilities();
-    //ConcreteAbilityModifier();
   } else if (race == 7) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Half-Orc\n"
                     "2. Orc\n"
                     "Type number, and proceed");
-    //cin >> subrace;
     subrace = IsNumber(subrace, 1, 10);
-    //int a = 0, b = 0, c = 0;
-    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-    //race_of_character = new Half_Orc();
-    //race_of_character->Create(subrace - 1, a, b, c);
-    //Race_Get_Abilities();
-    //ConcreteAbilityModifier();
   } else if (race == 8) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Ghostwise\n"
                     "2. Lightfoot\n"
                     "3. Stout\n"
                     "Type number, and proceed");
-    //cin >> subrace;
     subrace = IsNumber(subrace, 1, 3);
-    //int a = 0, b = 0, c = 0;
-    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-    //race_of_character = new Halfling();
-    //race_of_character->Create(subrace - 1, a, b, c);
-    //Race_Get_Abilities();
-    //ConcreteAbilityModifier();
   } else if (race == 9) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Common\n"
                     "2. Variant\n"
                     "Type number, and proceed");
-    //cin >> subrace;
     subrace = IsNumber(subrace, 1, 10);
-    //int a = 0, b = 0, c = 0;
-    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-
-    //race_of_character = new Human();
-    //race_of_character->Create(subrace - 1, a, b, c);
-    //Race_Get_Abilities();
-    //ConcreteAbilityModifier();
   } else if (race == 10) {
-    //int a = 0, b = 0, c = 0;
-    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-
-    //race_of_character = new Lizardfolk();
-    //race_of_character->Create(subrace - 1, a, b, c);
-    //Race_Get_Abilities();
-    //ConcreteAbilityModifier();
   } else if (race == 11) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Common\n"
@@ -566,16 +491,9 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "10. Variant\n"
                     "11. Zariel\n"
                     "Type number, and proceed");
-    //cin >> subrace;
     subrace = IsNumber(subrace, 1, 11);
-    //int a = 0, b = 0, c = 0;
-    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
-
-    //race_of_character = new Tiefling();
-    //race_of_character->Create(subrace - 1, a, b, c);
-    //Race_Get_Abilities();
-    //ConcreteAbilityModifier();
   }
+  Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
   race_of_character = Race_Factory_.Create(race - 1,subrace - 1);
   race_of_character->Create(subrace - 1, a, b, c);
   Race_Get_Abilities();
@@ -665,7 +583,7 @@ int Character::Get(int a) {
   return -1;
 }
 bool Character::Get_bool(int a) {
-  else if (a == 36) { return advantage; }
+  if (a == 36) { return advantage; }
   else if (a == 37) { return disadvantage; }
   else if (a == 38) { return perception_advantage; }
   else if (a == 39) { return perception_disadvantage; }

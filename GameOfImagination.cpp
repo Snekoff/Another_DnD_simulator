@@ -77,6 +77,7 @@ void Game::Character_create(Random_Generator_ *Rand_gen) {
 
     printf("Now showing params: \n");
     for (int j = 1; j < 90; j++) {
+      if(j == 24) continue;
       cout << j << " " << E.params[j - 1] << " : " ;
       if(j > 35) cout << characters[i]->Get_bool(j) << endl;
       else cout << characters[i]->Get(j) << endl;
