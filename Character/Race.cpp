@@ -122,7 +122,7 @@ bool Race::Load(int a[]){
   Int = 0;
   Wis = 0;
   Cha = 0;
-  raceFeatures = "loaded " + std::to_string(a[35]);
+  raceFeatures = "loaded " + std::to_string((char)a[35]);
   return true;
 }
 

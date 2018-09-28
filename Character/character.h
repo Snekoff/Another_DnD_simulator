@@ -88,7 +88,9 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   bool Get_bool(int a);
 
-  Item * Factory_Complex(string &a);
+  vector<int> Get_inventory();
+
+  Item * Factory_Complex(string &a, int quantity);
 
   void Add_Money(int type,int sum);
 
@@ -114,9 +116,11 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   int GetSkill(int a);
 
+  void Inventory_Load(vector<int> item_);
+
   void Starting_Health();
 
-  bool Load(int a[], bool b[]);
+  bool Load(int a[], bool b[], vector<int> item_);
 
 };
 

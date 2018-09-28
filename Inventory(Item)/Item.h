@@ -46,12 +46,18 @@ struct Existing_Items {
                                      "Hide", "Chain_shirt", "Scale_mail", "Breastplate", "Half_plate",
                                      "Ring_mail", "Chain_mail", "Splint", "Plate",
                                      "Shield"};
-  int Armor_i[kArmor_NUM][6] = {{500, 0, 11, 0, 1, 8}, {1000, 0, 11, 0, 0, 10}, {4500, 0, 12, 0, 0, 13},
-                                {1000, 1, 12, 0, 0, 12}, {5000, 1, 13, 0, 0, 20}, {5000, 1, 14, 0, 1, 45},
-                                {40000, 1, 14, 0, 0, 20}, {75000, 1, 15, 0, 1, 40},
-                                {3000, 2, 14, 0, 1, 40}, {7500, 2, 16, 13, 1, 55}, {20000, 2, 17, 15, 1, 60},
-                                {150000, 2, 18, 15, 1, 65},
-                                {1000, 2, 2, 0, 0, 6}};
+  int Armor_i[kArmor_NUM][5] = {{500, 0, 11, 0, 8}, {1000, 0, 11, 0, 10}, {4500, 0, 12, 0, 13},
+                                {1000, 1, 12, 0, 12}, {5000, 1, 13, 0, 20}, {5000, 1, 14, 0, 45},
+                                {40000, 1, 14, 0, 20}, {75000, 1, 15, 0, 40},
+                                {3000, 2, 14, 0, 40}, {7500, 2, 16, 13, 55}, {20000, 2, 17, 15, 60},
+                                {150000, 2, 18, 15, 65},
+                                {1000, 2, 2, 0, 6}};
+  bool Armor_b[kArmor_NUM] = {true, false, false,
+                                false, false, true,
+                                false, true,
+                                true, true, true,
+                                true,
+                                false};
   //Cost , Type , Armor_Class , Strength_needed , stealth_disadvantage, weight
   std::string Usable_s[kUsable_NUM] = {"Abacus",
                                        "Acid_vial", "Alchemists_fire_flask",
@@ -99,13 +105,20 @@ struct Existing_Items {
       Magic_Items_s[kMagic_Items_NUM] = {"Crystal", "Orb", "Rod", "Staff", "Wand", "Spring_of_mistletoe", "Totem",
                                          "Wooden_staff", "Yew_wand", "Amulet", "Emblem", "Reliquary",
                                          "Potion_of_healing"};
-  int Magic_Items_i[kMagic_Items_NUM][6] = {{1000, 1, 0, 1, 0, 0}, {2000, 3, 0, 1, 0, 0}, {1000, 2, 0, 1, 0, 0},
-                                            {500, 4, 0, 1, 0, 0}, {1000, 1, 0, 1, 0, 0}, {100, 0, 0, 0, 1, 0},
-                                            {100, 0, 0, 0, 1, 0},
-                                            {500, 4, 0, 0, 1, 0}, {1000, 1, 0, 0, 1, 0}, {500, 1, 0, 0, 0, 1},
-                                            {500, 0, 0, 0, 0, 1},
-                                            {500, 2, 0, 0, 0, 1},
-                                            {5000, 1, 2, 0, 0, 0}};//2d4 + 2
+  int Magic_Items_i[kMagic_Items_NUM][3] = {{1000, 1, 0}, {2000, 3, 0}, {1000, 2, 0},
+                                            {500, 4, 0}, {1000, 1, 0}, {100, 0, 0},
+                                            {100, 0, 0},
+                                            {500, 4, 0}, {1000, 1, 0}, {500, 1, 0},
+                                            {500, 0, 0},
+                                            {500, 2, 0},
+                                            {5000, 1, 2}};//2d4 + 2
+  bool Magic_Items_b[kMagic_Items_NUM][3] = {{true, false, false}, {true, false, false}, {true, false, false},
+    {true, false, false}, {true, false, false}, {false, true, false},
+    {false, true, false},
+    {false, true, false}, {false, true, false}, {false, false, true},
+    {false, false, true},
+    {false, false, true},
+    {false, false, false}};
   //cost, weight, healing, arcane_focus, druidic_focus, holy_symbol;
   std::string All_s[kAll_Num] = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light_hammer",
                                  "Mace", "Quarterstaff", "Sickle", "Spear", "Unarmed_strike", "Battleaxe", "Flail",
@@ -173,9 +186,9 @@ class Weapon : public Item {
   Weapon();
   Weapon(std::string &name_);
   Weapon(std::string &name_, int count_);
-  Weapon(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_);
+  //Weapon(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_);
   ~Weapon();
-  void set(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_);
+  void set(std::string &name_, int count_);
   int show() override;
   int get(int a) override;
 };
@@ -188,11 +201,10 @@ class Ranged_Weapon : public Weapon {
   Ranged_Weapon();
   Ranged_Weapon(std::string &name_);
   Ranged_Weapon(std::string &name_, int count_);
-  Ranged_Weapon(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_,
-                int aiming_range_, int max_range_);
+  /*Ranged_Weapon(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_,
+                int aiming_range_, int max_range_);*/
   ~Ranged_Weapon();
-  void set(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_,
-           int aiming_range_, int max_range_);
+  void set(std::string &name_, int count_);
 
   int show() override;
 
@@ -226,14 +238,9 @@ class Armor : public Item {
  public:
   Armor(std::string &name_);
   Armor(std::string &name_, int count_);
-  Armor(std::string &name_, int type_, int count_, int armor_class_, int strength_needed_, bool stealth_disadvantage_);
+  //Armor(std::string &name_, int type_, int count_, int armor_class_, int strength_needed_, bool stealth_disadvantage_);
   ~Armor();
-  void set(std::string &name_,
-           int type_,
-           int count_,
-           int armor_class_,
-           int strength_needed_,
-           bool stealth_disadvantage_);
+  void set(std::string &name_, int count_);
   int show() override;
 
   int get(int a) override;
@@ -261,8 +268,8 @@ class Ammo : public Usables {
   Ammo();
   Ammo(std::string &name_, int count_);
   Ammo(std::string &name_);
-  Ammo(std::string &name_, int count_, int ammo_damage_, int element_);
-  void set(std::string &name_, int count_, int ammo_damage_, int element_);
+  //Ammo(std::string &name_, int count_, int ammo_damage_, int element_);
+  void set(std::string &name_, int count_);
   int show() override;
 
   int get(int a) override;

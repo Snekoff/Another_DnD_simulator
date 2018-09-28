@@ -580,8 +580,10 @@ int Character::Get(int a) {
   else if (a == 33) { return race_of_character->get(13); }
   else if (a == 34) { return race_of_character->get(14); }
   else if (a == 35) { return (int)'R'; }
+  else if (a == 71) { return inventory.size(); }
   return -1;
 }
+
 bool Character::Get_bool(int a) {
   if (a == 36) { return advantage; }
   else if (a == 37) { return disadvantage; }
@@ -620,7 +622,24 @@ bool Character::Get_bool(int a) {
   else if (a == 70) { return classType.get_bool(19); }
   return false;
 }
-Item * Character::Factory_Complex(string &a) {
+
+vector<int> Character::Get_inventory(){
+  vector<int> inventory_;
+  Existing_Items E;
+  //inventory_.resize(inventory.size());
+  for(int k = 0;k < inventory.size();k++){
+    for(int i = 0; i < kAll_Num;i++){
+      if(inventory[k]->get_name() == E.All_s[i]){
+        inventory_.push_back(i);
+        inventory_.push_back(inventory[k]->get_count());
+        break;
+      }
+    }
+  }
+  return inventory_;
+} // { {(int)name_of_Item1, amount1} , {(int)name_of_Item2, amount2} ... }
+
+Item * Character::Factory_Complex(string &a, int quantity) {
   printf("Control reached Factory_complex 0\n");
   Items_Factory<Weapon> Weapon_Factory;
   Items_Factory<Ranged_Weapon> Ranged_Weapon_Factory;
@@ -633,37 +652,37 @@ Item * Character::Factory_Complex(string &a) {
   for (int i = 0; i < kWeapon_NUM; i++) {
     if (a == E_I.Weapon_s[i]) {
       printf("Control reached Factory_complex 1_1\n");
-      return Weapon_Factory.create(a);
+      return Weapon_Factory.create(a,quantity);
     }
   }
   for (int i = 0; i < kRanged_Weapon_NUM; i++) {
     if (i < kRanged_Weapon_NUM && a == E_I.Ranged_Weapon_s[i]) {
       printf("Control reached Factory_complex 1_2\n");
-      return Ranged_Weapon_Factory.create(a);
+      return Ranged_Weapon_Factory.create(a,quantity);
     }
   }
   for (int i = 0; i < kAmmo_NUM; i++) {
     if (i < kAmmo_NUM && a == E_I.Ammo_s[i]) {
       printf("Control reached Factory_complex 1_5\n");
-      return Ammo_Factory.create(a);
+      return Ammo_Factory.create(a,quantity);
     }
   }
   for (int i = 0; i < kArmor_NUM; i++) {
     if (i < kArmor_NUM && a == E_I.Armor_s[i]) {
       printf("Control reached Factory_complex 1_3\n");
-      return Armor_Factory.create(a);
+      return Armor_Factory.create(a,quantity);
     }
   }
   for (int i = 0; i < kUsable_NUM; i++) {
     if (i < kUsable_NUM && a == E_I.Usable_s[i]) {
       printf("Control reached Factory_complex 1_4\n");
-      return Usables_Factory.create(a);
+      return Usables_Factory.create(a,quantity);
     }
   }
   for (int i = 0; i < kMagic_Items_NUM; i++) {
     if (i < kMagic_Items_NUM && a == E_I.Magic_Items_s[i]) {
       printf("Control reached Factory_complex 1_6\n");
-      return Magic_Items_Factory.create(a);
+      return Magic_Items_Factory.create(a,quantity);
     }
   }
 
@@ -777,10 +796,13 @@ int Character::Add_To_Inventory() {
       item_ = IsNumber(item_, 1, limit[6] + 1);
       cout << "Control reach method Add_To_Inventory 2\n";
       a = E_P.All_s[item_ - 1];
+      int quantity = 1;
+      cout << "How many "<< a <<"s do you want ?\n";
+      quantity = IsNumber(quantity,1,-1);
       cout << "Control reach method Add_To_Inventory 2_2\n";
-      inventory.push_back(Factory_Complex(a));
+      inventory.push_back(Factory_Complex(a,1));
       cout << "Control reach method Add_To_Inventory 3\n";
-      if (Paying_Money(inventory[inventory.size() - 1]->get_cost())) {
+      if (Paying_Money(inventory[inventory.size() - 1]->get_cost() * quantity)) {
         cout << "Control reach method Add_To_Inventory 4\n";
         Add_To_Item_Map(a);
       } else
@@ -788,7 +810,7 @@ int Character::Add_To_Inventory() {
                "You have not enough money for that. Your money(in copper equivalent) are:",
                money[4],
                " and price is ",
-               inventory[inventory.size() - 1]->get_cost());
+               inventory[inventory.size() - 1]->get_cost() * quantity);
 
       printf("Do you want to add something? Yes(1)  No(2)\n");
       //cin >> item_;
@@ -972,8 +994,16 @@ void Character::SetSkill(int c[]) {
 }
 
 int Character::GetSkill(int a) {
-  a = IsNumber(a, 0, 17);
+  a = Correctness_of_input(a, 0, 17);
   return s[a];
+}
+
+void Character::Inventory_Load(vector<int> item_){
+  Existing_Items E;
+  inventory.resize(item_.size());
+  for(int i = 0; i < item_.size(); i++){
+    inventory.push_back(Factory_Complex(E.All_s[item_[i]],i+1));
+  }
 }
 
 void Character::Starting_Health() {
@@ -985,12 +1015,11 @@ void Character::Starting_Health() {
   }
 }
 
-bool Character::Load(int a[], bool b[]){
+bool Character::Load(int a[], bool b[], vector<int> item_){
   Existing_Types E;
   s = new int[18];
   s_b = new bool[18];
   Equiped = new Item[10];
-  //Race = new Dragomborn();
   printf("Control reach Character method Load 0\n");
   for(int i = 1; i < 70;i++){
     if (i == 1) { printf("Control reach Character method Load 1\n"); storyline_i = a[i]; cout << storyline_i << " is story of " << E.stories[storyline_i] << endl; }
@@ -1020,7 +1049,8 @@ bool Character::Load(int a[], bool b[]){
       classType.Load(a[23], b, a[35]);
     } else if (i == 26) {
       printf("Control reach Character method Load 60\n");
-      race_of_character = new Race();// kjk
+      Race_Factory Race_Factory_;
+      race_of_character = Race_Factory_.Create(a[i],a[i+8]);//~type
       race_of_character->Load(a);
     } else if (i == 36) { printf("Control reach Character method Load (bool)\n");advantage = b[i - 36]; }
     else if (i == 37) { disadvantage = b[i - 36]; }
@@ -1028,6 +1058,13 @@ bool Character::Load(int a[], bool b[]){
     else if (i == 39) { perception_disadvantage = b[i - 36]; }
     else if (i > 39 && i < 58) { s_b[i - 40] = b[i - 36]; }
   }
+  proficiency = ProficiencySetter();
+  printf("Control reach Character method Load 91\n");
+  passive_perception = PassivePerceptionSetter(WisModifier, perception_advantage, perception_disadvantage);
+  Maximum_Parameter_Value();
+  ConcreteAbilityModifier();
+  Inventory_Load(item_);
+  Equiping_Item();
   return true;
 }
 
