@@ -49,7 +49,7 @@ sleightOfHand 15,stealth 16,survival 17*/
   vector<Item *> inventory;
   map<std::string, Item *> items_map;
   Existing_Types E;
-  Item * Equiped;
+  vector<Item *> Equiped;
   int state; // norm, incapacitated, arested, dead
  public:
   Character();

@@ -84,7 +84,7 @@ Character::Character(Random_Generator_ * Rand_gen,int storyline_, int exp, int l
   money[2] = 0;
   money[3] = 0;//Pt
   money[4] = 0;
-  Equiped = new Item[10];
+  Equiped.resize(10);
   printf("Control reach 4\n");
   SetSkill(s);
   printf("Control reach 5\n");
@@ -119,7 +119,7 @@ Character::~Character() {
   delete[] s_b;
   inventory.clear();
   items_map.clear();
-  delete[] Equiped;
+  //delete[] Equiped;
 };
 
 void Character::Maximum_Parameter_Value(){
@@ -581,6 +581,14 @@ int Character::Get(int a) {
   else if (a == 34) { return race_of_character->get(14); }
   else if (a == 35) { return (int)'R'; }
   else if (a == 71) { return inventory.size(); }
+  else if (a == 100) { return passive_perception; }
+  else if (a == 101) { return proficiency; }
+  else if (a == 102) { return StrModifier; }
+  else if (a == 103) { return DexModifier; }
+  else if (a == 104) { return ConModifier; }
+  else if (a == 105) { return IntModifier; }
+  else if (a == 106) { return WisModifier; }
+  else if (a == 107) { return ChaModifier; }
   return -1;
 }
 
@@ -799,18 +807,19 @@ int Character::Add_To_Inventory() {
       int quantity = 1;
       cout << "How many "<< a <<"s do you want ?\n";
       quantity = IsNumber(quantity,1,-1);
-      cout << "Control reach method Add_To_Inventory 2_2\n";
-      inventory.push_back(Factory_Complex(a,1));
       cout << "Control reach method Add_To_Inventory 3\n";
       if (Paying_Money(inventory[inventory.size() - 1]->get_cost() * quantity)) {
+        inventory.push_back(Factory_Complex(a,quantity));
         cout << "Control reach method Add_To_Inventory 4\n";
         Add_To_Item_Map(a);
-      } else
+      } else{
         printf("%s %d %s %d \n",
                "You have not enough money for that. Your money(in copper equivalent) are:",
                money[4],
                " and price is ",
                inventory[inventory.size() - 1]->get_cost() * quantity);
+      }
+
 
       printf("Do you want to add something? Yes(1)  No(2)\n");
       //cin >> item_;
@@ -825,11 +834,12 @@ int Character::Add_To_Inventory() {
 
 void Character::Equip_Item(int where, Item *what) {
   if (where < 2) {
-    if (Equiped[where].get_count() != 0) {// need to try it hard
-      Equiped[where].equip(-1);
-    } else { cout << "nullptr check fine\n";}
-    Equiped[where] = *what;
-    cout << "Equipped " << Equiped[where].get_name() << endl;
+    if (Equiped[where]->get_count() != 0) {// need to try it hard
+      Equiped[where]->equip(-1);
+    } else { cout << "null check fine\n";}
+    Equiped[where] = what;
+    cout << "Equipped " << Equiped[where]->get_name() << endl;
+    if(what->get_name() == "Shield") armor_class += 2;
   } else if (where == 2) {
     cout << "equip armor, armor class before: " << armor_class << endl;
     if (classType.get(0) == 0) {
@@ -837,19 +847,19 @@ void Character::Equip_Item(int where, Item *what) {
     } else {
       armor_class = 0;
     }
-    Equiped[where] = *what;
+    Equiped[where] = what;
     int armor_class_bonus[3] = {DexModifier, min(DexModifier, 2), 0};
-    armor_class = Equiped[where].get(2) + armor_class_bonus[Equiped[where].get(0)];
+    armor_class = Equiped[where]->get(2) + armor_class_bonus[Equiped[where]->get(0)];
     cout << "armor class after: " << armor_class << endl;
-    cout << "Equipped " << Equiped[where].get_name() << endl;
+    cout << "Equipped " << Equiped[where]->get_name() << endl;
   } else if (where < 10){
-    Equiped[where] = *what;
-    cout << "Equipped " << Equiped[where].get_name() << endl;
+    Equiped[where] = what;
+    cout << "Equipped " << Equiped[where]->get_name() << endl;
   }
   else {
     printf("non-standart body\n");
-    Equiped[where] = *what;
-    cout << "Equipped " << Equiped[where].get_name() << endl;
+    Equiped[where] = what;
+    cout << "Equipped " << Equiped[where]->get_name() << endl;
   }
 }
 
@@ -883,14 +893,30 @@ void Character::Equiping_Item() {
     } else {
       printf("Control reached Equiping_Item 4 \n");
       what = items_map.find(names[what_ - 1])->second;
-      items_map.find(names[what_ - 1])->second->equip(1);
       cout << "Possible places to equip are:\n";
-      cout << "Hands: Left(1), Right(2), extra(4-5)\n";
-      cout << "Body: upper/upper+lower(4)\n";
+      cout << "Hands: Left(1), Right(2), extra*(4-5)\n";
+      cout << "Body: upper/upper+lower(3)\n";
       cout << "Fingers: (6-10)\n";
+      cout << "*only for abnormal bodies\n";
       int where = 0;
-      //cin >> where;
       where = IsNumber(where, 1, 10);
+      while(where == 3){
+        if(what->What_class() != "Armor" || what->get_name() == "Shield"){
+          where = -2;
+          printf("You can't equip that on your body. Choose where else\n");
+          where = IsNumber(where, 1, 10);
+        }
+        else break;
+      }
+      while(where > 5 && where < 11){
+        if(what->What_class() != "Ring"){
+          where = -2;
+          printf("You can't equip that on your finger Choose where else\n");
+          where = IsNumber(where, 1, 10);
+        }
+        else break;
+      }
+      items_map.find(names[what_ - 1])->second->equip(1);
       printf("Control reached Equipping_Item 5 \n");
       Equip_Item(where - 1, what);
       printf("Do u want to add something to your equipment? Yes(1), No(2)\n");
@@ -1003,6 +1029,8 @@ void Character::Inventory_Load(vector<int> item_){
   inventory.resize(item_.size());
   for(int i = 0; i < item_.size(); i++){
     inventory.push_back(Factory_Complex(E.All_s[item_[i]],i+1));
+    cout << " loaded " << inventory[i]->get_name() << endl;
+    Add_To_Item_Map(E.All_s[item_[i]]);
   }
 }
 
@@ -1015,11 +1043,11 @@ void Character::Starting_Health() {
   }
 }
 
-bool Character::Load(int a[], bool b[], vector<int> item_){
+bool Character::Load (int a[], bool b[], vector<int> item_) {
   Existing_Types E;
   s = new int[18];
   s_b = new bool[18];
-  Equiped = new Item[10];
+  Equiped.resize(10);
   printf("Control reach Character method Load 0\n");
   for(int i = 1; i < 70;i++){
     if (i == 1) { printf("Control reach Character method Load 1\n"); storyline_i = a[i]; cout << storyline_i << " is story of " << E.stories[storyline_i] << endl; }

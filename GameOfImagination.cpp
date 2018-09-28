@@ -106,9 +106,9 @@ bool Game::Party_Save() {
       else params[i].push_back(characters[i]->Get(p));
     }
     party["Character"][i] = params[i];
-    party["Character"][i] += bool_params[i];
+    party["Character"][i] += bool_params[i];// test
     party["Character"][i]["InventorySize"] = characters[i]->Get(71);
-    party["Character"][i]["Inventory"] = characters[i]->Get_inventory();
+    party["Character"][i]["Inventory"] = characters[i]->Get_inventory();// test
   }
   std::ofstream outp;
   outp.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/MyJson.json", std::ofstream::out);
@@ -144,7 +144,6 @@ bool Game::Party_Load() {
     for(int i = 0;i < inventory_Size; i++){
       inventory_[i] = party["Character"][n]["Inventory"][i];
     }
-
     characters[n] = new Character();
     printf("Control reach method Party Load 4\n");
     characters[n]->Load(p,bool_p,inventory_);

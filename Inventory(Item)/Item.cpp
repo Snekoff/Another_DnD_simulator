@@ -8,6 +8,7 @@ Item::Item() : name("Rope") { // : name(name) first initialise with reference
   stackable = false;
   cost = 0;
   weight = 0;
+  what_class_is_it = "Item";
 }
 Item::~Item() = default;
 
@@ -27,6 +28,9 @@ void Item::equip(int a) {
   if (num_equiped == count) equiped = true; else equiped = false;
 }
 bool Item::is_equiped() { return equiped; }
+std::string Item::What_class(){
+  return what_class_is_it;
+}
 
 Weapon::Weapon() = default;
 Weapon::Weapon(std::string &name_) {
@@ -56,6 +60,7 @@ void Weapon::set(std::string &name_, int count_) {
   //
   name = name_;
   count = count_;
+  what_class_is_it = "Weapon";
 }
 int Weapon::show() {
   std::cout << name << std::endl;
@@ -70,6 +75,7 @@ int Weapon::get(int a) {
   else if(a == 3){ return num_of_dices; }
   else if(a == 4){ return damage_dice; }
   else if(a == 5){ return type_of_elemental_damage;}
+  return -1;
 }
 
 Ranged_Weapon::Ranged_Weapon() = default;
@@ -109,6 +115,7 @@ void Ranged_Weapon::set(std::string &name_, int count_) {
   }
   name = name_;
   count = count_;
+  what_class_is_it = "Ranged_Weapon";
 }
 int Ranged_Weapon::show() {
   std::cout << name << std::endl;
@@ -125,7 +132,7 @@ int Ranged_Weapon::get(int a) {
   else if(a == 5){ return type_of_elemental_damage;}
   else if(a == 6){ return aiming_range; }
   else if(a == 7){ return max_range;}
-  return weight;
+  return -1;
 }
 
 /*class Food : public Item {
@@ -181,6 +188,7 @@ void Armor::set(std::string &name_, int count_) {
   }
   name = name_;
   count = count_;
+  what_class_is_it = "Armor";
 }
 int Armor::show() {
   std::cout << name << std::endl;
@@ -227,6 +235,7 @@ void Usables::set(std::string &name_, int count_) {
   }
   count = count_;
   stackable = false;
+  what_class_is_it = "Usables";
 }
 int Usables::show() {
   printf("%s", "Usable: ");
@@ -238,6 +247,7 @@ int Usables::get(int a) {
   else if(a == 1){ return weight; }
   else if(a == 2){ return count; }
   else if(a == 3){ return is_obstacle ? 1 : -1; }
+  return -1;
 }
 
 Ammo::Ammo() {
@@ -269,6 +279,7 @@ void Ammo::set(std::string &name_, int count_) {
   name = name_;
   count = count_;
   stackable = true;
+  what_class_is_it = "Ammo";
 }
 int Ammo::show() {
   printf("%s", "Usable:");
@@ -281,6 +292,7 @@ int Ammo::get(int a) {
   else if(a == 2){ return count; }
   else if(a == 3){ return ammo_damage; }
   else if(a == 4){ return element; }
+  return -1;
 }
 
 Magic_Items::Magic_Items() = default;
@@ -310,6 +322,7 @@ void Magic_Items::set(std::string &name_, int count_) {
   }
   count = count_;
   stackable = false;
+  what_class_is_it = "Magic_Items";
 }
 int Magic_Items::show() {
   printf("%s", "Usable:");
@@ -326,6 +339,7 @@ int Magic_Items::get(int a) {
   else if(a == 6){ return arcane_focus ? 1 : -1; }
   else if(a == 7){ return druidic_focus ? 1 : -1; }
   else if(a == 8){ return holy_symbol ? 1 : -1; }
+  return -1;
 }
 
 

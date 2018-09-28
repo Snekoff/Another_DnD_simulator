@@ -162,6 +162,7 @@ class Item {
   bool stackable;
   int cost;
   int weight;
+  std::string what_class_is_it;
  public:
   Item();
   ~Item();
@@ -174,6 +175,7 @@ class Item {
   virtual int get(int a);
   virtual void equip(int a);
   virtual bool is_equiped();
+  virtual std::string What_class();
 };
 
 class Weapon : public Item {
