@@ -345,27 +345,39 @@ void Character::StorySetsSkills(int s[], bool s_b[], int storyline_i) {
   }
 } // to be reconsidered?
 
+int Character::Check_Ability_Reach_Maximum(int ability){
+  int a[6] = {Str,Dex,Con,Int,Wis,Cha};
+  while(a[ability-1] == 20){
+    cout << "That ability is at maximum, choose another one\n";
+    ability = IsNumber(ability,1,6);
+  }
+  return ability;
+}
+
 void Character::Ability_improve() {
   if (level == 4 || level == 8 || level == 12 || level == 16 || level == 19) {
     printf("%s %d %s \n",
            "You reached",
            level,
-           " level, that means that you have to choose whether improve one ability +2(type 1) or two abilities +1(type 2)");
-    int one_or_two_abilities = -1;//abilityLevel_Up
-    //cin >> one_or_two_abilities;
+           " level, that means that you have to choose whether improve one ability +2(type 1) "
+           "or two abilities +1(type 2).\n ~In future here might also be feats");
+    int one_or_two_abilities = -1;
     one_or_two_abilities = IsNumber(one_or_two_abilities, 1, 2);
     if (one_or_two_abilities == 1) {
-      printf("%s \n", "What ability do you want to improve +2 ? 1.Str, 2.Dex, 3.Con, 4.Int, 5.Wis, 6.Cha");
-      //cin >> one_or_two_abilities;
+      cout << "What ability do you want to improve +2 ? 1.Str(" << Str << "), 2.Dex(" << Dex << "), 3.Con("
+           << Con << "), 4.Int(" << Int << "), 5.Wis(" << Wis << "), 6.Cha(" << Cha << ")" << endl;
       one_or_two_abilities = IsNumber(one_or_two_abilities, 1, 6);
+      one_or_two_abilities = Check_Ability_Reach_Maximum(one_or_two_abilities);
       Set(one_or_two_abilities + 2, 2);
     } else {
-      printf("%s \n",
-             "What abilities do you want to improve +1 ? 1.Str, 2.Dex, 3.Con, 4.Int, 5.Wis, 6.Cha *Type 2 spaced numbers*");
+      cout << "What abilities do you want to improve +1 ?  1.Str(" << Str << "), 2.Dex(" << Dex << "), 3.Con("
+           << Con << "), 4.Int(" << Int << "), 5.Wis(" << Wis << "), 6.Cha(" << Cha << ") *Type 2 spaced numbers"
+           "**Maximum value is 20\n";
       int one_or_two_abilities1 = 0;
-      //cin >> one_or_two_abilities >> one_or_two_abilities1;
       one_or_two_abilities = IsNumber(one_or_two_abilities, 1, 6);
+      one_or_two_abilities = Check_Ability_Reach_Maximum(one_or_two_abilities);
       one_or_two_abilities1 = IsNumber(one_or_two_abilities1, 1, 6);
+      one_or_two_abilities1 = Check_Ability_Reach_Maximum(one_or_two_abilities1);
       Set(one_or_two_abilities + 2, 1);
       Set(one_or_two_abilities1 + 2, 1);
     }
@@ -700,7 +712,7 @@ void Character::Add_Money(int type, int sum) {
   cout <<"Before operation: money[" << type << "] = " << money[type] << endl;
   money[type] += sum;
   cout <<"After operation: money[" << type << "] = " << money[type] << endl;
-  money[4] += (int)(money[type] * pow(10, type)); // im sure integer will be in "()"
+  money[4] += (int)(sum * pow(10, type));
   cout <<"money[4] = " << money[4] << endl;
 }
 
@@ -786,11 +798,11 @@ int Character::Add_To_Inventory() {
       for (int i = limit[item_ - 1]; i < limit[item_]; i++) {
         cout << i + 1 << ". " << E_I.All_s[i] << " price: ";
         if(item_ == 1){ cout << E_I.Weapon_i[i][0];}
-        else if(item_ == 2){ cout << E_I.Ranged_Weapon_i[i][0];}
-        else if(item_ == 3){ cout << E_I.Ammo_i[i][0];}
-        else if(item_ == 4){ cout << E_I.Armor_i[i][0];}
-        else if(item_ == 5){ cout << E_I.Usable_i[i][0];}
-        else if(item_ == 6){ cout << E_I.Magic_Items_i[i][0];}
+        else if(item_ == 2){ cout << E_I.Ranged_Weapon_i[i - limit[item_ - 1]][0];}
+        else if(item_ == 3){ cout << E_I.Ammo_i[i - limit[item_ - 1]][0];}
+        else if(item_ == 4){ cout << E_I.Armor_i[i - limit[item_ - 1]][0];}
+        else if(item_ == 5){ cout << E_I.Usable_i[i - limit[item_ - 1]][0];}
+        else if(item_ == 6){ cout << E_I.Magic_Items_i[i - limit[item_ - 1]][0];}
         cout << endl;
       }
       item_ = IsNumber(item_, limit[item_ - 1], limit[item_]);
@@ -838,7 +850,7 @@ void Character::Equip_Item(int where, Item *what) {
     cout << "Control reach Equip_Item 1\n";
     Equiped[where] = what;
     int armor_class_bonus[3] = {DexModifier, min(DexModifier, 2), 0};
-    armor_class = Equiped[where]->get(11) + armor_class_bonus[Equiped[where]->get(0)];
+    armor_class = Equiped[where]->get(12) + armor_class_bonus[Equiped[where]->get(11)];
     cout << "armor class after: " << armor_class << endl;
     cout << "Equipped " << Equiped[where]->get_name() << endl;
   } else if (where < 10){
@@ -1024,9 +1036,9 @@ int Character::GetSkill(int a) {
 
 void Character::Inventory_Load(vector<int> item_){
   Existing_Items E;
-  inventory.resize(item_.size());
-  for(int i = 0; i < item_.size(); i++){
-    inventory.push_back(Factory_Complex(E.All_s[item_[i]],i+1));
+  inventory.resize(item_.size()/2);
+  for(int i = 0; i < item_.size()/2; i+=2){
+    inventory.push_back(Factory_Complex(E.All_s[item_[i]],item_[i+1]));
     cout << " loaded " << inventory[i]->get_name() << endl;
     Add_To_Item_Map(E.All_s[item_[i]]);
   }
@@ -1047,7 +1059,7 @@ bool Character::Load (int a[], bool b[], vector<int> item_) {
   s_b = new bool[18];
   Equiped.resize(10);
   printf("Control reach Character method Load 0\n");
-  for(int i = 1; i < 70;i++){
+  for(int i = 1; i < 72;i++){
     if (i == 1) { printf("Control reach Character method Load 1\n"); storyline_i = a[i]; cout << storyline_i << " is story of " << E.stories[storyline_i] << endl; }
     else if (i == 2) {  sex = a[i]; }
     else if (i == 3) {  printf("Control reach Character method Load 3\n");experience = a[i]; }
@@ -1078,11 +1090,12 @@ bool Character::Load (int a[], bool b[], vector<int> item_) {
       Race_Factory Race_Factory_;
       race_of_character = Race_Factory_.Create(a[i],a[i+8]);//~type
       race_of_character->Load(a);
-    } else if (i == 36) { printf("Control reach Character method Load (bool)\n");advantage = b[i - 36]; }
-    else if (i == 37) { disadvantage = b[i - 36]; }
-    else if (i == 38) { perception_advantage = b[i - 36]; }
-    else if (i == 39) { perception_disadvantage = b[i - 36]; }
-    else if (i > 39 && i < 58) { s_b[i - 40] = b[i - 36]; }
+    } else if (i == 36) { exhaustion = a[i]; }
+    else if (i == 37) { printf("Control reach Character method Load (bool)\n");advantage = b[i - 37]; }
+    else if (i == 38) { disadvantage = b[i - 37]; }
+    else if (i == 39) { perception_advantage = b[i - 37]; }
+    else if (i == 40) { perception_disadvantage = b[i - 37]; }
+    else if (i > 40 && i < 59) { s_b[i - 41] = b[i - 37]; }
   }
   proficiency = ProficiencySetter();
   printf("Control reach Character method Load 91\n");

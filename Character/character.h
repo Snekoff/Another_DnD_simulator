@@ -77,6 +77,8 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   void StorySetsSkills(int s[],bool s_b[], int storyline_i);
 
+  int Check_Ability_Reach_Maximum(int ability);
+
   void Ability_improve();
 
   void Race_Choosal(Random_Generator_ * Rand_gen);

@@ -100,18 +100,20 @@ bool Game::Party_Save() {
   bool_params.resize(characters.size());
   printf("Control reach Party Save 2\n");
   for (int i = 0; i < characters.size(); i++) {
-    for (int p = 0; p < data_size; p++) {
+    for (int p = 1; p < data_size; p++) {
       if (p > 35 && p < 71) bool_params[i].push_back(characters[i]->Get_bool(p));
       else params[i].push_back(characters[i]->Get(p));
     }
     printf("Control reach Party Save 3\n");
     party["Character"][i] = params[i];
     printf("Control reach Party Save 4\n");
-    party["Character"][i] += bool_params[i];// test
+    party["Character_bool"][i] = bool_params[i];
     printf("Control reach Party Save 5\n");
-    party["InventorySize"][i] = characters[i]->Get(71);
+    party["InventorySize"][i] = characters[i]->Get(99);
     printf("Control reach Party Save 6\n");
-    party["Inventory"][i] = characters[i]->Get_inventory();// test
+    vector<int> inventory;
+    inventory = characters[i]->Get_inventory();
+    party["Inventory"][i] = inventory;// test
     printf("Control reach Party Save 7\n");
   }
   printf("Control reach Party Save 8\n");
@@ -140,11 +142,13 @@ bool Game::Party_Load() {
   characters.resize((unsigned)Size);//
   for (int n = 0; n < Size; n++) {
     unsigned inventory_Size = party["InventorySize"][n];
-    for (int i = 0; i < data_size; i++) {
+    for (int i = 1; i < data_size; i++) {
       if(i == 24) continue;
-      if(i < 36) p[i] = party["Character"][n][i];
-      else bool_p[i-36] = party["Character"][n][i];
+      cout << "i = " << i << endl;
+      if(i < 37) p[i] = party["Character"][n][i-1];
+      else bool_p[i-37] = party["Character_bool"][n][i-37];//
     }
+    printf("Control reach method Party Load 2\n");
     inventory_.resize(inventory_Size);
     for(int i = 0;i < inventory_Size; i++){
       inventory_[i] = party["Inventory"][n][i];
