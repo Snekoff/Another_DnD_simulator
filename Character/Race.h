@@ -1,7 +1,7 @@
 #pragma  once
 #include <iostream>
 #include <string>
-#include "Skills_and_Spells.h"
+#include "../Skills_Spells_and_Feats_/Skills_and_Spells.h"
 #include "UsefulFunctions.h"
 
 #ifndef ANOTHER_DND_SIMULATOR_RACE_H
