@@ -112,9 +112,9 @@ bool Game::Party_Save() {
     printf("Control reach Party Save 4\n");
     party["Character"][i] += bool_params[i];// test
     printf("Control reach Party Save 5\n");
-    //party["Character"][i]["InventorySize"] = characters[i]->Get(71);
+    party["InventorySize"][i] = characters[i]->Get(71);
     printf("Control reach Party Save 6\n");
-    //party["Character"][i]["Inventory"] = characters[i]->Get_inventory();// test
+    party["Inventory"][i] = characters[i]->Get_inventory();// test
     printf("Control reach Party Save 7\n");
   }
   printf("Control reach Party Save 8\n");
@@ -142,7 +142,7 @@ bool Game::Party_Load() {
   printf("Control reach method Party Load 1\n");
   characters.resize((unsigned)Size);//
   for (int n = 0; n < Size; n++) {
-    unsigned inventory_Size = party["Character"][n]["InventorySize"];
+    unsigned inventory_Size = party["InventorySize"][n];
     for (int i = 0; i < data_size; i++) {
       if(i == 24) continue;
       if(i < 36) p[i] = party["Character"][n][i];
@@ -150,7 +150,7 @@ bool Game::Party_Load() {
     }
     inventory_.resize(inventory_Size);
     for(int i = 0;i < inventory_Size; i++){
-      inventory_[i] = party["Character"][n]["Inventory"][i];
+      inventory_[i] = party["Inventory"][n][i];
     }
     characters[n] = new Character();
     printf("Control reach method Party Load 4\n");

@@ -1,7 +1,7 @@
 
 #include "Item.h"
 
-Item::Item() : name("Rope") { // : name(name) first initialise with reference
+Item::Item() : name(" ") { // : name(name) first initialise with reference
   equiped = false;
   count = 0;
   num_equiped = 0;
@@ -9,6 +9,24 @@ Item::Item() : name("Rope") { // : name(name) first initialise with reference
   cost = 0;
   weight = 0;
   what_class_is_it = "Item";
+  num_of_dices = 0;
+  damage_dice = 0;
+  type_of_elemental_damage = 0;
+  aiming_range = 0;
+  max_range = 0;
+  type_of_armor = 0;
+  armor_class = 0;
+  strength_needed = 0;
+  stealth_disadvantage = false;
+  is_obstacle = false;
+  ammo_damage = 0;
+  element = 0;
+  healing_dice = 0;
+  num_of_healing_dices = 0;
+  passive_healing = 0;
+  arcane_focus = false;
+  druidic_focus = false;
+  holy_symbol = false;
 }
 Item::~Item() = default;
 
@@ -16,11 +34,37 @@ std::string Item::get_name() {
   return name;
 };
 int Item::show() { return count; };
-int Item::get_count() { return count; };
 void Item::set_count(int a) { count += a; };
-int Item::get_cost() { return cost; }
-int Item::get(int a) {
-  if (a == 1) return weight;
+int Item::get(int a) {//armor class
+  if(a == 0){ return cost;}
+  else if(a == 1){ return weight; }
+  else if(a == 2){ return count; }
+  else if(a == 3){ return num_of_dices; }
+  else if(a == 4){ return damage_dice; }
+  else if(a == 5){ return type_of_elemental_damage;}
+
+  else if(a == 6){ return num_of_dices; }
+  else if(a == 7){ return damage_dice; }
+  else if(a == 8){ return type_of_elemental_damage;}
+  else if(a == 9){ return aiming_range; }
+  else if(a == 10){ return max_range;}
+
+  else if(a == 11){ return type_of_armor; }
+  else if(a == 12){ return armor_class; }
+  else if (a == 13){ return strength_needed;}
+  else if (a == 14) { return stealth_disadvantage ? -1 : 1; }
+
+  else if(a == 15){ return is_obstacle ? 1 : -1; }
+
+  else if(a == 16){ return ammo_damage; }
+  else if(a == 17){ return element; }
+
+  else if(a == 18){ return healing_dice; }
+  else if(a == 19){ return num_of_healing_dices; }
+  else if (a == 20){ return passive_healing;}
+  else if(a == 21){ return arcane_focus ? 1 : -1; }
+  else if(a == 22){ return druidic_focus ? 1 : -1; }
+  else if(a == 23){ return holy_symbol ? 1 : -1; }
   return -1;
 }
 void Item::equip(int a) {
@@ -37,7 +81,25 @@ Weapon::Weapon(std::string &name_) {
   set(name_, 1);
 }
 Weapon::Weapon(std::string &name_, int count_) {
- set(name_,count_);
+  num_of_dices = 0;
+  damage_dice = 0;
+  type_of_elemental_damage = 0;
+  aiming_range = 0;
+  max_range = 0;
+  type_of_armor = 0;
+  armor_class = 0;
+  strength_needed = 0;
+  stealth_disadvantage = false;
+  is_obstacle = false;
+  ammo_damage = 0;
+  element = 0;
+  healing_dice = 0;
+  num_of_healing_dices = 0;
+  passive_healing = 0;
+  arcane_focus = false;
+  druidic_focus = false;
+  holy_symbol = false;
+  set(name_,count_);
 }
 /*Weapon::Weapon(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_) {
   set(name_, count_, num_of_dices_, damage_dice_, type_of_elemental_damage_);
@@ -63,9 +125,10 @@ void Weapon::set(std::string &name_, int count_) {
   what_class_is_it = "Weapon";
 }
 int Weapon::show() {
+  Existing_Items E_I;
   std::cout << name << std::endl;
   std::cout << "Damage " << num_of_dices << "d" << damage_dice <<
-            " element: " << elements[type_of_elemental_damage] << std::endl;
+            " element: " << E_I.elements[type_of_elemental_damage] << std::endl;
   return damage_dice;
 }
 int Weapon::get(int a) {
@@ -83,6 +146,24 @@ Ranged_Weapon::Ranged_Weapon(std::string &name_) {
   set(name_, 1);
 }
 Ranged_Weapon::Ranged_Weapon(std::string &name_, int count_) {
+  num_of_dices = 0;
+  damage_dice = 0;
+  type_of_elemental_damage = 0;
+  aiming_range = 0;
+  max_range = 0;
+  type_of_armor = 0;
+  armor_class = 0;
+  strength_needed = 0;
+  stealth_disadvantage = false;
+  is_obstacle = false;
+  ammo_damage = 0;
+  element = 0;
+  healing_dice = 0;
+  num_of_healing_dices = 0;
+  passive_healing = 0;
+  arcane_focus = false;
+  druidic_focus = false;
+  holy_symbol = false;
   set(name_, count_);
 }
 /*Ranged_Weapon::Ranged_Weapon(std::string &name_,
@@ -118,9 +199,10 @@ void Ranged_Weapon::set(std::string &name_, int count_) {
   what_class_is_it = "Ranged_Weapon";
 }
 int Ranged_Weapon::show() {
+  Existing_Items E_I;
   std::cout << name << std::endl;
   std::cout << "Damage " << num_of_dices << "d" << damage_dice <<
-            " element:" << elements[type_of_elemental_damage] << std::endl;
+            " element:" << E_I.elements[type_of_elemental_damage] << std::endl;
   return damage_dice;
 }
 int Ranged_Weapon::get(int a) {
@@ -158,6 +240,24 @@ Armor::Armor(std::string &name_) {
   set(name_, 1);
 }
 Armor::Armor(std::string &name_, int count_) {
+  num_of_dices = 0;
+  damage_dice = 0;
+  type_of_elemental_damage = 0;
+  aiming_range = 0;
+  max_range = 0;
+  type_of_armor = 0;
+  armor_class = 0;
+  strength_needed = 0;
+  stealth_disadvantage = false;
+  is_obstacle = false;
+  ammo_damage = 0;
+  element = 0;
+  healing_dice = 0;
+  num_of_healing_dices = 0;
+  passive_healing = 0;
+  arcane_focus = false;
+  druidic_focus = false;
+  holy_symbol = false;
   set(name_, count_);
 }
 /*Armor::Armor(std::string &name_,
@@ -177,7 +277,7 @@ void Armor::set(std::string &name_, int count_) {
   for (int i = 0; i < kWeapon_NUM; i++) {
     if (E.Armor_s[i] == name_) {
       cost = E.Armor_i[i][0];
-      type = E.Armor_i[i][1];
+      type_of_armor = E.Armor_i[i][1];
       armor_class = E.Armor_i[i][2];
       strength_needed = E.Armor_i[i][3];
       stealth_disadvantage = E.Armor_b[i];
@@ -199,7 +299,7 @@ int Armor::get(int a) {
   if(a == 0){ return cost;}
   else if(a == 1){ return weight; }
   else if(a == 2){ return count; }
-  else if(a == 3){ return type; }
+  else if(a == 3){ return type_of_armor; }
   else if(a == 4){ return armor_class; }
   else if (a == 5){ return strength_needed;}
   else if (a == 6) { return stealth_disadvantage ? -1 : 1; }
@@ -211,8 +311,24 @@ Usables::Usables() {
   is_obstacle = false;
 };
 Usables::Usables(std::string &name_, int count_) {
-  stackable = false;
+  num_of_dices = 1;
+  damage_dice = 4;
+  type_of_elemental_damage = 0;
+  aiming_range = 0;
+  max_range = 0;
+  type_of_armor = 0;
+  armor_class = 0;
+  strength_needed = 0;
+  stealth_disadvantage = false;
   is_obstacle = false;
+  ammo_damage = 0;
+  element = 0;
+  healing_dice = 0;
+  num_of_healing_dices = 0;
+  passive_healing = 0;
+  arcane_focus = false;
+  druidic_focus = false;
+  holy_symbol = false;
   set(name_, count_);
 }
 Usables::Usables(std::string &name_) {
@@ -255,6 +371,24 @@ Ammo::Ammo() {
   element = 0;
 }
 Ammo::Ammo(std::string &name_, int count_) {
+  num_of_dices = 0;
+  damage_dice = 0;
+  type_of_elemental_damage = 0;
+  aiming_range = 0;
+  max_range = 0;
+  type_of_armor = 0;
+  armor_class = 0;
+  strength_needed = 0;
+  stealth_disadvantage = false;
+  is_obstacle = false;
+  ammo_damage = 0;
+  element = 0;
+  healing_dice = 0;
+  num_of_healing_dices = 0;
+  passive_healing = 0;
+  arcane_focus = false;
+  druidic_focus = false;
+  holy_symbol = false;
   set(name_, count_);
 }
 Ammo::Ammo(std::string &name_) {
@@ -300,6 +434,24 @@ Magic_Items::Magic_Items(std::string &name_) {
   set(name_, 1);
 }
 Magic_Items::Magic_Items(std::string &name_, int count_) {
+  num_of_dices = 0;
+  damage_dice = 0;
+  type_of_elemental_damage = 0;
+  aiming_range = 0;
+  max_range = 0;
+  type_of_armor = 0;
+  armor_class = 0;
+  strength_needed = 0;
+  stealth_disadvantage = false;
+  is_obstacle = false;
+  ammo_damage = 0;
+  element = 0;
+  healing_dice = 0;
+  num_of_healing_dices = 0;
+  passive_healing = 0;
+  arcane_focus = false;
+  druidic_focus = false;
+  holy_symbol = false;
   set(name_, count_);
 }
 Magic_Items::~Magic_Items() = default;
@@ -312,7 +464,7 @@ void Magic_Items::set(std::string &name_, int count_) {
       passive_healing = E.Magic_Items_i[i][0];
       if (passive_healing == 2) {
         healing_dice = 4;
-        num_of_dices = 2;
+        num_of_healing_dices = 2;
       }
       if (E.Magic_Items_b[i][0]) arcane_focus = true;
       if (E.Magic_Items_b[i][1]) druidic_focus = true;
@@ -334,7 +486,7 @@ int Magic_Items::get(int a) {
   else if(a == 1){ return weight; }
   else if(a == 2){ return count; }
   else if(a == 3){ return healing_dice; }
-  else if(a == 4){ return num_of_dices; }
+  else if(a == 4){ return num_of_healing_dices; }
   else if (a == 5){ return passive_healing;}
   else if(a == 6){ return arcane_focus ? 1 : -1; }
   else if(a == 7){ return druidic_focus ? 1 : -1; }

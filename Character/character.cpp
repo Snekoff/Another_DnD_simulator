@@ -611,7 +611,7 @@ vector<int> Character::Get_inventory(){
     for(int i = 0; i < kAll_Num;i++){
       if(inventory[k]->get_name() == E.All_s[i]){
         inventory_.push_back(i);
-        inventory_.push_back(inventory[k]->get_count());
+        inventory_.push_back(inventory[k]->get(2));
         break;
       }
     }
@@ -696,7 +696,7 @@ void Character::Add_To_Item_Map(string &a) {
   if (iter != items_map.end()) {
     if (a != "Backpack") {
       items_map.at(inventory[inventory.size() - 1]->get_name())
-          ->set_count(inventory[inventory.size() - 1]->get_count());
+          ->set_count(inventory[inventory.size() - 1]->get(2));
     }
     inventory.pop_back();
   } else {
@@ -783,7 +783,7 @@ int Character::Add_To_Inventory() {
       quantity = IsNumber(quantity,1,0);
       cout << "Control reach method Add_To_Inventory 3\n";
       auto b = Factory_Complex(a,quantity);
-      if (Paying_Money(b->get_cost() * quantity)) {
+      if (Paying_Money(b->get(0) * quantity)) {
         inventory.push_back(Factory_Complex(a,quantity));
         cout << "Control reach method Add_To_Inventory 4\n";
         Add_To_Item_Map(a);
@@ -792,7 +792,7 @@ int Character::Add_To_Inventory() {
                "You have not enough money for that. Your money(in copper equivalent) are:",
                money[4],
                " and price is ",
-               b->get_cost() * quantity);
+               b->get(0) * quantity);
       }
       delete b;
 
@@ -811,7 +811,7 @@ int Character::Add_To_Inventory() {
 void Character::Equip_Item(int where, Item *what) {
   printf("Control reached Equip_Item 0 \n");
   where = Correctness_of_input(where,0,9);
-  if (Equiped[where] != nullptr) {// need to try it hard  ->get_count() != 0
+  if (Equiped[where] != nullptr) {// need to try it hard  ->get(2) != 0
     Equiped[where]->equip(-1);
   } else { cout << "null check fine\n";}
   if (where < 2 || (where > 3 && where < 6)) {
@@ -823,7 +823,7 @@ void Character::Equip_Item(int where, Item *what) {
     cout << "Control reach Equip_Item 1\n";
     Equiped[where] = what;
     int armor_class_bonus[3] = {DexModifier, min(DexModifier, 2), 0};
-    armor_class = Equiped[where]->get(2) + armor_class_bonus[Equiped[where]->get(0)];
+    armor_class = Equiped[where]->get(11) + armor_class_bonus[Equiped[where]->get(0)];
     cout << "armor class after: " << armor_class << endl;
     cout << "Equipped " << Equiped[where]->get_name() << endl;
   } else if (where < 10){
@@ -898,7 +898,7 @@ void Character::Equiping_Item() {
 
 void Character::Unequip_Item(int where) {
   where = Correctness_of_input(where,0,9);
-  if (Equiped[where]->get_count() != 0) {// need to try it hard
+  if (Equiped[where]->get(2) != 0) {// need to try it hard
     Equiped[where]->equip(-1);
     Equiped[where] = nullptr;
   } else { cout << "null check fine\n";}

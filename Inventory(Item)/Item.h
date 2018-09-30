@@ -16,6 +16,8 @@ const int kMagic_Items_NUM = 13;
 const int kAll_Num = kWeapon_NUM + kRanged_Weapon_NUM + kAmmo_NUM + kArmor_NUM + kUsable_NUM + kMagic_Items_NUM;
 
 struct Existing_Items {
+
+  std::string elements[6] = {"no", "acid", "lightning", "fire", "cold", "poison"};
   std::string Weapon_s[kWeapon_NUM] = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light_hammer",
                                        "Mace", "Quarterstaff", "Sickle", "Spear", "Unarmed_strike", "Battleaxe",
                                        "Flail", "Glaive",
@@ -163,15 +165,31 @@ class Item {
   int cost;
   int weight;
   std::string what_class_is_it;
+  int num_of_dices;
+  int damage_dice;
+  int type_of_elemental_damage;
+  int aiming_range;
+  int max_range;
+  int type_of_armor;
+  int armor_class;
+  int strength_needed;
+  bool stealth_disadvantage;
+  bool is_obstacle;
+  int ammo_damage;
+  int element;
+  int healing_dice;
+  int num_of_healing_dices;
+  int passive_healing;
+  bool arcane_focus;
+  bool druidic_focus;
+  bool holy_symbol;
  public:
   Item();
   ~Item();
 
   virtual std::string get_name();
   virtual int show();
-  virtual int get_count();
   virtual void set_count(int a);
-  virtual int get_cost();
   virtual int get(int a);
   virtual void equip(int a);
   virtual bool is_equiped();
@@ -180,10 +198,7 @@ class Item {
 
 class Weapon : public Item {
  protected:
-  int num_of_dices;
-  int damage_dice;
-  int type_of_elemental_damage;
-  std::string elements[6] = {"no", "acid", "lightning", "fire", "cold", "poison"};
+
  public:
   Weapon();
   Weapon(std::string &name_);
@@ -197,8 +212,7 @@ class Weapon : public Item {
 
 class Ranged_Weapon : public Weapon {
  protected:
-  int aiming_range;
-  int max_range;
+
  public:
   Ranged_Weapon();
   Ranged_Weapon(std::string &name_);
@@ -233,10 +247,7 @@ class Ranged_Weapon : public Weapon {
 
 class Armor : public Item {
  protected:
-  int type;
-  int armor_class;
-  int strength_needed;
-  bool stealth_disadvantage;
+
  public:
   Armor(std::string &name_);
   Armor(std::string &name_, int count_);
@@ -250,7 +261,7 @@ class Armor : public Item {
 
 class Usables : public Item {
  private:
-  bool is_obstacle;
+
  public:
   Usables();
   Usables(std::string &name_, int count_);
@@ -264,8 +275,7 @@ class Usables : public Item {
 
 class Ammo : public Usables {
  protected:
-  int ammo_damage;
-  int element;
+
  public:
   Ammo();
   Ammo(std::string &name_, int count_);
@@ -280,12 +290,7 @@ class Ammo : public Usables {
 
 class Magic_Items : public Item {
  private:
-  int healing_dice;
-  int num_of_dices;
-  int passive_healing;
-  bool arcane_focus;
-  bool druidic_focus;
-  bool holy_symbol;
+
  public:
   Magic_Items();
   Magic_Items(std::string &name_);
