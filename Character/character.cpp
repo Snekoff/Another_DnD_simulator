@@ -3,7 +3,7 @@
 #include <iostream>
 #include "character.h"
 
-using namespace std;
+using namespace std;//
 
 Character::Character() {
   race_of_character = new Race();
