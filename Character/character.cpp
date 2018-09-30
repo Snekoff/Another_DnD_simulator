@@ -3,7 +3,7 @@
 #include <iostream>
 #include "character.h"
 
-using namespace std;//
+using namespace std;
 
 Character::Character() {
   race_of_character = new Race();
@@ -192,7 +192,7 @@ void Character::ConcreteAbilityModifier() {
   WisModifier = AbilityModifier(Wis);
   ChaModifier = AbilityModifier(Cha);
 }
-//new
+
 int Character::ProficiencySetter() {
   if (level < 5) return 2;
   else if (level > 4 && level < 9) return 3;
