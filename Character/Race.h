@@ -42,6 +42,8 @@ class Race {
 
   void RaceAbilityBonus();
 
+  void Size_Set();
+
   bool Load(int a[]);
 
 };

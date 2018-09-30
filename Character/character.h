@@ -70,8 +70,6 @@ sleightOfHand 15,stealth 16,survival 17*/
   //new
   int ProficiencySetter();
 
-  void Size_Set(Random_Generator_ * Rand_gen,int a, int b, int c,int race1,int subrace,int negative);
-
   int PassivePerceptionSetter(int a, bool b, bool c);
 
   void StorySetsSkills(int s[],bool s_b[], int storyline_i);
@@ -103,6 +101,8 @@ sleightOfHand 15,stealth 16,survival 17*/
   void Equip_Item(int where, Item *what);
 
   void Equiping_Item();
+
+  void Unequip_Item(int where);
 
   int Healing_Injuring(int value);
 

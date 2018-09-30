@@ -57,8 +57,9 @@ int Health_Level_Up(Random_Generator_ * Rand_gen,int health_dice, int ConModifie
 Random_Generator_::Random_Generator_() = default;
 Random_Generator_::~Random_Generator_() = default;
 int Random_Generator_::Rand(int lowerlimit, int higherlimit) {
+  std::mt19937 mt(rd());
   std::uniform_int_distribution<int> dist(lowerlimit, higherlimit);
-  return dist(rd);
+  return dist(mt);
 }
 
 int IsNumber(int a, int lowerlimit, int higherlimit){

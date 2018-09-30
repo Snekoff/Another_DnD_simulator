@@ -149,7 +149,7 @@ int Character::Ability_Random_Sets(Random_Generator_ * Rand_gen) {
     s[6] = IsNumber(s[6], 1, 3);
     if (s[6] == 3) return Ability_Random_Sets(Rand_gen);
     cout << "type six numbers what represents to what skill you apply each value "
-            "Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6)\n";
+            "1.Str, 2.Dex, 3.Con, 4.Int, 5.Wis, 6.Cha\n";
     for (int i = 0; i < 6; i++) {
       //cin >> s[i];
       s[i] = IsNumber(s[i],1,6);
@@ -200,33 +200,6 @@ int Character::ProficiencySetter() {
   else if (level > 12 && level < 17) return 5;
   else if (level > 16 && level < 21) return 6;
   return -3;
-}
-
-void Character::Size_Set(Random_Generator_ * Rand_gen,int a, int b, int c, int race1, int subrace, int negative) {
-  // negative for class dragonborn
-
-  printf("%s \n",
-         "insert height(ft), weight(lbs) and age(y) of your character or type zero(s) (0 100 0) to random");
-  printf("%s %d %s %d %s %d %s %d %s %d %s %d \n",
-         "Normal parameters for your race are: height(ft) from ",
-         E.minHeight[race1 - 1],
-         "to ",
-         E.maxHeight[race1 - 1],
-         " weight(lbs)from ",
-         E.minWeight[race1 - 1],
-         "to ",
-         E.maxWeight[race1 - 1],
-         " and age(y) from ",
-         E.minAge[race1 - 1],
-         "to ",
-         E.maxAge[race1 - 1]);
-  //cin >> a >> b >> c;
-  a = IsNumber(a,0,200);
-  b = IsNumber(b,0,200);
-  c = IsNumber(c,0,200);
-  if (a <= 0 || a > E.maxHeight[race1 - 1]) { a = Rand_gen->Rand(E.minHeight[race1 - 1], E.maxHeight[race1 - 1]); }
-  if (b <= 0 || b > E.maxWeight[race1 - 1]) { b = Rand_gen->Rand(E.minWeight[race1 - 1], E.maxWeight[race1 - 1]); }
-  if (c <= 0 || c > E.maxAge[race1 - 1]) { c = Rand_gen->Rand(E.minAge[race1 - 1], E.maxAge[race1 - 1]); }
 }
 
 int Character::PassivePerceptionSetter(int a, bool b, bool c) {
@@ -370,13 +343,13 @@ void Character::Ability_improve() {
     //cin >> one_or_two_abilities;
     one_or_two_abilities = IsNumber(one_or_two_abilities, 1, 2);
     if (one_or_two_abilities == 1) {
-      printf("%s \n", "What ability do you want to improve +2 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6)");
+      printf("%s \n", "What ability do you want to improve +2 ? 1.Str, 2.Dex, 3.Con, 4.Int, 5.Wis, 6.Cha");
       //cin >> one_or_two_abilities;
       one_or_two_abilities = IsNumber(one_or_two_abilities, 1, 6);
       Set(one_or_two_abilities + 2, 2);
     } else {
       printf("%s \n",
-             "What abilities do you want to improve +1 ? Str(1),Dex(2),Con(3),Int(4),Wis(5),Cha(6) *Type 2 spaced numbers*");
+             "What abilities do you want to improve +1 ? 1.Str, 2.Dex, 3.Con, 4.Int, 5.Wis, 6.Cha *Type 2 spaced numbers*");
       int one_or_two_abilities1 = 0;
       //cin >> one_or_two_abilities >> one_or_two_abilities1;
       one_or_two_abilities = IsNumber(one_or_two_abilities, 1, 6);
@@ -446,8 +419,8 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "3. Rock\n"
                     "Type number, and proceed");
     subrace = IsNumber(subrace, 1, 3);
-    Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
   } else if (race == 5) {
+    cout << "Goblin \n";
   } else if (race == 6) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Common\n"
@@ -477,6 +450,7 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "Type number, and proceed");
     subrace = IsNumber(subrace, 1, 10);
   } else if (race == 10) {
+    cout << "Lizardfolk \n";
   } else if (race == 11) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Common\n"
@@ -493,9 +467,7 @@ void Character::Race_Choosal(Random_Generator_ * Rand_gen) {
                     "Type number, and proceed");
     subrace = IsNumber(subrace, 1, 11);
   }
-  Size_Set(Rand_gen, a, b, c, race, subrace, subrace);
   race_of_character = Race_Factory_.Create(race - 1,subrace - 1);
-  race_of_character->Create(subrace - 1, a, b, c);
   Race_Get_Abilities();
   ConcreteAbilityModifier();
 }
@@ -526,7 +498,7 @@ void Character::Race_Get_Abilities() {
 }
 
 void Character::Set(int a, int b) {// a - what parameter will be changed, b - modifier(can be negative)
-  a = IsNumber(a, 0, 14);
+  a = Correctness_of_input(a, 0, 14);
   if (a == 1) { experience += b; }
   else if (a == 2) { health += b; }
   else if (a == 3) { Str += b; }
@@ -712,8 +684,9 @@ Item * Character::Factory_Complex(string &a, int quantity) {
 
 void Character::Add_Money(int type, int sum) {
   type = Correctness_of_input(type, 0, 3);
+  cout <<"Before operation: money[" << type << "] = " << money[type] << endl;
   money[type] += sum;
-  cout <<"money[" << type << "] = " << money[type] << endl;
+  cout <<"After operation: money[" << type << "] = " << money[type] << endl;
   money[4] += (int)(money[type] * pow(10, type)); // im sure integer will be in "()"
   cout <<"money[4] = " << money[4] << endl;
 }
@@ -739,7 +712,7 @@ bool Character::Paying_Money(int how_many_copper) {
     int dif = 1, i = 0;
     while (dif != 0) {
       if (how_many_copper > 0) {
-        dif = static_cast<int>(how_many_copper - money[i] * pow(10, i));
+        dif = (int)(how_many_copper - money[i] * pow(10, i));
         money[i] = 0;
         how_many_copper = dif;
       } else {
@@ -749,7 +722,7 @@ bool Character::Paying_Money(int how_many_copper) {
       if (how_many_copper < 0) {
         dif *= (-1);
         for (int j = i; j > -1; j--) {
-          int t = static_cast<int>(dif / pow(10, j));
+          int t = (int)(dif / pow(10, j));
           cout <<"t = " << t << endl;
           money[j] += t;
           cout <<"money[j] = " << money[j] << endl;
@@ -771,6 +744,7 @@ int Character::Add_To_Inventory() {
   inventory.push_back(Usables_Factory1.create(a));
   int choose_to_proceed = 0;
   Add_To_Item_Map(a);
+  inventory[inventory.size() - 1]->equip(1);
   printf("Your Backpack is a black hole without any limits, but you can carry not as much weight,"
          " so choose wisely what to take with you in future journeys\n");
   printf("Do you want to take anything with you ?  Yes(1)  No(2) *\n");
@@ -806,9 +780,10 @@ int Character::Add_To_Inventory() {
       a = E_P.All_s[item_ - 1];
       int quantity = 1;
       cout << "How many "<< a <<"s do you want ?\n";
-      quantity = IsNumber(quantity,1,-1);
+      quantity = IsNumber(quantity,1,0);
       cout << "Control reach method Add_To_Inventory 3\n";
-      if (Paying_Money(inventory[inventory.size() - 1]->get_cost() * quantity)) {
+      auto b = Factory_Complex(a,quantity);
+      if (Paying_Money(b->get_cost() * quantity)) {
         inventory.push_back(Factory_Complex(a,quantity));
         cout << "Control reach method Add_To_Inventory 4\n";
         Add_To_Item_Map(a);
@@ -817,8 +792,9 @@ int Character::Add_To_Inventory() {
                "You have not enough money for that. Your money(in copper equivalent) are:",
                money[4],
                " and price is ",
-               inventory[inventory.size() - 1]->get_cost() * quantity);
+               b->get_cost() * quantity);
       }
+      delete b;
 
 
       printf("Do you want to add something? Yes(1)  No(2)\n");
@@ -833,20 +809,18 @@ int Character::Add_To_Inventory() {
 }
 
 void Character::Equip_Item(int where, Item *what) {
-  if (where < 2) {
-    if (Equiped[where]->get_count() != 0) {// need to try it hard
-      Equiped[where]->equip(-1);
-    } else { cout << "null check fine\n";}
+  printf("Control reached Equip_Item 0 \n");
+  where = Correctness_of_input(where,0,9);
+  if (Equiped[where] != nullptr) {// need to try it hard  ->get_count() != 0
+    Equiped[where]->equip(-1);
+  } else { cout << "null check fine\n";}
+  if (where < 2 || (where > 3 && where < 6)) {
     Equiped[where] = what;
     cout << "Equipped " << Equiped[where]->get_name() << endl;
     if(what->get_name() == "Shield") armor_class += 2;
   } else if (where == 2) {
     cout << "equip armor, armor class before: " << armor_class << endl;
-    if (classType.get(0) == 0) {
-      armor_class = 10 + DexModifier + ConModifier;
-    } else {
-      armor_class = 0;
-    }
+    cout << "Control reach Equip_Item 1\n";
     Equiped[where] = what;
     int armor_class_bonus[3] = {DexModifier, min(DexModifier, 2), 0};
     armor_class = Equiped[where]->get(2) + armor_class_bonus[Equiped[where]->get(0)];
@@ -870,23 +844,17 @@ void Character::Equiping_Item() {
   cout << "Now lets see what you have got in your backpack\n";
   vector<string> names;
   int k = 0;
-  for (auto it = items_map.begin(); it != items_map.end(); it++) {
-    names.push_back(it->first);
-    cout << k + 1 << '.' << it->first << endl;
+  for (auto it : items_map) { // = items_map.begin(); it != items_map.end(); it++
+    names.push_back(it.first);
+    cout << k + 1 << '.' << it.first << endl;
     k++;
   }
   printf("Control reached Equiping_Item 1 \n");
   if (k > 1) {
     cout << "You can equip something. Choose what.(type number)\n";
     int what_ = 0;
-    //cin >> what_;
     what_ = IsNumber(what_,1,k+1);
     printf("Control reached Equiping_Item 2 \n");
-    if (what_ == 1) {
-      cout << " You already got " << names[what_ - 1] << " on you\n";
-      what_ = 0;
-    }
-    printf("Control reached Equiping_Item 3 \n");
     what_ = Correctness_of_input(what_, 1, k + 1);
     if (items_map.find(names[what_ - 1])->second->is_equiped()) {
       cout << "it is already equipped!\n";
@@ -918,15 +886,29 @@ void Character::Equiping_Item() {
       }
       items_map.find(names[what_ - 1])->second->equip(1);
       printf("Control reached Equipping_Item 5 \n");
-      Equip_Item(where - 1, what);
+      Equip_Item(where - 1, items_map.find(names[what_ - 1])->second);
       printf("Do u want to add something to your equipment? Yes(1), No(2)\n");
-      //cin >> k;
       k = IsNumber(k,1,2);
-      //delete what; bug here?
+      delete what; //bug here?
       if (k == 1) { Equiping_Item(); }
     }
   }
   cout << "You can Equip Nothing.\n";
+}
+
+void Character::Unequip_Item(int where) {
+  where = Correctness_of_input(where,0,9);
+  if (Equiped[where]->get_count() != 0) {// need to try it hard
+    Equiped[where]->equip(-1);
+    Equiped[where] = nullptr;
+  } else { cout << "null check fine\n";}
+  if(where == 2){
+    if (classType.get(0) == 0) {
+      armor_class = 10 + DexModifier + ConModifier;
+    } else {
+      armor_class = 0;
+    }
+  }
 }
 
 int Character::Healing_Injuring(int value) {
@@ -967,12 +949,11 @@ void Character::Class_Set_Wealth(Random_Generator_ * Rand_gen) {
   int wealth[12][3] = {{2, 4, 10}, {5, 4, 10}, {5, 4, 10}, {2, 4, 10}, {5, 4, 10}, {5, 4, 1},
                        {5, 4, 10}, {5, 4, 10}, {4, 4, 10}, {3, 4, 10}, {4, 4, 10}, {4, 4, 10}};
   int ctype = classType.get(0);
-  // num of dices, dice* , modifier
-  // *in gold
   int funds = 0;
   for (int i = 0; i < wealth[ctype][0]; i++) {
     funds += Rand_gen->Rand(1, wealth[ctype][1]) * wealth[ctype][2];
   }
+  cout << "generated gold coins for your class: " << funds << endl;
   Add_Money(2, funds);
 }
 

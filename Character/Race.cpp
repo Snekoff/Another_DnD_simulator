@@ -106,6 +106,30 @@ void Race::RaceAbilityBonus() {
   Wis = E.race_ability_bonus[4][type];
   Cha = E.race_ability_bonus[5][type];
 }
+void Race::Size_Set() {
+  auto Rand_gen = new Random_Generator_();
+  printf("%s \n",
+         "insert height(ft), weight(lbs) and age(y) of your character or type zero(s) (0 100 0) to random");
+  printf("%s %d %s %d %s %d %s %d %s %d %s %d \n",
+         "Normal parameters for your race are: height(ft) from ",
+         E.minHeight[type],
+         "to ",
+         E.maxHeight[type],
+         " weight(lbs)from ",
+         E.minWeight[type],
+         "to ",
+         E.maxWeight[type],
+         " and age(y) from ",
+         E.minAge[type],
+         "to ",
+         E.maxAge[type]);
+  height = IsNumber(height,0,200);
+  weight = IsNumber(weight,0,200);
+  age = IsNumber(age,0,200);
+  if (height <= 0 || height > E.maxHeight[type]) { height = Rand_gen->Rand(E.minHeight[type], E.maxHeight[type]); }
+  if (weight <= 0 || weight > E.maxWeight[type]) { weight = Rand_gen->Rand(E.minWeight[type], E.maxWeight[type]); }
+  if (age <= 0 || age > E.maxAge[type]) { age = Rand_gen->Rand(E.minAge[type], E.maxAge[type]); }
+}
 bool Race::Load(int a[]){
   type = a[26];
   subtype = a[34];
@@ -186,6 +210,7 @@ void Dragonborn::Create(int sub_type, int a, int b, int c) {
   height = a;
   weight = b;
   age = c;
+  Size_Set();
   subRaceFeatures();
 }
 
@@ -229,6 +254,7 @@ void Dwarf::Create(int sub_type, int a, int b, int c) {
   height = a;
   weight = b;
   age = c;
+  Size_Set();
   subRaceFeatures();
 }
 
@@ -288,6 +314,7 @@ void Elf::Create(int sub_type, int a, int b, int c) {
   height = a;
   weight = b;
   age = c;
+  Size_Set();
   subRaceFeatures();
 }
 
@@ -331,6 +358,7 @@ void Gnome::Create(int sub_type, int a, int b, int c) {
   height = a;
   weight = b;
   age = c;
+  Size_Set();
   subRaceFeatures();
 }
 
@@ -364,6 +392,7 @@ void Goblin::Create(int sub_type, int a, int b, int c) {
   height = a;
   weight = b;
   age = c;
+  Size_Set();
   subRaceFeatures();
 }
 
@@ -380,7 +409,6 @@ void Half_Elf::subRaceFeatures() {
   Cha += 2;
   int a = 0, b = 0;
   printf("%s \n", "type two most wanted abilities to improve except Charisma (1 - 5)");
-  //std::cin >> a >> b;
   a = IsNumber(a, 1, 5);
   b = IsNumber(b, 1, 5);
   E.race_ability_bonus[a - 1][15 + subtype] += 1;
@@ -416,6 +444,7 @@ void Half_Elf::Create(int sub_type, int a, int b, int c) {
   height = a;
   weight = b;
   age = c;
+  Size_Set();
   subRaceFeatures();
 }
 
@@ -456,6 +485,7 @@ void Half_Orc::Create(int sub_type, int a, int b, int c) {
   height = a;
   weight = b;
   age = c;
+  Size_Set();
   subRaceFeatures();
 }
 
@@ -497,6 +527,7 @@ void Halfling::Create(int sub_type, int a, int b, int c) {
   height = a;
   weight = b;
   age = c;
+  Size_Set();
   subRaceFeatures();
 }
 
@@ -548,6 +579,7 @@ void Human::Create(int sub_type, int a, int b, int c) {
   height = a;
   weight = b;
   age = c;
+  Size_Set();
   subRaceFeatures();
 }
 
@@ -587,6 +619,7 @@ void Lizardfolk::Create(int sub_type, int a, int b, int c) {
   height = a;
   weight = b;
   age = c;
+  Size_Set();
   subRaceFeatures();
 }
 
@@ -673,5 +706,6 @@ void Tiefling::Create(int sub_type, int a, int b, int c) {
   height = a;
   weight = b;
   age = c;
+  Size_Set();
   subRaceFeatures();
 }

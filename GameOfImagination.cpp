@@ -94,22 +94,30 @@ bool Game::is_Created() {
 }
 
 bool Game::Party_Save() {
+  printf("Control reach Party Save 1\n");
   nlohmann::json party;
   party["Size"] = characters.size();
   vector<vector<int>> params;
   vector<vector<bool>> bool_params;
   params.resize(characters.size());
   bool_params.resize(characters.size());
+  printf("Control reach Party Save 2\n");
   for (int i = 0; i < characters.size(); i++) {
     for (int p = 0; p < data_size; p++) {
       if (p > 35) bool_params[i].push_back(characters[i]->Get_bool(p));
       else params[i].push_back(characters[i]->Get(p));
     }
+    printf("Control reach Party Save 3\n");
     party["Character"][i] = params[i];
+    printf("Control reach Party Save 4\n");
     party["Character"][i] += bool_params[i];// test
-    party["Character"][i]["InventorySize"] = characters[i]->Get(71);
-    party["Character"][i]["Inventory"] = characters[i]->Get_inventory();// test
+    printf("Control reach Party Save 5\n");
+    //party["Character"][i]["InventorySize"] = characters[i]->Get(71);
+    printf("Control reach Party Save 6\n");
+    //party["Character"][i]["Inventory"] = characters[i]->Get_inventory();// test
+    printf("Control reach Party Save 7\n");
   }
+  printf("Control reach Party Save 8\n");
   std::ofstream outp;
   outp.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/MyJson.json", std::ofstream::out);
   if (!outp.is_open()) return false;

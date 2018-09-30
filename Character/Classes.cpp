@@ -92,16 +92,18 @@ void Class::set_skills(bool *s_b[]) {
     skill_2 = IsNumber(skill_2, 0, 17);
     skill_3 = IsNumber(skill_3, 0, 17);
     while (s_b[skill_1]) {
-      printf("you already got proficiency in this skill\n");
+      printf("you already got proficiency in this skill 1\n");
       skill_1 = -1;
       skill_1 = IsNumber(skill_1, 0, 17);
     }
     while (skill_2 == skill_1 || s_b[skill_2]) {
+      printf("you already got proficiency in this skill 2\n");
       skill_2 = -1;
       skill_2 = IsNumber(skill_2, 0, 17);
     }
-    skill_3 = IsNumber(skill_3, 0, 17);
+    //skill_3 = IsNumber(skill_3, 0, 17);
     while (skill_2 == skill_3 || skill_1 == skill_3 || s_b[skill_3]) {
+      printf("you already got proficiency in this skill 3\n");
       skill_3 = -1;
       skill_3 = IsNumber(skill_3, 0, 17);
     }
