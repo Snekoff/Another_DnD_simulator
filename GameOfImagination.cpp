@@ -3,7 +3,7 @@
 #include "Character/character.h"
 #include "GameOfImagination.h"
 
-#define data_size 70
+#define data_size 72
 
 using namespace std;
 
@@ -44,13 +44,11 @@ void Game::Character_create(Random_Generator_ *Rand_gen) {
   cout << "Lets start with a number of current players except master. Type it.\n";
   cout << "( You will be able to add or delete character during your game )\n";
   int number_of_characters = 0;
-  //cin >> number_of_characters;
   number_of_characters = IsNumber(number_of_characters, 0, -1);
   characters.resize((unsigned)number_of_characters);
   for (int i = 0; i < number_of_characters; i++) {
     printf("%s %d %s", "For player", i + 1, "Type: experience, level\n");
     int exp_ = 0, level_ = 0, sex_ = 0;
-    //cin >> exp_ >> level_;
     exp_ = IsNumber(exp_, 0, 355000);
     level_ = IsNumber(level_, 0, 20);
     cout << "If you are building new character, you can use random stats generation.\n";
@@ -58,6 +56,7 @@ void Game::Character_create(Random_Generator_ *Rand_gen) {
             "and you must take one of them. To do so you just need to type 0 now, type any number to set it your way\n";
     int first_choosal = 0;
     first_choosal = IsNumber(first_choosal, 0, 100);
+    int rand_seed_change = 0;
     int abilities[6] = {0};
     if (first_choosal != 0) {
       printf("Type six numbers, for each stats. Str, Dex, Con, Int, Wis, Cha. From 0 to 20\n");
@@ -65,21 +64,19 @@ void Game::Character_create(Random_Generator_ *Rand_gen) {
         abilities[j] = IsNumber(abilities[j], 0, 20);
       }
     }
-    cout << "Choose sex of your character. Female(1), Male(2), Futa(3), Creature(4)\n";
+    cout << "Choose sex of your character. Female(1), Male(2), Futanari(3), Creature(4)\n";
     sex_ = IsNumber(sex_, 1, 4);
     cout << "Choose background. Acolyte(1), Charlatan(2), Criminal(3), Entertainer(4), FolkHero(5), GuildArtisan(6), "
             "Hermit(7), Noble(8), Outlander(9), Sage(10), Sailor(11), Soldier(12), Urchin(13)\n";
     first_choosal = IsNumber(first_choosal, 1, 13);
-    /*auto a = new Character(Rand_gen, first_choosal - 1, exp_, level_, abilities[0], abilities[1],
-                           abilities[2], abilities[3], abilities[4], abilities[5], sex_ - 1);*/
+    rand_seed_change = abilities[2]*sex_ + first_choosal;
     characters[i] = new Character(Rand_gen, first_choosal - 1, exp_, level_, abilities[0], abilities[1],
-                                  abilities[2], abilities[3], abilities[4], abilities[5], sex_ - 1);
-
+                                  abilities[2], abilities[3], abilities[4], abilities[5], sex_ - 1, rand_seed_change);
     printf("Now showing params: \n");
     for (int j = 1; j < 90; j++) {
       if(j == 24) continue;
       cout << j << " " << E.params[j - 1] << " : " ;
-      if(j > 35) cout << characters[i]->Get_bool(j) << endl;
+      if(j > 35 && j < 71) cout << characters[i]->Get_bool(j) << endl;
       else cout << characters[i]->Get(j) << endl;
     }
   }
@@ -104,7 +101,7 @@ bool Game::Party_Save() {
   printf("Control reach Party Save 2\n");
   for (int i = 0; i < characters.size(); i++) {
     for (int p = 0; p < data_size; p++) {
-      if (p > 35) bool_params[i].push_back(characters[i]->Get_bool(p));
+      if (p > 35 && p < 71) bool_params[i].push_back(characters[i]->Get_bool(p));
       else params[i].push_back(characters[i]->Get(p));
     }
     printf("Control reach Party Save 3\n");
@@ -158,5 +155,6 @@ bool Game::Party_Load() {
     printf("Control reach method Party Load 5\n");
   }
   delete[] p;
+  delete[] bool_p;
   return true;
 }

@@ -109,7 +109,7 @@ void Weapon::set(std::string &name_, int count_) {
   Existing_Items E;
   equiped = false;
   for (int i = 0; i < kWeapon_NUM; i++) {
-    if (E.Weapon_s[i].compare(name_)) {
+    if (E.Weapon_s[i]== name_) {
       cost = E.Weapon_i[i][0];
       num_of_dices = E.Weapon_i[i][1];
       damage_dice = E.Weapon_i[i][2];
@@ -182,7 +182,7 @@ void Ranged_Weapon::set(std::string &name_, int count_) {
   //int count_ = 1, num_of_dices_ = 0, damage_dice_ = 0, type_of_elemental_damage_ = 0;
   //int aiming_range_ = 0, max_range_ = 0;
   for (int i = 0; i < kWeapon_NUM; i++) {
-    if (E.Ranged_Weapon_s[i].compare(name_) == 0) {
+    if (E.Ranged_Weapon_s[i]== name_) {
       cost = E.Ranged_Weapon_i[i][0];
       num_of_dices = E.Ranged_Weapon_i[i][1];
       damage_dice = E.Ranged_Weapon_i[i][2];

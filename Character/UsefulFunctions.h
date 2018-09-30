@@ -47,14 +47,12 @@ struct Existing_Types {
                             " armor_and_weapon_proficiencies[2]", " armor_and_weapon_proficiencies[3]",
                             " armor_and_weapon_proficiencies[4]", " armor_and_weapon_proficiencies[5]",
                             " armor_and_weapon_proficiencies[6]",
-                             " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+                             " exhaustion", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
                             " ", " ", " ", " ", " ", ""
  };
 }; //
 
 int Correctness_of_input(int a, int lowerlimit, int higherlimit);
-
-int Random_Generator(std::mt19937 mt,int lowerlimit, int higherlimit);
 
 class Random_Generator_ {
  private:

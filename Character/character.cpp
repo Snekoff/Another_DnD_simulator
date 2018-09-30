@@ -35,20 +35,28 @@ Character::Character() {
   disadvantage = false;
   perception_advantage = false;
   perception_disadvantage = false;
+  s = new int[18];
+  s_b = new bool[18];
+  money[0] = 0;//copper
+  money[1] = 0;
+  money[2] = 0;
+  money[3] = 0;//Pt
+  money[4] = 0;
+  Equiped.resize(10);
+  state = 0;
+  exhaustion = 0;
 }
 
 Character::Character(Random_Generator_ * Rand_gen,int storyline_, int exp, int levl, int Stre, int Dext,
-                     int Cons, int Inte, int Wisd, int Charisma, int sex_) {
+                     int Cons, int Inte, int Wisd, int Charisma, int sex_, int rand_seed_change) {
   printf("Control reach 1\n");
   exp = Less_than_zero(exp);
-  //levl = Less_than_zero(levl);
   Stre = Less_than_zero(Stre);
   Dext = Less_than_zero(Dext);
   Cons = Less_than_zero(Cons);
   Inte = Less_than_zero(Inte);
   Wisd = Less_than_zero(Wisd);
   Charisma = Less_than_zero(Charisma);
-  //ArmorClass = Less_than_zero(ArmorClass);
   health = 0;
   maxhealth = 0;
   health_dice = 0;
@@ -64,7 +72,7 @@ Character::Character(Random_Generator_ * Rand_gen,int storyline_, int exp, int l
   Wis = Wisd;
   Cha = Charisma;
   Maximum_Parameter_Value();
-  int t1 = Ability_Random_Sets(Rand_gen);
+  int t1 = Ability_Random_Sets(Rand_gen,rand_seed_change);
   printf("Control reach 2\n");
   armor_class = 0;
   deathsaves_s = 0;
@@ -109,6 +117,7 @@ Character::Character(Random_Generator_ * Rand_gen,int storyline_, int exp, int l
   Add_To_Inventory();
   printf("Control reach 14\n");
   state = 0;
+  exhaustion = 0;
   Equiping_Item();
 }
 
@@ -131,8 +140,11 @@ void Character::Maximum_Parameter_Value(){
   if(Cha > 20) Cha = 20;
 }
 
-int Character::Ability_Random_Sets(Random_Generator_ * Rand_gen) {
+int Character::Ability_Random_Sets(Random_Generator_ * Rand_gen, int rand_seed_change) {
   if (Str == 0 && Dex == 0 && Con == 0 && Int == 0 && Wis == 0 && Cha == 0) {
+    for(int i = 0;i < rand_seed_change;i++){
+      int g = Rand_gen->Rand(10,16);
+    }// to randomize starting numbers
     int Sets[12] = {0};
     for (int k = 0; k < 12; k++) {
       if (k == 0) cout << "Set 1:\n";
@@ -147,7 +159,7 @@ int Character::Ability_Random_Sets(Random_Generator_ * Rand_gen) {
     int s[7];
     bool checked[6] = {false};
     s[6] = IsNumber(s[6], 1, 3);
-    if (s[6] == 3) return Ability_Random_Sets(Rand_gen);
+    if (s[6] == 3) return Ability_Random_Sets(Rand_gen,rand_seed_change);
     cout << "type six numbers what represents to what skill you apply each value "
             "1.Str, 2.Dex, 3.Con, 4.Int, 5.Wis, 6.Cha\n";
     for (int i = 0; i < 6; i++) {
@@ -552,7 +564,8 @@ int Character::Get(int a) {
   else if (a == 33) { return race_of_character->get(13); }
   else if (a == 34) { return race_of_character->get(14); }
   else if (a == 35) { return (int)'R'; }
-  else if (a == 71) { return inventory.size(); }
+  else if (a == 71) { return exhaustion; }
+  else if (a == 99) { return inventory.size(); }
   else if (a == 100) { return passive_perception; }
   else if (a == 101) { return proficiency; }
   else if (a == 102) { return StrModifier; }
@@ -763,21 +776,26 @@ int Character::Add_To_Inventory() {
              "5. Usables\n"
              "6. Magic Items\n"
              "(this list will be extended in future versions)\n");
-      //cin >> item_;
       item_ = IsNumber(item_, 1, 6);
       cout << "Control reach method Add_To_Inventory 0\n";
-      cout << money[4] << endl;
-      int limit[7] = {0, kWeapon_NUM, kRanged_Weapon_NUM + limit[1], kAmmo_NUM + limit[2], kArmor_NUM + limit[3], kUsable_NUM + limit[4],
-                       kMagic_Items_NUM + limit[5]};
-      Existing_Items E_P;
+      cout << "Your funds: "<< money[4] << endl;
+      int limit[7] = {0, kWeapon_NUM, kRanged_Weapon_NUM + limit[1], kAmmo_NUM + limit[2], kArmor_NUM + limit[3],
+                      kUsable_NUM + limit[4], kMagic_Items_NUM + limit[5]};
+      Existing_Items E_I;
       cout << "Control reach method Add_To_Inventory 1\n";
       for (int i = limit[item_ - 1]; i < limit[item_]; i++) {
-        cout << i + 1 << ". " << E_P.All_s[i] << endl;//
+        cout << i + 1 << ". " << E_I.All_s[i] << " price: ";
+        if(item_ == 1){ cout << E_I.Weapon_i[i][0];}
+        else if(item_ == 2){ cout << E_I.Ranged_Weapon_i[i][0];}
+        else if(item_ == 3){ cout << E_I.Ammo_i[i][0];}
+        else if(item_ == 4){ cout << E_I.Armor_i[i][0];}
+        else if(item_ == 5){ cout << E_I.Usable_i[i][0];}
+        else if(item_ == 6){ cout << E_I.Magic_Items_i[i][0];}
+        cout << endl;
       }
-      //cin >> item_;
-      item_ = IsNumber(item_, 1, limit[6] + 1);
+      item_ = IsNumber(item_, limit[item_ - 1], limit[item_]);
       cout << "Control reach method Add_To_Inventory 2\n";
-      a = E_P.All_s[item_ - 1];
+      a = E_I.All_s[item_ - 1];
       int quantity = 1;
       cout << "How many "<< a <<"s do you want ?\n";
       quantity = IsNumber(quantity,1,0);
@@ -795,10 +813,7 @@ int Character::Add_To_Inventory() {
                b->get(0) * quantity);
       }
       delete b;
-
-
       printf("Do you want to add something? Yes(1)  No(2)\n");
-      //cin >> item_;
       item_ = IsNumber(item_,1,2);
       if (item_ == 2) {
         some_more = false;
@@ -846,7 +861,9 @@ void Character::Equiping_Item() {
   int k = 0;
   for (auto it : items_map) { // = items_map.begin(); it != items_map.end(); it++
     names.push_back(it.first);
-    cout << k + 1 << '.' << it.first << endl;
+    cout << k + 1 << '.' << it.first;
+    if(it.second->is_equiped()) cout << " (equipped)";
+    cout << endl;
     k++;
   }
   printf("Control reached Equiping_Item 1 \n");
@@ -917,9 +934,9 @@ int Character::Healing_Injuring(int value) {
     if (health > maxhealth) health = maxhealth;
   } else {
     if (health <= value && value - health < maxhealth) {
-      state = 1; // incapacitated
+      state = 6; // incapacitated
     } else if (value - health >= maxhealth) {
-      state = 3; // instantly dead;
+      state = 14; // instantly dead;
     } else {
       health -= value;
     }

@@ -6,7 +6,6 @@ int Correctness_of_input(int a, int lowerlimit, int higherlimit) {
     while(a > lowerlimit){
       printf("%s \n", "Incorrect input.");
       std::cout << "value must be equal or lower than " << lowerlimit << std::endl;
-      //std::cin >> a;
       a = IsNumber(a,lowerlimit,higherlimit);
     }
   }
@@ -14,7 +13,6 @@ int Correctness_of_input(int a, int lowerlimit, int higherlimit) {
     while(a < lowerlimit){
       printf("%s \n", "Incorrect input.");
       std::cout << "value must be equal or lower higher than " << higherlimit << std::endl;
-      //std::cin >> a;
       a = IsNumber(a,lowerlimit,higherlimit);
     }
   }
@@ -22,19 +20,19 @@ int Correctness_of_input(int a, int lowerlimit, int higherlimit) {
     while (a < lowerlimit || a > higherlimit) {
       printf("%s \n", "Incorrect input.");
       std::cout << "value must be between " << lowerlimit << " and " << higherlimit << std::endl;
-      //std::cin >> a;
       a = IsNumber(a,lowerlimit,higherlimit);
     }
   }
   return a;
 }
 
-/*int Random_Generator(std::mt19937 mt,int lowerlimit, int higherlimit){
-  //std::random_device rd;
-  //std::mt19937 mt(rd());
-  std::uniform_int_distribution<int> dist(lowerlimit,higherlimit);
+Random_Generator_::Random_Generator_() = default;
+Random_Generator_::~Random_Generator_() = default;
+int Random_Generator_::Rand(int lowerlimit, int higherlimit) {
+  std::mt19937 mt(rd());
+  std::uniform_int_distribution<int> dist(lowerlimit, higherlimit);
   return dist(mt);
-}*/
+}
 
 int Health_Level_Up(Random_Generator_ * Rand_gen,int health_dice, int ConModifier, int maxhealth){
   printf("%s \n",
@@ -49,17 +47,9 @@ int Health_Level_Up(Random_Generator_ * Rand_gen,int health_dice, int ConModifie
   }//roll dices f
   else {
     maxhealth += health_dice / 2 + 1;
+    printf("%s %d \n","middle health = ", health_dice / 2 + 1);
   }//take middle
   return maxhealth;
-}
-
-
-Random_Generator_::Random_Generator_() = default;
-Random_Generator_::~Random_Generator_() = default;
-int Random_Generator_::Rand(int lowerlimit, int higherlimit) {
-  std::mt19937 mt(rd());
-  std::uniform_int_distribution<int> dist(lowerlimit, higherlimit);
-  return dist(mt);
 }
 
 int IsNumber(int a, int lowerlimit, int higherlimit){

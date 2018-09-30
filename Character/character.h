@@ -50,15 +50,18 @@ sleightOfHand 15,stealth 16,survival 17*/
   map<std::string, Item *> items_map;
   Existing_Types E;
   vector<Item *> Equiped;
-  int state; // norm, incapacitated, arested, dead
+  int state;
+  /* 0.norm, 1.blinded, 2.charmed, 3.deafened, 4.frightened, 5.grappled, 6.incapacitated, 7.invisible, 8.petrified,
+   * 9.poisoned, 10.prone, 11.restrained, 12.stunned, 13.unconscious, 14.dead*/
+  int exhaustion;
  public:
   Character();
   Character(Random_Generator_ * Rand_gen,int storyline_, int exp, int levl, int Stre, int Dext,
-            int Cons, int Inte, int Wisd, int Charisma,int sex_);
+            int Cons, int Inte, int Wisd, int Charisma, int sex_, int rand_seed_change);
 
   ~Character();
 
-  int Ability_Random_Sets(Random_Generator_ * Rand_gen);
+  int Ability_Random_Sets(Random_Generator_ * Rand_gen, int rand_seed_change);
 
   int Less_than_zero(int a);
 
