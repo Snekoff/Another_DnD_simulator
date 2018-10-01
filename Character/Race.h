@@ -179,11 +179,15 @@ class Tiefling : public Race {
   void Create(int sub_type, int a, int b, int c) override;
 };
 
-template <class C>
+template<class C>
 class Concrete_Factory {
  public:
   C *Create(int subtype) {
     return new C(subtype, 0, 0, 0);
+  }
+
+  C *Load() {
+    return new C();
   }
 };
 
@@ -193,46 +197,74 @@ class Race_Factory {
     if (type == 0) {
       Concrete_Factory<Dragonborn> Dragonborn_;
       return Dragonborn_.Create(subtype);
-    }
-    else if (type == 1) {
+    } else if (type == 1) {
       Concrete_Factory<Dwarf> Dwarf_;
       return Dwarf_.Create(subtype);
-    }
-    else if (type == 2) {
+    } else if (type == 2) {
       Concrete_Factory<Elf> Elf_;
       return Elf_.Create(subtype);
-    }
-    else if (type == 3) {
+    } else if (type == 3) {
       Concrete_Factory<Gnome> Gnome_;
       return Gnome_.Create(subtype);
-    }
-    else if (type == 4) {
+    } else if (type == 4) {
       Concrete_Factory<Goblin> Goblin_;
       return Goblin_.Create(subtype);
-    }
-    else if (type == 5) {
+    } else if (type == 5) {
       Concrete_Factory<Half_Elf> Half_Elf_;
       return Half_Elf_.Create(subtype);
-    }
-    else if (type == 6) {
+    } else if (type == 6) {
       Concrete_Factory<Half_Orc> Half_Orc_;
       return Half_Orc_.Create(subtype);
-    }
-    else if (type == 7) {
+    } else if (type == 7) {
       Concrete_Factory<Halfling> Halfling_;
       return Halfling_.Create(subtype);
-    }
-    else if (type == 8) {
+    } else if (type == 8) {
       Concrete_Factory<Human> Human_;
       return Human_.Create(subtype);
-    }
-    else if (type == 9) {
+    } else if (type == 9) {
       Concrete_Factory<Lizardfolk> Lizardfolk_;
       return Lizardfolk_.Create(subtype);
-    }
-    else if (type == 10) {
+    } else if (type == 10) {
       Concrete_Factory<Tiefling> Tiefling_;
       return Tiefling_.Create(subtype);
+    }
+    return new Race();
+  }
+
+  Race *Load(int type) {
+    if (type == 0) {
+      Concrete_Factory<Dragonborn> Dragonborn_;
+      return Dragonborn_.Load();
+    } else if (type == 1) {
+      Concrete_Factory<Dwarf> Dwarf_;
+      return Dwarf_.Load();
+    } else if (type == 2) {
+      Concrete_Factory<Elf> Elf_;
+      return Elf_.Load();
+    } else if (type == 3) {
+      Concrete_Factory<Gnome> Gnome_;
+      return Gnome_.Load();
+    } else if (type == 4) {
+      Concrete_Factory<Goblin> Goblin_;
+      return Goblin_.Load();
+    } else if (type == 5) {
+      Concrete_Factory<Half_Elf> Half_Elf_;
+      return Half_Elf_.Load();
+    } else if (type == 6) {
+      Concrete_Factory<Half_Orc> Half_Orc_;
+      return Half_Orc_.Load();
+    } else if (type == 7) {
+      Concrete_Factory<Halfling> Halfling_;
+      return Halfling_.Load();
+    } else if (type == 8) {
+      Concrete_Factory<Human> Human_;
+      return Human_.Load();
+    } else if (type == 9) {
+      Concrete_Factory<Lizardfolk> Lizardfolk_;
+      return Lizardfolk_.Load();
+    } else if (type == 10) {
+      Concrete_Factory<Tiefling> Tiefling_;
+      return Tiefling_.Load();
     }
     return new Race();
   }

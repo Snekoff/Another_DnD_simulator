@@ -31,7 +31,7 @@ struct Existing_Types {
                             " health_dice(7)", " Str(8)", " Dex(9)", " Con(10)", " Int(11)", " Wis(12)", " Cha(13)",
                             " armor_class(14)", " deathsaves_s(15)", " deathsaves_f(16)",
                             " money[0]()", " money[1]", " money[2]",
-                            " money[3]", " money[4]", " state()", " type()",
+                            " money[3]", " money[4]", " state()", " type()", " ",
                              " architype()", " type()", " height()",
                             " weight()", " age()", " Movement()", " Size", " Darkvision()",
                             " damage_resistance()", " subtype()", " raceFeatures()",
@@ -47,7 +47,7 @@ struct Existing_Types {
                             " armor_and_weapon_proficiencies[2]", " armor_and_weapon_proficiencies[3]",
                             " armor_and_weapon_proficiencies[4]", " armor_and_weapon_proficiencies[5]",
                             " armor_and_weapon_proficiencies[6]",
-                             " exhaustion", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+                             " exhaustion",  " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
                             " ", " ", " ", " ", " ", ""
  };
 }; //

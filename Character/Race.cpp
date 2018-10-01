@@ -150,7 +150,7 @@ bool Race::Load(int a[]){
   return true;
 }
 
-Dragonborn::Dragonborn() : Race() { subtype = 0; }
+Dragonborn::Dragonborn() = default;
 Dragonborn::Dragonborn(int sub_type, int a, int b, int c) {
   Create(sub_type, a, b, c);
 }

@@ -26,7 +26,12 @@ Game::Game(int start, int journey) {
         }
         printf("Now showing params: \n");
         for (int j = 1; j < 90; j++) {
-          cout << j << " " << E.params[j - 1] << " : " << characters[player_to_be_checked - 1]->Get(j) << endl;
+          if(j > 35 && j < 72){
+            cout << j << " " << E.params[j - 1] << " : " << characters[player_to_be_checked - 1]->Get_bool(j) << endl;
+          }
+          else {
+            cout << j << " " << E.params[j - 1] << " : " << characters[player_to_be_checked - 1]->Get(j) << endl;
+          }
         }
       }
     }
@@ -154,6 +159,7 @@ bool Game::Party_Load() {
       inventory_[i] = party["Inventory"][n][i];
     }
     characters[n] = new Character();
+    cout << "bool_p[12] = " << bool_p[12] << endl;
     printf("Control reach method Party Load 4\n");
     characters[n]->Load(p,bool_p,inventory_);
     printf("Control reach method Party Load 5\n");

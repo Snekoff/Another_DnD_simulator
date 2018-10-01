@@ -75,7 +75,9 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   int PassivePerceptionSetter(int a, bool b, bool c);
 
-  void StorySetsSkills(int s[],bool s_b[], int storyline_i);
+  void Skill_Proficiences();
+
+  void StorySetsSkills(int storyline_i);
 
   int Check_Ability_Reach_Maximum(int ability);
 

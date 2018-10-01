@@ -54,13 +54,14 @@ struct Existing_Items {
                                 {3000, 2, 14, 0, 40}, {7500, 2, 16, 13, 55}, {20000, 2, 17, 15, 60},
                                 {150000, 2, 18, 15, 65},
                                 {1000, 2, 2, 0, 6}};
+  //Cost , Type , Armor_Class , Strength_needed , weight
   bool Armor_b[kArmor_NUM] = {true, false, false,
                                 false, false, true,
                                 false, true,
                                 true, true, true,
                                 true,
                                 false};
-  //Cost , Type , Armor_Class , Strength_needed , stealth_disadvantage, weight
+  // stealth_disadvantage
   std::string Usable_s[kUsable_NUM] = {"Abacus",
                                        "Acid_vial", "Alchemists_fire_flask",
                                        "Antitoxin", "Backpack", "Ball_bearings", "Barrel", "Basket", "Bedroll", "Bell",

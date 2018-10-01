@@ -32,6 +32,13 @@ void Class::set(int type_, bool *s_b[]) {
     }
     if (E.Class_atribute[type][i + 12] > 0) armor_and_weapon_proficiencies[i] = true;
   }
+  if (type == 4) {
+    std::cout << "Fighter class allows you to choose one of primary abilities. Type 1.Str or 2.Dex\n";
+    int str_or_dex_ = 0;
+    str_or_dex_ = IsNumber(str_or_dex_, 1, 2);
+    if (str_or_dex_ == 1) primary_ability[0] = true;
+    else primary_ability[1] = true;
+  }
   architype = 0;
   set_skills(s_b);
   set_architype();
@@ -43,7 +50,7 @@ void Class::set_architype() {
   }
 }
 
-bool Class::Load(int a,bool b[], int a14){
+bool Class::Load(int a, bool b[], int a14) {
   Existing_classes E;
   type = a;
   architype = a14;
@@ -51,15 +58,23 @@ bool Class::Load(int a,bool b[], int a14){
     armor_and_weapon_proficiencies[i] = b[29 + i];
   }
   hit_dice = E.Class_atribute[type][0];
-  for(int i = 0; i < 6;i++){
+  for (int i = 0; i < 6; i++) {
     primary_ability[i] = false;
     s[i] = 0;
-    s[6+i] = 0;
-    s[12+i] = 0;
+    s[6 + i] = 0;
+    s[12 + i] = 0;
   }
   for (int i = 0; i < 6; i++) {
     if (E.Class_atribute[type][i + 1] > 0) primary_ability[i] = true;
     saving_throw_proficiencies[i] = b[23 + i];
+  }
+  if (type == 4) {
+    std::cout << "Fighter class asks you again to choose one of primary abilities. Type 1.Str or 2.Dex. "
+                 "Because programmer is too lazy to save it.\n";
+    int str_or_dex_ = 0;
+    str_or_dex_ = IsNumber(str_or_dex_, 1, 2);
+    if (str_or_dex_ == 1) primary_ability[0] = true;
+    else primary_ability[1] = true;
   }
   return true;
 }
@@ -227,7 +242,7 @@ void Class::set_skills(bool *s_b[]) {
                     "and Stealth(10)");
     skill_1 = IsNumber(skill_1, 0, 10);
     while (s_b[skills_identifier[skill_1]]) {
-      printf("you already got proficiency in this skill\n");
+      printf("you already got proficiency in this skill 1\n");
       skill_1 = -1;
       skill_1 = IsNumber(skill_1, 0, 10);
     }
@@ -321,15 +336,15 @@ int Class::get(int what) {
   if (what == 0) { return type; }
   else if (what == 20) return hit_dice;
   else if (20 < what && what < 39) return s[what - 21];
-  else if(what == 39) return architype;
+  else if (what == 39) return architype;
   return -1;
 }
 
-bool Class::get_bool(int what){
+bool Class::get_bool(int what) {
   if (0 < what && what < 7) return primary_ability[what - 1];
   else if (6 < what && what < 13) return saving_throw_proficiencies[what - 7];
   else if (12 < what && what < 20) return armor_and_weapon_proficiencies[what - 13];
-return false;
+  return false;
 }
 
 MultiClass::MultiClass() : Class() {

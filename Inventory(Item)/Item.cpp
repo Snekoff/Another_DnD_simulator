@@ -106,19 +106,21 @@ Weapon::Weapon(std::string &name_, int count_) {
 }*/
 Weapon::~Weapon() = default;
 void Weapon::set(std::string &name_, int count_) {
-  Existing_Items E;
+  std::cout << "Control reach Item:Weapon:set 0\n";
+  Existing_Items E_I;
   equiped = false;
   for (int i = 0; i < kWeapon_NUM; i++) {
-    if (E.Weapon_s[i]== name_) {
-      cost = E.Weapon_i[i][0];
-      num_of_dices = E.Weapon_i[i][1];
-      damage_dice = E.Weapon_i[i][2];
-      weight = E.Weapon_i[i][3];
-      type_of_elemental_damage = E.Weapon_i[i][4];
+    if (E_I.Weapon_s[i] == name_) {
+      cost = E_I.Weapon_i[i][0];
+      num_of_dices = E_I.Weapon_i[i][1];
+      damage_dice = E_I.Weapon_i[i][2];
+      weight = E_I.Weapon_i[i][3];
+      type_of_elemental_damage = E_I.Weapon_i[i][4];
       stackable = false;
       break;
     }
   }
+  std::cout << "Control reach Item:Weapon:set 1\n";
   //
   name = name_;
   count = count_;
@@ -177,19 +179,19 @@ Ranged_Weapon::Ranged_Weapon(std::string &name_, int count_) {
 }*/
 Ranged_Weapon::~Ranged_Weapon() = default;
 void Ranged_Weapon::set(std::string &name_, int count_) {
-  Existing_Items E;
+  Existing_Items E_I;
   equiped = false;
   //int count_ = 1, num_of_dices_ = 0, damage_dice_ = 0, type_of_elemental_damage_ = 0;
   //int aiming_range_ = 0, max_range_ = 0;
   for (int i = 0; i < kWeapon_NUM; i++) {
-    if (E.Ranged_Weapon_s[i]== name_) {
-      cost = E.Ranged_Weapon_i[i][0];
-      num_of_dices = E.Ranged_Weapon_i[i][1];
-      damage_dice = E.Ranged_Weapon_i[i][2];
-      weight = E.Ranged_Weapon_i[i][3];
-      type_of_elemental_damage = E.Ranged_Weapon_i[i][4];
-      aiming_range = E.Ranged_Weapon_i[i][5];
-      max_range = E.Ranged_Weapon_i[i][6];
+    if (E_I.Ranged_Weapon_s[i]== name_) {
+      cost = E_I.Ranged_Weapon_i[i][0];
+      num_of_dices = E_I.Ranged_Weapon_i[i][1];
+      damage_dice = E_I.Ranged_Weapon_i[i][2];
+      weight = E_I.Ranged_Weapon_i[i][3];
+      type_of_elemental_damage = E_I.Ranged_Weapon_i[i][4];
+      aiming_range = E_I.Ranged_Weapon_i[i][5];
+      max_range = E_I.Ranged_Weapon_i[i][6];
       stackable = false;
       break;
     }
@@ -270,22 +272,24 @@ Armor::Armor(std::string &name_, int count_) {
 }*/
 Armor::~Armor() = default;
 void Armor::set(std::string &name_, int count_) {
-  Existing_Items E;
+  std::cout << "Control reach Item:Armor:set 0\n";
+  Existing_Items E_I;
   equiped = false;
- // int count_ = 1, type_ = 0, armor_class_ = 0, strength_needed_ = 0;
-  //bool stealth_disadvantage_ = false;
   for (int i = 0; i < kWeapon_NUM; i++) {
-    if (E.Armor_s[i] == name_) {
-      cost = E.Armor_i[i][0];
-      type_of_armor = E.Armor_i[i][1];
-      armor_class = E.Armor_i[i][2];
-      strength_needed = E.Armor_i[i][3];
-      stealth_disadvantage = E.Armor_b[i];
-      weight = E.Armor_i[i][4];
+    if (E_I.Armor_s[i] == name_) {
+      std::cout << "Control reach Item:Armor:set 1\n";
+      cost = E_I.Armor_i[i][0];
+      type_of_armor = E_I.Armor_i[i][1];
+      armor_class = E_I.Armor_i[i][2];
+      strength_needed = E_I.Armor_i[i][3];
+      stealth_disadvantage = E_I.Armor_b[i];
+      weight = E_I.Armor_i[i][4];
       stackable = false;
       break;
     }
   }
+  std::cout << "AC = " << armor_class << std::endl;
+  std::cout << "Control reach Item:Armor:set 2\n";
   name = name_;
   count = count_;
   what_class_is_it = "Armor";
@@ -338,14 +342,14 @@ Usables::Usables(std::string &name_) {
 }
 Usables::~Usables() = default;
 void Usables::set(std::string &name_, int count_) {
-  Existing_Items E;
+  Existing_Items E_I;
   equiped = false;
   for (int i = 0; i < kMagic_Items_NUM; i++) {
-    if (E.Usable_s[i] == name_) {
+    if (E_I.Usable_s[i] == name_) {
       name = name_;
-      cost = E.Usable_i[i][0];
-      weight = E.Usable_i[i][1];
-      if (E.Usable_i[i][2] > 0) is_obstacle = true;
+      cost = E_I.Usable_i[i][0];
+      weight = E_I.Usable_i[i][1];
+      if (E_I.Usable_i[i][2] > 0) is_obstacle = true;
       break;
     }
   }
@@ -398,15 +402,15 @@ Ammo::Ammo(std::string &name_) {
   set(name_, count_, ammo_damage_, element_);
 }*/
 void Ammo::set(std::string &name_, int count_) {
-  Existing_Items E;
+  Existing_Items E_I;
   equiped = false;
   for (int j = 0; j < kAmmo_NUM; j++) {
-    if (E.Ammo_s[j] == name_) {
+    if (E_I.Ammo_s[j] == name_) {
       name = name_;
-      cost = E.Ammo_i[j][0];
-      weight = E.Ammo_i[j][1];
-      ammo_damage = E.Ammo_i[j][2];
-      element = E.Ammo_i[j][3];
+      cost = E_I.Ammo_i[j][0];
+      weight = E_I.Ammo_i[j][1];
+      ammo_damage = E_I.Ammo_i[j][2];
+      element = E_I.Ammo_i[j][3];
       break;
     }
   }
@@ -456,19 +460,19 @@ Magic_Items::Magic_Items(std::string &name_, int count_) {
 }
 Magic_Items::~Magic_Items() = default;
 void Magic_Items::set(std::string &name_, int count_) {
-  Existing_Items E;
+  Existing_Items E_I;
   equiped = false;
   for (int i = 0; i < kMagic_Items_NUM; i++) {
-    if (E.Magic_Items_s[i] == name_) {
+    if (E_I.Magic_Items_s[i] == name_) {
       name = name_;
-      passive_healing = E.Magic_Items_i[i][0];
+      passive_healing = E_I.Magic_Items_i[i][0];
       if (passive_healing == 2) {
         healing_dice = 4;
         num_of_healing_dices = 2;
       }
-      if (E.Magic_Items_b[i][0]) arcane_focus = true;
-      if (E.Magic_Items_b[i][1]) druidic_focus = true;
-      if (E.Magic_Items_b[i][2]) holy_symbol = true;
+      if (E_I.Magic_Items_b[i][0]) arcane_focus = true;
+      if (E_I.Magic_Items_b[i][1]) druidic_focus = true;
+      if (E_I.Magic_Items_b[i][2]) holy_symbol = true;
       break;
     }
   }
