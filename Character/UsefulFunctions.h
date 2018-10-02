@@ -51,8 +51,8 @@ struct Existing_Types {
                             " ", " ", " ", " ", " ", ""
  };
 }; //
-
-int Correctness_of_input(int a, int lowerlimit, int higherlimit);
+template <typename T>
+T Correctness_of_input(T a, T lowerlimit, T higherlimit);
 
 class Random_Generator_ {
  private:
@@ -67,7 +67,8 @@ class Random_Generator_ {
 
 int Health_Level_Up(Random_Generator_ * Rand_gen, int health_dice, int ConModifier, int maxhealth);
 
-int IsNumber(int a, int lowerlimit, int higherlimit);
+template <typename T>
+T IsNumber(T a, T lowerlimit, T higherlimit);
 
 
 #endif //ANOTHER_DND_SIMULATOR_USEFULFUNCTIONS_H

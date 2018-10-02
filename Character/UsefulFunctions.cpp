@@ -1,26 +1,26 @@
 
 #include "UsefulFunctions.h"
-
-int Correctness_of_input(int a, int lowerlimit, int higherlimit) {
+template <typename T>
+T Correctness_of_input(T a, T lowerlimit, T higherlimit) {
   if(higherlimit == lowerlimit - 2){
     while(a > lowerlimit){
       printf("%s \n", "Incorrect input.");
       std::cout << "value must be equal or lower than " << lowerlimit << std::endl;
-      a = IsNumber(a,lowerlimit,higherlimit);
+      a = IsNumber<T>(a,lowerlimit,higherlimit);
     }
   }
   else if(higherlimit == lowerlimit - 1){
     while(a < lowerlimit){
       printf("%s \n", "Incorrect input.");
       std::cout << "value must be equal or lower higher than " << higherlimit << std::endl;
-      a = IsNumber(a,lowerlimit,higherlimit);
+      a = IsNumber<T>(a,lowerlimit,higherlimit);
     }
   }
   else {
     while (a < lowerlimit || a > higherlimit) {
       printf("%s \n", "Incorrect input.");
       std::cout << "value must be between " << lowerlimit << " and " << higherlimit << std::endl;
-      a = IsNumber(a,lowerlimit,higherlimit);
+      a = IsNumber<T>(a,lowerlimit,higherlimit);
     }
   }
   return a;
@@ -52,11 +52,14 @@ int Health_Level_Up(Random_Generator_ * Rand_gen,int health_dice, int ConModifie
   return maxhealth;
 }
 
-int IsNumber(int a, int lowerlimit, int higherlimit){
+template <typename T>
+T IsNumber(T a, T lowerlimit, T higherlimit){
   for (;;)
   {
     std::cout << "Input: ";
-    if (std::cin >> a) {a = Correctness_of_input(a,lowerlimit,higherlimit);break;}
+    if (std::cin >> a) {
+      a = Correctness_of_input<T>(a,lowerlimit,higherlimit);
+      break;}
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   }

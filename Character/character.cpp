@@ -42,7 +42,7 @@ Character::Character() {
   money[2] = 0;
   money[3] = 0;//Pt
   money[4] = 0;
-  Equiped.resize(10);
+  Equipped.resize(10);
   state = 0;
   exhaustion = 0;
 }
@@ -57,6 +57,7 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   Inte = Less_than_zero(Inte);
   Wisd = Less_than_zero(Wisd);
   Charisma = Less_than_zero(Charisma);
+  party = -1;
   health = 0;
   maxhealth = 0;
   health_dice = 0;
@@ -92,7 +93,7 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   money[2] = 0;
   money[3] = 0;//Pt
   money[4] = 0;
-  Equiped.resize(10);
+  Equipped.resize(10);
   printf("Control reach 4\n");
   SetSkill(s);
   printf("Control reach 5\n");
@@ -129,7 +130,6 @@ Character::~Character() {
   delete[] s_b;
   inventory.clear();
   items_map.clear();
-  //delete[] Equiped;
 };
 
 void Character::Maximum_Parameter_Value() {
@@ -139,6 +139,10 @@ void Character::Maximum_Parameter_Value() {
   if (Int > 20) Int = 20;
   if (Wis > 20) Wis = 20;
   if (Cha > 20) Cha = 20;
+}
+
+void Character::Set_Party(int party_) {
+  party = party_;
 }
 
 int Character::Ability_Random_Sets(Random_Generator_ *Rand_gen, int rand_seed_change) {
@@ -159,20 +163,20 @@ int Character::Ability_Random_Sets(Random_Generator_ *Rand_gen, int rand_seed_ch
     cout << "*Or type 3 to re-roll\n";
     int s[7];
     bool checked[6] = {false};
-    s[6] = IsNumber(s[6], 1, 3);
+    s[6] = IsNumber<int>(s[6], 1, 3);
     if (s[6] == 3) return Ability_Random_Sets(Rand_gen, rand_seed_change);
     cout << "type six numbers what represents to what skill you apply each value "
             "1.Str, 2.Dex, 3.Con, 4.Int, 5.Wis, 6.Cha\n";
     for (int i = 0; i < 6; i++) {
       //cin >> s[i];
-      s[i] = IsNumber(s[i], 1, 6);
+      s[i] = IsNumber<int>(s[i], 1, 6);
       if (!checked[s[i] - 1]) checked[s[i] - 1] = true;
       else {
         while (checked[s[i]]) {
           printf("You have already used this number ");
           cout << s[i] << endl;
           //cin >> s[i];
-          s[i] = IsNumber(s[i], 1, 6);
+          s[i] = IsNumber<int>(s[i], 1, 6);
         }
       }
       if (i == 0) { Str = Sets[(int) (pow(6, s[6] - 1)) - 1 + i]; }
@@ -278,7 +282,7 @@ int Character::Check_Ability_Reach_Maximum(int ability) {
   int a[6] = {Str, Dex, Con, Int, Wis, Cha};
   while (a[ability - 1] == 20) {
     cout << "That ability is at maximum, choose another one\n";
-    ability = IsNumber(ability, 1, 6);
+    ability = IsNumber<int>(ability, 1, 6);
   }
   return ability;
 }
@@ -291,11 +295,11 @@ void Character::Ability_improve() {
            " level, that means that you have to choose whether improve one ability +2(type 1) "
            "or two abilities +1(type 2).\n ~In future here might also be feats");
     int one_or_two_abilities = -1;
-    one_or_two_abilities = IsNumber(one_or_two_abilities, 1, 2);
+    one_or_two_abilities = IsNumber<int>(one_or_two_abilities, 1, 2);
     if (one_or_two_abilities == 1) {
       cout << "What ability do you want to improve +2 ? 1.Str(" << Str << "), 2.Dex(" << Dex << "), 3.Con("
            << Con << "), 4.Int(" << Int << "), 5.Wis(" << Wis << "), 6.Cha(" << Cha << ")" << endl;
-      one_or_two_abilities = IsNumber(one_or_two_abilities, 1, 6);
+      one_or_two_abilities = IsNumber<int>(one_or_two_abilities, 1, 6);
       one_or_two_abilities = Check_Ability_Reach_Maximum(one_or_two_abilities);
       Set(one_or_two_abilities + 2, 2);
     } else {
@@ -303,9 +307,9 @@ void Character::Ability_improve() {
            << Con << "), 4.Int(" << Int << "), 5.Wis(" << Wis << "), 6.Cha(" << Cha << ") *Type 2 spaced numbers"
                                                                                        "**Maximum value is 20\n";
       int one_or_two_abilities1 = 0;
-      one_or_two_abilities = IsNumber(one_or_two_abilities, 1, 6);
+      one_or_two_abilities = IsNumber<int>(one_or_two_abilities, 1, 6);
       one_or_two_abilities = Check_Ability_Reach_Maximum(one_or_two_abilities);
-      one_or_two_abilities1 = IsNumber(one_or_two_abilities1, 1, 6);
+      one_or_two_abilities1 = IsNumber<int>(one_or_two_abilities1, 1, 6);
       one_or_two_abilities1 = Check_Ability_Reach_Maximum(one_or_two_abilities1);
       Set(one_or_two_abilities + 2, 1);
       Set(one_or_two_abilities1 + 2, 1);
@@ -330,7 +334,7 @@ void Character::Race_Choosal(Random_Generator_ *Rand_gen) {
                   "Type number, and proceed");
   int race = 9;
   int a = 0, b = 0, c = 0;
-  race = IsNumber(race, 1, 11);
+  race = IsNumber<int>(race, 1, 11);
   int subrace = 0;
   if (race == 1) {
     printf("%s \n", "Choose your subrace. What it will be?");
@@ -345,7 +349,7 @@ void Character::Race_Choosal(Random_Generator_ *Rand_gen) {
                     "9. Silver (Cold) 15ft. cone\n"
                     "10. White (Cold) 15ft. cone\n"
                     "Type number, and proceed");
-    subrace = IsNumber(subrace, 1, 10);
+    subrace = IsNumber<int>(subrace, 1, 10);
     printf("Control reach Race_Choosal 1\n");
   } else if (race == 2) {
     printf("%s \n", "Choose your subrace. What it will be?");
@@ -353,7 +357,7 @@ void Character::Race_Choosal(Random_Generator_ *Rand_gen) {
                     "2. Hill\n"
                     "3. Mountain\n"
                     "Type number, and proceed");
-    subrace = IsNumber(subrace, 1, 3);
+    subrace = IsNumber<int>(subrace, 1, 3);
     printf("Control reach Race_Choosal 2\n");
   } else if (race == 3) {
     printf("%s \n", "Choose your subrace. What it will be?");
@@ -364,14 +368,14 @@ void Character::Race_Choosal(Random_Generator_ *Rand_gen) {
                     "5. Shadar-kai\n"
                     "6. Wood\n"
                     "Type number, and proceed");
-    subrace = IsNumber(subrace, 1, 6);
+    subrace = IsNumber<int>(subrace, 1, 6);
   } else if (race == 4) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Deep/Svirfneblin\n"
                     "2. Forest\n"
                     "3. Rock\n"
                     "Type number, and proceed");
-    subrace = IsNumber(subrace, 1, 3);
+    subrace = IsNumber<int>(subrace, 1, 3);
   } else if (race == 5) {
     cout << "Goblin \n";
   } else if (race == 6) {
@@ -382,26 +386,26 @@ void Character::Race_Choosal(Random_Generator_ *Rand_gen) {
                     "4. Moon Elf or Sun Elf Descent\n"
                     "5. Wood Elf Descent\n"
                     "Type number, and proceed");
-    subrace = IsNumber(subrace, 1, 5);
+    subrace = IsNumber<int>(subrace, 1, 5);
   } else if (race == 7) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Half-Orc\n"
                     "2. Orc\n"
                     "Type number, and proceed");
-    subrace = IsNumber(subrace, 1, 10);
+    subrace = IsNumber<int>(subrace, 1, 10);
   } else if (race == 8) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Ghostwise\n"
                     "2. Lightfoot\n"
                     "3. Stout\n"
                     "Type number, and proceed");
-    subrace = IsNumber(subrace, 1, 3);
+    subrace = IsNumber<int>(subrace, 1, 3);
   } else if (race == 9) {
     printf("%s \n", "Choose your subrace. What it will be?");
     printf("%s \n", "1. Common\n"
                     "2. Variant\n"
                     "Type number, and proceed");
-    subrace = IsNumber(subrace, 1, 10);
+    subrace = IsNumber<int>(subrace, 1, 10);
   } else if (race == 10) {
     cout << "Lizardfolk \n";
   } else if (race == 11) {
@@ -418,7 +422,7 @@ void Character::Race_Choosal(Random_Generator_ *Rand_gen) {
                     "10. Variant\n"
                     "11. Zariel\n"
                     "Type number, and proceed");
-    subrace = IsNumber(subrace, 1, 11);
+    subrace = IsNumber<int>(subrace, 1, 11);
   }
   race_of_character = Race_Factory_.Create(race - 1, subrace - 1);
   Race_Get_Abilities();
@@ -451,7 +455,7 @@ void Character::Race_Get_Abilities() {
 }
 
 void Character::Set(int a, int b) {// a - what parameter will be changed, b - modifier(can be negative)
-  a = Correctness_of_input(a, 0, 14);
+  a = Correctness_of_input<int>(a, 0, 14);
   if (a == 1) { experience += b; }
   else if (a == 2) { health += b; }
   else if (a == 3) { Str += b; }
@@ -470,7 +474,8 @@ void Character::Set(int a, int b) {// a - what parameter will be changed, b - mo
 }
 
 int Character::Get(int a) {
-  if (a == 1) { return storyline_i; }
+  if (a == 0) { return party; }
+  else if (a == 1) { return storyline_i; }
   else if (a == 2) { return sex; }
   else if (a == 3) { return experience; }
   else if (a == 4) { return level; }
@@ -559,11 +564,10 @@ bool Character::Get_bool(int a) {
 
 vector<int> Character::Get_inventory() {
   vector<int> inventory_;
-  Existing_Items E;
-  //inventory_.resize(inventory.size());
+  Existing_Items E_I;
   for (int k = 0; k < inventory.size(); k++) {
     for (int i = 0; i < kAll_Num; i++) {
-      if (inventory[k]->get_name() == E.All_s[i]) {
+      if (inventory[k]->get_name() == E_I.All_s[i]) {
         inventory_.push_back(i);
         inventory_.push_back(inventory[k]->get(2));
         break;
@@ -637,7 +641,7 @@ Item *Character::Factory_Complex(string &a, int quantity) {
 }
 
 void Character::Add_Money(int type, int sum) {
-  type = Correctness_of_input(type, 0, 3);
+  type = Correctness_of_input<int>(type, 0, 3);
   cout << "Before operation: money[" << type << "] = " << money[type] << endl;
   money[type] += sum;
   cout << "After operation: money[" << type << "] = " << money[type] << endl;
@@ -648,10 +652,8 @@ void Character::Add_Money(int type, int sum) {
 void Character::Add_To_Item_Map(string &a) {
   auto iter = items_map.find(inventory[inventory.size() - 1]->get_name());
   if (iter != items_map.end()) {
-    if (a != "Backpack") {
-      items_map.at(inventory[inventory.size() - 1]->get_name())
-          ->set_count(inventory[inventory.size() - 1]->get(2));
-    }
+    items_map.at(inventory[inventory.size() - 1]->get_name())
+        ->set_count(inventory[inventory.size() - 1]->get(2));
     inventory.pop_back();
   } else {
     items_map.insert(std::pair(a, inventory[inventory.size() - 1]));
@@ -702,7 +704,7 @@ int Character::Add_To_Inventory() {
   printf("Your Backpack is a black hole without any limits, but you can carry not as much weight,"
          " so choose wisely what to take with you in future journeys\n");
   printf("Do you want to take anything with you ?  Yes(1)  No(2) *\n");
-  choose_to_proceed = IsNumber(choose_to_proceed, 1, 2);
+  choose_to_proceed = IsNumber<int>(choose_to_proceed, 1, 2);
   if (choose_to_proceed == 2) {
     return 0;
   } else {
@@ -717,7 +719,7 @@ int Character::Add_To_Inventory() {
              "5. Usables\n"
              "6. Magic Items\n"
              "(this list will be extended in future versions)\n");
-      item_ = IsNumber(item_, 1, 6);
+      item_ = IsNumber<int>(item_, 1, 6);
       cout << "Control reach method Add_To_Inventory 0\n";
       cout << "Your funds: " << money[4] << endl;
       int limit[7] = {0, kWeapon_NUM, kRanged_Weapon_NUM + limit[1], kAmmo_NUM + limit[2], kArmor_NUM + limit[3],
@@ -734,12 +736,12 @@ int Character::Add_To_Inventory() {
         else if (item_ == 6) { cout << E_I.Magic_Items_i[i - limit[item_ - 1]][0]; }
         cout << endl;
       }
-      item_ = IsNumber(item_, limit[item_ - 1], limit[item_]);
+      item_ = IsNumber<int>(item_, limit[item_ - 1], limit[item_]);
       cout << "Control reach method Add_To_Inventory 2\n";
       a = E_I.All_s[item_ - 1];
       int quantity = 1;
       cout << "How many " << a << "s do you want ?\n";
-      quantity = IsNumber(quantity, 1, 0);
+      quantity = IsNumber<int>(quantity, 1, 0);
       cout << "Control reach method Add_To_Inventory 3\n";
       auto b = Factory_Complex(a, quantity);
       if (Paying_Money(b->get(0) * quantity)) {
@@ -755,7 +757,7 @@ int Character::Add_To_Inventory() {
       }
       delete b;
       printf("Do you want to add something? Yes(1)  No(2)\n");
-      item_ = IsNumber(item_, 1, 2);
+      item_ = IsNumber<int>(item_, 1, 2);
       if (item_ == 2) {
         some_more = false;
       }
@@ -766,28 +768,28 @@ int Character::Add_To_Inventory() {
 
 void Character::Equip_Item(int where, Item *what) {
   printf("Control reached Equip_Item 0 \n");
-  where = Correctness_of_input(where, 0, 9);
+  where = Correctness_of_input<int>(where, 0, 9);
   what->equip(1);
-  if (Equiped[where] != nullptr) {// ->get(2) != 0
-    Equiped[where]->equip(-1);
+  if (Equipped[where] != nullptr) {// ->get(2) != 0
+    Equipped[where]->equip(-1);
   } else { cout << "null check fine\n"; }
-  Equiped[where] = what;
+  Equipped[where] = what;
   if (where < 2 || (where > 3 && where < 6)) {
-    cout << "Equipped " << Equiped[where]->get_name() << endl;
+    cout << "Equipped " << Equipped[where]->get_name() << endl;
     if (what->get_name() == "Shield") armor_class += 2;
   } else if (where == 2) {
     cout << "equip armor, armor class before: " << armor_class << endl;
     cout << "Control reach Equip_Item 1\n";
     int armor_class_bonus[3] = {DexModifier, min(DexModifier, 2), 0};
-    armor_class = Equiped[where]->get(4) + armor_class_bonus[Equiped[where]->get(3)];
+    armor_class = Equipped[where]->get(4) + armor_class_bonus[Equipped[where]->get(3)];
     cout << "armor class after: " << armor_class << endl;
-    cout << "Equipped " << Equiped[where]->get_name() << endl;
+    cout << "Equipped " << Equipped[where]->get_name() << endl;
   } else if (where < 10) {
-    cout << "Equipped " << Equiped[where]->get_name() << endl;
+    cout << "Equipped " << Equipped[where]->get_name() << endl;
   } else {
     printf("Non-standart body Nothing equipped\n");
-    //Equiped[where] = what;
-    //cout << "Equipped " << Equiped[where]->get_name() << endl;
+    //Equipped[where] = what;
+    //cout << "Equipped " << Equipped[where]->get_name() << endl;
   }
 }
 
@@ -800,7 +802,6 @@ void Character::Equiping_Item() {
   int k = 0;
   for (auto it = items_map.begin(); it != items_map.end(); it++) { //  : items_map
     names.push_back(it->first);
-    printf("Control reached Equipping_Item 0_0 \n");
     cout << " now will be name: " << it->second->get_name() << endl;
     cout << k + 1 << '.' << it->first;
     if (it->second->is_equiped()) cout << " (equipped)";
@@ -810,52 +811,56 @@ void Character::Equiping_Item() {
   printf("Control reached Equiping_Item 1 \n");
   if (k > 1) {
     cout << "You can equip something. Choose what.(type number)\n";
+    cout << "//type \"0\" to exit\n";
     int what_ = 0;
-    what_ = IsNumber(what_, 1, k + 1);
-    printf("Control reached Equiping_Item 2 \n");
-    what_ = Correctness_of_input(what_, 1, k + 1);
-    if (items_map.find(names[what_ - 1])->second->is_equiped()) {
-      cout << "it is already equipped!\n";
-    } else {
-      printf("Control reached Equiping_Item 4 \n");
-      //what = items_map.find(names[what_ - 1])->second;
-      cout << "Possible places to equip are:\n";
-      cout << "Hands: Left(1), Right(2), extra*(4-5)\n";
-      cout << "Body: upper/upper+lower(3)\n";
-      cout << "Fingers: (6-10)\n";
-      cout << "*only for abnormal bodies\n";
-      int where = 0;
-      where = IsNumber(where, 1, 10);
-      while (where == 3) {
-        if (items_map.find(names[what_ - 1])->second->What_class() != "Armor" || items_map.find(names[what_ - 1])->second->get_name() == "Shield") {
-          where = -2;
-          printf("You can't equip that on your body. Choose where else\n");
-          where = IsNumber(where, 1, 10);
-        } else break;
+    what_ = IsNumber<int>(what_, 0, k + 1);
+    if (what_ != 0) {
+      printf("Control reached Equiping_Item 2 \n");
+      what_ = Correctness_of_input<int>(what_, 1, k + 1);
+      if (items_map.find(names[what_ - 1])->second->is_equiped()) {
+        cout << "it is already equipped!\n";
+      } else {
+        printf("Control reached Equiping_Item 4 \n");
+        //what = items_map.find(names[what_ - 1])->second;
+        cout << "Possible places to equip are:\n";
+        cout << "Hands: Left(1), Right(2), extra*(4-5)\n";
+        cout << "Body: upper/upper+lower(3)\n";
+        cout << "Fingers: (6-10)\n";
+        cout << "*only for abnormal bodies\n";
+        int where = 0;
+        where = IsNumber<int>(where, 1, 10);
+        while (where == 3) {
+          if (items_map.find(names[what_ - 1])->second->What_class() != "Armor"
+              || items_map.find(names[what_ - 1])->second->get_name() == "Shield") {
+            where = -2;
+            printf("You can't equip that on your body. Choose where else\n");
+            where = IsNumber<int>(where, 1, 10);
+          } else break;
+        }
+        while (where > 5 && where < 11) {
+          if (items_map.find(names[what_ - 1])->second->What_class() != "Ring") {
+            where = -2;
+            printf("You can't equip that on your finger Choose where else\n");
+            where = IsNumber<int>(where, 1, 10);
+          } else break;
+        }
+        printf("Control reached Equipping_Item 5 \n");
+        Equip_Item(where - 1, items_map.find(names[what_ - 1])->second);
       }
-      while (where > 5 && where < 11) {
-        if (items_map.find(names[what_ - 1])->second->What_class() != "Ring") {
-          where = -2;
-          printf("You can't equip that on your finger Choose where else\n");
-          where = IsNumber(where, 1, 10);
-        } else break;
-      }
-      printf("Control reached Equipping_Item 5 \n");
-      Equip_Item(where - 1, items_map.find(names[what_ - 1])->second);
-    }
       printf("Do u want to add something to your equipment? Yes(1), No(2)\n");
-      k = IsNumber(k, 1, 2);
+      k = IsNumber<int>(k, 1, 2);
       //delete what;
       if (k == 1) { Equiping_Item(); }
+    }
   }
   cout << "You Left Equip Menu.\n";
 }
 
 void Character::Unequip_Item(int where) {
-  where = Correctness_of_input(where, 0, 9);
-  if (Equiped[where] != nullptr) {// need to try it hard
-    Equiped[where]->equip(-1);
-    Equiped[where] = nullptr;
+  where = Correctness_of_input<int>(where, 0, 9);
+  if (Equipped[where] != nullptr) {// need to try it hard
+    Equipped[where]->equip(-1);
+    Equipped[where] = nullptr;
     if (where == 2) {
       if (classType.get(0) == 0) {
         armor_class = 10 + DexModifier + ConModifier;
@@ -928,7 +933,7 @@ void Character::SetClass(Random_Generator_ *Rand_gen) {
          "11. Warlock\n"
          "12. Wizard\n");
   //cin >> class_type_;
-  class_type_ = IsNumber(class_type_, 1, 12);
+  class_type_ = IsNumber<int>(class_type_, 1, 12);
   classType.set(class_type_ - 1, &s_b);
   health_dice = classType.get(20);
   proficiency = ProficiencySetter();
@@ -956,13 +961,12 @@ void Character::SetSkill(int c[]) {
 }
 
 int Character::GetSkill(int a) {
-  a = Correctness_of_input(a, 0, 17);
+  a = Correctness_of_input<int>(a, 0, 17);
   return s[a];
 }
 
 void Character::Inventory_Load(vector<int> item_) {
   Existing_Items E_I;
-  //inventory.resize(item_.size() / 2);
   for (int i = 0; i < item_.size(); i += 2) {
     inventory.push_back(Factory_Complex(E_I.All_s[item_[i]], item_[i + 1]));
     cout << "Loaded " << inventory[inventory.size() - 1]->get_name() << endl;
@@ -982,9 +986,10 @@ void Character::Starting_Health() {
 
 bool Character::Load(int a[], bool b[], vector<int> item_) {
   Existing_Types E;
+  party = -1;
   s = new int[18];
   s_b = new bool[18];
-  Equiped.resize(10);
+  Equipped.resize(10);
   printf("Control reach Character method Load 0\n");
   for (int i = 1; i < 72; i++) {
     if (i == 1) {

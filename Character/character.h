@@ -27,6 +27,10 @@ class Character {
   Class classType;
   string storyline;
   int storyline_i;
+  Existing_Types E;
+
+  int exhaustion;
+ protected:
   int sex; //0 - female,1 - male, 3 - Futa, 4 - creature
   int experience, level;
   int health, maxhealth;
@@ -48,18 +52,19 @@ sleightOfHand 15,stealth 16,survival 17*/
   int money[5]; // copper, silver, gold, platinum, Total money(in copper equivalent)
   vector<Item *> inventory;
   map<std::string, Item *> items_map;
-  Existing_Types E;
-  vector<Item *> Equiped;
+  vector<Item *> Equipped;
   int state;
-  /* 0.norm, 1.blinded, 2.charmed, 3.deafened, 4.frightened, 5.grappled, 6.incapacitated, 7.invisible, 8.petrified,
-   * 9.poisoned, 10.prone, 11.restrained, 12.stunned, 13.unconscious, 14.dead*/
-  int exhaustion;
+  /* 0.fine, 1.blinded, 2.charmed, 3.deafened, 4.frightened, 5.grappled, 6.incapacitated, 7.invisible, 8.petrified,
+   * 9.poisoned, 10.prone, 11.restrained, 12.stunned, 13.unconscious, 14.dead, 15.disease 16. ??*/
+  int party;
  public:
   Character();
   Character(Random_Generator_ * Rand_gen,int storyline_, int exp, int levl, int Stre, int Dext,
             int Cons, int Inte, int Wisd, int Charisma, int sex_, int rand_seed_change);
 
   ~Character();
+
+  void Set_Party(int party_);
 
   int Ability_Random_Sets(Random_Generator_ * Rand_gen, int rand_seed_change);
 
