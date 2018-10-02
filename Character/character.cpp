@@ -768,26 +768,24 @@ void Character::Equip_Item(int where, Item *what) {
   printf("Control reached Equip_Item 0 \n");
   where = Correctness_of_input(where, 0, 9);
   what->equip(1);
-  if (Equiped[where] != nullptr) {// need to try it hard  ->get(2) != 0
+  if (Equiped[where] != nullptr) {// ->get(2) != 0
     Equiped[where]->equip(-1);
   } else { cout << "null check fine\n"; }
+  Equiped[where] = what;
   if (where < 2 || (where > 3 && where < 6)) {
-    Equiped[where] = what;
     cout << "Equipped " << Equiped[where]->get_name() << endl;
     if (what->get_name() == "Shield") armor_class += 2;
   } else if (where == 2) {
     cout << "equip armor, armor class before: " << armor_class << endl;
     cout << "Control reach Equip_Item 1\n";
-    Equiped[where] = what;
     int armor_class_bonus[3] = {DexModifier, min(DexModifier, 2), 0};
     armor_class = Equiped[where]->get(4) + armor_class_bonus[Equiped[where]->get(3)];
     cout << "armor class after: " << armor_class << endl;
     cout << "Equipped " << Equiped[where]->get_name() << endl;
   } else if (where < 10) {
-    Equiped[where] = what;
     cout << "Equipped " << Equiped[where]->get_name() << endl;
   } else {
-    printf("non-standart body\n");
+    printf("Non-standart body Nothing equipped\n");
     //Equiped[where] = what;
     //cout << "Equipped " << Equiped[where]->get_name() << endl;
   }
@@ -795,15 +793,17 @@ void Character::Equip_Item(int where, Item *what) {
 
 void Character::Equiping_Item() {
   printf("Control reached Equiping_Item 0 \n");
-  Item *what;
+  //Item *what = new Item();
   cout << "You might Equip Something. Choose where and what.\n";
   cout << "Now lets see what you have got in your backpack\n";
   vector<string> names;
   int k = 0;
-  for (auto it : items_map) { // = items_map.begin(); it != items_map.end(); it++
-    names.push_back(it.first);
-    cout << k + 1 << '.' << it.first;
-    if (it.second->is_equiped()) cout << " (equipped)";
+  for (auto it = items_map.begin(); it != items_map.end(); it++) { //  : items_map
+    names.push_back(it->first);
+    printf("Control reached Equipping_Item 0_0 \n");
+    cout << " now will be name: " << it->second->get_name() << endl;
+    cout << k + 1 << '.' << it->first;
+    if (it->second->is_equiped()) cout << " (equipped)";
     cout << endl;
     k++;
   }
@@ -818,7 +818,7 @@ void Character::Equiping_Item() {
       cout << "it is already equipped!\n";
     } else {
       printf("Control reached Equiping_Item 4 \n");
-      what = items_map.find(names[what_ - 1])->second;
+      //what = items_map.find(names[what_ - 1])->second;
       cout << "Possible places to equip are:\n";
       cout << "Hands: Left(1), Right(2), extra*(4-5)\n";
       cout << "Body: upper/upper+lower(3)\n";
@@ -827,29 +827,28 @@ void Character::Equiping_Item() {
       int where = 0;
       where = IsNumber(where, 1, 10);
       while (where == 3) {
-        if (what->What_class() != "Armor" || what->get_name() == "Shield") {
+        if (items_map.find(names[what_ - 1])->second->What_class() != "Armor" || items_map.find(names[what_ - 1])->second->get_name() == "Shield") {
           where = -2;
           printf("You can't equip that on your body. Choose where else\n");
           where = IsNumber(where, 1, 10);
         } else break;
       }
       while (where > 5 && where < 11) {
-        if (what->What_class() != "Ring") {
+        if (items_map.find(names[what_ - 1])->second->What_class() != "Ring") {
           where = -2;
           printf("You can't equip that on your finger Choose where else\n");
           where = IsNumber(where, 1, 10);
         } else break;
       }
-      //items_map.find(names[what_ - 1])->second->equip(1);
       printf("Control reached Equipping_Item 5 \n");
       Equip_Item(where - 1, items_map.find(names[what_ - 1])->second);
+    }
       printf("Do u want to add something to your equipment? Yes(1), No(2)\n");
       k = IsNumber(k, 1, 2);
-      delete what; //bug here?
+      //delete what;
       if (k == 1) { Equiping_Item(); }
-    }
   }
-  cout << "You can Equip Nothing.\n";
+  cout << "You Left Equip Menu.\n";
 }
 
 void Character::Unequip_Item(int where) {

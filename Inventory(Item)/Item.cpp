@@ -69,7 +69,7 @@ int Item::get(int a) {//armor class
 }
 void Item::equip(int a) {
   num_equiped += a;
-  if (num_equiped == count) equiped = true; else equiped = false;
+  equiped = (num_equiped == count);
 }
 bool Item::is_equiped() { return equiped; }
 std::string Item::What_class(){
