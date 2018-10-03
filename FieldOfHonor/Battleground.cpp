@@ -31,12 +31,12 @@ int Battleground::Get(int what) {
   if (what == 0) return X;
   else if (what == 1) return Y;
   else if (what == 2) return Z;
-  return -52;
+  return -1;
 }
 
 int Battleground::Shape() {
   cout << "Choose shape of the room\n1.Rectangle 2.Circle 3.~None\n";
-  shape = IsNumber<int>(shape, 1, 3);
+  shape = IsNumber<int>(shape, 1, kShapes_NUM);
   if (shape == 1) {
     cout << "insert limits for X, Y, Z\n";
     X_Limit = IsNumber<int>(X_Limit,1,X);

@@ -18,9 +18,20 @@
 
 using namespace std;
 
-const int kData_size = 72;
+const int kData_size = 71;
 const int kMoney_types = 5;
 const int kEquip_places = 10;
+const int kAbility_Minimum_Score = 10;
+const int kAbility_Maximum_Score = 20;
+const int kAbility_Starting_Maximum = 16;
+const int kSkills_b_shift = 40;
+const int kParameter_b_shift = 37;
+const int kClassType_get_bool_shift = 51;
+const int kBarbarian_Unarmored_Defence = 10;
+const int kWealth_Set_parameters = 3;
+const int kDice_Minimum_value = 1;
+const int kClassType_get_shift = 21;
+
 
 class Character {
  private:
@@ -32,7 +43,7 @@ class Character {
 
   int exhaustion;
  protected:
-  int sex; //0 - female,1 - male, 3 - Futa, 4 - creature
+  int sex; //0 - female,1 - male, 3 - Futanari, 4 - creature
   int experience, level;
   int health, maxhealth;
   int health_dice;
@@ -79,9 +90,9 @@ sleightOfHand 15,stealth 16,survival 17*/
   //new
   int ProficiencySetter();
 
-  int PassivePerceptionSetter(int WisModifier_, bool perception_advantage_, bool perception_disadvantage_);
+  void PassivePerceptionSetter();
 
-  void Skill_Proficiences();
+  void Skill_Proficiencies();
 
   void StorySetsSkills(int storyline_i);
 
@@ -89,7 +100,7 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   void Ability_improve();
 
-  void Race_Choosal(Random_Generator_ * Rand_gen);
+  void Race_Choosal();
 
   void Race_Get_Abilities();
 

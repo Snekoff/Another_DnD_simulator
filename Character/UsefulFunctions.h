@@ -9,10 +9,13 @@
 const int kRace_Num = 11;
 const int kRace_with_subraces_Num = 39;
 const int kAbilities_Num = 6;
-const int kLevels_Num = 21;
+const int kLevels_Num = 20;
 const int kStory_Num = 13;
 const int kOutput_Num = 90;
 const int kSkills_Num = 18;
+const int kLevel_Minimum = 1;
+const int kExperience_Max = 355000;
+const int kExperience_Min = 0;
 
 struct Existing_Types {
   int minHeight[kRace_Num] = {6, 4, 6, 3, 3, 5, 5, 3, 5, 5, 5 };
@@ -31,7 +34,7 @@ struct Existing_Types {
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
-  int experience_per_level[kLevels_Num] = {0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000,120000002};
+  int experience_per_level[kLevels_Num] = {0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,kExperience_Max};
 
   std::string  stories[kStory_Num] = {"Acolyte", "Charlatan", "Criminal", "Entertainer", "FolkHero", "GuildArtisan",
         "Hermit", "Noble", "Outlander", "Sage", "Sailor", "Soldier", "Urchin"};

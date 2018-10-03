@@ -43,7 +43,7 @@ void Race::Create(int sub_type, int height_, int weight_, int age_) {
   //subRaceFeatures();
 }
 int Race::get(int what) {
-  switch (what){
+  switch (what) {
     case 0 : return type;
     case 1 : return height;
     case 2 : return weight;
@@ -119,14 +119,14 @@ void Race::Size_Set() {
          E.minAge[type],
          "to ",
          E.maxAge[type]);
-  height = IsNumber(height,0,200);
-  weight = IsNumber(weight,0,200);
-  age = IsNumber(age,0,200);
+  height = IsNumber(height, 0, 200);
+  weight = IsNumber(weight, 0, 200);
+  age = IsNumber(age, 0, 200);
   if (height <= 0 || height > E.maxHeight[type]) { height = Rand_gen->Rand(E.minHeight[type], E.maxHeight[type]); }
   if (weight <= 0 || weight > E.maxWeight[type]) { weight = Rand_gen->Rand(E.minWeight[type], E.maxWeight[type]); }
   if (age <= 0 || age > E.maxAge[type]) { age = Rand_gen->Rand(E.minAge[type], E.maxAge[type]); }
 }
-bool Race::Load(int parameters_i[]){
+bool Race::Load(int parameters_i[]) {
   type = parameters_i[26];
   subtype = parameters_i[34];
   height = parameters_i[27];
@@ -142,7 +142,7 @@ bool Race::Load(int parameters_i[]){
   Int = 0;
   Wis = 0;
   Cha = 0;
-  raceFeatures = "loaded " + std::to_string((char)parameters_i[35]);
+  raceFeatures = "loaded " + std::to_string((char) parameters_i[35]);
   return true;
 }
 
