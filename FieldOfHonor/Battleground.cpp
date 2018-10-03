@@ -6,36 +6,94 @@ Battleground::Battleground() {
   Y = 4;
   Z = 4;
   square_Resize();
+  shape = 0;
 }
 
 Battleground::Battleground(short x_, short y_, short z_) {
-  x_ = Correctness_of_input<short>(x_,0,-1);
-  y_ = Correctness_of_input<short>(y_,0,-1);
-  z_ = Correctness_of_input<short>(z_,0,-1);
+  x_ = Correctness_of_input<short>(x_, 0, -1);
+  y_ = Correctness_of_input<short>(y_, 0, -1);
+  z_ = Correctness_of_input<short>(z_, 0, -1);
   X = x_;
   Y = y_;
   Z = z_;
   square_Resize();
+  shape = 0;
+  radius = 0;
+  X_Limit = X;
+  Y_Limit = Y;
+  Z_Limit = Z;
   Shape();
 }
 
 Battleground::~Battleground() = default;
 
 int Battleground::Get(int what) {
-if(what == 0) return X;
-else if(what == 1) return Y;
-else if(what == 2) return Z;
-return -52;
+  if (what == 0) return X;
+  else if (what == 1) return Y;
+  else if (what == 2) return Z;
+  return -52;
 }
 
 int Battleground::Shape() {
+  cout << "Choose shape of the room\n1.Rectangle 2.Circle 3.~None\n";
+  shape = IsNumber<int>(shape, 1, 3);
+  if (shape == 1) {
+    cout << "insert limits for X, Y, Z\n";
+    X_Limit = IsNumber<int>(X_Limit,1,X);
+    Y_Limit = IsNumber<int>(Y_Limit,1,Y);
+    Z_Limit = IsNumber<int>(Z_Limit,1,Z);
+    Rectangle_Shape();
+  } else if (shape == 2) {
+    int radius_limit = 0;
+    if(min(X,Y)%2 == 0) radius_limit = min(X,Y)/2 - 1;
+    else radius_limit = min(X,Y)/2;
+    cout << "Insert Radius equal or lower than " << radius_limit << endl;
+    radius = IsNumber<int>(radius,1,radius_limit);
+    Round_Shape();
+  }
+}
 
+void Battleground::Rectangle_Shape() {
+for(int i = X; i != X_Limit; i--){
+  for(int j = 0; j < Y ;j++){
+    square[i][j] = 1;
+  }
+}
+  for(int i = Y; i != Y_Limit; i--){
+    for(int j = 0; j < X;j++){
+      square[j][i] = 1;
+    }
+  }
+}
+
+void Battleground::Round_Shape() {
+  int x_center = 0, y_center = 0;
+  if (X % 2 == 0) {
+    if (Y % 2 == 0) {
+      x_center = X / 2 - 1;
+      y_center = Y / 2 - 1;
+    } else {
+      x_center = X / 2 - 1;
+      y_center = Y / 2;
+    }
+  } else {
+    if (Y % 2 == 0) {
+      x_center = X / 2;
+      y_center = Y / 2 - 1;
+    } else {
+      x_center = X / 2;
+      y_center = Y / 2;
+    }
+  }
+  square[x_center][y_center] = 2;
 }
 
 void Battleground::square_Resize() {
-  square.resize((unsigned)X);
-  for(short i = 0; i < X;i++){
-    square[i].resize((unsigned)Y);
+  square.resize((unsigned) X);
+  occupation.resize((unsigned) X);
+  for (short i = 0; i < X; i++) {
+    occupation.resize((unsigned) X);
+    square[i].resize((unsigned) Y);
   }
 }
 

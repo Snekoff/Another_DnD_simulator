@@ -18,8 +18,9 @@
 
 using namespace std;
 
-
-//vector<Race*> multirace;
+const int kData_size = 72;
+const int kMoney_types = 5;
+const int kEquip_places = 10;
 
 class Character {
  private:
@@ -43,13 +44,13 @@ class Character {
   bool advantage, disadvantage;
   bool perception_advantage;
   bool perception_disadvantage;//20
-  int *s;
+  int *skills;
   /*acrobatics 0,animalHandling 1,arcana 2,athletics 3,deception 4,
 history 5,insight 6,intimidation 7,investigation 8,medicine 9,
 nature 10,perception 11,performance 12,persuasion 13,religion 14,
 sleightOfHand 15,stealth 16,survival 17*/
-  bool *s_b;//38
-  int money[5]; // copper, silver, gold, platinum, Total money(in copper equivalent)
+  bool *skills_b;//38
+  int money[kMoney_types]; // copper, silver, gold, platinum, Total money(in copper equivalent)
   vector<Item *> inventory;
   map<std::string, Item *> items_map;
   vector<Item *> Equipped;
@@ -72,13 +73,13 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   void Maximum_Parameter_Value();
 
-  int AbilityModifier(int a);
+  int AbilityModifier(int ability);
 
   void ConcreteAbilityModifier();
   //new
   int ProficiencySetter();
 
-  int PassivePerceptionSetter(int a, bool b, bool c);
+  int PassivePerceptionSetter(int WisModifier_, bool perception_advantage_, bool perception_disadvantage_);
 
   void Skill_Proficiences();
 
@@ -92,19 +93,19 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   void Race_Get_Abilities();
 
-  void Set(int a, int b);
+  void Set(int what, int value);
 
-  int Get(int a);
+  virtual int Get(int what);
 
-  bool Get_bool(int a);
+  bool Get_bool(int what);
 
   vector<int> Get_inventory();
 
-  Item * Factory_Complex(string &a, int quantity);
+  Item * Factory_Complex(string &name_, int quantity);
 
   void Add_Money(int type,int sum);
 
-  void Add_To_Item_Map(string &a);
+  void Add_To_Item_Map(string &name_);
 
   bool Paying_Money(int how_many_copper);
 
@@ -124,15 +125,15 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   void SetClass(Random_Generator_ * Rand_gen);
 
-  void SetSkill(int c[]);
+  void SetSkill();
 
-  int GetSkill(int a);
+  int GetSkill(int what);
 
   void Inventory_Load(vector<int> item_);
 
   void Starting_Health();
 
-  bool Load(int a[], bool b[], vector<int> item_);
+  bool Load(int parameter_i[], bool parameter_b[], vector<int> item_);
 
 };
 

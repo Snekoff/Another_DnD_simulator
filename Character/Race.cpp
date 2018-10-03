@@ -20,79 +20,75 @@ Race::Race() {
   damage_resistance = 0;
 }
 Race::~Race() = default;
-void Race::set(Random_Generator_ * Rand_gen,int a) {
+/*void Race::set(Random_Generator_ * Rand_gen,int a) {
   //type = a;
   height = Rand_gen->Rand(E.minHeight[type], E.maxHeight[type]);
   weight = Rand_gen->Rand(E.minWeight[type], E.maxWeight[type]);
   age = Rand_gen->Rand(E.minAge[type], E.maxAge[type]);
-}
-void Race::set(int a, int b, int c, int d) {
-  type = a;
-  height = b;
-  weight = c;
-  age = d;
+}*/
+void Race::set(int type_, int height_, int weight_, int age_) {
+  type = type_;
+  height = height_;
+  weight = weight_;
+  age = age_;
   SetRaceAbilityBonus();
   RaceAbilityBonus();
 }
-void Race::Create(int sub_type, int a, int b, int c) {
+void Race::Create(int sub_type, int height_, int weight_, int age_) {
   type = sub_type;
   //subtype = sub_type;
-  height = a;
-  weight = b;
-  age = c;
+  height = height_;
+  weight = weight_;
+  age = age_;
   //subRaceFeatures();
 }
-int Race::get(int w) {
-  if (w == 0) return type;
-  else if (w == 1) return height;
-  else if (w == 2) return weight;
-  else if (w == 3) return age;
-  else if (w == 4) return Str;
-  else if (w == 5) return Dex;
-  else if (w == 6) return Con;
-  else if (w == 7) return Int;
-  else if (w == 8) return Wis;
-  else if (w == 9) return Cha;
-  else if (w == 10) return Movement;
-  else if (w == 11) return Size;
-  else if (w == 12) return Darkvision;
-  else if (w == 13) return damage_resistance;
-  else if (w == 14) return subtype;
-  return -1;
+int Race::get(int what) {
+  switch (what){
+    case 0 : return type;
+    case 1 : return height;
+    case 2 : return weight;
+    case 3 : return age;
+    case 4 : return Str;
+    case 5 : return Dex;
+    case 6 : return Con;
+    case 7 : return Int;
+    case 8 : return Wis;
+    case 9 : return Cha;
+    case 10 : return Movement;
+    case 11 : return Size;
+    case 12 : return Darkvision;
+    case 13 : return damage_resistance;
+    case 14 : return subtype;
+    default: return -1;
+  }
 }
-void Race::RaceFeature() {}
-// what
+
 void Race::SetRaceAbilityBonus() {
   int a = 0, b = 0;
   if (type < 15 || (type > 19 && type != 25 && type != 37)) {// 15-19(3)  25(2) 37(Dex or Cha)
     printf("%s \n", "Your type got non flexible ability bonuses");
   } else if (type == 25) {
     printf("%s \n", "type two most wanted abilities to improve (1 - 6)");
-    //std::cin >> a >> b;
-    a = IsNumber(a, 1, 6);
-    b = IsNumber(b, 1, 6);
+    a = IsNumber(a, 1, kAbilities_Num);
+    b = IsNumber(b, 1, kAbilities_Num);
     E.race_ability_bonus[a - 1][type] += 1;
     E.race_ability_bonus[b - 1][type] += 1;
   } else if (type == 37) {
     printf("%s \n", "Choose only one ability Dexterity(2) or Charisma(6) )");
-    //std::cin >> a;
-    a = IsNumber(a, 2, 6);
-    while (a != 2 && a != 6) {
+    a = IsNumber(a, 2, kAbilities_Num);
+    while (a != 2 && a != kAbilities_Num) {
       printf("%s \n", "Choose only one ability Dexterity(2) or Charisma(6) )");
-      //std::cin >> a;
-      a = IsNumber(a, 2, 6);
+      a = IsNumber(a, 2, kAbilities_Num);
     }
     E.race_ability_bonus[a - 1][type] += 1;
   } else {
     printf("%s \n", "type two most wanted abilities to improve (1 - 6)");
-    //std::cin >> a >> b;
-    a = IsNumber(a, 1, 6);
-    b = IsNumber(b, 1, 6);
+    a = IsNumber(a, 1, kAbilities_Num);
+    b = IsNumber(b, 1, kAbilities_Num);
     while (a - 1 == 5 || b - 1 == 5) {
       printf("%s \n", "Your charisma is already raised, choose another pair");
-      //std::cin >> a >> b;
-      a = IsNumber(a, 1, 6);
-      b = IsNumber(b, 1, 6);
+      a = IsNumber(a, 1, kAbilities_Num);
+      b = IsNumber(b, 1, kAbilities_Num);
     }
     E.race_ability_bonus[a - 1][type] += 1;
     E.race_ability_bonus[b - 1][type] += 1;
@@ -130,29 +126,29 @@ void Race::Size_Set() {
   if (weight <= 0 || weight > E.maxWeight[type]) { weight = Rand_gen->Rand(E.minWeight[type], E.maxWeight[type]); }
   if (age <= 0 || age > E.maxAge[type]) { age = Rand_gen->Rand(E.minAge[type], E.maxAge[type]); }
 }
-bool Race::Load(int a[]){
-  type = a[26];
-  subtype = a[34];
-  height = a[27];
-  weight = a[28];
-  age = a[29];
-  Movement = a[30];
-  Size = a[31];
-  Darkvision = a[32];
-  damage_resistance = a[33];
+bool Race::Load(int parameters_i[]){
+  type = parameters_i[26];
+  subtype = parameters_i[34];
+  height = parameters_i[27];
+  weight = parameters_i[28];
+  age = parameters_i[29];
+  Movement = parameters_i[30];
+  Size = parameters_i[31];
+  Darkvision = parameters_i[32];
+  damage_resistance = parameters_i[33];
   Str = 0;
   Dex = 0;
   Con = 0;
   Int = 0;
   Wis = 0;
   Cha = 0;
-  raceFeatures = "loaded " + std::to_string((char)a[35]);
+  raceFeatures = "loaded " + std::to_string((char)parameters_i[35]);
   return true;
 }
 
 Dragonborn::Dragonborn() = default;
-Dragonborn::Dragonborn(int sub_type, int a, int b, int c) {
-  Create(sub_type, a, b, c);
+Dragonborn::Dragonborn(int sub_type, int height_, int weight_, int age_) {
+  Create(sub_type, height_, weight_, age_);
 }
 Dragonborn::~Dragonborn() = default;
 void Dragonborn::subRaceFeatures() {
@@ -194,7 +190,7 @@ void Dragonborn::subRaceFeatures() {
     raceFeatures = "fits,Cold,Draconic";
   }
 }
-void Dragonborn::Create(int sub_type, int a, int b, int c) {
+void Dragonborn::Create(int sub_type, int height_, int weight_, int age_) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -207,16 +203,16 @@ void Dragonborn::Create(int sub_type, int a, int b, int c) {
   damage_resistance = 0;
   type = 1;
   subtype = sub_type;
-  height = a;
-  weight = b;
-  age = c;
+  height = height_;
+  weight = weight_;
+  age = age_;
   Size_Set();
   subRaceFeatures();
 }
 
 Dwarf::Dwarf() : Race() { subtype = 0; }
-Dwarf::Dwarf(int sub_type, int a, int b, int c) {
-  Create(sub_type, a, b, c);
+Dwarf::Dwarf(int sub_type, int height_, int weight_, int age_) {
+  Create(sub_type, height_, weight_, age_);
 }
 Dwarf::~Dwarf() = default;
 void Dwarf::subRaceFeatures() {
@@ -238,7 +234,7 @@ void Dwarf::subRaceFeatures() {
     raceFeatures = "25,Medium,Darkvision,skill like firebreath,fits,Languages";
   }
 }
-void Dwarf::Create(int sub_type, int a, int b, int c) {
+void Dwarf::Create(int sub_type, int height_, int weight_, int age_) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -251,16 +247,16 @@ void Dwarf::Create(int sub_type, int a, int b, int c) {
   damage_resistance = 0;
   subtype = sub_type;
   type = 2;
-  height = a;
-  weight = b;
-  age = c;
+  height = height_;
+  weight = weight_;
+  age = age_;
   Size_Set();
   subRaceFeatures();
 }
 
 Elf::Elf() : Race() { subtype = 0; }
-Elf::Elf(int sub_type, int a, int b, int c) {
-  Create(sub_type, a, b, c);
+Elf::Elf(int sub_type, int height_, int weight_, int age_) {
+  Create(sub_type, height_, weight_, age_);
 }
 Elf::~Elf() = default;
 void Elf::subRaceFeatures() {
@@ -298,7 +294,7 @@ void Elf::subRaceFeatures() {
     raceFeatures = "fits,Languages";
   }
 }
-void Elf::Create(int sub_type, int a, int b, int c) {
+void Elf::Create(int sub_type, int height_, int weight_, int age_) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -311,16 +307,16 @@ void Elf::Create(int sub_type, int a, int b, int c) {
   damage_resistance = 0;
   type = 3;
   subtype = sub_type;
-  height = a;
-  weight = b;
-  age = c;
+  height = height_;
+  weight = weight_;
+  age = age_;
   Size_Set();
   subRaceFeatures();
 }
 
 Gnome::Gnome() : Race() { subtype = 0; }
-Gnome::Gnome(int sub_type, int a, int b, int c) {
-  Create(sub_type, a, b, c);
+Gnome::Gnome(int sub_type, int height_, int weight_, int age_) {
+  Create(sub_type, height_, weight_, age_);
 }
 Gnome::~Gnome() = default;
 void Gnome::subRaceFeatures() {
@@ -342,7 +338,7 @@ void Gnome::subRaceFeatures() {
     raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,Languages";
   }
 }
-void Gnome::Create(int sub_type, int a, int b, int c) {
+void Gnome::Create(int sub_type, int height_, int weight_, int age_) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -355,16 +351,16 @@ void Gnome::Create(int sub_type, int a, int b, int c) {
   damage_resistance = 0;
   type = 4;
   subtype = sub_type;
-  height = a;
-  weight = b;
-  age = c;
+  height = height_;
+  weight = weight_;
+  age = age_;
   Size_Set();
   subRaceFeatures();
 }
 
 Goblin::Goblin() : Race() { subtype = 0; }
-Goblin::Goblin(int sub_type, int a, int b, int c) {
-  Create(sub_type, a, b, c);
+Goblin::Goblin(int sub_type, int height_, int weight_, int age_) {
+  Create(sub_type, height_, weight_, age_);
 }
 Goblin::~Goblin() = default;
 void Goblin::subRaceFeatures() {
@@ -376,7 +372,7 @@ void Goblin::subRaceFeatures() {
   Con += 1;
   raceFeatures = "30,Small,Darkvision,skill like firebreath,fits,Languages";
 }
-void Goblin::Create(int sub_type, int a, int b, int c) {
+void Goblin::Create(int sub_type, int height_, int weight_, int age_) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -389,16 +385,16 @@ void Goblin::Create(int sub_type, int a, int b, int c) {
   damage_resistance = 0;
   type = 5;
   subtype = sub_type;
-  height = a;
-  weight = b;
-  age = c;
+  height = height_;
+  weight = weight_;
+  age = age_;
   Size_Set();
   subRaceFeatures();
 }
 
 Half_Elf::Half_Elf() : Race() { subtype = 0; }
-Half_Elf::Half_Elf(int sub_type, int a, int b, int c) {
-  Create(sub_type, a, b, c);
+Half_Elf::Half_Elf(int sub_type, int height_, int weight_, int age_) {
+  Create(sub_type, height_, weight_, age_);
 }
 Half_Elf::~Half_Elf() = default;
 void Half_Elf::subRaceFeatures() {
@@ -428,7 +424,7 @@ void Half_Elf::subRaceFeatures() {
   E.race_ability_bonus[a - 1][15 + subtype] -= 1;
   E.race_ability_bonus[b - 1][15 + subtype] -= 1;
 }
-void Half_Elf::Create(int sub_type, int a, int b, int c) {
+void Half_Elf::Create(int sub_type, int height_, int weight_, int age_) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -441,16 +437,16 @@ void Half_Elf::Create(int sub_type, int a, int b, int c) {
   damage_resistance = 0;
   type = 6;
   subtype = sub_type;
-  height = a;
-  weight = b;
-  age = c;
+  height = height_;
+  weight = weight_;
+  age = age_;
   Size_Set();
   subRaceFeatures();
 }
 
 Half_Orc::Half_Orc() : Race() { subtype = 0; }
-Half_Orc::Half_Orc(int sub_type, int a, int b, int c) {
-  Create(sub_type, a, b, c);
+Half_Orc::Half_Orc(int sub_type, int height_, int weight_, int age_) {
+  Create(sub_type, height_, weight_, age_);
 }
 Half_Orc::~Half_Orc() = default;
 void Half_Orc::subRaceFeatures() {
@@ -469,7 +465,7 @@ void Half_Orc::subRaceFeatures() {
     raceFeatures = "fits,Languages";
   }
 }
-void Half_Orc::Create(int sub_type, int a, int b, int c) {
+void Half_Orc::Create(int sub_type, int height_, int weight_, int age_) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -482,16 +478,16 @@ void Half_Orc::Create(int sub_type, int a, int b, int c) {
   damage_resistance = 0;
   type = 7;
   subtype = sub_type;
-  height = a;
-  weight = b;
-  age = c;
+  height = height_;
+  weight = weight_;
+  age = age_;
   Size_Set();
   subRaceFeatures();
 }
 
 Halfling::Halfling() : Race() { subtype = 0; }
-Halfling::Halfling(int sub_type, int a, int b, int c) {
-  Create(sub_type, a, b, c);
+Halfling::Halfling(int sub_type, int height_, int weight_, int age_) {
+  Create(sub_type, height_, weight_, age_);
 }
 Halfling::~Halfling() = default;
 void Halfling::subRaceFeatures() {
@@ -511,7 +507,7 @@ void Halfling::subRaceFeatures() {
     raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,Languages";
   }
 }
-void Halfling::Create(int sub_type, int a, int b, int c) {
+void Halfling::Create(int sub_type, int height_, int weight_, int age_) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -524,16 +520,16 @@ void Halfling::Create(int sub_type, int a, int b, int c) {
   damage_resistance = 0;
   type = 8;
   subtype = sub_type;
-  height = a;
-  weight = b;
-  age = c;
+  height = height_;
+  weight = weight_;
+  age = age_;
   Size_Set();
   subRaceFeatures();
 }
 
 Human::Human() : Race() { subtype = 0; }
-Human::Human(int sub_type, int a, int b, int c) {
-  Create(sub_type, a, b, c);
+Human::Human(int sub_type, int height_, int weight_, int age_) {
+  Create(sub_type, height_, weight_, age_);
 }
 Human::~Human() = default;
 void Human::subRaceFeatures() {
@@ -563,7 +559,7 @@ void Human::subRaceFeatures() {
     E.race_ability_bonus[b - 1][24 + subtype] -= 1;
   }
 }
-void Human::Create(int sub_type, int a, int b, int c) {
+void Human::Create(int sub_type, int height_, int weight_, int age_) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -576,16 +572,16 @@ void Human::Create(int sub_type, int a, int b, int c) {
   damage_resistance = 0;
   type = 9;
   subtype = sub_type;
-  height = a;
-  weight = b;
-  age = c;
+  height = height_;
+  weight = weight_;
+  age = age_;
   Size_Set();
   subRaceFeatures();
 }
 
 Lizardfolk::Lizardfolk() : Race() { subtype = 0; }
-Lizardfolk::Lizardfolk(int sub_type, int a, int b, int c) {
-  Create(sub_type, a, b, c);
+Lizardfolk::Lizardfolk(int sub_type, int height_, int weight_, int age_) {
+  Create(sub_type, height_, weight_, age_);
 }
 Lizardfolk::~Lizardfolk() = default;
 void Lizardfolk::subRaceFeatures() {
@@ -603,7 +599,7 @@ void Lizardfolk::subRaceFeatures() {
   Wis += 1;
   raceFeatures = "fits,Languages,s[" + std::to_string(a) + "],s[" + std::to_string(b) + "]";
 }
-void Lizardfolk::Create(int sub_type, int a, int b, int c) {
+void Lizardfolk::Create(int sub_type, int height_, int weight_, int age_) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -616,16 +612,16 @@ void Lizardfolk::Create(int sub_type, int a, int b, int c) {
   damage_resistance = 0;
   type = 10;
   subtype = sub_type;
-  height = a;
-  weight = b;
-  age = c;
+  height = height_;
+  weight = weight_;
+  age = age_;
   Size_Set();
   subRaceFeatures();
 }
 
 Tiefling::Tiefling() : Race() { subtype = 0; }
-Tiefling::Tiefling(int sub_type, int a, int b, int c) {
-  Create(sub_type, a, b, c);
+Tiefling::Tiefling(int sub_type, int height_, int weight_, int age_) {
+  Create(sub_type, height_, weight_, age_);
 }
 Tiefling::~Tiefling() = default;
 void Tiefling::subRaceFeatures() {
@@ -690,7 +686,7 @@ void Tiefling::subRaceFeatures() {
     raceFeatures = "fits,Languages";
   }
 }
-void Tiefling::Create(int sub_type, int a, int b, int c) {
+void Tiefling::Create(int sub_type, int height_, int weight_, int age_) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -703,9 +699,9 @@ void Tiefling::Create(int sub_type, int a, int b, int c) {
   damage_resistance = 0;
   type = 11;
   subtype = sub_type;
-  height = a;
-  weight = b;
-  age = c;
+  height = height_;
+  weight = weight_;
+  age = age_;
   Size_Set();
   subRaceFeatures();
 }

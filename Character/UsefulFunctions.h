@@ -6,15 +6,23 @@
 #ifndef ANOTHER_DND_SIMULATOR_USEFULFUNCTIONS_H
 #define ANOTHER_DND_SIMULATOR_USEFULFUNCTIONS_H
 
+const int kRace_Num = 11;
+const int kRace_with_subraces_Num = 39;
+const int kAbilities_Num = 6;
+const int kLevels_Num = 21;
+const int kStory_Num = 13;
+const int kOutput_Num = 90;
+const int kSkills_Num = 18;
+
 struct Existing_Types {
-  int minHeight[11] = {6, 4, 6, 3, 3, 5, 5, 3, 5, 5, 5 };
-  int maxHeight[11] = {6, 5, 6, 4, 4, 6, 6, 3, 6, 6, 6 };
-  int minWeight[11] = {10, 4, 6, 3, 3, 5, 5, 3, 5, 5, 5 };
-  int maxWeight[11] = {140, 140, 140, 140, 140, 140, 140, 140, 145, 140, 140 };
-  int minAge[11] = {3, 4, 6, 3, 3, 5, 5, 3, 5, 5, 5 };
-  int maxAge[11] = {120, 140, 140, 140, 140, 140, 140, 140, 200, 140, 140 };//
+  int minHeight[kRace_Num] = {6, 4, 6, 3, 3, 5, 5, 3, 5, 5, 5 };
+  int maxHeight[kRace_Num] = {6, 5, 6, 4, 4, 6, 6, 3, 6, 6, 6 };
+  int minWeight[kRace_Num] = {10, 4, 6, 3, 3, 5, 5, 3, 5, 5, 5 };
+  int maxWeight[kRace_Num] = {140, 140, 140, 140, 140, 140, 140, 140, 145, 140, 140 };
+  int minAge[kRace_Num] = {3, 4, 6, 3, 3, 5, 5, 3, 5, 5, 5 };
+  int maxAge[kRace_Num] = {120, 140, 140, 140, 140, 140, 140, 140, 200, 140, 140 };//
   //std::string item[9] = {"equipment","potions","food","ammo_holder","shield","weapon","armor","ammo","usable"};
-  int race_ability_bonus[39][6] =
+  int race_ability_bonus[kRace_with_subraces_Num][kAbilities_Num] =
       {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
@@ -23,11 +31,11 @@ struct Existing_Types {
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
-  int experience_per_level[21] = {0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000,120000002};
+  int experience_per_level[kLevels_Num] = {0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000,120000002};
 
-  std::string  stories[13] = {"Acolyte", "Charlatan", "Criminal", "Entertainer", "FolkHero", "GuildArtisan",
+  std::string  stories[kStory_Num] = {"Acolyte", "Charlatan", "Criminal", "Entertainer", "FolkHero", "GuildArtisan",
         "Hermit", "Noble", "Outlander", "Sage", "Sailor", "Soldier", "Urchin"};
-  std::string params[90] = {" storyline_i(1)", " sex(2)", " experience(3)", " level(4)", " health(5)", " maxhealth(6)",
+  std::string params[kOutput_Num] = {" storyline_i(1)", " sex(2)", " experience(3)", " level(4)", " health(5)", " maxhealth(6)",
                             " health_dice(7)", " Str(8)", " Dex(9)", " Con(10)", " Int(11)", " Wis(12)", " Cha(13)",
                             " armor_class(14)", " deathsaves_s(15)", " deathsaves_f(16)",
                             " money[0]()", " money[1]", " money[2]",

@@ -18,8 +18,6 @@ class Race {
   int Size; // 0 - small,1 - medium, etc.
   int Darkvision;
   int damage_resistance;
-
-  Spell spell;
   std::string raceFeatures;
   Existing_Types E;
   // Movement,Size,Darkvision,skill like firebreath,fits,type of damage resistance,Languages//
@@ -28,15 +26,13 @@ class Race {
 
   ~Race();
 
-  void set(Random_Generator_ *Rand_gen, int a);
+  //void set(Random_Generator_ *Rand_gen, int a);
 
-  void set(int a, int b, int c, int d);
+  void set(int type_, int height_, int weight_, int age_);
 
-  virtual void Create(int sub_type, int a, int b, int c);
+  virtual void Create(int sub_type, int height_, int weight_, int age_);
 
-  int get(int w);
-
-  void RaceFeature();
+  int get(int what);
 
   void SetRaceAbilityBonus();
 
@@ -44,7 +40,7 @@ class Race {
 
   void Size_Set();
 
-  bool Load(int a[]);
+  bool Load(int parameters_i[]);
 
 };
 
@@ -53,11 +49,11 @@ class Dragonborn : public Race {
   //int subtype;
  public:
   Dragonborn();
-  Dragonborn(int sub_type, int a, int b, int c);
+  Dragonborn(int sub_type, int height_, int weight_, int age_);
   ~Dragonborn();
   void subRaceFeatures();
 
-  void Create(int sub_type, int a, int b, int c) override;
+  void Create(int sub_type, int height_, int weight_, int age_) override;
 };
 
 class Dwarf : public Race {
@@ -65,11 +61,11 @@ class Dwarf : public Race {
   //int subtype;
  public:
   Dwarf();
-  Dwarf(int sub_type, int a, int b, int c);
+  Dwarf(int sub_type, int height_, int weight_, int age_);
   ~Dwarf();
   void subRaceFeatures();
 
-  void Create(int sub_type, int a, int b, int c) override;
+  void Create(int sub_type, int height_, int weight_, int age_) override;
 };
 
 class Elf : public Race {
@@ -77,11 +73,11 @@ class Elf : public Race {
   //int subtype;
  public:
   Elf();
-  Elf(int sub_type, int a, int b, int c);
+  Elf(int sub_type, int height_, int weight_, int age_);
   ~Elf();
   void subRaceFeatures();
 
-  void Create(int sub_type, int a, int b, int c) override;
+  void Create(int sub_type, int height_, int weight_, int age_) override;
 };
 
 class Gnome : public Race {
@@ -89,11 +85,11 @@ class Gnome : public Race {
   //int subtype;
  public:
   Gnome();
-  Gnome(int sub_type, int a, int b, int c);
+  Gnome(int sub_type, int height_, int weight_, int age_);
   ~Gnome();
   void subRaceFeatures();
 
-  void Create(int sub_type, int a, int b, int c) override;
+  void Create(int sub_type, int height_, int weight_, int age_) override;
 };
 
 class Goblin : public Race {
@@ -101,11 +97,11 @@ class Goblin : public Race {
   //int subtype;
  public:
   Goblin();
-  Goblin(int sub_type, int a, int b, int c);
+  Goblin(int sub_type, int height_, int weight_, int age_);
   ~Goblin();
   void subRaceFeatures();
 
-  void Create(int sub_type, int a, int b, int c) override;
+  void Create(int sub_type, int height_, int weight_, int age_) override;
 };
 
 class Half_Elf : public Race {
@@ -113,11 +109,11 @@ class Half_Elf : public Race {
   //int subtype;
  public:
   Half_Elf();
-  Half_Elf(int sub_type, int a, int b, int c);
+  Half_Elf(int sub_type, int height_, int weight_, int age_);
   ~Half_Elf();
   void subRaceFeatures();
 
-  void Create(int sub_type, int a, int b, int c) override;
+  void Create(int sub_type, int height_, int weight_, int age_) override;
 };
 
 class Half_Orc : public Race {
@@ -125,11 +121,11 @@ class Half_Orc : public Race {
   //int subtype;
  public:
   Half_Orc();
-  Half_Orc(int sub_type, int a, int b, int c);
+  Half_Orc(int sub_type, int height_, int weight_, int age_);
   ~Half_Orc();
   void subRaceFeatures();
 
-  void Create(int sub_type, int a, int b, int c) override;
+  void Create(int sub_type, int height_, int weight_, int age_) override;
 };
 
 class Halfling : public Race {
@@ -137,11 +133,11 @@ class Halfling : public Race {
   //int subtype;
  public:
   Halfling();
-  Halfling(int sub_type, int a, int b, int c);
+  Halfling(int sub_type, int height_, int weight_, int age_);
   ~Halfling();
   void subRaceFeatures();
 
-  void Create(int sub_type, int a, int b, int c) override;
+  void Create(int sub_type, int height_, int weight_, int age_) override;
 };
 
 class Human : public Race {
@@ -149,22 +145,22 @@ class Human : public Race {
   //int subtype;
  public:
   Human();
-  Human(int sub_type, int a, int b, int c);
+  Human(int sub_type, int height_, int weight_, int age_);
   ~Human();
   void subRaceFeatures();
 
-  void Create(int sub_type, int a, int b, int c) override;
+  void Create(int sub_type, int height_, int weight_, int age_) override;
 };
 class Lizardfolk : public Race {
  private:
   //int subtype;
  public:
   Lizardfolk();
-  Lizardfolk(int sub_type, int a, int b, int c);
+  Lizardfolk(int sub_type, int height_, int weight_, int age_);
   ~Lizardfolk();
   void subRaceFeatures();
 
-  void Create(int sub_type, int a, int b, int c) override;
+  void Create(int sub_type, int height_, int weight_, int age_) override;
 };
 
 class Tiefling : public Race {
@@ -172,11 +168,11 @@ class Tiefling : public Race {
   //int subtype;
  public:
   Tiefling();
-  Tiefling(int sub_type, int a, int b, int c);
+  Tiefling(int sub_type, int height_, int weight_, int age_);
   ~Tiefling();
   void subRaceFeatures();
 
-  void Create(int sub_type, int a, int b, int c) override;
+  void Create(int sub_type, int height_, int weight_, int age_) override;
 };
 
 template<class C>
