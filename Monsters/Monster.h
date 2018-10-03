@@ -3,9 +3,12 @@
 #define ANOTHER_DND_SIMULATOR_MONSTER_H
 #include "../Character/character.h"
 
+const int kMonster_NUM = 50;
+const int kMonster_Parameter_NUM = 6;
+
 struct Exsisting_Monsters{
-  std::string All_s[50] = {};
-  int All_i[50][7] = {};
+  std::string All_s[kMonster_NUM] = {};
+  int All_i[kMonster_NUM][kMonster_Parameter_NUM] = {};
 };
 
 class Monster : public Character {
