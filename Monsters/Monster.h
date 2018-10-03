@@ -11,7 +11,7 @@ struct Exsisting_Monsters{
   int All_i[kMonster_NUM][kMonster_Parameter_NUM] = {};
 };
 
-class Monster : public Character {
+class Monster : public Creature {
  private:
   int monster_type;
   int experience;
@@ -20,7 +20,7 @@ class Monster : public Character {
 
   Monster(int type_,int level_, int hp, int armor_class_);
 
-  int Get(int w) override;
+  int Get(int w);
 
   ~Monster();
 

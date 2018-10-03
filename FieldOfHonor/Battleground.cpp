@@ -9,10 +9,10 @@ Battleground::Battleground() {
   shape = 0;
 }
 
-Battleground::Battleground(short x_, short y_, short z_) {
-  x_ = Correctness_of_input<short>(x_, 0, -1);
-  y_ = Correctness_of_input<short>(y_, 0, -1);
-  z_ = Correctness_of_input<short>(z_, 0, -1);
+Battleground::Battleground(int x_, int y_, int z_) {
+  x_ = Correctness_of_input<int>(x_, 0, -1);
+  y_ = Correctness_of_input<int>(y_, 0, -1);
+  z_ = Correctness_of_input<int>(z_, 0, -1);
   X = x_;
   Y = y_;
   Z = z_;
@@ -51,6 +51,7 @@ int Battleground::Shape() {
     radius = IsNumber<int>(radius,1,radius_limit);
     Round_Shape();
   }
+  return shape;
 }
 
 void Battleground::Rectangle_Shape() {
@@ -91,7 +92,7 @@ void Battleground::Round_Shape() {
 void Battleground::square_Resize() {
   square.resize((unsigned) X);
   occupation.resize((unsigned) X);
-  for (short i = 0; i < X; i++) {
+  for (int i = 0; i < X; i++) {
     occupation.resize((unsigned) X);
     square[i].resize((unsigned) Y);
   }

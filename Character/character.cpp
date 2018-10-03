@@ -43,6 +43,9 @@ Character::Character() {
   Equipped.resize(kEquip_places);
   state = 0;
   exhaustion = 0;
+  for(int i = 0; i < kCoordinates_NUM;i++){
+    Coordinates[i] = 0;
+  }
 }
 
 Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int levl, int Stre, int Dext,
@@ -113,7 +116,7 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   cout << "Control reach 11 armor class = " << armor_class << endl;
   if (classType.get(0) == 0) armor_class = kBarbarian_Unarmored_Defence + DexModifier + ConModifier;
   level = 1;
-  cout << "%skills %d " << "Control reach 12\n" << armor_class;
+  cout << "Control reach 12\n" << armor_class;
   cout << experience << " " << level << endl;
   t1 = Level_Up(Rand_gen);
   cout << "Control reach 13\n";
@@ -123,6 +126,9 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   state = 0;
   exhaustion = 0;
   Equiping_Item();
+  for(int i = 0; i < kCoordinates_NUM;i++){
+    Coordinates[i] = 0;
+  }
 }
 
 Character::~Character() {
@@ -167,7 +173,7 @@ int Character::Ability_Random_Sets(Random_Generator_ *Rand_gen, int rand_seed_ch
     bool checked[kAbilities_Num] = {false};
     first_or_second_set = IsNumber<int>(first_or_second_set, 1, 3);
     if (first_or_second_set == 3) return Ability_Random_Sets(Rand_gen, 0);
-    cout << "type six numbers what represents to what ability_ you apply each value "
+    cout << "type six numbers what represents to what ability  you apply each value "
             "1.Str, 2.Dex, 3.Con, 4.Int, 5.Wis, 6.Cha\n";
     for (int i = 0; i < kAbilities_Num; i++) {
       ability_[i] = IsNumber<int>(ability_[i], 1, kAbilities_Num);
@@ -290,9 +296,7 @@ int Character::Check_Ability_Reach_Maximum(int ability) {
 
 void Character::Ability_improve() {
   if (level == 4 || level == 8 || level == 12 || level == 16 || level == 19) {
-    cout << "%skills %d %skills \n" <<
-         "You reached" <<
-         level <<
+    cout << "You reached" << level <<
          " level, that means that you have to choose whether improve one ability +2(type 1) "
          "or two abilities +1(type 2).\n ~In future here might also be feats\n";
     int one_or_two_abilities = -1;
@@ -320,7 +324,7 @@ void Character::Ability_improve() {
 }
 
 void Character::Race_Choosal() {
-  cout << "It is time to choose your race. What it will be?";
+  cout << "It is time to choose your race. What it will be?\n";
   Race_Factory Race_Factory_;
   cout << "1. Dragonborn (10 subraces)\n"
           "2. Dwarf (3 subraces)\n"
@@ -333,13 +337,13 @@ void Character::Race_Choosal() {
           "9. Human (2 subraces)\n"
           "10. Lizardfolk\n"
           "11. Tiefling (11 subraces)\n"
-          "Type number, and proceed";
+          "Type number, and proceed\n";
   int race = 9;
   //int a = 0, b = 0, c = 0;
   race = IsNumber<int>(race, 1, kRace_Num);
   int subrace = 0;
   if (race == 1) {
-    cout << "Choose your subrace. What it will be?";
+    cout << "Choose your subrace. What it will be?\n";
     cout << "1. Black (Acid) 30ft. line\n"
             "2. Blue (Lightning) 30ft. line\n"
             "3. Brass (Fire) 30ft. line\n"
@@ -350,68 +354,68 @@ void Character::Race_Choosal() {
             "8. Red (Fire) 15ft. cone\n"
             "9. Silver (Cold) 15ft. cone\n"
             "10. White (Cold) 15ft. cone\n"
-            "Type number, and proceed";
+            "Type number, and proceed\n";
     subrace = IsNumber<int>(subrace, 1, 10);
     cout << "Control reach Race_Choosal 1\n";
   } else if (race == 2) {
-    cout << "Choose your subrace. What it will be?";
+    cout << "Choose your subrace. What it will be?\n";
     cout << "1. Duergar\n"
             "2. Hill\n"
             "3. Mountain\n"
-            "Type number, and proceed";
+            "Type number, and proceed\n";
     subrace = IsNumber<int>(subrace, 1, 3);
     cout << "Control reach Race_Choosal 2\n";
   } else if (race == 3) {
-    cout << "Choose your subrace. What it will be?";
+    cout << "Choose your subrace. What it will be?\n";
     cout << "1. Drow \n"
             "2. Eladrin \n"
             "3. High\n"
             "4. Sea\n"
             "5. Shadar-kai\n"
             "6. Wood\n"
-            "Type number, and proceed";
+            "Type number, and proceed\n";
     subrace = IsNumber<int>(subrace, 1, 6);
   } else if (race == 4) {
-    cout << "Choose your subrace. What it will be?";
+    cout << "Choose your subrace. What it will be?\n";
     cout << "1. Deep/Svirfneblin\n"
             "2. Forest\n"
             "3. Rock\n"
-            "Type number, and proceed";
+            "Type number, and proceed\n";
     subrace = IsNumber<int>(subrace, 1, 3);
   } else if (race == 5) {
     cout << "Goblin \n";
   } else if (race == 6) {
-    cout << "Choose your subrace. What it will be?";
+    cout << "Choose your subrace. What it will be?\n";
     cout << "1. Common\n"
             "2. Aquatic Elf Descent\n"
             "3. Drow Descent\n"
             "4. Moon Elf or Sun Elf Descent\n"
             "5. Wood Elf Descent\n"
-            "Type number, and proceed";
+            "Type number, and proceed\n";
     subrace = IsNumber<int>(subrace, 1, 5);
   } else if (race == 7) {
-    cout << "Choose your subrace. What it will be?";
+    cout << "Choose your subrace. What it will be?\n";
     cout << "1. Half-Orc\n"
             "2. Orc\n"
-            "Type number, and proceed";
+            "Type number, and proceed\n";
     subrace = IsNumber<int>(subrace, 1, 2);
   } else if (race == 8) {
-    cout << "Choose your subrace. What it will be?";
+    cout << "Choose your subrace. What it will be?\n";
     cout << "1. Ghostwise\n"
             "2. Lightfoot\n"
             "3. Stout\n"
-            "Type number, and proceed";
+            "Type number, and proceed\n";
     subrace = IsNumber<int>(subrace, 1, 3);
   } else if (race == 9) {
-    cout << "Choose your subrace. What it will be?";
+    cout << "Choose your subrace. What it will be?\n";
     cout << "1. Common\n"
             "2. Variant\n"
-            "Type number, and proceed";
+            "Type number, and proceed\n";
     subrace = IsNumber<int>(subrace, 1, 2);
   } else if (race == 10) {
     cout << "Lizardfolk \n";
   } else if (race == 11) {
-    cout << "Choose your subrace. What it will be?";
+    cout << "Choose your subrace. What it will be?\n";
     cout << "1. Common\n"
             "2. Asmodeus\n"
             "3. Baalzebul\n"
@@ -423,7 +427,7 @@ void Character::Race_Choosal() {
             "9. Mephistopheles\n"
             "10. Variant\n"
             "11. Zariel\n"
-            "Type number, and proceed";
+            "Type number, and proceed\n";
     subrace = IsNumber<int>(subrace, 1, 11);
   }
   race_of_character = Race_Factory_.Create(race - 1, subrace - 1);
@@ -710,8 +714,7 @@ int Character::Add_To_Inventory() {
         cout << "Control reach method Add_To_Inventory 4\n";
         Add_To_Item_Map(name_);
       } else {
-        cout << "%skills %d %skills %d \n" <<
-             "You have not enough money for that. Your money(in copper equivalent) are:" <<
+        cout << "You have not enough money for that. Your money(in copper equivalent) are:" <<
              money[kMoney_types - 1] <<
              " and price is " <<
              b->get(0) * quantity;
@@ -860,9 +863,9 @@ int Character::Level_Up(Random_Generator_ *Rand_gen) {
     health = maxhealth;
     return Level_Up(Rand_gen);
   }
-  cout << "Your level:" << level;
-  cout << "Your max health:" << maxhealth;
-  cout << "Your health:" << health;
+  cout << "Your level:" << level << endl;
+  cout << "Your max health:" << maxhealth << endl;
+  cout << "Your health:" << health << endl;
   return 0;
 }
 

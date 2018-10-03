@@ -9,6 +9,7 @@ const int kAttributes_Num = 20;
 const int kArmor_Weapon_proficiencies_Num = 7;
 const int kSaving_Throw_shift = 23;
 const int kArmor_Weapon_shift = 29;
+const int kClassType_get_shift = 21;
 
 struct Existing_classes{ // classes simplified! (weapon proficiencies)
   int Class_atribute[kClass_Num][kAttributes_Num] = {{12,1,0,0,0,0,0,1,0,1,0,0,0,1,1,0,1,0,1,0},{8,0,0,0,0,0,1,0,1,0,0,0,1,1,0,0,1,1,1,0},
@@ -17,7 +18,7 @@ struct Existing_classes{ // classes simplified! (weapon proficiencies)
                                 {10,1,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,0,1,0},{10,0,1,0,0,1,0,1,1,0,0,0,0,1,1,0,1,0,1,0},
                                 {8,0,1,0,0,0,0,0,1,0,1,0,0,1,0,0,1,1,1,0},{6,0,0,0,0,0,1,0,0,1,0,0,1,0,0,0,1,1,0,0},
                                 {8,0,0,0,0,0,1,0,0,0,0,1,1,1,0,0,1,0,0,0},{6,0,0,0,1,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0}};
-  //hit_dice(0), primary ability (1-6) , saving_throw_proficiencies (7-12) , armor_and_weapon_proficiencies (12-19)
+  //hit_dice(0), primary ability (1-6) , saving_throw_proficiencies (7-12) , armor_and_weapon_proficiencies (13-19)
 };
 
 class Class {

@@ -30,7 +30,10 @@ void Class::set(int type_, bool *skills_b[]) {
       if (E.Class_atribute[type][i + 1] > 0) primary_ability[i] = true;
       if (E.Class_atribute[type][i + 7] > 0) saving_throw_proficiencies[i] = true;
     }
-    if (E.Class_atribute[type][i + 12] > 0) armor_and_weapon_proficiencies[i] = true;
+    if (E.Class_atribute[type][i + 13] > 0) armor_and_weapon_proficiencies[i] = true;
+  }
+  for(int j = 0; j < kSkills_Num ; j++){
+    skills[j] = 0;
   }
   if (type == 4) {
     std::cout << "Fighter class allows you to choose one of primary abilities. Type 1.Str or 2.Dex\n";
@@ -335,7 +338,7 @@ void Class::set_skills(bool *skills_b[]) {
 int Class::get(int what) {
   if (what == 0) { return type; }
   else if (what == 20) return hit_dice;
-  else if (20 < what && what < 39) return skills[what - 21];
+  else if (20 < what && what < 39) return skills[what - kClassType_get_shift];
   else if (what == 39) return architype;
   return -1;
 }
