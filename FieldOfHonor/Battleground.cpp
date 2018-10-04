@@ -68,6 +68,17 @@ for(int i = X; i != X_Limit; i--){
 }
 
 void Battleground::Round_Shape() {
+  int x_center = Round_Shape_Center(0), y_center = Round_Shape_Center(1);
+  square[x_center][y_center] = 2;
+  for (int i = 0; i < X; i++) {
+    for(int j = 0; j < Y; j++){
+      if(Distance_between(x_center,y_center,i,j) > radius) square[i][j] = 1;
+      else square[i][j] = 2;// high obstacle
+    }
+  }
+}
+
+int Battleground::Round_Shape_Center(int what_to_show_X_or_Y){
   int x_center = 0, y_center = 0;
   if (X % 2 == 0) {
     if (Y % 2 == 0) {
@@ -86,14 +97,30 @@ void Battleground::Round_Shape() {
       y_center = Y / 2;
     }
   }
-  square[x_center][y_center] = 2;
+  if(what_to_show_X_or_Y == 0) return x_center;
+  else if(what_to_show_X_or_Y == 1) return y_center;
+  return -1;
+}
+
+int Battleground::Distance_between(int form_X, int from_Y, int to_X, int to_Y) {
+  /*double distance_d = sqrt(pow(abs(form_X - to_X),2) + pow(abs(from_Y - to_Y),2));*/ //Euclid metrics
+  int distance_i = 0;
+  if(abs(form_X - to_X) != 0 && abs(from_Y - to_Y) != 0){
+    for(int i = 0; i < min(abs(form_X - to_X),abs(from_Y - to_Y)); i++){
+      if(i%2 == 0) distance_i++;
+      else distance_i +=2;
+    }
+  }
+  int difference = max(abs(form_X - to_X),abs(from_Y - to_Y)) - min(abs(form_X - to_X),abs(from_Y - to_Y));
+  distance_i += difference;
+  return distance_i;
 }
 
 void Battleground::square_Resize() {
   square.resize((unsigned) X);
-  occupation.resize((unsigned) X);
+  //occupation.resize((unsigned) X);
   for (int i = 0; i < X; i++) {
-    occupation.resize((unsigned) X);
+    //occupation.resize((unsigned) X);
     square[i].resize((unsigned) Y);
   }
 }
