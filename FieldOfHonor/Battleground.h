@@ -8,6 +8,8 @@
 
 const int kShapes_NUM = 3;
 const int kState_NUM = 18;
+const int kShow_Shape_String_spread_Multiplayer_x = 2;
+const int kShow_Shape_String_spread_Multiplayer_y = 4;
 
 struct Exsisting_Fields{
   string shape_s[kShapes_NUM] = {"rectangle", "circle", "~None"};
@@ -53,6 +55,8 @@ class Battleground {
   int Distance_between(int form_X, int from_Y, int to_X, int to_Y);
 
   void Load();
+
+  void Show_Shape();
 };
 
 #endif //ANOTHER_DND_SIMULATOR_BATTLEGROUND_H

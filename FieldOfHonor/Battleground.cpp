@@ -22,7 +22,7 @@ Battleground::Battleground(int x_, int y_, int z_) {
   X_Limit = X;
   Y_Limit = Y;
   Z_Limit = Z;
-  Shape();
+  shape = Shape();
 }
 
 Battleground::~Battleground() = default;
@@ -38,12 +38,16 @@ int Battleground::Shape() {
   cout << "Choose shape of the room\n1.Rectangle 2.Circle 3.~None\n";
   shape = IsNumber<int>(shape, 1, kShapes_NUM);
   if (shape == 1) {
+    //cout << "Control reach 0\n";
     cout << "insert limits for X, Y, Z\n";
+    cout << "Up to values: " << X << ", " << Y << ", " << Z << endl;
     X_Limit = IsNumber<int>(X_Limit,1,X);
     Y_Limit = IsNumber<int>(Y_Limit,1,Y);
     Z_Limit = IsNumber<int>(Z_Limit,1,Z);
+    cout << endl;
     Rectangle_Shape();
   } else if (shape == 2) {
+    //cout << "Control reach 1\n";
     int radius_limit = 0;
     if(min(X,Y)%2 == 0) radius_limit = min(X,Y)/2 - 1;
     else radius_limit = min(X,Y)/2;
@@ -51,16 +55,19 @@ int Battleground::Shape() {
     radius = IsNumber<int>(radius,1,radius_limit);
     Round_Shape();
   }
+  Show_Shape();
   return shape;
 }
 
 void Battleground::Rectangle_Shape() {
-for(int i = X; i != X_Limit; i--){
+  //cout << "Control reach Rectangle Shape 0\n";
+for(int i = X-1; i != X_Limit - 1; i--){
   for(int j = 0; j < Y ;j++){
     square[i][j] = 1;
   }
 }
-  for(int i = Y; i != Y_Limit; i--){
+  //cout << "Control reach Rectangle Shape 1\n";
+  for(int i = Y-1; i != Y_Limit - 1; i--){
     for(int j = 0; j < X;j++){
       square[j][i] = 1;
     }
@@ -68,12 +75,17 @@ for(int i = X; i != X_Limit; i--){
 }
 
 void Battleground::Round_Shape() {
+  //cout << "Control reach Round_Shape 0\n";
   int x_center = Round_Shape_Center(0), y_center = Round_Shape_Center(1);
-  square[x_center][y_center] = 2;
+  //cout << " x_center = "<< x_center << " y_center = " << y_center << endl;
+  square[x_center][y_center] = 0;
   for (int i = 0; i < X; i++) {
     for(int j = 0; j < Y; j++){
-      if(Distance_between(x_center,y_center,i,j) > radius) square[i][j] = 1;
-      else square[i][j] = 2;// high obstacle
+      if(Distance_between(x_center,y_center,i,j) > radius) {
+        square[i][j] = 1;
+        //cout << "i = " << i << " j = " << j << endl;
+      }
+      else square[i][j] = 0;// high obstacle
     }
   }
 }
@@ -103,7 +115,7 @@ int Battleground::Round_Shape_Center(int what_to_show_X_or_Y){
 }
 
 int Battleground::Distance_between(int form_X, int from_Y, int to_X, int to_Y) {
-  /*double distance_d = sqrt(pow(abs(form_X - to_X),2) + pow(abs(from_Y - to_Y),2));*/ //Euclid metrics
+  /*double distance_d = sqrt(pow(abs(form_X - to_X),2) + pow(abs(from_Y - to_Y),2));*/ //Euclid's metrics
   int distance_i = 0;
   if(abs(form_X - to_X) != 0 && abs(from_Y - to_Y) != 0){
     for(int i = 0; i < min(abs(form_X - to_X),abs(from_Y - to_Y)); i++){
@@ -114,7 +126,7 @@ int Battleground::Distance_between(int form_X, int from_Y, int to_X, int to_Y) {
   int difference = max(abs(form_X - to_X),abs(from_Y - to_Y)) - min(abs(form_X - to_X),abs(from_Y - to_Y));
   distance_i += difference;
   return distance_i;
-}
+}// D&D metrics is not that simple as Euclid's
 
 void Battleground::square_Resize() {
   square.resize((unsigned) X);
@@ -131,4 +143,37 @@ void Battleground::Set() {
 
 void Battleground::Load() {
 
+}
+
+void Battleground::Show_Shape() {
+  //cout << "Control reach Show_Shape 1\n";
+  vector<vector<string>> showing_field;
+  showing_field.resize((unsigned)1 + X*kShow_Shape_String_spread_Multiplayer_x);
+  //cout << "Control reach Show_Shape 2\n";
+  for(int k = 0;k <1+X*kShow_Shape_String_spread_Multiplayer_x;k++){
+    for(int k1 = 0;k1 <1 + Y*kShow_Shape_String_spread_Multiplayer_y;k1++){
+      showing_field[k].push_back("#");
+    }
+  }
+  //cout << "Control reach Show_Shape 3\n";
+  for(int i = 0;i < X;i++){
+    for(int j = 0;j < Y;j++){
+      if(square[i][j] == 0){
+        for(int n = i*kShow_Shape_String_spread_Multiplayer_x + 1; n < (i+1)*kShow_Shape_String_spread_Multiplayer_x ;n++){
+          for(int m = j*kShow_Shape_String_spread_Multiplayer_y + 1; m < (j+1)*kShow_Shape_String_spread_Multiplayer_y ;m++){
+            showing_field[n][m] = " ";
+          }
+        }
+      }
+    }
+  }
+  //cout << "Control reach Show_Shape 4\n";
+  string squares[1 + X*kShow_Shape_String_spread_Multiplayer_x];
+  for(int k = 0;k <1 + X*kShow_Shape_String_spread_Multiplayer_x;k++){
+    for(int k1 = 0;k1 <1 + Y*kShow_Shape_String_spread_Multiplayer_y;k1++){
+      squares[k] += showing_field[k][k1];
+    }
+    cout << squares[k] <<endl;
+  }
+  //cout << "Control reach Show_Shape 5\n";
 }

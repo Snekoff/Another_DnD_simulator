@@ -3,7 +3,7 @@
 #include <fstream>
 #include "json.hpp"
 #include "Character\character.h"
-//#include "FieldOfHonor/Battleground.h"
+#include "FieldOfHonor/Battleground.h"
 #ifndef ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 #define ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 
