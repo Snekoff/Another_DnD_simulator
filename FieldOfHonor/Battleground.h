@@ -6,14 +6,14 @@
 #include "../Character/UsefulFunctions.h"
 #include "../Character/character.h"
 
-const int kShapes_NUM = 3;
-const int kState_NUM = 18;
+const int kShapes_NUM = 2;
+const int kState_of_Field_NUM = 18;
 const int kShow_Shape_String_spread_Multiplayer_x = 2;
 const int kShow_Shape_String_spread_Multiplayer_y = 4;
 
 struct Exsisting_Fields{
-  string shape_s[kShapes_NUM] = {"rectangle", "circle", "~None"};
-  string state_of_square[kState_NUM] = {"empty ", "inaccessible ", "with_high_obstacle ", "with_meddium_obstacle ",
+  string shape_s[kShapes_NUM] = {"rectangle", "circle"};
+  string state_of_square[kState_of_Field_NUM] = {"empty ", "inaccessible ", "with_high_obstacle ", "with_meddium_obstacle ",
                                     "with_int_obstacle ", "hard_terrain ", "occupied ", "occupied_by_body ", "door ",
                                     "window ", "water ", "fire ", "deep_water ", "lava ", "poison ", "hatch ",
                                     "ladder ", "forbidden_area "};
@@ -25,7 +25,7 @@ class Battleground {
   int Y;
   int Z;
   vector<vector<int>> square;
-  //vector<vector<vector<Character *>>> occupation;
+  //vector<Effect *> effects;
   int shape;
   int radius;
   int X_Limit;

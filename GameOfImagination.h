@@ -26,7 +26,11 @@ class Game {
 
   void Character_create(Random_Generator_ * Rand_gen);
 
+  vector<int> Set_Character_Abilities(vector<int> abilities);
+
   bool is_Created();
+
+  void Character_Show_Parameters(int who);
 
   bool Party_Save();
 

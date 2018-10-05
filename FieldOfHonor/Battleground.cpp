@@ -35,7 +35,11 @@ int Battleground::Get(int what) {
 }
 
 int Battleground::Shape() {
-  cout << "Choose shape of the room\n1.Rectangle 2.Circle 3.~None\n";
+  cout << "Choose shape of the room\n";
+  Exsisting_Fields E_F;
+  for(int i = 0; i < kShapes_NUM;i++){
+    cout << i+1 << ". " << E_F.shape_s[i] << endl;
+  }
   shape = IsNumber<int>(shape, 1, kShapes_NUM);
   if (shape == 1) {
     //cout << "Control reach 0\n";
@@ -113,7 +117,7 @@ int Battleground::Round_Shape_Center(int what_to_show_X_or_Y){
   else if(what_to_show_X_or_Y == 1) return y_center;
   return -1;
 }
-
+// D&D metrics is not that simple as Euclid's
 int Battleground::Distance_between(int form_X, int from_Y, int to_X, int to_Y) {
   /*double distance_d = sqrt(pow(abs(form_X - to_X),2) + pow(abs(from_Y - to_Y),2));*/ //Euclid's metrics
   int distance_i = 0;
@@ -126,7 +130,7 @@ int Battleground::Distance_between(int form_X, int from_Y, int to_X, int to_Y) {
   int difference = max(abs(form_X - to_X),abs(from_Y - to_Y)) - min(abs(form_X - to_X),abs(from_Y - to_Y));
   distance_i += difference;
   return distance_i;
-}// D&D metrics is not that simple as Euclid's
+}
 
 void Battleground::square_Resize() {
   square.resize((unsigned) X);
@@ -149,13 +153,11 @@ void Battleground::Show_Shape() {
   //cout << "Control reach Show_Shape 1\n";
   vector<vector<string>> showing_field;
   showing_field.resize((unsigned)1 + X*kShow_Shape_String_spread_Multiplayer_x);
-  //cout << "Control reach Show_Shape 2\n";
   for(int k = 0;k <1+X*kShow_Shape_String_spread_Multiplayer_x;k++){
     for(int k1 = 0;k1 <1 + Y*kShow_Shape_String_spread_Multiplayer_y;k1++){
       showing_field[k].push_back("#");
     }
   }
-  //cout << "Control reach Show_Shape 3\n";
   for(int i = 0;i < X;i++){
     for(int j = 0;j < Y;j++){
       if(square[i][j] == 0){
@@ -167,7 +169,6 @@ void Battleground::Show_Shape() {
       }
     }
   }
-  //cout << "Control reach Show_Shape 4\n";
   string squares[1 + X*kShow_Shape_String_spread_Multiplayer_x];
   for(int k = 0;k <1 + X*kShow_Shape_String_spread_Multiplayer_x;k++){
     for(int k1 = 0;k1 <1 + Y*kShow_Shape_String_spread_Multiplayer_y;k1++){

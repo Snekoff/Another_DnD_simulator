@@ -1,24 +1,24 @@
 
 #include "UsefulFunctions.h"
 template<typename T>
-T Correctness_of_input(T a, T lowerlimit, T higherlimit) {
-  if (higherlimit == lowerlimit - 2) {
-    while (a > lowerlimit) {
+T Correctness_of_input(T a, T lower_limit, T higher_limit) {
+  if (higher_limit == lower_limit - 1) {
+    while (a < lower_limit) {
       std::cout << "Incorrect input." << std::endl;
-      std::cout << "value must be equal or lower than " << lowerlimit << std::endl;
-      a = IsNumber<T>(a, lowerlimit, higherlimit);
+      std::cout << "value must be equal or higher than " << lower_limit << std::endl;
+      a = IsNumber<T>(a, lower_limit, higher_limit);
     }
-  } else if (higherlimit == lowerlimit - 1) {
-    while (a < lowerlimit) {
+  } else if (higher_limit < lower_limit) {
+    while (a > lower_limit) {
       std::cout << "Incorrect input." << std::endl;
-      std::cout << "value must be equal or lower higher than " << higherlimit << std::endl;
-      a = IsNumber<T>(a, lowerlimit, higherlimit);
+      std::cout << "value must be equal or lower than " << lower_limit << std::endl;
+      a = IsNumber<T>(a, lower_limit, higher_limit);
     }
   } else {
-    while (a < lowerlimit || a > higherlimit) {
+    while (a < lower_limit || a > higher_limit) {
       std::cout << "Incorrect input." << std::endl;
-      std::cout << "value must be between " << lowerlimit << " and " << higherlimit << std::endl;
-      a = IsNumber<T>(a, lowerlimit, higherlimit);
+      std::cout << "value must be between " << lower_limit << " and " << higher_limit << std::endl;
+      a = IsNumber<T>(a, lower_limit, higher_limit);
     }
   }
   return a;
@@ -26,13 +26,13 @@ T Correctness_of_input(T a, T lowerlimit, T higherlimit) {
 
 Random_Generator_::Random_Generator_() = default;
 Random_Generator_::~Random_Generator_() = default;
-int Random_Generator_::Rand(int lowerlimit, int higherlimit) {
+int Random_Generator_::Rand(int lower_limit, int higher_limit) {
   std::mt19937 mt(rd());
-  std::uniform_int_distribution<int> dist(lowerlimit, higherlimit);
+  std::uniform_int_distribution<int> dist(lower_limit, higher_limit);
   return dist(mt);
 }
 
-int Health_Level_Up(Random_Generator_ *Rand_gen, int health_dice, int ConModifier, int maxhealth) {
+int Health_Level_Up(Random_Generator_ *Rand_gen, int health_dice, int ConModifier, int maxHealth) {
   std::cout <<
             "Character leveled up, your health increased, choose the way: roll dices(1) or take a middle(2)?"
             << std::endl;
@@ -41,22 +41,22 @@ int Health_Level_Up(Random_Generator_ *Rand_gen, int health_dice, int ConModifie
   roll_or_middle = Correctness_of_input(roll_or_middle, 1, 2);
   if (roll_or_middle == 1) {
     int tHP = Rand_gen->Rand(1, health_dice);
-    std::cout << "Rolled health + Constitution modifier:" << tHP + ConModifier << std::endl;
-    maxhealth += tHP + ConModifier;
-  }//roll dices f
+    std::cout << "Rolled health + Constitution modifier = " << tHP + ConModifier << std::endl;
+    maxHealth += tHP + ConModifier;
+  }
   else {
-    maxhealth += health_dice / 2 + 1;
-    std::cout << "middle health = " << health_dice / 2 + 1 << std::endl;
-  }//take middle
-  return maxhealth;
+    maxHealth += health_dice / 2 + 1;
+    std::cout << "Middle health = " << health_dice / 2 + 1 << std::endl;
+  }
+  return maxHealth;
 }
 
 template<typename T>
-T IsNumber(T a, T lowerlimit, T higherlimit) {
+T IsNumber(T a, T lower_limit, T higher_limit) {
   for (;;) {
     std::cout << "Input: ";
     if (std::cin >> a) {
-      a = Correctness_of_input<T>(a, lowerlimit, higherlimit);
+      a = Correctness_of_input<T>(a, lower_limit, higher_limit);
       break;
     }
     std::cin.clear();
