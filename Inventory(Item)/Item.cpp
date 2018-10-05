@@ -73,7 +73,7 @@ Weapon::Weapon(std::string &name_, int count_) {
 }*/
 Weapon::~Weapon() = default;
 void Weapon::set(std::string &name_, int count_) {
-  std::cout << "Control reach Item:Weapon:set 0\n";
+  //std::cout << "Control reach Item:Weapon:set 0\n";
   Existing_Items E_I;
   equiped = false;
   for (int i = 0; i < kWeapon_NUM; i++) {
@@ -87,7 +87,7 @@ void Weapon::set(std::string &name_, int count_) {
       break;
     }
   }
-  std::cout << "Control reach Item:Weapon:set 1\n";
+  //std::cout << "Control reach Item:Weapon:set 1\n";
   //
   name = name_;
   count = count_;
@@ -137,7 +137,7 @@ void Ranged_Weapon::set(std::string &name_, int count_) {
   equiped = false;
   //int count_ = 1, num_of_dices_ = 0, damage_dice_ = 0, type_of_elemental_damage_ = 0;
   //int aiming_range_ = 0, max_range_ = 0;
-  for (int i = 0; i < kWeapon_NUM; i++) {
+  for (int i = 0; i < kRanged_Weapon_NUM; i++) {
     if (E_I.Ranged_Weapon_s[i] == name_) {
       cost = E_I.Ranged_Weapon_i[i][0];
       num_of_dices = E_I.Ranged_Weapon_i[i][1];
@@ -212,12 +212,12 @@ Armor::Armor(std::string &name_, int count_) {
 }*/
 Armor::~Armor() = default;
 void Armor::set(std::string &name_, int count_) {
-  std::cout << "Control reach Item:Armor:set 0\n";
+  //std::cout << "Control reach Item:Armor:set 0\n";
   Existing_Items E_I;
   equiped = false;
-  for (int i = 0; i < kWeapon_NUM; i++) {
+  for (int i = 0; i < kArmor_NUM; i++) {
     if (E_I.Armor_s[i] == name_) {
-      std::cout << "Control reach Item:Armor:set 1\n";
+      //std::cout << "Control reach Item:Armor:set 1\n";
       cost = E_I.Armor_i[i][0];
       type_of_armor = E_I.Armor_i[i][1];
       armor_class = E_I.Armor_i[i][2];
@@ -228,8 +228,8 @@ void Armor::set(std::string &name_, int count_) {
       break;
     }
   }
-  std::cout << "AC = " << armor_class << std::endl;
-  std::cout << "Control reach Item:Armor:set 2\n";
+  //std::cout << "AC = " << armor_class << std::endl;
+  //std::cout << "Control reach Item:Armor:set 2\n";
   name = name_;
   count = count_;
   what_class_is_it = "Armor";
@@ -255,6 +255,7 @@ Usables::Usables() {
   is_obstacle = false;
 };
 Usables::Usables(std::string &name_, int count_) {
+  stackable = false;
   is_obstacle = false;
   set(name_, count_);
 }
@@ -267,12 +268,12 @@ Usables::~Usables() = default;
 void Usables::set(std::string &name_, int count_) {
   Existing_Items E_I;
   equiped = false;
-  for (int i = 0; i < kMagic_Items_NUM; i++) {
+  for (int i = 0; i < kUsable_NUM; i++) {
     if (E_I.Usable_s[i] == name_) {
       name = name_;
       cost = E_I.Usable_i[i][0];
       weight = E_I.Usable_i[i][1];
-      if (E_I.Usable_i[i][2] > 0) is_obstacle = true;
+      if (E_I.Usable_i[i][2] != 0) is_obstacle = true;
       break;
     }
   }

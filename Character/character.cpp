@@ -50,7 +50,7 @@ Character::Character() {
 
 Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int levl, int Stre, int Dext,
                      int Cons, int Inte, int Wisd, int Charisma, int sex_, int rand_seed_change) {
-  cout << "Control reach 1\n";
+  //cout << "Control reach 1\n";
   exp = Less_than_zero(exp);
   Stre = Less_than_zero(Stre);
   Dext = Less_than_zero(Dext);
@@ -75,7 +75,7 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   Cha = Charisma;
   Maximum_Parameter_Value();
   int t1 = Ability_Random_Sets(Rand_gen, rand_seed_change);
-  cout << "Control reach 2\n";
+  //cout << "Control reach 2\n";
   armor_class = 0;
   deathsaves_s = 0;
   deathsaves_f = 0;
@@ -85,10 +85,10 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   disadvantage = false;
   perception_advantage = false;
   perception_disadvantage = false;
-  cout << "Control reach 3\n";
+  //cout << "Control reach 3\n";
   ConcreteAbilityModifier();
-  skills = new int[kAbilities_Num];
-  skills_b = new bool[kAbilities_Num];
+  skills = new int[kSkills_Num];
+  skills_b = new bool[kSkills_Num];
   for (int i = 0; i < kMoney_types; i++) {
     money[i] = 0;
   }
@@ -99,30 +99,30 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   money[kMoney_types - 1]  sum in copper
    */
   Equipped.resize(kEquip_places);
-  cout << "Control reach 4\n";
+  //cout << "Control reach 4\n";
   SetSkill();
-  cout << "Control reach 5\n";
+  //cout << "Control reach 5\n";
   proficiency = ProficiencySetter();
-  cout << "Control reach 6\n";
+  //cout << "Control reach 6\n";
   PassivePerceptionSetter();
-  cout << "Control reach 7\n";
+  //cout << "Control reach 7\n";
   Race_Choosal();
-  cout << "Control reach 8\n";
+  //cout << "Control reach 8\n";
   StorySetsSkills(storyline_i);
-  cout << "Control reach 9\n";
+  //cout << "Control reach 9\n";
   SetClass(Rand_gen);
-  cout << "Control reach 10\n";
+  //cout << "Control reach 10\n";
   Starting_Health();
-  cout << "Control reach 11 armor class = " << armor_class << endl;
+  //cout << "Control reach 11 armor class = " << armor_class << endl;
   if (classType.get(0) == 0) armor_class = kBarbarian_Unarmored_Defence + DexModifier + ConModifier;
   level = 1;
-  cout << "Control reach 12\n" << armor_class;
+  //cout << "Control reach 12\n" << armor_class;
   cout << experience << " " << level << endl;
   t1 = Level_Up(Rand_gen);
-  cout << "Control reach 13\n";
+  //cout << "Control reach 13\n";
   Skill_Proficiencies();
   Add_To_Inventory();
-  cout << "Control reach 14\n";
+  //cout << "Control reach 14\n";
   state = 0;
   exhaustion = 0;
   Equiping_Item();
@@ -283,7 +283,7 @@ void Character::StorySetsSkills(int storyline_i) {
     skills_b[15] = true;
     skills_b[16] = true;
   }
-} // to be reconsidered and expanded Tool proficiences and standart equip
+} // to be reconsidered and expanded Tool proficiencies and standart equip
 
 int Character::Check_Ability_Reach_Maximum(int ability) {
   int a[kAbilities_Num] = {Str, Dex, Con, Int, Wis, Cha};
@@ -296,9 +296,11 @@ int Character::Check_Ability_Reach_Maximum(int ability) {
 
 void Character::Ability_improve() {
   if (level == 4 || level == 8 || level == 12 || level == 16 || level == 19) {
-    cout << "You reached" << level <<
+    cout << "You reached " << level <<
          " level, that means that you have to choose whether improve one ability +2(type 1) "
          "or two abilities +1(type 2).\n ~In future here might also be feats\n";
+    cout << "Str(" << Str << "), Dex(" << Dex << "), Con("
+    << Con << "), Int(" << Int << "), Wis(" << Wis << "), Cha(" << Cha << ")\n";
     int one_or_two_abilities = -1;
     one_or_two_abilities = IsNumber<int>(one_or_two_abilities, 1, 2);
     if (one_or_two_abilities == 1) {
@@ -311,7 +313,7 @@ void Character::Ability_improve() {
       cout << "What abilities do you want to improve +1 ?  1.Str(" << Str << "), 2.Dex(" << Dex << "), 3.Con("
            << Con << "), 4.Int(" << Int << "), 5.Wis(" << Wis << "), 6.Cha(" << Cha << ") *Type 2 spaced numbers"
                                                                                        "**Maximum value is "
-           << kAbility_Maximum_Score;
+           << kAbility_Maximum_Score << endl;
       int one_or_two_abilities1 = 0;
       one_or_two_abilities = IsNumber<int>(one_or_two_abilities, 1, 6);
       one_or_two_abilities = Check_Ability_Reach_Maximum(one_or_two_abilities);
@@ -356,7 +358,7 @@ void Character::Race_Choosal() {
             "10. White (Cold) 15ft. cone\n"
             "Type number, and proceed\n";
     subrace = IsNumber<int>(subrace, 1, 10);
-    cout << "Control reach Race_Choosal 1\n";
+    //cout << "Control reach Race_Choosal 1\n";
   } else if (race == 2) {
     cout << "Choose your subrace. What it will be?\n";
     cout << "1. Duergar\n"
@@ -364,7 +366,7 @@ void Character::Race_Choosal() {
             "3. Mountain\n"
             "Type number, and proceed\n";
     subrace = IsNumber<int>(subrace, 1, 3);
-    cout << "Control reach Race_Choosal 2\n";
+    //cout << "Control reach Race_Choosal 2\n";
   } else if (race == 3) {
     cout << "Choose your subrace. What it will be?\n";
     cout << "1. Drow \n"
@@ -542,7 +544,7 @@ vector<int> Character::Get_inventory() {
 } // { {(int)name_of_Item1, amount1} , {(int)name_of_Item2, amount2} ... }
 
 Item *Character::Factory_Complex(string &name_, int quantity) {
-  cout << "Control reached Factory_complex 0\n";
+  //cout << "Control reached Factory_complex 0\n";
   Items_Factory<Weapon> Weapon_Factory;
   Items_Factory<Ranged_Weapon> Ranged_Weapon_Factory;
   Items_Factory<Armor> Armor_Factory;
@@ -550,40 +552,40 @@ Item *Character::Factory_Complex(string &name_, int quantity) {
   Items_Factory<Ammo> Ammo_Factory;
   Items_Factory<Magic_Items> Magic_Items_Factory;
   Existing_Items E_I;
-  cout << "Control reached Factory_complex 1\n";
+  //cout << "Control reached Factory_complex 1\n";
   for (int i = 0; i < kWeapon_NUM; i++) {
     if (name_ == E_I.Weapon_s[i]) {
-      cout << "Control reached Factory_complex 1_1\n";
+      //cout << "Control reached Factory_complex 1_1\n";
       return Weapon_Factory.create(name_, quantity);
     }
   }
   for (int i = 0; i < kRanged_Weapon_NUM; i++) {
     if (i < kRanged_Weapon_NUM && name_ == E_I.Ranged_Weapon_s[i]) {
-      cout << "Control reached Factory_complex 1_2\n";
+      //cout << "Control reached Factory_complex 1_2\n";
       return Ranged_Weapon_Factory.create(name_, quantity);
     }
   }
   for (int i = 0; i < kAmmo_NUM; i++) {
     if (i < kAmmo_NUM && name_ == E_I.Ammo_s[i]) {
-      cout << "Control reached Factory_complex 1_5\n";
+      //cout << "Control reached Factory_complex 1_5\n";
       return Ammo_Factory.create(name_, quantity);
     }
   }
   for (int i = 0; i < kArmor_NUM; i++) {
     if (i < kArmor_NUM && name_ == E_I.Armor_s[i]) {
-      cout << "Control reached Factory_complex 1_3\n";
+      //cout << "Control reached Factory_complex 1_3\n";
       return Armor_Factory.create(name_, quantity);
     }
   }
   for (int i = 0; i < kUsable_NUM; i++) {
     if (i < kUsable_NUM && name_ == E_I.Usable_s[i]) {
-      cout << "Control reached Factory_complex 1_4\n";
+      //cout << "Control reached Factory_complex 1_4\n";
       return Usables_Factory.create(name_, quantity);
     }
   }
   for (int i = 0; i < kMagic_Items_NUM; i++) {
     if (i < kMagic_Items_NUM && name_ == E_I.Magic_Items_s[i]) {
-      cout << "Control reached Factory_complex 1_6\n";
+      //cout << "Control reached Factory_complex 1_6\n";
       return Magic_Items_Factory.create(name_, quantity);
     }
   }
@@ -600,17 +602,17 @@ Item *Character::Factory_Complex(string &name_, int quantity) {
       return nullptr;
     }
   }*/
-  cout << "Control reached Factory_complex 3\n";
+  //cout << "Control reached Factory_complex 3\n";
   return nullptr;
 }
 
 void Character::Add_Money(int type, int sum) {
   type = Correctness_of_input<int>(type, 0, kMoney_types - 2);
-  cout << "Before operation: money[" << type << "] = " << money[type] << endl;
+  //cout << "Before operation: money[" << type << "] = " << money[type] << endl;
   money[type] += sum;
-  cout << "After operation: money[" << type << "] = " << money[type] << endl;
+  //cout << "After operation: money[" << type << "] = " << money[type] << endl;
   money[kMoney_types - 1] += (int) (sum * pow(10, type));
-  cout << "money[4] = " << money[kMoney_types - 1] << endl;
+  //cout << "money[4] = " << money[kMoney_types - 1] << endl;
 }
 
 void Character::Add_To_Item_Map(string &name_) {
@@ -618,6 +620,7 @@ void Character::Add_To_Item_Map(string &name_) {
   if (iter != items_map.end()) {
     items_map.at(inventory[inventory.size() - 1]->get_name())
         ->set_count(inventory[inventory.size() - 1]->get(2));
+    //cout << "Control reach Add to item map, poped Item:" << inventory[inventory.size() - 1]->get_name() << endl;
     inventory.pop_back();
   } else {
     items_map.insert(std::pair(name_, inventory[inventory.size() - 1]));
@@ -643,11 +646,11 @@ bool Character::Paying_Money(int how_many_copper) {
         dif *= (-1);
         for (int j = i; j > -1; j--) {
           int t = (int) (dif / pow(10, j));
-          cout << "t = " << t << endl;
+          //cout << "t = " << t << endl;
           money[j] += t;
-          cout << "money[j] = " << money[j] << endl;
+          //cout << "money[j] = " << money[j] << endl;
           dif -= (int) (t * pow(10, j));
-          cout << "dif = " << dif << endl;
+          //cout << "dif = " << dif << endl;
           if (dif == 0) break;
         }
         break;
@@ -684,7 +687,7 @@ int Character::Add_To_Inventory() {
               "6. Magic Items\n"
               "(this list will be extended in future versions)\n";
       item_ = IsNumber<int>(item_, 1, kItem_Types);
-      cout << "Control reach method Add_To_Inventory 0\n";
+      //cout << "Control reach method Add_To_Inventory 0\n";
       cout << "Your funds: " << money[kMoney_types - 1] << endl;
       int limit[kItem_Types + 1] =
           {0, kWeapon_NUM, kRanged_Weapon_NUM + limit[1], kAmmo_NUM + limit[2], kArmor_NUM + limit[3],
@@ -702,22 +705,23 @@ int Character::Add_To_Inventory() {
         cout << endl;
       }
       item_ = IsNumber<int>(item_, limit[item_ - 1], limit[item_]);
-      cout << "Control reach method Add_To_Inventory 2\n";
+      //cout << "Control reach method Add_To_Inventory 2\n";
       name_ = E_I.All_s[item_ - 1];
       int quantity = 1;
-      cout << "How many " << name_ << "skills do you want ?\n";
+      cout << "How many " << name_ << "s do you want ?\n";
       quantity = IsNumber<int>(quantity, 1, 0);
-      cout << "Control reach method Add_To_Inventory 3\n";
+      //cout << "Control reach method Add_To_Inventory 3\n";
       auto b = Factory_Complex(name_, quantity);
       if (Paying_Money(b->get(0) * quantity)) {
         inventory.push_back(Factory_Complex(name_, quantity));
-        cout << "Control reach method Add_To_Inventory 4\n";
+        //cout << "Control reach method Add_To_Inventory 4\n";
         Add_To_Item_Map(name_);
       } else {
         cout << "You have not enough money for that. Your money(in copper equivalent) are:" <<
              money[kMoney_types - 1] <<
              " and price is " <<
-             b->get(0) * quantity;
+             b->get(0) * quantity
+             << endl;
       }
       delete b;
       cout << "Do you want to add something? Yes(1)  No(2)\n";
@@ -731,7 +735,7 @@ int Character::Add_To_Inventory() {
 }
 
 void Character::Equip_Item(int where, Item *what) {
-  cout << "Control reached Equip_Item 0 \n";
+  //cout << "Control reached Equip_Item 0 \n";
   where = Correctness_of_input<int>(where, 0, kEquip_places - 1);
   what->equip(1);
   if (Equipped[where] != nullptr) {// ->get(2) != 0
@@ -743,7 +747,7 @@ void Character::Equip_Item(int where, Item *what) {
     if (what->get_name() == "Shield") armor_class += 2;
   } else if (where == 2) {
     cout << "equip armor, armor class before: " << armor_class << endl;
-    cout << "Control reach Equip_Item 1\n";
+    //cout << "Control reach Equip_Item 1\n";
     int armor_class_bonus[kArmor_types] = {DexModifier, min(DexModifier, 2), 0};
     armor_class = Equipped[where]->get(4) + armor_class_bonus[Equipped[where]->get(3)];
     cout << "armor class after: " << armor_class << endl;
@@ -758,7 +762,7 @@ void Character::Equip_Item(int where, Item *what) {
 }
 
 void Character::Equiping_Item() {
-  cout << "Control reached Equiping_Item 0 \n";
+  //cout << "Control reached Equiping_Item 0 \n";
   //Item *what = new Item();
   cout << "You might Equip Something. Choose where and what.\n";
   cout << "Now lets see what you have got in your backpack\n";
@@ -772,19 +776,19 @@ void Character::Equiping_Item() {
     cout << endl;
     k++;
   }
-  cout << "Control reached Equiping_Item 1 \n";
+  //cout << "Control reached Equiping_Item 1 \n";
   if (k > 1) {
     cout << "You can equip something. Choose what.(type number)\n";
     cout << "//type \"0\" to exit\n";
     int what_ = 0;
     what_ = IsNumber<int>(what_, 0, k + 1);
     if (what_ != 0) {
-      cout << "Control reached Equiping_Item 2 \n";
+      //cout << "Control reached Equiping_Item 2 \n";
       what_ = Correctness_of_input<int>(what_, 1, k + 1);
       if (items_map.find(names[what_ - 1])->second->is_equiped()) {
         cout << "it is already equipped!\n";
       } else {
-        cout << "Control reached Equiping_Item 4 \n";
+        //cout << "Control reached Equiping_Item 4 \n";
         //what = items_map.find(names[what_ - 1])->second;
         cout << "Possible places to equip are:\n";
         cout << "Hands: Left(1), Right(2), extra*(4-5)\n";
@@ -808,7 +812,7 @@ void Character::Equiping_Item() {
             where = IsNumber<int>(where, 1, kEquip_places);
           } else break;
         }
-        cout << "Control reached Equipping_Item 5 \n";
+        //cout << "Control reached Equipping_Item 5 \n";
         Equip_Item(where - 1, items_map.find(names[what_ - 1])->second);
       }
       cout << "Do u want to add something to your equipment? Yes(1), No(2)\n";
@@ -953,7 +957,7 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
   skills = new int[kAbilities_Num];
   skills_b = new bool[kAbilities_Num];
   Equipped.resize(kEquip_places);
-  cout << "Control reach Character method Load 0\n";
+  //cout << "Control reach Character method Load 0\n";
   for (int i = 1; i < kData_size; i++) {
     if (i == 1) {
       //cout <<"Control reach Character method Load 1\n";
@@ -988,13 +992,13 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
       //classType = new Class();
       classType.Load(parameter_i[23], parameter_b, parameter_i[35]);
     } else if (i == 26) {
-      cout << "Control reach Character method Load 26\n";
+      //cout << "Control reach Character method Load 26\n";
       Race_Factory Race_Factory_;
       race_of_character = Race_Factory_.Load(parameter_i[i]);
       race_of_character->Load(parameter_i);
     } else if (i == 36) { exhaustion = parameter_i[i]; }
     else if (i == 37) {
-      cout << "Control reach Character method Load (bool)\n";
+      //cout << "Control reach Character method Load (bool)\n";
       advantage = parameter_b[i - kParameter_b_shift];
     } else if (i == 38) { disadvantage = parameter_b[i - kParameter_b_shift]; }
     else if (i == 39) { perception_advantage = parameter_b[i - kParameter_b_shift]; }

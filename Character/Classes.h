@@ -19,6 +19,13 @@ struct Existing_classes{ // classes simplified! (weapon proficiencies)
                                 {8,0,1,0,0,0,0,0,1,0,1,0,0,1,0,0,1,1,1,0},{6,0,0,0,0,0,1,0,0,1,0,0,1,0,0,0,1,1,0,0},
                                 {8,0,0,0,0,0,1,0,0,0,0,1,1,1,0,0,1,0,0,0},{6,0,0,0,1,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0}};
   //hit_dice(0), primary ability (1-6) , saving_throw_proficiencies (7-12) , armor_and_weapon_proficiencies (13-19)
+  std::string skills_s[kSkills_Num] = {"acrobatics", "animal handling", "arcana", "athletics", "deception", "history",
+                                       "insight", "intimidation", "investigation", "medicine", "nature", "perception",
+                                       "performance", "persuasion", "religion", "sleight of hand", "stealth",
+                                       "survival"};
+  std::vector<std::vector<int>> skills_per_class_i = {{1, 3, 7, 10, 11, 17},
+                                                      {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17}, {5, 6, 9, 13, 14}, {3, 1, 6, 9, 10, 11, 14, 17}, {0, 1, 3, 5, 6, 7, 11, 17}, {0, 3, 5, 6, 14, 17}, {3, 6, 7, 9, 14}, {1, 3, 6, 8, 10, 11, 16, 17}, {0, 3, 4, 6, 7, 8, 11, 12, 13, 15, 16}, {2, 4, 6, 7, 13, 4}, {2, 4, 5, 7, 8, 10, 14}, {2, 5, 6, 8, 9, 14}};
+  int fake_parameter = 0;// to avoid IDE warnings
 };
 
 class Class {
@@ -33,7 +40,7 @@ class Class {
 history 5,insight 6,intimidation 7,investigation 8,medicine 9,
 nature 10,perception 11,performance 12,persuasion 13,religion 14,
 sleightOfHand 15,stealth 16,survival 17*/
-  int architype;
+  int archetype;
  public:
   Class();
 
@@ -42,9 +49,14 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   virtual void set(int type_, bool *skills_b[]);
 
-  virtual void set_architype();
+  virtual void set_archetype();
 
   virtual void set_skills(bool *skills_b[]);
+
+  int Had_Skill_Been_Chosen(bool skills_b[], std::vector<int> skills_access, int skill_1);
+  int Had_Skill_Been_Chosen(bool skills_b[], std::vector<int> skills_access, int skill_1, int skill_2);
+  int Had_Skill_Been_Chosen(bool skills_b[], std::vector<int> skills_access, int skill_1, int skill_2, int skill_3);
+  int Had_Skill_Been_Chosen(bool skills_b[], std::vector<int> skills_access, int skill_1, int skill_2, int skill_3, int skill_4);
 
   bool Load(int type_, bool b[], int architype_);
 
