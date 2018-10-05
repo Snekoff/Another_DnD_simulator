@@ -35,8 +35,8 @@ Character::Character() {
   disadvantage = false;
   perception_advantage = false;
   perception_disadvantage = false;
-  skills = new int[kAbilities_Num];
-  skills_b = new bool[kAbilities_Num];
+  skills.resize(kSkills_Num);
+  skills_b.resize(kSkills_Num);
   for (int i = 0; i < kMoney_types; i++) {
     money[i] = 0;
   }
@@ -87,8 +87,8 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   perception_disadvantage = false;
   //cout << "Control reach 3\n";
   ConcreteAbilityModifier();
-  skills = new int[kSkills_Num];
-  skills_b = new bool[kSkills_Num];
+  skills.resize(kSkills_Num);
+  skills_b.resize(kSkills_Num);
   for (int i = 0; i < kMoney_types; i++) {
     money[i] = 0;
   }
@@ -108,7 +108,7 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   //cout << "Control reach 7\n";
   Race_Choosal();
   //cout << "Control reach 8\n";
-  StorySetsSkills(storyline_i);
+  StorySetsSkills();
   //cout << "Control reach 9\n";
   SetClass(Rand_gen);
   //cout << "Control reach 10\n";
@@ -134,8 +134,8 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
 Character::~Character() {
   delete race_of_character;
   //race_of_character = nullptr;
-  delete[] skills;
-  delete[] skills_b;
+  skills.clear();
+  skills_b.clear();
   inventory.clear();
   items_map.clear();
 };
@@ -238,48 +238,48 @@ void Character::Skill_Proficiencies() {
   }
 }
 
-void Character::StorySetsSkills(int storyline_i) {
+void Character::StorySetsSkills() {
   Existing_Types E;
   storyline = E.stories[storyline_i];
-  string b = storyline;
+  //string b = storyline;
   Add_Money(2, 15);
-  if (b == "Acolyte") {
+  if (storyline_i == 0) {
     skills_b[6] = true;
     skills_b[14] = true;
-  } else if (b == "Charlatan") {
+  } else if (storyline_i == 1) {
     skills_b[4] = true;
     skills_b[15] = true;
-  } else if (b == "Criminal") {
+  } else if (storyline_i == 2) {
     skills_b[4] = true;
     skills_b[16] = true;
-  } else if (b == "Entertainer") {
+  } else if (storyline_i == 3) {
     skills_b[0] = true;
     skills_b[12] = true;
-  } else if (b == "FolkHero") {
+  } else if (storyline_i == 4) {
     skills_b[1] = true;
     skills_b[17] = true;
-  } else if (b == "GuildArtisan") {
+  } else if (storyline_i == 5) {
     skills_b[6] = true;
     skills_b[13] = true;
-  } else if (b == "Hermit") {
+  } else if (storyline_i == 6) {
     skills_b[9] = true;
     skills_b[14] = true;
-  } else if (b == "Noble") {
+  } else if (storyline_i == 7) {
     skills_b[5] = true;
     skills_b[13] = true;
-  } else if (b == "Outlander") {
+  } else if (storyline_i == 8) {
     skills_b[3] = true;
     skills_b[17] = true;
-  } else if (b == "Sage") {
+  } else if (storyline_i == 9) {
     skills_b[2] = true;
     skills_b[5] = true;
-  } else if (b == "Sailor") {
+  } else if (storyline_i == 10) {
     skills_b[3] = true;
     skills_b[11] = true;
-  } else if (b == "Soldier") {
+  } else if (storyline_i == 11) {
     skills_b[3] = true;
     skills_b[7] = true;
-  } else if (b == "Urchin") {
+  } else if (storyline_i == 12) {
     skills_b[15] = true;
     skills_b[16] = true;
   }
@@ -744,12 +744,20 @@ void Character::Equip_Item(int where, Item *what) {
   Equipped[where] = what;
   if (where < 2) {
     cout << "Equipped " << Equipped[where]->get_name() << endl;
-    if (what->get_name() == "Shield") armor_class += 2;
+    if (what->get_name() == "Shield") {
+      armor_class += 2;
+      cout << "armor_class = "<< armor_class << endl;}
   } else if (where == 2) {
     cout << "equip armor, armor class before: " << armor_class << endl;
-    //cout << "Control reach Equip_Item 1\n";
+    armor_class = 0;
+    if (Equipped[0] != nullptr ) {
+      if(Equipped[0]->What_class() == "Armor") armor_class = Equipped[where]->get(4);
+    }
+    else if(Equipped[1] != nullptr ){
+      if(Equipped[1]->What_class() == "Armor") armor_class = Equipped[where]->get(4);
+    }
     int armor_class_bonus[kArmor_types] = {DexModifier, min(DexModifier, 2), 0};
-    armor_class = Equipped[where]->get(4) + armor_class_bonus[Equipped[where]->get(3)];
+    armor_class += Equipped[where]->get(4) + armor_class_bonus[Equipped[where]->get(3)];
     cout << "armor class after: " << armor_class << endl;
     cout << "Equipped " << Equipped[where]->get_name() << endl;
   } else if (where < 10 && where > 5) {
@@ -903,7 +911,7 @@ void Character::SetClass(Random_Generator_ *Rand_gen) {
           "11. Warlock\n"
           "12. Wizard\n";
   class_type_ = IsNumber<int>(class_type_, 1, kClass_Num);
-  classType.set(class_type_ - 1, &skills_b);
+  classType.set(class_type_ - 1, skills_b);
   health_dice = classType.get(20);
   proficiency = ProficiencySetter();
   //21-38 => skills[0] - skills[17]
@@ -954,8 +962,8 @@ void Character::Starting_Health() {
 bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
   Existing_Types E;
   party = -1;
-  skills = new int[kAbilities_Num];
-  skills_b = new bool[kAbilities_Num];
+  skills.resize(kSkills_Num);
+  skills_b.resize(kSkills_Num);
   Equipped.resize(kEquip_places);
   //cout << "Control reach Character method Load 0\n";
   for (int i = 1; i < kData_size; i++) {

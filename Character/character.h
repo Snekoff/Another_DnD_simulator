@@ -45,7 +45,7 @@ class Character : public Creature {
 
   void Skill_Proficiencies();
 
-  void StorySetsSkills(int storyline_i);
+  void StorySetsSkills();
 
   int Check_Ability_Reach_Maximum(int ability);
 
