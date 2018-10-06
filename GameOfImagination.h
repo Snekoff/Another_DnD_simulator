@@ -4,6 +4,7 @@
 #include "json.hpp"
 #include "Character\character.h"
 #include "FieldOfHonor/Battleground.h"
+#include "Monsters/Monster.h"
 #ifndef ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 #define ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 

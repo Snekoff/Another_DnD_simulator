@@ -111,7 +111,7 @@ bool Game::Party_Save() {
   //cout << "Control reach Party Save 2\n";
   for (int i = 0; i < characters.size(); i++) {
     vector<int> inventory = characters[i]->Get_inventory();
-    for (int p = 1; p < kData_size; p++) {
+    for (int p = 1; p <= kData_size; p++) {
       if (p > kCharacter_Get_Bool_shift && p < kData_size) bool_params[i].push_back(characters[i]->Get_bool(p));
       else params[i].push_back(characters[i]->Get(p));
     }
@@ -142,13 +142,16 @@ bool Game::Party_Load() {
   int Size = party["Size"];
   vector<int> inventory_;
   characters.resize((unsigned) Size);//
+  cout << "Control reach method Party Load 1\n";
   for (int i = 0; i < Size; i++) {
     unsigned inventory_Size = party["InventorySize"][i];
     for (int j = 1; j < kData_size; j++) {
-      if (j == kCharacter_get_fake_parameter) continue;
+      //if (j == kCharacter_get_fake_parameter) continue;
+      //cout << j << endl;
       if (j < kParameter_b_shift) p[j] = party["Character"][i][j - 1];
       else bool_p[j - kParameter_b_shift] = party["Character_bool"][i][j - kParameter_b_shift];//
     }
+    cout << "Control reach method Party Load 2\n";
     inventory_.resize(inventory_Size);
     for (int j = 0; j < inventory_Size; j++) {
       inventory_[j] = party["Inventory"][i][j];
