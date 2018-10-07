@@ -13,23 +13,26 @@
 #include <utility>
 #include <cmath>
 #include "../Inventory(Item)/Item.h"
+#include "../Character/UsefulFunctions.h"
 #include "../Inventory(Item)/Items_Factory.h"
 
 using namespace std;
 
-const int kData_size = 71;
+const int kData_size = 99;
 const int kMoney_types = 5;
 const int kEquip_places = 10;
 const int kAbility_Minimum_Score = 10;
 const int kAbility_Maximum_Score = 20;
 const int kAbility_Starting_Maximum = 16;
-const int kSkills_b_shift = 40;
+const int kSkills_b_shift = 4;
 const int kParameter_b_shift = 37;
-const int kClassType_get_bool_shift = 51;
+const int kClassType_get_bool_shift = 14;
+const int kStates_shift = 34;
 const int kBarbarian_Unarmored_Defence = 10;
 const int kWealth_Set_parameters = 3;
 const int kDice_Minimum_value = 1;
 const int kCoordinates_NUM = 3;
+const int kMovement_types = 3;
 
 class Creature {
  protected:
@@ -55,7 +58,7 @@ sleightOfHand 15,stealth 16,survival 17*/
   vector<Item *> inventory;
   map<std::string, Item *> items_map;
   vector<Item *> Equipped;
-  int state;
+  bool state[kCondition_NUM];
   /* 0.fine, 1.blinded, 2.charmed, 3.deafened, 4.frightened, 5.grappled, 6.incapacitated, 7.invisible, 8.petrified,
    * 9.poisoned, 10.prone, 11.restrained, 12.stunned, 13.unconscious, 14.dead, 15.disease 16. ??*/
   int party;

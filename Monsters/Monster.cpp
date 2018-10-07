@@ -1,62 +1,69 @@
 //
 #include "Monster.h"
 using json = nlohmann::json;
-Monster::Monster(int type_, int level_) {
+Monster::Monster(int name_, int challenge_rating_) {
+  ifstream MonJson;
+  Exsisting_Monsters E_M;
+  MonJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/Monsters/5e-SRD-Monsters.json");
+  if (MonJson.is_open()) {
+    json MonsterJson = json::parse(MonJson);
+    for (auto it : MonsterJson) {
+      if (it["name"] == E_M.Challenge_rating[challenge_rating_][name_]) {
+        monster_name = name_;
+        experience_if_killed = it[""];
+        size = it[""];
+        challenge_rating = challenge_rating_;
+        health_dice = it[""];//
+        Health_dice_num = it[""];//
+        type_s = it["type"];
+        subtype = it["subtype"];
+        alignment = it["alignment"];
+          armor_class = it["armor_class"];
+          health = it["hit_points"];
+          health_dice = it["hit_dice"];
+          Monster_Movement[0] = it["speed"];// check this
+          Str = it["strength"];
+          Dex = it["dexterity"];
+          Con = it["constitution"];
+          Int = it["intelligence"];
+          Wis = it["wisdom"];
+          Cha = it["charisma"];
+          for(int o = 0; o < kAbilities_Num; o++){
+            /*= it["constitution_save"];
+           = it["intelligence_save"];
+           = it["wisdom_save"];*/
+          }
+           for(int l = 0; l < kSkills_Num; l++){
+             /* = it["history"];
+           = it["perception"];*/
+           }
 
+           //= it["damage_vulnerabilities"];
+           //= it["damage_resistances"];
+           //= it["damage_immunities"];
+           //= it["condition_immunities"];
+           //= it["senses"];
+           //= it["languages"];
+           /*= it["challenge_rating"];*/
+
+        break;
+      }
+    }
+  } else cout << "error in load MonJson" << endl;
+}
+
+Monster::Monster(const Monster &another) {
+  monster_name = another.monster_name;
+  experience_if_killed = another.experience_if_killed;
+  size = another.size;
+  challenge_rating = another.challenge_rating;
+  health_dice = another.health_dice;
+  Health_dice_num = another.Health_dice_num;
 }
 
 Monster::Monster(int type_, int level_, int hp, int armor_class_) {
-  ifstream inputJson;
-  vector<vector<string>> names_by_Challenge_rating;
-  names_by_Challenge_rating.resize(34);
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/Monsters/5e-SRD-Monsters.json");
-  if (!inputJson.is_open()) {
-    cout << "Error in loading file\n";
-  }
-  else {
-    json j = json::parse(inputJson);
-    inputJson.close();
-    for(int i = 0;i < 325;i++){
-      if(i > 300) cout << i << endl;
-      if(j[i]["challenge_rating"] == "0"){
-        names_by_Challenge_rating[0].push_back(j[i]["name"]);
-      }
-      else if(j[i]["challenge_rating"] == "1/8"){
-        names_by_Challenge_rating[1].push_back(j[i]["name"]);
-      }
-      else if(j[i]["challenge_rating"] == "1/4"){
-        names_by_Challenge_rating[2].push_back(j[i]["name"]);
-      }
-      else if(j[i]["challenge_rating"] == "1/2"){
-        names_by_Challenge_rating[3].push_back(j[i]["name"]);
-      }
-      else{
-        int challenge_rating_i = stoi(j[i]["challenge_rating"].get<std::string>());
-        names_by_Challenge_rating[challenge_rating_i + 3].push_back(j[i]["name"]);
-      }
-    }
-    cout << "Challenge_rating["<< 34 << "] = {";
-    for(int n = 0 ;n < 34; n++){
-      cout << " {";
-      for(int i = 0; i < names_by_Challenge_rating[n].size(); i++){
-        cout <<"\"" << names_by_Challenge_rating[n][i] << "\", ";
-      }
-      cout << "},";
-    }
-  }
 
 }
-//challenge_rating
-//name
-/*0
-1/8
-1/4
- 1/2
- 1
- .
- .
- ...
- 30*/
 
 Monster::~Monster() = default;
 

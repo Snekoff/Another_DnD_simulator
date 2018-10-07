@@ -93,15 +93,28 @@ struct Exsisting_Monsters{
                                               {"Ancient Blue Dragon", "Ancient Silver Dragon", "Kraken",},
                                               {"Ancient Gold Dragon", "Ancient Red Dragon",}, {}, {}, {}, {}, {},
                                               {"Tarrasque",}
-  }; //in challenge_rating groups order. (0,1/8,1/4,1/2,1,2.... 30)
+  }; //in challenge_rating groups order. (0, 1/8, 1/4, 1/2, 1, 2...., 30)
 };
 
 class Monster : public Creature {
  private:
-  int monster_type;
-  int experience;
+  int monster_name;
+  int experience_if_killed;
+  int size;
+  int challenge_rating;
+  int Health_dice_num;
+  string type_s;
+  string subtype;
+  string alignment;
+  int Monster_Movement[kMovement_types];
+  int Ability_Save[kAbilities_Num];
+  bool damage_vulnerabilities[kDamage_Types];
+  bool damage_resistances[kDamage_Types];
+  bool condition_immunities[kCondition_NUM];
  public:
-  Monster(int type_, int level_);
+  Monster(int name_, int challenge_rating_);
+
+  Monster(const Monster &another);
 
   Monster(int type_,int level_, int hp, int armor_class_);
 

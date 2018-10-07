@@ -94,11 +94,14 @@ void Game::Character_Show_Parameters(int who) {
   Existing_Types E;
   cout << "Now showing params: \n";
   for (int j = 1; j < kOutput; j++) {
-    if (j == kCharacter_get_fake_parameter) continue;
-    cout << j << " " << E.params[j - 1] << " : ";
-    if (j > kCharacter_Get_Bool_shift && j < kData_size) cout << characters[who]->Get_bool(j) << endl;
-    else cout << characters[who]->Get(j) << endl;
+    cout << j << " " << E.params_i[j - 1] << " : ";
+    cout << characters[who]->Get(j) << endl;
   }
+  for (int j = 1; j < kOutput; j++) {
+    cout << j << " " << E.params_b[j - 1] << " : ";
+    cout << characters[who]->Get_bool(j) << endl;
+  }
+
 }
 
 bool Game::Party_Save() {
@@ -111,14 +114,14 @@ bool Game::Party_Save() {
   //cout << "Control reach Party Save 2\n";
   for (int i = 0; i < characters.size(); i++) {
     vector<int> inventory = characters[i]->Get_inventory();
-    for (int p = 1; p <= kData_size; p++) {
-      if (p > kCharacter_Get_Bool_shift && p < kData_size) bool_params[i].push_back(characters[i]->Get_bool(p));
-      else params[i].push_back(characters[i]->Get(p));
+    for (int p = 0; p < kData_size; p++) {
+      bool_params[i].push_back(characters[i]->Get_bool(p));
+      params[i].push_back(characters[i]->Get(p));
     }
     party["Character"][i] = params[i];
     party["Character_bool"][i] = bool_params[i];
-    party["InventorySize"][i] = characters[i]->Get(99);
-    party["Inventory"][i] = inventory;// test
+    party["InventorySize"][i] = characters[i]->Get(99);//inventory size
+    party["Inventory"][i] = inventory;
   }
   std::ofstream outp;
   outp.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/MyParty.json", std::ofstream::out);
@@ -145,11 +148,9 @@ bool Game::Party_Load() {
   cout << "Control reach method Party Load 1\n";
   for (int i = 0; i < Size; i++) {
     unsigned inventory_Size = party["InventorySize"][i];
-    for (int j = 1; j < kData_size; j++) {
-      //if (j == kCharacter_get_fake_parameter) continue;
-      //cout << j << endl;
-      if (j < kParameter_b_shift) p[j] = party["Character"][i][j - 1];
-      else bool_p[j - kParameter_b_shift] = party["Character_bool"][i][j - kParameter_b_shift];//
+    for (int j = 0; j < kData_size; j++) {
+      p[j] = party["Character"][i][j];
+      bool_p[j - kParameter_b_shift] = party["Character_bool"][i][j];//
     }
     cout << "Control reach method Party Load 2\n";
     inventory_.resize(inventory_Size);

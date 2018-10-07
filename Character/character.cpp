@@ -41,7 +41,10 @@ Character::Character() {
     money[i] = 0;
   }
   Equipped.resize(kEquip_places);
-  state = 0;
+  state[0] = true;
+  for(int i = 1; i < kCondition_NUM;i++){
+    state[i] = false;
+  }
   exhaustion = 0;
   for(int i = 0; i < kCoordinates_NUM;i++){
     Coordinates[i] = 0;
@@ -123,7 +126,10 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   Skill_Proficiencies();
   Add_To_Inventory();
   //cout << "Control reach 14\n";
-  state = 0;
+  state[0] = true;
+  for(int i = 1; i < kCondition_NUM;i++){
+    state[i] = false;
+  }
   exhaustion = 0;
   Equiping_Item();
   for(int i = 0; i < kCoordinates_NUM;i++){
@@ -491,7 +497,7 @@ int Character::Get(int what) {
   else if (what == 19) { return money[2]; }
   else if (what == 20) { return money[3]; }
   else if (what == 21) { return money[4]; }
-  else if (what == 22) { return state; }
+  else if (what == 22) { return exhaustion; }
   else if (what == 23) { return classType.get(0); }
   else if (what == 24) { return 0; }
   else if (what == 25) { return classType.get(39); }//architype
@@ -505,7 +511,7 @@ int Character::Get(int what) {
   else if (what == 33) { return race_of_character->get(13); }//
   else if (what == 34) { return race_of_character->get(14); }
   else if (what == 35) { return (int) 'R'; }
-  else if (what == 71) { return exhaustion; }
+  else if (what > 35 && what < 35 + kCoordinates_NUM) { return Coordinates[what - 36]; }
   else if (what == 99) { return inventory.size() * 2; }
   else if (what == 100) { return passive_perception; }
   else if (what == 101) { return proficiency; }
@@ -519,12 +525,13 @@ int Character::Get(int what) {
 }
 
 bool Character::Get_bool(int what) {
-  if (what == 36) { return advantage; }
-  else if (what == 37) { return disadvantage; }
-  else if (what == 38) { return perception_advantage; }
-  else if (what == 39) { return perception_disadvantage; }
-  else if (what > 39 && what < 58) { return skills_b[what - kSkills_b_shift]; }
-  else if (what > 57 && what < 71) { return classType.get_bool(what - kClassType_get_bool_shift); }//
+  if (what == 0) { return advantage; }
+  else if (what == 1) { return disadvantage; }
+  else if (what == 2) { return perception_advantage; }
+  else if (what == 3) { return perception_disadvantage; }
+  else if (what > 3 && what < 3 + kSkills_Num) { return skills_b[what - kSkills_b_shift]; }
+  else if (what > 20 && what < 34) { return classType.get_bool(what - kClassType_get_bool_shift); }
+  else if (what > 33 && what < 34 + kCondition_NUM) { return state[what - kStates_shift];}
   return false;
 }
 
@@ -853,9 +860,9 @@ int Character::Healing_Injuring(int value) {
     if (health > maxhealth) health = maxhealth;
   } else {
     if (health <= value && value - health < maxhealth) {
-      state = 6; // incapacitated
+      state[5] = true; // incapacitated
     } else if (value - health >= maxhealth) {
-      state = 14; // instantly dead;
+      state[13] = true; // instantly dead;
     } else {
       health += value;
     }
@@ -995,7 +1002,7 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
     else if (i == 19) { money[2] = parameter_i[i]; }
     else if (i == 20) { money[3] = parameter_i[i]; }
     else if (i == 21) { money[4] = parameter_i[i]; }
-    else if (i == 22) { state = parameter_i[i]; }
+    else if (i == 22) { exhaustion = parameter_i[i]; }
     else if (i == 23) {
       //classType = new Class();
       classType.Load(parameter_i[23], parameter_b, parameter_i[35]);
@@ -1004,7 +1011,7 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
       Race_Factory Race_Factory_;
       race_of_character = Race_Factory_.Load(parameter_i[i]);
       race_of_character->Load(parameter_i);
-    } else if (i == 36) { exhaustion = parameter_i[i]; }
+    } else if (i == 36) { state = parameter_i[i]; }
     else if (i == 37) {
       //cout << "Control reach Character method Load (bool)\n";
       advantage = parameter_b[i - kParameter_b_shift];

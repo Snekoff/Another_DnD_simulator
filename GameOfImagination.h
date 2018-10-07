@@ -8,7 +8,7 @@
 #ifndef ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 #define ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 
-const int kOutput = 90;
+const int kOutput = 99;
 const int kCharacter_Get_Bool_shift = 35;
 const int kGenders_Num = 4;
 const int kCharacter_get_fake_parameter = 24;
@@ -17,6 +17,7 @@ using json = nlohmann::json;
 class Game {
  private:
   vector<Character*> characters;
+  vector<Creature*> monsters_met;
   Random_Generator_ * Rand_gen;
  public:
   Game();

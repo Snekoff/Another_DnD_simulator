@@ -22,6 +22,7 @@ const int kMagic_Items_NUM = 13;
 const int kMagic_Items_Parameters_Num = 3;
 const int kAll_Num = kWeapon_NUM + kRanged_Weapon_NUM + kAmmo_NUM + kArmor_NUM + kUsable_NUM + kMagic_Items_NUM;
 const int kItem_Types = 6;
+const int kDamage_Types = 6;// bludgeoning not included and so on
 const int kArmor_types = 3;
 
 struct Existing_Items {
