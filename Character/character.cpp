@@ -500,7 +500,7 @@ int Character::Get(int what) {
   else if (what == 22) { return exhaustion; }
   else if (what == 23) { return classType.get(0); }
   else if (what == 24) { return 0; }
-  else if (what == 25) { return classType.get(39); }//architype
+  else if (what == 25) { return classType.get(39); }//archetype
   else if (what == 26) { return race_of_character->get(0); }//type
   else if (what == 27) { return race_of_character->get(1); }
   else if (what == 28) { return race_of_character->get(2); }
@@ -511,7 +511,7 @@ int Character::Get(int what) {
   else if (what == 33) { return race_of_character->get(13); }//
   else if (what == 34) { return race_of_character->get(14); }
   else if (what == 35) { return (int) 'R'; }
-  else if (what > 35 && what < 35 + kCoordinates_NUM) { return Coordinates[what - 36]; }
+  else if (what > 35 && what < 36 + kCoordinates_NUM) { return Coordinates[what - kCoordinates_shift]; }
   else if (what == 99) { return inventory.size() * 2; }
   else if (what == 100) { return passive_perception; }
   else if (what == 101) { return proficiency; }
@@ -529,7 +529,7 @@ bool Character::Get_bool(int what) {
   else if (what == 1) { return disadvantage; }
   else if (what == 2) { return perception_advantage; }
   else if (what == 3) { return perception_disadvantage; }
-  else if (what > 3 && what < 3 + kSkills_Num) { return skills_b[what - kSkills_b_shift]; }
+  else if (what > 3 && what < 4 + kSkills_Num) { return skills_b[what - kSkills_b_shift]; }
   else if (what > 20 && what < 34) { return classType.get_bool(what - kClassType_get_bool_shift); }
   else if (what > 33 && what < 34 + kCondition_NUM) { return state[what - kStates_shift];}
   return false;
@@ -973,15 +973,21 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
   skills_b.resize(kSkills_Num);
   Equipped.resize(kEquip_places);
   //cout << "Control reach Character method Load 0\n";
-  for (int i = 1; i < kData_size; i++) {
-    if (i == 1) {
-      //cout <<"Control reach Character method Load 1\n";
+  for (int i = 0; i < kData_size; i++) {
+    if (i == 0) {
+      party = parameter_i[i];
+      advantage = parameter_b[i];
+    }
+    else if (i == 1) {
       storyline_i = parameter_i[i];
+      disadvantage = parameter_b[i];
       cout << storyline_i << " is story of " << E.stories[storyline_i] << endl;
-    } else if (i == 2) { sex = parameter_i[i]; }
-    else if (i == 3) {
-      //cout <<"Control reach Character method Load 3\n";
+    } else if (i == 2) {
+      sex = parameter_i[i];
+      perception_advantage = parameter_b[i];
+    } else if (i == 3) {
       experience = parameter_i[i];
+      perception_disadvantage = parameter_b[i];
     } else if (i == 4) { level = parameter_i[i]; }
     else if (i == 5) { health = parameter_i[i]; }
     else if (i == 6) { maxhealth = parameter_i[i]; }
@@ -989,7 +995,6 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
     else if (i == 8) { Str = parameter_i[i]; }
     else if (i == 9) { Dex = parameter_i[i]; }
     else if (i == 10) {
-      //cout <<"Control reach Character method Load 10\n";
       Con = parameter_i[i];
     } else if (i == 11) { Int = parameter_i[i]; }
     else if (i == 12) { Wis = parameter_i[i]; }
@@ -1003,23 +1008,18 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
     else if (i == 20) { money[3] = parameter_i[i]; }
     else if (i == 21) { money[4] = parameter_i[i]; }
     else if (i == 22) { exhaustion = parameter_i[i]; }
-    else if (i == 23) {
-      //classType = new Class();
-      classType.Load(parameter_i[23], parameter_b, parameter_i[35]);
-    } else if (i == 26) {
+    else if (i == 26) {
       //cout << "Control reach Character method Load 26\n";
       Race_Factory Race_Factory_;
       race_of_character = Race_Factory_.Load(parameter_i[i]);
       race_of_character->Load(parameter_i);
-    } else if (i == 36) { state = parameter_i[i]; }
-    else if (i == 37) {
-      //cout << "Control reach Character method Load (bool)\n";
-      advantage = parameter_b[i - kParameter_b_shift];
-    } else if (i == 38) { disadvantage = parameter_b[i - kParameter_b_shift]; }
-    else if (i == 39) { perception_advantage = parameter_b[i - kParameter_b_shift]; }
-    else if (i == 40) { perception_disadvantage = parameter_b[i - kParameter_b_shift]; }
-    else if (i > 40 && i < 59) { skills_b[i - kSkills_b_shift - 1] = parameter_b[i - kParameter_b_shift]; }
+    }
+    else if (i > 35 && i < 39) Coordinates[i - kCoordinates_shift] = parameter_i[i];
+
+    if (i > 3 && i < 4 + kSkills_Num) {  skills_b[i - kSkills_b_shift] = parameter_b[i]; }
+    else if (i > 33 && i < 34 + kCondition_NUM) {  state[i - kStates_shift] = parameter_b[i];}
   }
+  classType.Load(parameter_i[kClass_type_parameter], parameter_b, parameter_i[kClass_archetype_parameter]);
   proficiency = ProficiencySetter();
   //cout <<"Control reach Character method Load 91\n";
   PassivePerceptionSetter();

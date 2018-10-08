@@ -3,7 +3,7 @@
 #define ANOTHER_DND_SIMULATOR_MONSTER_H
 #include <fstream>
 #include "../Character/character.h"
-#include "../json.hpp"
+#include "../json_parse_by_nlohmann/json.hpp"
 
 const int kMonster_NUM = 50;
 const int kMonster_Parameter_NUM = 6;
