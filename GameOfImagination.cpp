@@ -148,14 +148,16 @@ bool Game::Party_Load() {
   for (int i = 0; i < Size; i++) {
     vector<int> inventory_;
     unsigned inventory_Size = party["InventorySize"][i].get<int>();
+    cout << "Control reach method Party Load 2\n";
     for (int j = 0; j < kData_size; j++) {
+      //cout << j << " " << party["Character"][i][j].get<int>() << endl;//
       p[j] = party["Character"][i][j].get<int>();
-      bool_p[j - kParameter_b_shift] = party["Character_bool"][i][j].get<bool>();//Exists
+      bool_p[j] = party["Character_bool"][i][j].get<bool>();//Exists
     }
     cout << "Control reach method Party Load 3\n";
     inventory_.resize(inventory_Size);
     //cout << inventory_Size << endl;
-    for (int j = 0; j < inventory_Size; j++) { //FIXME: party["Inventory"][i][j] not exists
+    for (int j = 0; j < inventory_Size; j++) { //
       cout << "Control reach method Party Load _4\n";
       cout << "inventory[" << i << "][" << j << "] = " << party["Inventory"][i][j].get<int>() << endl;
       inventory_[j] = party["Inventory"][i][j].get<int>();
