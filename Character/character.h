@@ -8,7 +8,7 @@
 #include "../Monsters/Creature.h"
 #include "Classes.h"
 #include "Race.h"
-#include "../json_nlohmann/single_include/nlohmann/json.hpp"
+#include "../json_parse_by_nlohmann/json.hpp"
 
 using namespace std;
 

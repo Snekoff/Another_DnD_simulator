@@ -142,23 +142,23 @@ bool Game::Party_Load() {
   cout << "Control reach method Party Load 0\n";
   int *p = new int[kData_size];
   bool *bool_p = new bool[kData_size];
-  int Size = party["Size"];
+  int Size = party["Size"].get<int>();
   characters.resize((unsigned) Size);
   cout << "Control reach method Party Load 1\n";
   for (int i = 0; i < Size; i++) {
     vector<int> inventory_;
-    unsigned inventory_Size = party["InventorySize"][i];
+    unsigned inventory_Size = party["InventorySize"][i].get<int>();
     for (int j = 0; j < kData_size; j++) {
-      p[j] = party["Character"][i][j];
-      bool_p[j - kParameter_b_shift] = party["Character_bool"][i][j];//
+      p[j] = party["Character"][i][j].get<int>();
+      bool_p[j - kParameter_b_shift] = party["Character_bool"][i][j].get<bool>();//Exists
     }
     cout << "Control reach method Party Load 3\n";
     inventory_.resize(inventory_Size);
-    //inventory_.resize(inventory_Size);
-    cout << inventory_Size << endl;
-    for (int j = 0; j < inventory_Size; j++) {
+    //cout << inventory_Size << endl;
+    for (int j = 0; j < inventory_Size; j++) { //FIXME: party["Inventory"][i][j] not exists
       cout << "Control reach method Party Load _4\n";
-      inventory_[j] = party["Inventory"][i][j];
+      cout << "inventory[" << i << "][" << j << "] = " << party["Inventory"][i][j].get<int>() << endl;
+      inventory_[j] = party["Inventory"][i][j].get<int>();
     }
     cout << "Control reach method Party Load 4_1\n";
     characters[i] = new Character();

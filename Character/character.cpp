@@ -7,6 +7,7 @@ using namespace std;
 
 Character::Character() {
   race_of_character = new Race();
+  party = 0;
   storyline = "Acolyte";
   sex = 0;
   experience = 0;
@@ -61,7 +62,7 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   Inte = Less_than_zero(Inte);
   Wisd = Less_than_zero(Wisd);
   Charisma = Less_than_zero(Charisma);
-  party = -1;
+  party = 0;
   health = 0;
   maxhealth = 0;
   health_dice = 0;
@@ -1017,6 +1018,7 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
   Skill_Proficiencies();
   Inventory_Load(item_);
   Equiping_Item();
+  cout << "Loaded\n";
   return true;
 }
 
