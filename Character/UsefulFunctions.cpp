@@ -41,12 +41,12 @@ int Health_Level_Up(Random_Generator_ *Rand_gen, int health_dice, int ConModifie
   roll_or_middle = Correctness_of_input(roll_or_middle, 1, 2);
   if (roll_or_middle == 1) {
     int tHP = Rand_gen->Rand(1, health_dice);
-    std::cout << "Rolled health + Constitution modifier = " << tHP + ConModifier << std::endl;
+    std::cout << "Rolled health = " << tHP + ConModifier << std::endl;
     maxHealth += tHP + ConModifier;
   }
   else {
-    maxHealth += health_dice / 2 + 1;
-    std::cout << "Middle health = " << health_dice / 2 + 1 << std::endl;
+    maxHealth += (health_dice / 2 + 1) + ConModifier;
+    std::cout << "Middle health = " << (health_dice / 2 + 1) + ConModifier << std::endl;
   }
   return maxHealth;
 }

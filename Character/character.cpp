@@ -78,7 +78,7 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   Cha = Charisma;
   Maximum_Parameter_Value();
   int t1 = Ability_Random_Sets(Rand_gen, rand_seed_change);
-  //cout << "Control reach 2\n";
+  Test_Ability_Modifier();
   armor_class = 0;
   deathsaves_s = 0;
   deathsaves_f = 0;
@@ -102,30 +102,19 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   money[kMoney_types - 1]  sum in copper
    */
   Equipped.resize(kEquip_places);
-  //cout << "Control reach 4\n";
   SetSkill();
-  //cout << "Control reach 5\n";
   proficiency = ProficiencySetter();
-  //cout << "Control reach 6\n";
   PassivePerceptionSetter();
-  //cout << "Control reach 7\n";
   Race_Choosal();
-  //cout << "Control reach 8\n";
   StorySetsSkills();
-  //cout << "Control reach 9\n";
   SetClass(Rand_gen);
-  //cout << "Control reach 10\n";
   Starting_Health();
-  //cout << "Control reach 11 armor class = " << armor_class << endl;
   if (classType.get(0) == 0) armor_class = kBarbarian_Unarmored_Defence + DexModifier + ConModifier;
   level = 1;
-  //cout << "Control reach 12\n" << armor_class;
   cout << experience << " " << level << endl;
   t1 = Level_Up(Rand_gen);
-  //cout << "Control reach 13\n";
   Skill_Proficiencies();
   Add_To_Inventory();
-  //cout << "Control reach 14\n";
   state[0] = true;
   for(int i = 1; i < kCondition_NUM;i++){
     state[i] = false;
@@ -530,8 +519,8 @@ bool Character::Get_bool(int what) {
   else if (what == 2) { return perception_advantage; }
   else if (what == 3) { return perception_disadvantage; }
   else if (what > 3 && what < 4 + kSkills_Num) { return skills_b[what - kSkills_b_shift]; }
-  else if (what > 20 && what < 34) { return classType.get_bool(what - kClassType_get_bool_shift); }
-  else if (what > 33 && what < 34 + kCondition_NUM) { return state[what - kStates_shift];}
+  else if (what > 20 && what < 32) { return classType.get_bool(what - kClassType_get_bool_shift); }
+  else if (what > 31 && what < 34 + kCondition_NUM) { return state[what - kStates_shift];}
   return false;
 }
 
@@ -1029,5 +1018,16 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
   Inventory_Load(item_);
   Equiping_Item();
   return true;
+}
+
+void Character::Test_Ability_Modifier() {
+  EXPECT_EQ(AbilityModifier(10),0);
+  EXPECT_EQ(AbilityModifier(12),1);
+  EXPECT_EQ(AbilityModifier(20),5);
+  EXPECT_EQ(AbilityModifier(0),-5);
+  EXPECT_EQ(AbilityModifier(3),-3);
+  EXPECT_EQ(AbilityModifier(7),-1);
+  EXPECT_EQ(AbilityModifier(8),-1);
+  cout << "\nTest_Ability_Modifier passed\n";
 }
 

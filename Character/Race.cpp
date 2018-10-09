@@ -66,27 +66,27 @@ int Race::get(int what) {
 void Race::SetRaceAbilityBonus() {
   int a = 0, b = 0;
   if (type < 15 || (type > 19 && type != 25 && type != 37)) {// 15-19(3)  25(2) 37(Dex or Cha)
-    printf("%s \n", "Your type got non flexible ability bonuses");
+    std::cout << "Your type got non flexible ability bonuses\n";
   } else if (type == 25) {
-    printf("%s \n", "type two most wanted abilities to improve (1 - 6)");
+    std::cout << "type two most wanted abilities to improve (1 - 6)\n";
     a = IsNumber(a, 1, kAbilities_Num);
     b = IsNumber(b, 1, kAbilities_Num);
     E.race_ability_bonus[a - 1][type] += 1;
     E.race_ability_bonus[b - 1][type] += 1;
   } else if (type == 37) {
-    printf("%s \n", "Choose only one ability Dexterity(2) or Charisma(6) )");
+    std::cout << "Choose only one ability Dexterity(2) or Charisma(6) )\n";
     a = IsNumber(a, 2, kAbilities_Num);
     while (a != 2 && a != kAbilities_Num) {
-      printf("%s \n", "Choose only one ability Dexterity(2) or Charisma(6) )");
+      std::cout << "Choose only one ability Dexterity(2) or Charisma(6) )\n";
       a = IsNumber(a, 2, kAbilities_Num);
     }
     E.race_ability_bonus[a - 1][type] += 1;
   } else {
-    printf("%s \n", "type two most wanted abilities to improve (1 - 6)");
+    std::cout << "type two most wanted abilities to improve (1 - 6)\n";
     a = IsNumber(a, 1, kAbilities_Num);
     b = IsNumber(b, 1, kAbilities_Num);
     while (a - 1 == 5 || b - 1 == 5) {
-      printf("%s \n", "Your charisma is already raised, choose another pair");
+      std::cout << "Your charisma is already raised, choose another pair\n";
       a = IsNumber(a, 1, kAbilities_Num);
       b = IsNumber(b, 1, kAbilities_Num);
     }
@@ -104,21 +104,21 @@ void Race::RaceAbilityBonus() {
 }
 void Race::Size_Set() {
   auto Rand_gen = new Random_Generator_();
-  printf("%s \n",
-         "insert height(ft), weight(lbs) and age(y) of your character or type zero(s) (0 100 0) to random");
-  printf("%s %d %s %d %s %d %s %d %s %d %s %d \n",
-         "Normal parameters for your race are: height(ft) from ",
-         E.minHeight[type],
-         "to ",
-         E.maxHeight[type],
-         " weight(lbs)from ",
-         E.minWeight[type],
-         "to ",
-         E.maxWeight[type],
-         " and age(y) from ",
-         E.minAge[type],
-         "to ",
-         E.maxAge[type]);
+  std::cout <<
+            "insert height(ft), weight(lbs) and age(y) of your character or type zero(s) (0 100 0) to random\n";
+  std::cout <<
+            "Normal parameters for your race are: height(ft) from " <<
+            E.minHeight[type] <<
+            " to " <<
+            E.maxHeight[type] <<
+            " weight(lbs)from " <<
+            E.minWeight[type] <<
+            " to " <<
+            E.maxWeight[type] <<
+            " and age(y) from " <<
+            E.minAge[type] <<
+            " to " <<
+            E.maxAge[type] << std::endl;
   height = IsNumber(height, 0, 200);
   weight = IsNumber(weight, 0, 200);
   age = IsNumber(age, 0, 200);
@@ -201,7 +201,7 @@ void Dragonborn::Create(int sub_type, int height_, int weight_, int age_) {
   Size = 0;
   Darkvision = 0;
   damage_resistance = 0;
-  type = 1;
+  type = 0;
   subtype = sub_type;
   height = height_;
   weight = weight_;
@@ -210,7 +210,7 @@ void Dragonborn::Create(int sub_type, int height_, int weight_, int age_) {
   subRaceFeatures();
 }
 
-Dwarf::Dwarf() : Race() { subtype = 0; }
+Dwarf::Dwarf() = default;
 Dwarf::Dwarf(int sub_type, int height_, int weight_, int age_) {
   Create(sub_type, height_, weight_, age_);
 }
@@ -246,7 +246,7 @@ void Dwarf::Create(int sub_type, int height_, int weight_, int age_) {
   Darkvision = 0;
   damage_resistance = 0;
   subtype = sub_type;
-  type = 2;
+  type = 1;
   height = height_;
   weight = weight_;
   age = age_;
@@ -254,7 +254,7 @@ void Dwarf::Create(int sub_type, int height_, int weight_, int age_) {
   subRaceFeatures();
 }
 
-Elf::Elf() : Race() { subtype = 0; }
+Elf::Elf() = default;
 Elf::Elf(int sub_type, int height_, int weight_, int age_) {
   Create(sub_type, height_, weight_, age_);
 }
@@ -305,7 +305,7 @@ void Elf::Create(int sub_type, int height_, int weight_, int age_) {
   Size = 0;
   Darkvision = 0;
   damage_resistance = 0;
-  type = 3;
+  type = 2;
   subtype = sub_type;
   height = height_;
   weight = weight_;
@@ -314,7 +314,7 @@ void Elf::Create(int sub_type, int height_, int weight_, int age_) {
   subRaceFeatures();
 }
 
-Gnome::Gnome() : Race() { subtype = 0; }
+Gnome::Gnome() = default;
 Gnome::Gnome(int sub_type, int height_, int weight_, int age_) {
   Create(sub_type, height_, weight_, age_);
 }
@@ -349,7 +349,7 @@ void Gnome::Create(int sub_type, int height_, int weight_, int age_) {
   Size = 0;
   Darkvision = 0;
   damage_resistance = 0;
-  type = 4;
+  type = 3;
   subtype = sub_type;
   height = height_;
   weight = weight_;
@@ -358,7 +358,7 @@ void Gnome::Create(int sub_type, int height_, int weight_, int age_) {
   subRaceFeatures();
 }
 
-Goblin::Goblin() : Race() { subtype = 0; }
+Goblin::Goblin() = default;
 Goblin::Goblin(int sub_type, int height_, int weight_, int age_) {
   Create(sub_type, height_, weight_, age_);
 }
@@ -383,7 +383,7 @@ void Goblin::Create(int sub_type, int height_, int weight_, int age_) {
   Size = 0;
   Darkvision = 0;
   damage_resistance = 0;
-  type = 5;
+  type = 4;
   subtype = sub_type;
   height = height_;
   weight = weight_;
@@ -392,7 +392,7 @@ void Goblin::Create(int sub_type, int height_, int weight_, int age_) {
   subRaceFeatures();
 }
 
-Half_Elf::Half_Elf() : Race() { subtype = 0; }
+Half_Elf::Half_Elf() = default;
 Half_Elf::Half_Elf(int sub_type, int height_, int weight_, int age_) {
   Create(sub_type, height_, weight_, age_);
 }
@@ -404,7 +404,7 @@ void Half_Elf::subRaceFeatures() {
   damage_resistance = 0;
   Cha += 2;
   int a = 0, b = 0;
-  printf("%s \n", "type two most wanted abilities to improve except Charisma (1 - 5)");
+  std::cout << "type two most wanted abilities to improve except Charisma (1 - 5)\n";
   a = IsNumber(a, 1, 5);
   b = IsNumber(b, 1, 5);
   E.race_ability_bonus[a - 1][15 + subtype] += 1;
@@ -435,7 +435,7 @@ void Half_Elf::Create(int sub_type, int height_, int weight_, int age_) {
   Size = 0;
   Darkvision = 0;
   damage_resistance = 0;
-  type = 6;
+  type = 5;
   subtype = sub_type;
   height = height_;
   weight = weight_;
@@ -444,7 +444,7 @@ void Half_Elf::Create(int sub_type, int height_, int weight_, int age_) {
   subRaceFeatures();
 }
 
-Half_Orc::Half_Orc() : Race() { subtype = 0; }
+Half_Orc::Half_Orc() = default;
 Half_Orc::Half_Orc(int sub_type, int height_, int weight_, int age_) {
   Create(sub_type, height_, weight_, age_);
 }
@@ -476,7 +476,7 @@ void Half_Orc::Create(int sub_type, int height_, int weight_, int age_) {
   Size = 0;
   Darkvision = 0;
   damage_resistance = 0;
-  type = 7;
+  type = 6;
   subtype = sub_type;
   height = height_;
   weight = weight_;
@@ -485,7 +485,7 @@ void Half_Orc::Create(int sub_type, int height_, int weight_, int age_) {
   subRaceFeatures();
 }
 
-Halfling::Halfling() : Race() { subtype = 0; }
+Halfling::Halfling() = default;
 Halfling::Halfling(int sub_type, int height_, int weight_, int age_) {
   Create(sub_type, height_, weight_, age_);
 }
@@ -518,7 +518,7 @@ void Halfling::Create(int sub_type, int height_, int weight_, int age_) {
   Size = 0;
   Darkvision = 0;
   damage_resistance = 0;
-  type = 8;
+  type = 7;
   subtype = sub_type;
   height = height_;
   weight = weight_;
@@ -527,7 +527,7 @@ void Halfling::Create(int sub_type, int height_, int weight_, int age_) {
   subRaceFeatures();
 }
 
-Human::Human() : Race() { subtype = 0; }
+Human::Human() = default;
 Human::Human(int sub_type, int height_, int weight_, int age_) {
   Create(sub_type, height_, weight_, age_);
 }
@@ -547,7 +547,7 @@ void Human::subRaceFeatures() {
     raceFeatures = "30,Medium,No,skill like firebreath,No,Languages";
   } else if (subtype == 1) {
     int a = 0, b = 0;
-    printf("%s \n", "type two most wanted abilities to improve (1 - 6)");
+    std::cout << "type two most wanted abilities to improve (1 - 6)\n";
     //std::cin >> a >> b;
     a = IsNumber(a, 1, 6);
     b = IsNumber(b, 1, 6);
@@ -570,7 +570,7 @@ void Human::Create(int sub_type, int height_, int weight_, int age_) {
   Size = 0;
   Darkvision = 0;
   damage_resistance = 0;
-  type = 9;
+  type = 8;
   subtype = sub_type;
   height = height_;
   weight = weight_;
@@ -579,14 +579,14 @@ void Human::Create(int sub_type, int height_, int weight_, int age_) {
   subRaceFeatures();
 }
 
-Lizardfolk::Lizardfolk() : Race() { subtype = 0; }
+Lizardfolk::Lizardfolk() = default;
 Lizardfolk::Lizardfolk(int sub_type, int height_, int weight_, int age_) {
   Create(sub_type, height_, weight_, age_);
 }
 Lizardfolk::~Lizardfolk() = default;
 void Lizardfolk::subRaceFeatures() {
-  printf(
-      "You gain proficiency with two of the following skills of your choice: Animal Handling(2), Nature(11), Perception(12), Stealth(17), and Survival(18).\n");
+  std::cout << 
+      "You gain proficiency with two of the following skills of your choice: Animal Handling(2), Nature(11), Perception(12), Stealth(17), and Survival(18).\n";
   int a = 0, b = 0;
   //std::cin >> a >> b;
   a = IsNumber(a, 2, 18);
@@ -610,7 +610,7 @@ void Lizardfolk::Create(int sub_type, int height_, int weight_, int age_) {
   Size = 0;
   Darkvision = 0;
   damage_resistance = 0;
-  type = 10;
+  type = 9;
   subtype = sub_type;
   height = height_;
   weight = weight_;
@@ -619,7 +619,7 @@ void Lizardfolk::Create(int sub_type, int height_, int weight_, int age_) {
   subRaceFeatures();
 }
 
-Tiefling::Tiefling() : Race() { subtype = 0; }
+Tiefling::Tiefling() = default;
 Tiefling::Tiefling(int sub_type, int height_, int weight_, int age_) {
   Create(sub_type, height_, weight_, age_);
 }
@@ -668,11 +668,11 @@ void Tiefling::subRaceFeatures() {
   } else if (subtype == 9) {
     Int += 1;
     int a = 0;
-    printf("%s \n", "Choose only one ability Dexterity(2) or Charisma(6) )");
+    std::cout << "Choose only one ability Dexterity(2) or Charisma(6) )\n";
     //std::cin >> a;
     a = IsNumber(a, 2, 6);
     while (a != 2 && a != 6) {
-      printf("%s \n", "Choose only one ability Dexterity(2) or Charisma(6) )");
+      std::cout << "Choose only one ability Dexterity(2) or Charisma(6) )\n";
       //std::cin >> a;
       a = IsNumber(a, 2, 6);
     }
@@ -697,7 +697,7 @@ void Tiefling::Create(int sub_type, int height_, int weight_, int age_) {
   Size = 0;
   Darkvision = 0;
   damage_resistance = 0;
-  type = 11;
+  type = 10;
   subtype = sub_type;
   height = height_;
   weight = weight_;

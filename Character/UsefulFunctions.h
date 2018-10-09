@@ -3,9 +3,11 @@
 #include <random>
 
 
+
 #ifndef ANOTHER_DND_SIMULATOR_USEFULFUNCTIONS_H
 #define ANOTHER_DND_SIMULATOR_USEFULFUNCTIONS_H
-
+#include "../gtest/googletest/include/gtest/gtest.h"
+#include "../gtest/googlemock/include/gmock/gmock.h"
 const int kRace_Num = 11;
 const int kRace_with_subraces_Num = 39;
 const int kAbilities_Num = 6;
@@ -63,7 +65,7 @@ struct Existing_Types {
                             " ", " ",
                             " ",
                              " ",   " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
-                            " ", " ", " ", " ", " ", ""
+                            " ", " ", " ", " ", " ", " "
  };
   std::string params_b[kOutput_Num] = {"advantage"," disadvantage", " perception_advantage", " perception_disadvantage",
                                        " *skills_b[]", " *skills_b[1]", " *skills_b[2]", " *skills_b[3]",

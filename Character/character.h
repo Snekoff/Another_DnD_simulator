@@ -91,6 +91,8 @@ class Character : public Creature {
 
   int GetSkill(int what);
 
+  void Test_Ability_Modifier();
+
   void Inventory_Load(vector<int> item_);
 
   void Starting_Health();

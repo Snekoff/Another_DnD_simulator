@@ -4,6 +4,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "../gtest/googletest/include/gtest/gtest.h"
+#include "../gtest/googlemock/include/gmock/gmock.h"
 #ifndef ANOTHER_DND_SIMULATOR_ITEM_H
 #define ANOTHER_DND_SIMULATOR_ITEM_H
 

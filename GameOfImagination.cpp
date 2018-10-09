@@ -93,12 +93,12 @@ bool Game::is_Created() {
 void Game::Character_Show_Parameters(int who) {
   Existing_Types E;
   cout << "Now showing params: \n";
-  for (int j = 1; j < kOutput; j++) {
-    cout << j << " " << E.params_i[j - 1] << " : ";
+  for (int j = 0; j < kOutput_Num; j++) {
+    cout << j << " " << E.params_i[j] << " : ";
     cout << characters[who]->Get(j) << endl;
   }
-  for (int j = 1; j < kOutput; j++) {
-    cout << j << " " << E.params_b[j - 1] << " : ";
+  for (int j = 0; j < kOutput_Num; j++) {
+    cout << j << " " << E.params_b[j] << " : ";
     cout << characters[who]->Get_bool(j) << endl;
   }
 
@@ -143,20 +143,24 @@ bool Game::Party_Load() {
   int *p = new int[kData_size];
   bool *bool_p = new bool[kData_size];
   int Size = party["Size"];
-  vector<int> inventory_;
-  characters.resize((unsigned) Size);//
+  characters.resize((unsigned) Size);
   cout << "Control reach method Party Load 1\n";
   for (int i = 0; i < Size; i++) {
+    vector<int> inventory_;
     unsigned inventory_Size = party["InventorySize"][i];
     for (int j = 0; j < kData_size; j++) {
       p[j] = party["Character"][i][j];
       bool_p[j - kParameter_b_shift] = party["Character_bool"][i][j];//
     }
-    cout << "Control reach method Party Load 2\n";
+    cout << "Control reach method Party Load 3\n";
     inventory_.resize(inventory_Size);
+    //inventory_.resize(inventory_Size);
+    cout << inventory_Size << endl;
     for (int j = 0; j < inventory_Size; j++) {
+      cout << "Control reach method Party Load _4\n";
       inventory_[j] = party["Inventory"][i][j];
     }
+    cout << "Control reach method Party Load 4_1\n";
     characters[i] = new Character();
     characters[i]->Load(p, bool_p, inventory_);
   }
