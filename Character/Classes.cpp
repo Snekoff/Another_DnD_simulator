@@ -53,8 +53,9 @@ void Class::set_archetype() {
   }
 }
 
-bool Class::Load(int type_, bool b[], int archetype_) {
+bool Class::Load(int type_, bool b[], int archetype_) {//22-34
   Existing_classes E_C;
+  E_C.fake_parameter = 1;
   type = type_;
   archetype = archetype_;
   for (int i = 0; i < 7; i++) {
@@ -332,9 +333,14 @@ int Class::get(int what) {
 }
 
 bool Class::get_bool(int what) {
-  if (0 < what && what < 7) return primary_ability[what - 1];
-  else if (6 < what && what < 13) return saving_throw_proficiencies[what - 7];
-  else if (12 < what && what < 20) return armor_and_weapon_proficiencies[what - 13];
+  if (-1 < what && what < 6) return primary_ability[what];
+  else if (5 < what && what < 12) {
+    Existing_Types E_T;
+    E_T.fake_parameter = 1;
+    //std::cout << "\nClass: what = " << what << E_T.params_b[what + 16] << " = " << saving_throw_proficiencies[what - 6] << std::endl;
+    return saving_throw_proficiencies[what - 6];
+  }
+  else if (11 < what && what < 19) return armor_and_weapon_proficiencies[what - 12];
   return false;
 }
 

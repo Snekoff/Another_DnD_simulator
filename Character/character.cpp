@@ -520,8 +520,11 @@ bool Character::Get_bool(int what) {
   else if (what == 2) { return perception_advantage; }
   else if (what == 3) { return perception_disadvantage; }
   else if (what > 3 && what < 4 + kSkills_Num) { return skills_b[what - kSkills_b_shift]; }
-  else if (what > 20 && what < 32) { return classType.get_bool(what - kClassType_get_bool_shift); }
-  else if (what > 31 && what < 34 + kCondition_NUM) { return state[what - kStates_shift];}
+  else if (what > 21 && what < 35) {
+    Existing_Types E_T;
+  //cout << "\nCharacter: what = "<< what << E_T.params_b[what] << " = " << classType.get_bool(what - kClassType_get_bool_shift) << endl;
+  return classType.get_bool(what - kClassType_get_bool_shift); }
+  else if (what > 34 && what < 51) { return state[what - kStates_shift];}
   return false;
 }
 
@@ -1007,7 +1010,7 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
     else if (i > 35 && i < 39) Coordinates[i - kCoordinates_shift] = parameter_i[i];
 
     if (i > 3 && i < 4 + kSkills_Num) {  skills_b[i - kSkills_b_shift] = parameter_b[i]; }
-    else if (i > 33 && i < 34 + kCondition_NUM) {  state[i - kStates_shift] = parameter_b[i];}
+    else if (i > 34 && i < 34 + kCondition_NUM) {  state[i - kStates_shift] = parameter_b[i];}//check kStates
   }
   classType.Load(parameter_i[kClass_type_parameter], parameter_b, parameter_i[kClass_archetype_parameter]);
   proficiency = ProficiencySetter();

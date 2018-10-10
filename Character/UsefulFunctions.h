@@ -89,6 +89,7 @@ struct Existing_Types {
                                        " ",
 
   };
+  int fake_parameter = 0;
 }; //
 template <typename T>
 T Correctness_of_input(T a, T lower_limit, T higher_limit);

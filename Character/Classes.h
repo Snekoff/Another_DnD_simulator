@@ -7,8 +7,8 @@
 const int kClass_Num = 12;
 const int kAttributes_Num = 20;
 const int kArmor_Weapon_proficiencies_Num = 7;
-const int kSaving_Throw_shift = 23;
-const int kArmor_Weapon_shift = 29;
+const int kSaving_Throw_shift = 22;
+const int kArmor_Weapon_shift = 28;
 const int kClassType_get_shift = 21;
 
 struct Existing_classes{ // classes simplified! (weapon proficiencies)

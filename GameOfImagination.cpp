@@ -150,9 +150,8 @@ bool Game::Party_Load() {
     unsigned inventory_Size = party["InventorySize"][i].get<int>();
     cout << "Control reach method Party Load 2\n";
     for (int j = 0; j < kData_size; j++) {
-      //cout << j << " " << party["Character"][i][j].get<int>() << endl;//
       p[j] = party["Character"][i][j].get<int>();
-      bool_p[j] = party["Character_bool"][i][j].get<bool>();//Exists
+      bool_p[j] = party["Character_bool"][i][j].get<bool>();
     }
     cout << "Control reach method Party Load 3\n";
     inventory_.resize(inventory_Size);
