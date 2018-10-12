@@ -23,6 +23,11 @@ Class::~Class() = default;
 
 void Class::set(int type_, std::vector<bool> skills_b) {
   Existing_classes E_C;
+  bool test = false;
+  if(type_ > kClass_Num) {
+    type_ -= kClass_Num;
+    test = true;
+  }
   type = type_;
   hit_dice = E_C.Class_atribute[type][0];
   for (int i = 0; i < 7; i++) {
@@ -43,7 +48,7 @@ void Class::set(int type_, std::vector<bool> skills_b) {
     else primary_ability[1] = true;
   }
   archetype = 0;
-  set_skills(skills_b);
+  if(!test)set_skills(skills_b);
   set_archetype();
 }
 

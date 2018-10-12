@@ -42,6 +42,8 @@ class Race {
 
   bool Load(int parameters_i[]);
 
+  virtual void subRaceFeatures();
+
 };
 
 class Dragonborn : public Race {

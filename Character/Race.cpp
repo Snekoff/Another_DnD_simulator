@@ -94,6 +94,9 @@ void Race::SetRaceAbilityBonus() {
     E.race_ability_bonus[b - 1][type] += 1;
   }
 }
+void Race::subRaceFeatures() {
+  std::cout << "No subrace\n";
+}
 void Race::RaceAbilityBonus() {
   Str = E.race_ability_bonus[0][type];
   Dex = E.race_ability_bonus[1][type];

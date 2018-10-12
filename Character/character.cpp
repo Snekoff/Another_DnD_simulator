@@ -8,7 +8,7 @@ using namespace std;
 Character::Character() {
   race_of_character = new Race();
   party = 0;
-  storyline = "Acolyte";
+  storyline_i = 0;
   sex = 0;
   experience = 0;
   level = 0;
@@ -38,6 +38,10 @@ Character::Character() {
   perception_disadvantage = false;
   skills.resize(kSkills_Num);
   skills_b.resize(kSkills_Num);
+  for (int i = 0; i < kSkills_Num; i++){
+    skills[i] = 0;
+    skills_b[i] = false;
+  }
   for (int i = 0; i < kMoney_types; i++) {
     money[i] = 0;
   }
@@ -67,7 +71,6 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   maxhealth = 0;
   health_dice = 0;
   storyline_i = storyline_;
-  storyline = "";
   sex = sex_;
   if (exp < E.experience_per_level[levl - 1]) { exp = E.experience_per_level[levl - 1]; }
   experience = exp;
@@ -79,7 +82,6 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   Cha = Charisma;
   Maximum_Parameter_Value();
   int t1 = Ability_Random_Sets(Rand_gen, rand_seed_change);
-  Test_Ability_Modifier();
   armor_class = 0;
   deathsaves_s = 0;
   deathsaves_f = 0;
@@ -143,6 +145,13 @@ void Character::Maximum_Parameter_Value() {
   if (Int > kAbility_Maximum_Score) Int = kAbility_Maximum_Score;
   if (Wis > kAbility_Maximum_Score) Wis = kAbility_Maximum_Score;
   if (Cha > kAbility_Maximum_Score) Cha = kAbility_Maximum_Score;
+  if (deathsaves_s > kDeathsave_Max) deathsaves_s = kDeathsave_Max;
+  if (deathsaves_f > kDeathsave_Max) deathsaves_f = kDeathsave_Max;
+  if (sex > kGender) sex = kGender;
+  if (experience > kExperience_Max) experience = kExperience_Max;
+  if (level > kLevels_Num) level = kLevels_Num;
+  if (exhaustion > kExhaustion_MAX_Level) exhaustion = kExhaustion_MAX_Level;
+  if (storyline_i > kStory_Num) storyline_i = kStory_Num - 1;
 }
 
 void Character::Set_Party(int party_) {
@@ -213,12 +222,12 @@ void Character::ConcreteAbilityModifier() {
 }
 
 int Character::ProficiencySetter() {
-  if (level < 5) return 2;
+  if (level > -1 && level < 5) return 2;
   else if (level > 4 && level < 9) return 3;
   else if (level > 8 && level < 13) return 4;
   else if (level > 12 && level < 17) return 5;
   else if (level > 16 && level < 21) return 6;
-  return -3;
+  return -1;
 }
 
 void Character::PassivePerceptionSetter() {
@@ -235,9 +244,6 @@ void Character::Skill_Proficiencies() {
 }
 
 void Character::StorySetsSkills() {
-  Existing_Types E;
-  storyline = E.stories[storyline_i];
-  //string b = storyline;
   Add_Money(2, 15);
   if (storyline_i == 0) {
     skills_b[6] = true;
@@ -304,7 +310,7 @@ void Character::Ability_improve() {
            << Con << "), 4.Int(" << Int << "), 5.Wis(" << Wis << "), 6.Cha(" << Cha << ")" << endl;
       one_or_two_abilities = IsNumber<int>(one_or_two_abilities, 1, 6);
       one_or_two_abilities = Check_Ability_Reach_Maximum(one_or_two_abilities);
-      Set(one_or_two_abilities + 2, 2);
+      Set(one_or_two_abilities + 2, Get(7 + one_or_two_abilities) + 2);
     } else {
       cout << "What abilities do you want to improve +1 ?  1.Str(" << Str << "), 2.Dex(" << Dex << "), 3.Con("
            << Con << "), 4.Int(" << Int << "), 5.Wis(" << Wis << "), 6.Cha(" << Cha << ") *Type 2 spaced numbers"
@@ -315,8 +321,8 @@ void Character::Ability_improve() {
       one_or_two_abilities = Check_Ability_Reach_Maximum(one_or_two_abilities);
       one_or_two_abilities1 = IsNumber<int>(one_or_two_abilities1, 1, 6);
       one_or_two_abilities1 = Check_Ability_Reach_Maximum(one_or_two_abilities1);
-      Set(one_or_two_abilities + 2, 1);
-      Set(one_or_two_abilities1 + 2, 1);
+      Set(one_or_two_abilities + 2, Get(kGetAbilities_Shift + one_or_two_abilities - 1) + 1);
+      Set(one_or_two_abilities1 + 2, Get(kGetAbilities_Shift + one_or_two_abilities1 - 1) + 1);
     }
   }
 }
@@ -446,22 +452,59 @@ void Character::Race_Get_Abilities() {
 }
 
 void Character::Set(int what, int value) {// what - what parameter will be changed, value - modifier(can be negative)
-  what = Correctness_of_input<int>(what, 0, 14);
-  if (what == 1) { experience += value; }
-  else if (what == 2) { health += value; }
-  else if (what == 3) { Str += value; }
-  else if (what == 4) { Dex += value; }
-  else if (what == 5) { Con += value; }
-  else if (what == 6) { Int += value; }
-  else if (what == 7) { Wis += value; }
-  else if (what == 8) { Cha += value; }
-  else if (what == 9) { armor_class += value; }
-  else if (what == 10) { if (value < 0)deathsaves_f++; else deathsaves_s++; }
-  else if (what == 11) { cout << "reserved for Skills"; }
-  else if (what == 12) { cout << "reserved for weapon"; }
-  else if (what == 13) { cout << "reserved for inventory"; }
-  else if (what == 14) { cout << "reserved for story/background"; }
+  //what = Correctness_of_input<int>(what, 0, 20);
+  switch (what) {
+    case 0: sex = value;
+    case 1: { experience = value; }
+    case 2: { health = value; }
+    case 3: { Str = value; }
+    case 4: { Dex = value; }
+    case 5: { Con = value; }
+    case 6: { Int = value; }
+    case 7: { Wis = value; }
+    case 8: { Cha = value; }
+    case 9: { armor_class = value; }
+    case 10: { if (value < 0)deathsaves_f++ ; else deathsaves_s++; }
+    case 11: {
+      if (value < 0) disadvantage = (bool)(1 - (int)advantage);
+      else advantage = (bool)(1 - (int)disadvantage);
+    }
+    case 12: {
+      if (value < 0) perception_disadvantage = (bool)(1 - (int)perception_advantage);
+      else perception_advantage = (bool)(1 - (int)perception_disadvantage);
+    }
+    case 13: {
+      value = Correctness_of_input(value,0,kSkills_Num - 1);
+      if(skills_b[value]) skills_b[value] = false;
+      else skills_b[value] = true;
+    }
+    case 14: { Add_Money(0, value); }
+    case 15: { Add_Money(1, value); }
+    case 16: { Add_Money(2, value); }
+    case 17: {
+      Race_Factory Race_Factor;
+      race_of_character = Race_Factor.Load(value);
+    }
+    case 18: {
+      classType.set(value, skills_b);
+      health_dice = classType.get(kGetHealth_dice);
+      for (int i = 0; i < kSkills_Num; i++) {
+        if (classType.get(i + kClassType_get_shift) == 1) {
+          skills_b[i] = true;
+        }
+      }
+    }
+    case 19: { party = value; }
+    case 20: { storyline_i = value; }
+    /*case : {  }*/
+    default: cout << "Method Set acted wrong\n";
+  }
+  ConcreteAbilityModifier();
+  proficiency = ProficiencySetter();
+  PassivePerceptionSetter();
   Maximum_Parameter_Value();
+  SetSkill();
+  Skill_Proficiencies();
 }
 
 int Character::Get(int what) {
@@ -492,14 +535,14 @@ int Character::Get(int what) {
   else if (what == 24) { return 0; }
   else if (what == 25) { return classType.get(39); }//archetype
   else if (what == 26) { return race_of_character->get(0); }//type
-  else if (what == 27) { return race_of_character->get(1); }
-  else if (what == 28) { return race_of_character->get(2); }
-  else if (what == 29) { return race_of_character->get(3); }
-  else if (what == 30) { return race_of_character->get(10); }//
-  else if (what == 31) { return race_of_character->get(11); }//
+  else if (what == 27) { return race_of_character->get(1); }//height
+  else if (what == 28) { return race_of_character->get(2); }//weight
+  else if (what == 29) { return race_of_character->get(3); }//age
+  else if (what == 30) { return race_of_character->get(10); }//Movement
+  else if (what == 31) { return race_of_character->get(11); }//Size
   else if (what == 32) { return race_of_character->get(12); }//Darkvision
-  else if (what == 33) { return race_of_character->get(13); }//
-  else if (what == 34) { return race_of_character->get(14); }
+  else if (what == 33) { return race_of_character->get(13); }//Damage resistan
+  else if (what == 34) { return race_of_character->get(14); }//subtype
   else if (what == 35) { return (int) 'R'; }
   else if (what > 35 && what < 36 + kCoordinates_NUM) { return Coordinates[what - kCoordinates_shift]; }
   else if (what == 99) { return inventory.size() * 2; }
@@ -511,6 +554,7 @@ int Character::Get(int what) {
   else if (what == 105) { return IntModifier; }
   else if (what == 106) { return WisModifier; }
   else if (what == 107) { return ChaModifier; }
+  else if (what > 107 && what < 108 +kSkills_Num) { return skills[what - kGet_Skills_shift];}
   return -1;
 }
 
@@ -865,7 +909,6 @@ int Character::Healing_Injuring(int value) {
 
 int Character::Level_Up(Random_Generator_ *Rand_gen) {
   Existing_Types E;
-  storyline = E.stories[storyline_i];
   if (experience >= E.experience_per_level[level]) {
     level++;
     proficiency = ProficiencySetter();
@@ -912,7 +955,7 @@ void Character::SetClass(Random_Generator_ *Rand_gen) {
           "12. Wizard\n";
   class_type_ = IsNumber<int>(class_type_, 1, kClass_Num);
   classType.set(class_type_ - 1, skills_b);
-  health_dice = classType.get(20);
+  health_dice = classType.get(kGetHealth_dice);
   proficiency = ProficiencySetter();
   //21-38 => skills[0] - skills[17]
   Class_Set_Wealth(Rand_gen);
@@ -926,13 +969,13 @@ void Character::SetClass(Random_Generator_ *Rand_gen) {
 void Character::SetSkill() {
   for (int j = 0; j < kAbilities_Num; j++) {
     if (j == 0 || j == 2 || j == 5 || j == 8 || j == 10 ||
-        j == 14) { skills[j] += IntModifier; }//acrobatics,arcana,history,investigation,nature,religion
+        j == 14) { skills[j] = IntModifier; }//acrobatics,arcana,history,investigation,nature,religion
     else if (j == 1 || j == 6 || j == 9 || j == 11 ||
-        j == 17) { skills[j] += WisModifier; }//animalHandling,.skills[6],medicine,perception,survival
-    else if (j == 3) { skills[j] += StrModifier; }//athletics
+        j == 17) { skills[j] = WisModifier; }//animalHandling,.skills[6],medicine,perception,survival
+    else if (j == 3) { skills[j] = StrModifier; }//athletics
     else if (j == 4 || j == 7 || j == 12 ||
-        j == 13) { skills[j] += ChaModifier; }//deception,intimidation,performance,persuasion
-    else if (j == 15 || j == 16) { skills[j] += DexModifier; }//sleightOfHand,stealth
+        j == 13) { skills[j] = ChaModifier; }//deception,intimidation,performance,persuasion
+    else if (j == 15 || j == 16) { skills[j] = DexModifier; }//sleightOfHand,stealth
   }
 }
 
@@ -1005,7 +1048,8 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
       //cout << "Control reach Character method Load 26\n";
       Race_Factory Race_Factory_;
       race_of_character = Race_Factory_.Load(parameter_i[i]);
-      race_of_character->Load(parameter_i);
+      //race_of_character->Load(parameter_i);
+      Race_Call_Load(parameter_i);
     }
     else if (i > 35 && i < 39) Coordinates[i - kCoordinates_shift] = parameter_i[i];
 
@@ -1025,14 +1069,10 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
   return true;
 }
 
-void Character::Test_Ability_Modifier() {
-  EXPECT_EQ(AbilityModifier(10),0);
-  EXPECT_EQ(AbilityModifier(12),1);
-  EXPECT_EQ(AbilityModifier(20),5);
-  EXPECT_EQ(AbilityModifier(0),-5);
-  EXPECT_EQ(AbilityModifier(3),-3);
-  EXPECT_EQ(AbilityModifier(7),-1);
-  EXPECT_EQ(AbilityModifier(8),-1);
-  cout << "\nTest_Ability_Modifier passed\n";
+void Character::Race_Call_Load(int *parameters) {
+  race_of_character->Load(parameters);
+}
+void Character::Race_Call_race_features() {
+  race_of_character->subRaceFeatures();
 }
 

@@ -10,13 +10,13 @@
 #include "Race.h"
 #include "../json_parse_by_nlohmann/json.hpp"
 
+const int kGet_Skills_shift = 108;
 using namespace std;
 
 class Character : public Creature {
  private:
   Race* race_of_character;
   Class classType;
-  string storyline;
   int storyline_i;
   Existing_Types E;
   int exhaustion;
@@ -91,13 +91,15 @@ class Character : public Creature {
 
   int GetSkill(int what);
 
-  void Test_Ability_Modifier();
-
   void Inventory_Load(vector<int> item_);
 
   void Starting_Health();
 
   bool Load(int parameter_i[], bool parameter_b[], vector<int> item_);
+
+  void Race_Call_Load(int parameters[]);
+
+  void Race_Call_race_features();
 
 };
 

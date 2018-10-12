@@ -6,6 +6,7 @@
 #include "UsefulFunctions.h"
 const int kClass_Num = 12;
 const int kAttributes_Num = 20;
+const int kGetHealth_dice = 20;
 const int kArmor_Weapon_proficiencies_Num = 7;
 const int kSaving_Throw_shift = 22;
 const int kArmor_Weapon_shift = 28;
@@ -63,7 +64,7 @@ sleightOfHand 15,stealth 16,survival 17*/
   int Had_Skill_Been_Chosen(std::vector<bool> skills_b, std::vector<int> skills_access, int skill_1, int skill_2, int skill_3);
   int Had_Skill_Been_Chosen(std::vector<bool> skills_b, std::vector<int> skills_access, int skill_1, int skill_2, int skill_3, int skill_4);
 
-  bool Load(int type_, bool b[], int architype_);
+  bool Load(int type_, bool b[], int archetype_);
 
   virtual int get(int what);
 
