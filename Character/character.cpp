@@ -238,7 +238,7 @@ void Character::PassivePerceptionSetter() {
 }
 
 void Character::Skill_Proficiencies() {
-  for (int i = 0; i < kAbilities_Num; i++) {
+  for (int i = 0; i < kSkills_Num; i++) {
     if (skills_b[i]) skills[i] += proficiency;
   }
 }
@@ -454,36 +454,40 @@ void Character::Race_Get_Abilities() {
 void Character::Set(int what, int value) {// what - what parameter will be changed, value - modifier(can be negative)
   //what = Correctness_of_input<int>(what, 0, 20);
   switch (what) {
-    case 0: sex = value;
-    case 1: { experience = value; }
-    case 2: { health = value; }
-    case 3: { Str = value; }
-    case 4: { Dex = value; }
-    case 5: { Con = value; }
-    case 6: { Int = value; }
-    case 7: { Wis = value; }
-    case 8: { Cha = value; }
-    case 9: { armor_class = value; }
-    case 10: { if (value < 0)deathsaves_f++ ; else deathsaves_s++; }
+    case 0: { sex = value; break; }
+    case 1: { experience = value; break; }
+    case 2: { health = value; break; }
+    case 3: { Str = value; break; }
+    case 4: { Dex = value; break; }
+    case 5: { Con = value; break; }
+    case 6: { Int = value; break; }
+    case 7: { Wis = value; break; }
+    case 8: { Cha = value; break; }
+    case 9: { armor_class = value; break; }
+    case 10: { if (value < 0)deathsaves_f++ ; else deathsaves_s++;  break;}
     case 11: {
       if (value < 0) disadvantage = (bool)(1 - (int)advantage);
       else advantage = (bool)(1 - (int)disadvantage);
+      break;
     }
     case 12: {
       if (value < 0) perception_disadvantage = (bool)(1 - (int)perception_advantage);
       else perception_advantage = (bool)(1 - (int)perception_disadvantage);
+      break;
     }
     case 13: {
       value = Correctness_of_input(value,0,kSkills_Num - 1);
       if(skills_b[value]) skills_b[value] = false;
       else skills_b[value] = true;
+      break;
     }
-    case 14: { Add_Money(0, value); }
-    case 15: { Add_Money(1, value); }
-    case 16: { Add_Money(2, value); }
+    case 14: { Add_Money(0, value);  break;}
+    case 15: { Add_Money(1, value);  break;}
+    case 16: { Add_Money(2, value);  break;}
     case 17: {
       Race_Factory Race_Factor;
       race_of_character = Race_Factor.Load(value);
+      break;
     }
     case 18: {
       classType.set(value, skills_b);
@@ -493,9 +497,10 @@ void Character::Set(int what, int value) {// what - what parameter will be chang
           skills_b[i] = true;
         }
       }
+      break;
     }
-    case 19: { party = value; }
-    case 20: { storyline_i = value; }
+    case 19: { party = value; break; }
+    case 20: { storyline_i = value; break; }
     /*case : {  }*/
     default: cout << "Method Set acted wrong\n";
   }
@@ -567,8 +572,10 @@ bool Character::Get_bool(int what) {
   else if (what > 21 && what < 35) {
     Existing_Types E_T;
   //cout << "\nCharacter: what = "<< what << E_T.params_b[what] << " = " << classType.get_bool(what - kClassType_get_bool_shift) << endl;
-  return classType.get_bool(what - kClassType_get_bool_shift); }
+  return classType.get_bool(what - kClassType_get_bool_shift); }//kClassType_get_bool_shift
   else if (what > 34 && what < 51) { return state[what - kStates_shift];}
+  //temproary
+  else if (what > 50 && what < 57) { return classType.get_bool(what - 51);}
   return false;
 }
 
@@ -967,7 +974,7 @@ void Character::SetClass(Random_Generator_ *Rand_gen) {
 }
 
 void Character::SetSkill() {
-  for (int j = 0; j < kAbilities_Num; j++) {
+  for (int j = 0; j < kSkills_Num; j++) {
     if (j == 0 || j == 2 || j == 5 || j == 8 || j == 10 ||
         j == 14) { skills[j] = IntModifier; }//acrobatics,arcana,history,investigation,nature,religion
     else if (j == 1 || j == 6 || j == 9 || j == 11 ||

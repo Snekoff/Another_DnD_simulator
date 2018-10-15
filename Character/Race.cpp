@@ -130,15 +130,15 @@ void Race::Size_Set() {
   if (age <= 0 || age > E.maxAge[type]) { age = Rand_gen->Rand(E.minAge[type], E.maxAge[type]); }
 }
 bool Race::Load(int parameters_i[]) {
-  type = parameters_i[26];
-  subtype = parameters_i[34];
-  height = parameters_i[27];
-  weight = parameters_i[28];
-  age = parameters_i[29];
-  Movement = parameters_i[30];
-  Size = parameters_i[31];
-  Darkvision = parameters_i[32];
-  damage_resistance = parameters_i[33];
+  type = parameters_i[kRace_Load_parameters_shift];
+  height = parameters_i[kRace_Load_parameters_shift + 1];
+  weight = parameters_i[kRace_Load_parameters_shift + 2];
+  age = parameters_i[kRace_Load_parameters_shift + 3];
+  Movement = parameters_i[kRace_Load_parameters_shift + 4];
+  Size = parameters_i[kRace_Load_parameters_shift + 5];
+  Darkvision = parameters_i[kRace_Load_parameters_shift + 6];
+  damage_resistance = parameters_i[kRace_Load_parameters_shift + 7];
+  subtype = parameters_i[kRace_Load_parameters_shift + 8];
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -158,7 +158,7 @@ void Dragonborn::subRaceFeatures() {
   Str += 2;
   Cha += 1;
   Movement = 30;
-  Size = 1;
+  Size = 2;
   Darkvision = 0;
   damage_resistance = 1;
   if (subtype == 0) {

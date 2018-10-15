@@ -10,6 +10,7 @@
 #include "../gtest/googlemock/include/gmock/gmock.h"
 const int kRace_Num = 11;
 const int kRace_with_subraces_Num = 39;
+const int kRace_Load_parameters_shift = 26;
 const int kAbilities_Num = 6;
 const int kLevels_Num = 20;
 const int kStory_Num = 13;

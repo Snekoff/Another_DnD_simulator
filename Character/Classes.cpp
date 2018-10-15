@@ -48,7 +48,7 @@ void Class::set(int type_, std::vector<bool> skills_b) {
     else primary_ability[1] = true;
   }
   archetype = 0;
-  if(!test)set_skills(skills_b);
+  if(!test) { set_skills(skills_b); }
   set_archetype();
 }
 

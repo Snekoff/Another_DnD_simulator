@@ -23,11 +23,11 @@ class Character_Test : public ::testing::Test {
   //void SetUp() override;
   //void TearDown() override;
 
-  void Test_All_Params();
-
   // Objects declared here can be used by all tests in the test case for Foo.
 };
 
+
+//TEST(CharacterTestFunction, ChecksAllparameters);
 #endif //ANOTHER_DND_SIMULATOR_CHARACTER_TEST_H
 /* int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
