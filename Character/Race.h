@@ -14,10 +14,10 @@ class Race {
   int subtype;
   int height, weight, age;
   int Str, Dex, Con, Int, Wis, Cha;
-  int Movement;
+  int Movement;// how many feets you can move (your speed)
   int Size; // 0 - small,1 - medium, etc.
-  int Darkvision;
-  int damage_resistance;
+  int Darkvision;//Darkvision.value means that you see in darkness up to "value" feets
+  int damage_resistance;//You take half as much damage of this type
   std::string raceFeatures;
   Existing_Types E;
   // Movement,Size,Darkvision,skill like firebreath,fits,type of damage resistance,Languages//

@@ -6,15 +6,21 @@
 #include "../gtest/googlemock/include/gmock/gmock.h"
 #include "../Character/character.h"
 
-class Character_Test : public ::testing::Test {
+class CharacterTest : public ::testing::Test {
+ public:
+  Character * Test_Subject;
  protected:
   // You can remove any or all of the following functions if its body
   // is empty.
 
-  Character_Test();
+  CharacterTest(){
+    Test_Subject = new Character();
+  }
     // You can do set-up work for each test here.
 
-  ~Character_Test() override;
+  ~CharacterTest() override {
+    delete Test_Subject;
+  }
     // You can do clean-up work that doesn't throw exceptions here.
 
   // If the constructor and destructor are not enough for setting up

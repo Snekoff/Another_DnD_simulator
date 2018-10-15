@@ -19,14 +19,17 @@
 using namespace std;
 
 const int kData_size = 99;
+const int kParameterMinimum = 0;
 const int kMoney_types = 5;
 const int kEquip_places = 10;
-const int kAbility_Minimum_Score = 10;
+const int kAbility_Roll_Minimum_Score = 10;
 const int kAbility_Maximum_Score = 20;
+//const int kAbility_Minimum_Score = 0;
 const int kAbility_Starting_Maximum = 16;
 const int kSkills_b_shift = 4;
 const int kGender = 3;
 const int kDeathsave_Max = 3;
+//const int kDeathsave_Min = 0;
 const int kCoordinates_shift = 36;
 const int kGetAbilities_Shift = 8;
 const int kClass_type_parameter = 23;

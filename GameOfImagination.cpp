@@ -46,7 +46,9 @@ void Game::Character_create(Random_Generator_ *Rand_gen) {
   number_of_characters = IsNumber(number_of_characters, 0, -1);
   characters.resize((unsigned) number_of_characters);
   for (int i = 0; i < number_of_characters; i++) {
-    cout << "For player " << i + 1 << " type: experience, level\n";
+    cout << "For player " << i + 1 << " type: experience, level\n "
+                                      "Note: 300 experience and 1 level will lead to LevelUp,"
+                                      " 0 experience and 2 level won lead to LevelUp\n";
     int exp_ = 0, level_ = 0, sex_ = 0;
     exp_ = IsNumber(exp_, kExperience_Min, kExperience_Max);
     level_ = IsNumber(level_, kLevel_Minimum, kLevels_Num);

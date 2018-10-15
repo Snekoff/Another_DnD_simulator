@@ -35,6 +35,8 @@ class Character : public Creature {
 
   void Maximum_Parameter_Value();
 
+  void Minimum_Parameter_Value();
+
   int AbilityModifier(int ability);
 
   void ConcreteAbilityModifier();

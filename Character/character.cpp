@@ -113,7 +113,7 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   SetClass(Rand_gen);
   Starting_Health();
   if (classType.get(0) == 0) armor_class = kBarbarian_Unarmored_Defence + DexModifier + ConModifier;
-  level = 1;
+  //level = 1;
   cout << experience << " " << level << endl;
   t1 = Level_Up(Rand_gen);
   Skill_Proficiencies();
@@ -154,6 +154,23 @@ void Character::Maximum_Parameter_Value() {
   if (storyline_i > kStory_Num) storyline_i = kStory_Num - 1;
 }
 
+void Character::Minimum_Parameter_Value() {
+  if (Str < kParameterMinimum) Str = kParameterMinimum;
+  if (Dex < kParameterMinimum) Dex = kParameterMinimum;
+  if (Con < kParameterMinimum) Con = kParameterMinimum;
+  if (Int < kParameterMinimum) Int = kParameterMinimum;
+  if (Wis < kParameterMinimum) Wis = kParameterMinimum;
+  if (Cha < kParameterMinimum) Cha = kParameterMinimum;
+  if (deathsaves_s < kParameterMinimum) deathsaves_s = kParameterMinimum;
+  if (deathsaves_f < kParameterMinimum) deathsaves_f = kParameterMinimum;
+  if (sex < kGender) sex = kParameterMinimum;
+  if (experience < kParameterMinimum) experience = kParameterMinimum;
+  if (level < kParameterMinimum) level = kParameterMinimum;
+  if (exhaustion < kParameterMinimum) exhaustion = kParameterMinimum;
+  if (storyline_i < kParameterMinimum) storyline_i = kParameterMinimum;
+
+}
+
 void Character::Set_Party(int party_) {
   party = party_;
 }
@@ -167,7 +184,7 @@ int Character::Ability_Random_Sets(Random_Generator_ *Rand_gen, int rand_seed_ch
     for (int k = 0; k < kAbilities_Num * 2; k++) {
       if (k == 0) cout << "Set 1:\n";
       if (k == 6) cout << "\nSet 2:\n";
-      Sets[k] = Rand_gen->Rand(kAbility_Minimum_Score, kAbility_Starting_Maximum);
+      Sets[k] = Rand_gen->Rand(kAbility_Roll_Minimum_Score, kAbility_Starting_Maximum);
       //dist(mt);
       cout << " " << Sets[k] << " ";
     }
@@ -501,13 +518,17 @@ void Character::Set(int what, int value) {// what - what parameter will be chang
     }
     case 19: { party = value; break; }
     case 20: { storyline_i = value; break; }
-    /*case : {  }*/
+    case 21: { maxhealth = value; break; }
+    case 22: { break; }
+    case 23: { break; }
+    /*case : { break; }*/
     default: cout << "Method Set acted wrong\n";
   }
   ConcreteAbilityModifier();
   proficiency = ProficiencySetter();
   PassivePerceptionSetter();
   Maximum_Parameter_Value();
+  Minimum_Parameter_Value();
   SetSkill();
   Skill_Proficiencies();
 }
@@ -903,12 +924,12 @@ int Character::Healing_Injuring(int value) {
     health += value;
     if (health > maxhealth) health = maxhealth;
   } else {
-    if (health <= value && value - health < maxhealth) {
-      state[5] = true; // incapacitated
-    } else if (value - health >= maxhealth) {
-      state[13] = true; // instantly dead;
-    } else {
-      health += value;
+    value *= (-1);
+    health -= value;
+    if (health <= 0){
+      if((-1) * health < maxhealth) { state[5] = true; }// incapacitated
+      else { state[13] = true; }// instantly dead;
+      health = 0;
     }
   }
   return health;
@@ -916,14 +937,13 @@ int Character::Healing_Injuring(int value) {
 
 int Character::Level_Up(Random_Generator_ *Rand_gen) {
   Existing_Types E;
-  if (experience >= E.experience_per_level[level]) {
+  while (experience >= E.experience_per_level[level]) {
     level++;
     proficiency = ProficiencySetter();
     Ability_improve();
     ConcreteAbilityModifier();
     maxhealth = Health_Level_Up(Rand_gen, health_dice, ConModifier, maxhealth);
     health = maxhealth;
-    return Level_Up(Rand_gen);
   }
   cout << "Your level:" << level << endl;
   cout << "Your max health:" << maxhealth << endl;
