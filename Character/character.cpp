@@ -58,14 +58,6 @@ Character::Character() {
 
 Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int levl, int Stre, int Dext,
                      int Cons, int Inte, int Wisd, int Charisma, int sex_, int rand_seed_change) {
-  //cout << "Control reach 1\n";
-  exp = Less_than_zero(exp);
-  Stre = Less_than_zero(Stre);
-  Dext = Less_than_zero(Dext);
-  Cons = Less_than_zero(Cons);
-  Inte = Less_than_zero(Inte);
-  Wisd = Less_than_zero(Wisd);
-  Charisma = Less_than_zero(Charisma);
   party = 0;
   health = 0;
   maxhealth = 0;
@@ -80,6 +72,7 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   Int = Inte;
   Wis = Wisd;
   Cha = Charisma;
+  Minimum_Parameter_Value();
   Maximum_Parameter_Value();
   int t1 = Ability_Random_Sets(Rand_gen, rand_seed_change);
   armor_class = 0;
@@ -98,12 +91,6 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   for (int i = 0; i < kMoney_types; i++) {
     money[i] = 0;
   }
-  /*money[0] copper
-  money[1]
-  money[2]
-  money[3] Pt
-  money[kMoney_types - 1]  sum in copper
-   */
   Equipped.resize(kEquip_places);
   SetSkill();
   proficiency = ProficiencySetter();
@@ -177,9 +164,10 @@ void Character::Set_Party(int party_) {
 
 int Character::Ability_Random_Sets(Random_Generator_ *Rand_gen, int rand_seed_change) {
   if (Str == 0 && Dex == 0 && Con == 0 && Int == 0 && Wis == 0 && Cha == 0) {
+    //Randomizing starting numbers
     for (int i = 0; i < rand_seed_change; i++) {
       int g = Rand_gen->Rand(10, 16);
-    }// to randomize starting numbers
+    }
     int Sets[kAbilities_Num * 2] = {0};
     for (int k = 0; k < kAbilities_Num * 2; k++) {
       if (k == 0) cout << "Set 1:\n";
@@ -261,53 +249,79 @@ void Character::Skill_Proficiencies() {
 }
 
 void Character::StorySetsSkills() {
-  Add_Money(2, 15);
+  //Add_Money(2, 15);
   if (storyline_i == 0) {
+    Add_Money(2, 15);
+    /*A holy symbol (a gift to you when you entered the priesthood), a prayer book or prayer wheel, 5 sticks of incense, vestments, a set of common clothes,*/
     skills_b[6] = true;
     skills_b[14] = true;
   } else if (storyline_i == 1) {
+    Add_Money(2, 15);
+    /*A set of fine clothes, a disguise kit, tools of the con of your choice (ten stoppered bottles filled with colored liquid, a set of weighted dice, a deck of marked cards, or a signet ring of an imaginary duke),*/
     skills_b[4] = true;
     skills_b[15] = true;
   } else if (storyline_i == 2) {
+    Add_Money(2, 15);
+    /*A crowbar, a set of dark common clothes including a hood,*/
     skills_b[4] = true;
     skills_b[16] = true;
   } else if (storyline_i == 3) {
+    Add_Money(2, 15);
+    /*A musical instrument (one of your choice), the favor of an admirer (love letter, lock of hair, or trinket), costume clothes,*/
     skills_b[0] = true;
     skills_b[12] = true;
   } else if (storyline_i == 4) {
+    Add_Money(2, 10);
+    /*A set of artisan's tools (one of your choice), a shovel, an iron pot, a set of common clothes, */
     skills_b[1] = true;
     skills_b[17] = true;
   } else if (storyline_i == 5) {
+    Add_Money(2, 15);
+    /*A set of artisan's tools (one of your choice), a letter of introduction from your guild, a set of traveler's clothes,*/
     skills_b[6] = true;
     skills_b[13] = true;
   } else if (storyline_i == 6) {
+    Add_Money(2, 5);
+    /*A scroll case stuffed full of notes from your studies or prayers, a winter blanket, a set of common clothes, an herbalism kit,*/
     skills_b[9] = true;
     skills_b[14] = true;
   } else if (storyline_i == 7) {
+    Add_Money(2, 25);
+    /*A set of fine clothes, a signet ring, a scroll of pedigree*/
     skills_b[5] = true;
     skills_b[13] = true;
   } else if (storyline_i == 8) {
+    Add_Money(2, 10);
+    /*A staff, a hunting trap, a trophy from an animal you killed, a set of traveler's clothes, */
     skills_b[3] = true;
     skills_b[17] = true;
   } else if (storyline_i == 9) {
+    Add_Money(2, 10);
+    /*A bottle of black ink, a quill, a small knife, a letter from a dead colleague posing a question you have not yet been able to answer, a set of common clothes*/
     skills_b[2] = true;
     skills_b[5] = true;
   } else if (storyline_i == 10) {
+    Add_Money(2, 10);
+    /*A belaying pin (club), silk rope (50 feet), a lucky charm such as a rabbit foot or a small stone with a hole in the center (or you may roll for a random trinket on the Trinkets table in chapter 5), a set of common clothes, */
     skills_b[3] = true;
     skills_b[11] = true;
   } else if (storyline_i == 11) {
+    Add_Money(2, 10);
+    /*An insignia of rank, a trophy taken from a fallen enemy (a dagger, broken blade, or piece of a banner), a bone dice set or playing card set, a set of common clothes,*/
     skills_b[3] = true;
     skills_b[7] = true;
   } else if (storyline_i == 12) {
+    Add_Money(2, 10);
+    /*A small knife, a map of the city you grew up in, a pet mouse, a token to remember your parents by, a set of common clothes,*/
     skills_b[15] = true;
     skills_b[16] = true;
   }
-} // to be reconsidered and expanded Tool proficiencies and standart equip
+} // to be reconsidered and expanded Tool proficiencies and standard equipment
 
 int Character::Check_Ability_Reach_Maximum(int ability) {
   int a[kAbilities_Num] = {Str, Dex, Con, Int, Wis, Cha};
   while (a[ability - 1] == kAbility_Maximum_Score) {
-    cout << "That ability is at maximum, choose another one\n";
+    cout << "That ability is at maximum score, choose another one\n";
     ability = IsNumber<int>(ability, 1, kAbilities_Num);
   }
   return ability;
@@ -360,7 +374,6 @@ void Character::Race_Choosal() {
           "11. Tiefling (11 subraces)\n"
           "Type number, and proceed\n";
   int race = 9;
-  //int a = 0, b = 0, c = 0;
   race = IsNumber<int>(race, 1, kRace_Num);
   int subrace = 0;
   if (race == 1) {
@@ -377,7 +390,6 @@ void Character::Race_Choosal() {
             "10. White (Cold) 15ft. cone\n"
             "Type number, and proceed\n";
     subrace = IsNumber<int>(subrace, 1, 10);
-    //cout << "Control reach Race_Choosal 1\n";
   } else if (race == 2) {
     cout << "Choose your subrace. What it will be?\n";
     cout << "1. Duergar\n"
@@ -457,8 +469,6 @@ void Character::Race_Choosal() {
 }
 
 void Character::Race_Get_Abilities() {
-  /*
- cout << " subtype = " << race_of_character->get(14) <<"\n";*/
   Str += race_of_character->get(4);
   Dex += race_of_character->get(5);
   Con += race_of_character->get(6);
@@ -469,7 +479,6 @@ void Character::Race_Get_Abilities() {
 }
 
 void Character::Set(int what, int value) {// what - what parameter will be changed, value - modifier(can be negative)
-  //what = Correctness_of_input<int>(what, 0, 20);
   switch (what) {
     case 0: { sex = value; break; }
     case 1: { experience = value; break; }

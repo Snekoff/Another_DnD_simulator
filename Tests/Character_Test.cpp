@@ -1,21 +1,7 @@
 #include "Character_Test.h"
 
-
-TEST_F(CharacterTest, DeathsaveAndPerceptionTest){
-  Test_Subject->Set(10,1);//deathsave_s++
-  EXPECT_EQ(Test_Subject->Get(15),1);//deathsave_s
-  EXPECT_EQ(Test_Subject->Get(16),0);//deathsave_f
-  Test_Subject->Set(11,1);// advantage
-  EXPECT_EQ(Test_Subject->Get_bool(0),true);//advantage = true
-  Test_Subject->Set(7,15);//Wisd
-  EXPECT_EQ(Test_Subject->Get(100),12);// passive_perception
-  Test_Subject->Set(11,-1);//disadvantage
-  EXPECT_EQ(Test_Subject->Get_bool(1),false);// advantage + disadvantage = no effect
-  Test_Subject->Set(12,-1);//perception disadvantage
-  EXPECT_EQ(Test_Subject->Get(100),7);// passive_perception = 12 - 5(perception_disadvantage)
-  /*Test_Subject->Set(,);
-  EXPECT_EQ(Test_Subject->Get(),);*/
-}
+// Test_Subject->Set(what, value)
+// Test_Subject->Get(what)
 
 TEST_F(CharacterTest, EasyParametersMaxValuesTest){
   EXPECT_EQ(Test_Subject->Get(0), 0) ;//party
@@ -89,19 +75,64 @@ TEST_F(CharacterTest, AbilitiesAndSkillsTest){
   EXPECT_EQ(Test_Subject->Get(),);*/
 }
 
-TEST_F(CharacterTest, MoneyTest){
+TEST_F(CharacterTest, DeathsaveValuesTest){
+  Test_Subject->Set(10,1);//deathsave_s++
+  EXPECT_EQ(Test_Subject->Get(15),1);//deathsave_s
+  EXPECT_EQ(Test_Subject->Get(16),0);//deathsave_f
+  /*Test_Subject->Set(,);
+  EXPECT_EQ(Test_Subject->Get(),);*/
+}
+
+TEST_F(CharacterTest, PerceptionCalculationTest) {
+  EXPECT_EQ(Test_Subject->Get(100),0);
+  Test_Subject->Set(7,15);//Wisdom = 15
+  EXPECT_EQ(Test_Subject->Get(100),12);// Wis Mod = 2
+}
+
+TEST_F(CharacterTest, AdvantageTest) {
+Test_Subject->Set(11,1);// advantage = true
+EXPECT_EQ(Test_Subject->Get_bool(0),true);//advantage = true
+}
+
+TEST_F(CharacterTest, AdvantageAndDisadvantageTest) {
+  Test_Subject->Set(11,1);// advantage = true
+  Test_Subject->Set(11,-1);//disadvantage = true
+  EXPECT_EQ(Test_Subject->Get_bool(1),false);//disadvantage  (advantage + disadvantage = no effect)
+}
+
+TEST_F(CharacterTest, PassivePerceptionModifiersTest) {
+  Test_Subject->Set(12,-1);//perception disadvantage = true
+  EXPECT_EQ(Test_Subject->Get(100),0);// passive_perception = 10 - 5(Wis Mod) - 5(perception_disadvantage)
+}
+
+TEST_F(CharacterTest, MoneyTest1){
   Test_Subject->Set(14,1);//money[0] = 1  (copper)
   EXPECT_EQ(Test_Subject->Get(17),1);//money[0]
   EXPECT_EQ(Test_Subject->Get(18),0);//silver (money[1])
   EXPECT_EQ(Test_Subject->Get(19),0);//gold
   EXPECT_EQ(Test_Subject->Get(20),0);//platinum
   EXPECT_EQ(Test_Subject->Get(21),1);//all money in copper (money[4])
+}
+
+TEST_F(CharacterTest, MoneyTest2){
+  Test_Subject->Set(14,1);//add 1 copper
   Test_Subject->Set(15,1);// add 1 silver
   EXPECT_EQ(Test_Subject->Get(18),1);// silver
   EXPECT_EQ(Test_Subject->Get(21),11);// 1 copper + 1 silver = 11 copper
+}
+
+TEST_F(CharacterTest, MoneyTest3){
+  Test_Subject->Set(14,1);//add 1 copper
+  Test_Subject->Set(15,1);// add 1 silver
   Test_Subject->Set(16,2);// add 2 gold
   EXPECT_EQ(Test_Subject->Get(19),2);//gold
   EXPECT_EQ(Test_Subject->Get(21),211);//1copper + 1silver + 2gold = 1 + 10 + 200 copper
+}
+
+TEST_F(CharacterTest, PayingMoneyTest){
+  Test_Subject->Set(14,1);//add 1 copper
+  Test_Subject->Set(15,1);// add 1 silver
+  Test_Subject->Set(16,2);// add 2 gold
   Test_Subject->Paying_Money(190);// pay 190 copper* (in optimized way)
   //*Let us suppose that everyone got change
   EXPECT_EQ(Test_Subject->Get(17),1);// copper = 1
@@ -109,11 +140,14 @@ TEST_F(CharacterTest, MoneyTest){
   EXPECT_EQ(Test_Subject->Get(19),0);//  Gold = 0
   EXPECT_EQ(Test_Subject->Get(20),0);//plat = 0
   EXPECT_EQ(Test_Subject->Get(21),21);// 211-190 = 21
-  /*Test_Subject->Set(,);
-  EXPECT_EQ(Test_Subject->Get(),);*/
 }
 
 TEST_F(CharacterTest, CharacterRaceTest){
+  Test_Subject->Set(17,0);//Race Dragonborn(subtype unknown)
+  EXPECT_EQ(Test_Subject->Get(26),0);//type
+}
+
+TEST_F(CharacterTest, CharacterRaceLoadTest){
   Test_Subject->Set(17,0);//Race Dragonborn(subtype unknown)
   EXPECT_EQ(Test_Subject->Get(26),0);//type
   int * params = new int[kData_size];
@@ -135,7 +169,6 @@ TEST_F(CharacterTest, CharacterRaceTest){
   EXPECT_EQ(Test_Subject->Get(31),2);//Size = medium(2)
   EXPECT_EQ(Test_Subject->Get(32),0);//Darkvison = 0 feet
   EXPECT_EQ(Test_Subject->Get(33),2);// damage resistance = lightning(2)
-
 }
 
 TEST_F(CharacterTest, CharacterClassTest){

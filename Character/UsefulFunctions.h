@@ -31,7 +31,6 @@ struct Existing_Types {
   std::string Condition[kCondition_NUM] = {"0.fine", " 1.blinded", " 2.charmed", " 3.deafened", " 4.frightened", " 5.grappled",
                         " 6.incapacitated", " 7.invisible", " 8.petrified", "9.poisoned", " 10.prone",
                         " 11.restrained", " 12.stunned", " 13.unconscious", " 14.dead", " 15.disease"};
-  //std::string item[9] = {"equipment","potions","food","ammo_holder","shield","weapon","armor","ammo","usable"};
   int race_ability_bonus[kRace_with_subraces_Num][kAbilities_Num] =
       {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
@@ -42,7 +41,6 @@ struct Existing_Types {
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
   int experience_per_level[kLevels_Num] = {0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,kExperience_Max};
-
   std::string  stories[kStory_Num] = {"Acolyte", "Charlatan", "Criminal", "Entertainer", "FolkHero", "GuildArtisan",
         "Hermit", "Noble", "Outlander", "Sage", "Sailor", "Soldier", "Urchin"};
   std::string params_i[kOutput_Num] = { " party"," storyline_i", " sex", " experience", " level", " health", " maxhealth",

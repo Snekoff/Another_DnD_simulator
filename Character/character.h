@@ -40,7 +40,7 @@ class Character : public Creature {
   int AbilityModifier(int ability);
 
   void ConcreteAbilityModifier();
-  //new
+
   int ProficiencySetter();
 
   void PassivePerceptionSetter();
