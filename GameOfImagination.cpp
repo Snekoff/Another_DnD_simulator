@@ -11,9 +11,9 @@ Game::Game() {
 
 Game::Game(int start, int journey) {
   Rand_gen = new Random_Generator_();
-  cout << "Start new game: 1\nLoad saved game: 2\n";
+  cout << "Start new game: 1\nLoad saved game: 2\nLoad saved party and add players/familiars/NPC: 3\n";
   int new_or_load = 0;
-  new_or_load = IsNumber(new_or_load, 1, 2);
+  new_or_load = IsNumber(new_or_load, 1, 3);
   if (new_or_load == 2) {
     Party_Load();
     // to be deleted
@@ -29,7 +29,18 @@ Game::Game(int start, int journey) {
         Character_Show_Parameters(player_to_be_checked - 1);
       }
     }
-  } else Character_create(Rand_gen);
+  } else if(new_or_load == 3){
+    Party_Load();
+    //while(true) {
+    //ask who to add
+    //monster
+    //or
+    //NPC(only pre-saved)
+    //or
+    //Character_create(Rand_gen);
+    //}
+  }
+  else if(new_or_load == 1) Character_create(Rand_gen);
   //auto FieldOfHonor = new Battleground(X,Y,Z);
 }
 
@@ -39,13 +50,14 @@ Game::~Game() {
 };
 
 void Game::Character_create(Random_Generator_ *Rand_gen) {
-  cout << "Hello, adventurer. We start with character creation, shouldn't we?\n";
+  cout << "Welcome adventurer. We start with character creation, shouldn't we?\n";
   cout << "Lets start with a number of current players except master. Type it.\n";
   cout << "( You will be able to add or delete character during your game )\n";
   int number_of_characters = 0;
   number_of_characters = IsNumber(number_of_characters, 0, -1);
-  characters.resize((unsigned) number_of_characters);
-  for (int i = 0; i < number_of_characters; i++) {
+  unsigned party_size_before = characters.size();
+  characters.resize(party_size_before + (unsigned) number_of_characters);
+  for (int i = party_size_before; i < number_of_characters + party_size_before; i++) {
     cout << "For player " << i + 1 << " type: experience, level\n "
                                       "Note: 300 experience and 1 level will lead to LevelUp,"
                                       " 0 experience and 2 level won lead to LevelUp\n";
@@ -56,14 +68,14 @@ void Game::Character_create(Random_Generator_ *Rand_gen) {
     abilities.resize(kAbilities_Num);
     abilities = Set_Character_Abilities(abilities);
     cout << "Choose sex of your character. Female(1), Male(2), Futanari(3), Creature(4)\n";
-    sex_ = IsNumber(sex_, 1, kGenders_Num);
+    sex_ = IsNumber(sex_, 1, kGender_Num);
     cout << "Choose background. Acolyte(1), Charlatan(2), Criminal(3), Entertainer(4), FolkHero(5), GuildArtisan(6), "
             "Hermit(7), Noble(8), Outlander(9), Sage(10), Sailor(11), Soldier(12), Urchin(13)\n";
-    int story_choosal = 0;
-    story_choosal = IsNumber(story_choosal, 1, kStory_Num);
-    int rand_seed_change = abilities[sex_] * sex_ + story_choosal;
+    int story_chose = 0;
+    story_chose = IsNumber(story_chose, 1, kStory_Num);
+    int rand_seed_change = abilities[sex_] * sex_ + story_chose;
     cout << abilities[0] << endl;
-    characters[i] = new Character(Rand_gen, story_choosal - 1, exp_, level_, abilities[0], abilities[1],
+    characters[i] = new Character(Rand_gen, story_chose - 1, exp_, level_, abilities[0], abilities[1],
                                   abilities[2], abilities[3], abilities[4], abilities[5], sex_ - 1, rand_seed_change);
     Character_Show_Parameters(i);
   }
@@ -89,7 +101,7 @@ vector<int> Game::Set_Character_Abilities(vector<int> abilities) {
 }
 
 bool Game::is_Created() {
-  return characters.empty();
+  return !characters.empty();
 }
 
 void Game::Character_Show_Parameters(int who) {

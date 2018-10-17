@@ -99,6 +99,8 @@ class Character : public Creature {
 
   bool Load(int parameter_i[], bool parameter_b[], vector<int> item_);
 
+  void Name_And_Appearance_Set();
+
   void Race_Call_Load(int parameters[]);
 
   void Race_Call_race_features();

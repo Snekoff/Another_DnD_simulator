@@ -3,23 +3,44 @@
 // Test_Subject->Set(what, value)
 // Test_Subject->Get(what)
 
-TEST_F(CharacterTest, EasyParametersMaxValuesTest){
+TEST_F(CharacterTest, PartySimpleTest){
   EXPECT_EQ(Test_Subject->Get(0), 0) ;//party
-  EXPECT_EQ(Test_Subject->Get(1), 0);//storyline
-  EXPECT_EQ(Test_Subject->Get(2), 0);//sex
   Test_Subject->Set(19,1);//party = 1
-  EXPECT_EQ(Test_Subject->Get(0), 1);
-  Test_Subject->Set(20,20);// storyline = 20
-  EXPECT_EQ(Test_Subject->Get(1), 12);// storyline_max = 12
-  Test_Subject->Set(0,20);// sex = 20
-  EXPECT_EQ(Test_Subject->Get(2), 3);//sex_max = 3
+  EXPECT_EQ(Test_Subject->Get(0), 1);// party
 }
 
-TEST_F(CharacterTest, ExperienceTest){
+TEST_F(CharacterTest, StorylineMaxValuesTest){
+  EXPECT_EQ(Test_Subject->Get(1), 0);//storyline
+  Test_Subject->Set(20,20);// storyline = 20
+  EXPECT_EQ(Test_Subject->Get(1), 12);// storyline_max = 12
+}
+
+TEST_F(CharacterTest, StorylineMinValuesTest){
+  EXPECT_EQ(Test_Subject->Get(1), 0);//storyline
+  Test_Subject->Set(20,-20);// storyline = 20
+  EXPECT_EQ(Test_Subject->Get(1), 0);// storyline_min = 0
+}
+
+TEST_F(CharacterTest, SexMaxValuesTest){
+  EXPECT_EQ(Test_Subject->Get(2), 0);//sex
+  Test_Subject->Set(0,20);// sex = 20
+  EXPECT_EQ(Test_Subject->Get(2), 4);//sex_max = 3
+}
+
+TEST_F(CharacterTest, SexMinValuesTest){
+  EXPECT_EQ(Test_Subject->Get(2), 0);//sex
+  Test_Subject->Set(0,-20);// sex = -20
+  EXPECT_EQ(Test_Subject->Get(2), 0);//sex_min = 0
+}
+
+TEST_F(CharacterTest, ExperienceMinTest){
   EXPECT_EQ(Test_Subject->Get(3), 0);//experience
   EXPECT_EQ(Test_Subject->Get(4), 0);//level
   Test_Subject->Set(1,-100);//experience = -100
   EXPECT_EQ(Test_Subject->Get(3),0);//experience_min = 0
+}
+
+TEST_F(CharacterTest, ExperienceMaxTest){
   Test_Subject->Set(1,1000000);//experience = 1000000
   EXPECT_EQ(Test_Subject->Get(3),355000); //experience_max = 355000
 }
@@ -32,39 +53,56 @@ TEST_F(CharacterTest, HealthTest){
   EXPECT_EQ(Test_Subject->Get(6),2);//maxhealth
   EXPECT_EQ(Test_Subject->Get(5),0);//health  *not changed*
   EXPECT_EQ(Test_Subject->Get(7),0);//health_dice *not changed*
+}
+
+TEST_F(CharacterTest, HealingTest){
+  Test_Subject->Set(21,2);// maxhealth now = 2
   Test_Subject->Healing_Injuring(1);//health++
   EXPECT_EQ(Test_Subject->Get(6),2);//maxhealth *not changed*
   EXPECT_EQ(Test_Subject->Get(5),1);// health
-  Test_Subject->Healing_Injuring(1);//health++
-  EXPECT_EQ(Test_Subject->Get(6),2);//maxhealth *not changed*
-  EXPECT_EQ(Test_Subject->Get(5),2);// health
-  Test_Subject->Healing_Injuring(-1);//health--
-  EXPECT_EQ(Test_Subject->Get(6),2);//maxhealth *not changed*
-  EXPECT_EQ(Test_Subject->Get(5),1);// health
+}
+
+TEST_F(CharacterTest, HealingMaxTest){
+  Test_Subject->Set(21,2);// maxhealth now = 2
   Test_Subject->Healing_Injuring(10);//health += 10
   EXPECT_EQ(Test_Subject->Get(6),2);//maxhealth *not changed*
   EXPECT_EQ(Test_Subject->Get(5),2);// health = maxhealth
-  Test_Subject->Healing_Injuring(-2);//health -=2
+}
+
+TEST_F(CharacterTest, InjureIncapacitatedTest){
+  Test_Subject->Set(21,2);// maxhealth now = 2
+  Test_Subject->Healing_Injuring(-1);//health--
   EXPECT_EQ(Test_Subject->Get(6),2);//maxhealth *not changed*
   EXPECT_EQ(Test_Subject->Get(5),0);// health
   EXPECT_EQ(Test_Subject->Get_bool(40),true);// incapacitated (health = 0)
+}
+
+TEST_F(CharacterTest, InjureDeathTest){
   Test_Subject->Healing_Injuring(-2);//health -=2
   EXPECT_EQ(Test_Subject->Get(5),0);// health = 0
   EXPECT_EQ(Test_Subject->Get_bool(48),true);// dead
   // (if damage overcomes health + maxhealth then player/monster/npc is dead without any chance to got back by itself)
-  //Test_Subject->Set(,);
 }
 
-TEST_F(CharacterTest, AbilitiesAndSkillsTest){
+TEST_F(CharacterTest, AbilityModifierTest){
   Test_Subject->Set(4,10);//Dexterity = 10
   EXPECT_EQ(Test_Subject->Get(9), 10);//Dex
   EXPECT_EQ(Test_Subject->Get(102), -5);//Strength Modifier = (Str - 10)/2 = -10/2
   EXPECT_EQ(Test_Subject->Get(103),0);//Dex Modifier = (Dex - 10)/2 = 0/2
-  Test_Subject->Set(7,15);//Wis
+}
+
+TEST_F(CharacterTest, SkillsTest){
+  Test_Subject->Set(4,10);//Dexterity = 10
+  Test_Subject->Set(7,15);//Wisdom = 15
   EXPECT_EQ(Test_Subject->Get(100),12);// passive_perception = 10 + Wis Mod(2)
   EXPECT_EQ(Test_Subject->Get(109),2);// skill[1] = WisMod = 2
   EXPECT_EQ(Test_Subject->Get(110),-5);// skill[2] = IntMod = -5
   EXPECT_EQ(Test_Subject->Get(125),2);// skill[17] = WisMod = 2
+}
+
+TEST_F(CharacterTest, SkillsProficienciesTest){
+  Test_Subject->Set(4,10);//Dexterity = 10
+  Test_Subject->Set(7,15);//Wis
   Test_Subject->Set(13,1);//skill_b[1] = true
   EXPECT_EQ(Test_Subject->Get(109),4);//skill[1] = Wis Mod(2) + proficiency(2)
   Test_Subject->Set(13,2);//skill_b[2] = true

@@ -54,6 +54,10 @@ Character::Character() {
   for(int i = 0; i < kCoordinates_NUM;i++){
     Coordinates[i] = 0;
   }
+  character_name = "NoName";
+  player_name = "NoName";
+  character_type = "NoType";
+  appearance = "Ordinary";
 }
 
 Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int levl, int Stre, int Dext,
@@ -84,7 +88,6 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   disadvantage = false;
   perception_advantage = false;
   perception_disadvantage = false;
-  //cout << "Control reach 3\n";
   ConcreteAbilityModifier();
   skills.resize(kSkills_Num);
   skills_b.resize(kSkills_Num);
@@ -95,6 +98,11 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   SetSkill();
   proficiency = ProficiencySetter();
   PassivePerceptionSetter();
+  character_name = "NoName";
+  player_name = "NoName";
+  character_type = "NoType";
+  appearance = "Ordinary";
+  Name_And_Appearance_Set();
   Race_Choosal();
   StorySetsSkills();
   SetClass(Rand_gen);
@@ -134,7 +142,7 @@ void Character::Maximum_Parameter_Value() {
   if (Cha > kAbility_Maximum_Score) Cha = kAbility_Maximum_Score;
   if (deathsaves_s > kDeathsave_Max) deathsaves_s = kDeathsave_Max;
   if (deathsaves_f > kDeathsave_Max) deathsaves_f = kDeathsave_Max;
-  if (sex > kGender) sex = kGender;
+  if (sex > kGender_Num) sex = kGender_Num;
   if (experience > kExperience_Max) experience = kExperience_Max;
   if (level > kLevels_Num) level = kLevels_Num;
   if (exhaustion > kExhaustion_MAX_Level) exhaustion = kExhaustion_MAX_Level;
@@ -150,7 +158,7 @@ void Character::Minimum_Parameter_Value() {
   if (Cha < kParameterMinimum) Cha = kParameterMinimum;
   if (deathsaves_s < kParameterMinimum) deathsaves_s = kParameterMinimum;
   if (deathsaves_f < kParameterMinimum) deathsaves_f = kParameterMinimum;
-  if (sex < kGender) sex = kParameterMinimum;
+  if (sex < kParameterMinimum) sex = kParameterMinimum;
   if (experience < kParameterMinimum) experience = kParameterMinimum;
   if (level < kParameterMinimum) level = kParameterMinimum;
   if (exhaustion < kParameterMinimum) exhaustion = kParameterMinimum;
@@ -1105,9 +1113,25 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
   return true;
 }
 
+void Character::Name_And_Appearance_Set() {
+  cout << "Please Name your character,";
+  cin >> character_name;
+  cout << " then you can introduce yourself.\n";
+  cin >> player_name;
+  cout << "Describe your character, does ";
+  if(sex == 0 || sex == 2) cout << "she ";
+  else if(sex == 1) cout << "he ";
+  else cout << "it ";
+  cout << "got red eyes? Or maybe long horns?\n";
+  cin >> appearance;
+  cout << "And last thing, your character is: (neutral/evil/lawful/etc.)\n";
+  cin >> character_type;
+}
+
 void Character::Race_Call_Load(int *parameters) {
   race_of_character->Load(parameters);
 }
+
 void Character::Race_Call_race_features() {
   race_of_character->subRaceFeatures();
 }

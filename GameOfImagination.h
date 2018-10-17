@@ -10,7 +10,6 @@
 
 const int kOutput = 99;
 const int kCharacter_Get_Bool_shift = 35;
-const int kGenders_Num = 4;
 const int kCharacter_get_fake_parameter = 24;
 
 using json = nlohmann::json;

@@ -25,6 +25,7 @@ class Battleground {
   int Y;
   int Z;
   vector<vector<int>> square;
+  vector<vector<Character *>> in_square;
   //vector<Effect *> effects;
   int shape;
   int radius;
@@ -40,10 +41,6 @@ class Battleground {
 
   int Get(int what);
 
-  void Set();
-
-  void square_Resize();
-
   int Shape();
 
   void Rectangle_Shape();
@@ -52,7 +49,17 @@ class Battleground {
 
   int Round_Shape_Center(int what_to_show_X_or_Y);
 
-  int Distance_between(int form_X, int from_Y, int to_X, int to_Y);
+  int Distance_In_Moves(int from_X, int from_Y, int to_X, int to_Y);
+  // some geometry here
+  double Distance(int from_X, int from_Y, int to_X, int to_Y);
+
+  int Distance_Rounded(int from_X, int from_Y, int to_X, int to_Y);
+
+  double Angle_Between(int from_X, int from_Y, int to_X, int to_Y);
+
+  void Set(int what, int value);
+
+  void square_Resize();
 
   void Load();
 

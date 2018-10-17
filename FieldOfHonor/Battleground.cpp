@@ -2,8 +2,8 @@
 #include "Battleground.h"
 
 Battleground::Battleground() {
-  X = 4;
-  Y = 4;
+  X = 10;
+  Y = 10;
   Z = 4;
   square_Resize();
   shape = 0;
@@ -85,7 +85,7 @@ void Battleground::Round_Shape() {
   square[x_center][y_center] = 0;
   for (int i = 0; i < X; i++) {
     for(int j = 0; j < Y; j++){
-      if(Distance_between(x_center,y_center,i,j) > radius) {
+      if(Distance_In_Moves(x_center,y_center,i,j) > radius) {
         square[i][j] = 1;
         //cout << "i = " << i << " j = " << j << endl;
       }
@@ -118,31 +118,62 @@ int Battleground::Round_Shape_Center(int what_to_show_X_or_Y){
   return -1;
 }
 // D&D metrics is not that simple as Euclid's
-int Battleground::Distance_between(int form_X, int from_Y, int to_X, int to_Y) {
-  /*double distance_d = sqrt(pow(abs(form_X - to_X),2) + pow(abs(from_Y - to_Y),2));*/ //Euclid's metrics
+int Battleground::Distance_In_Moves(int from_X, int from_Y, int to_X, int to_Y) {
+  /*double distance_d = sqrt(pow(abs(from_X - to_X),2) + pow(abs(from_Y - to_Y),2));*/ //Euclid's metrics
   int distance_i = 0;
-  if(abs(form_X - to_X) != 0 && abs(from_Y - to_Y) != 0){
-    for(int i = 0; i < min(abs(form_X - to_X),abs(from_Y - to_Y)); i++){
+  if(abs(from_X - to_X) != 0 && abs(from_Y - to_Y) != 0){
+    for(int i = 0; i < min(abs(from_X - to_X),abs(from_Y - to_Y)); i++){
       if(i%2 == 0) distance_i++;
       else distance_i +=2;
     }
   }
-  int difference = max(abs(form_X - to_X),abs(from_Y - to_Y)) - min(abs(form_X - to_X),abs(from_Y - to_Y));
+  int difference = max(abs(from_X - to_X),abs(from_Y - to_Y)) - min(abs(from_X - to_X),abs(from_Y - to_Y));
   distance_i += difference;
   return distance_i;
+}
+// some geometry here
+double Battleground::Distance(int from_X, int from_Y, int to_X, int to_Y) {
+  double distance_d = sqrt(pow(abs(from_X - to_X),2) + pow(abs(from_Y - to_Y),2));
+  return distance_d;
+}
+// no geometry here
+int Battleground::Distance_Rounded(int from_X, int from_Y, int to_X, int to_Y) {
+  int distance_i = 0;
+  double distance_d = Distance(from_X,from_Y,to_X,to_Y);
+  distance_i = (int)distance_d;
+  if(distance_d - (double)distance_i > 0.5) distance_i++;
+  return distance_i;
+}
+// some geometry here
+double Battleground::Angle_Between(int from_X, int from_Y, int to_X, int to_Y) {
+  //lets add point C(from_X,to_Y) to have right triangle
+  //A(from_X,from_Y)
+  //B(to_X,to_Y)
+  //AC is perpendicular to CB
+  double angle;
+  int C_X = from_X,C_Y = to_Y;
+  angle = asin(Distance(from_X,from_Y,C_X,C_Y)/Distance(C_X,C_Y,to_X,to_Y));
+  return angle;
 }
 
 void Battleground::square_Resize() {
   square.resize((unsigned) X);
-  //occupation.resize((unsigned) X);
+  in_square.resize((unsigned) X);
   for (int i = 0; i < X; i++) {
-    //occupation.resize((unsigned) X);
+    in_square.resize((unsigned) X);
     square[i].resize((unsigned) Y);
   }
 }
 
-void Battleground::Set() {
-
+void Battleground::Set(int what, int value) {
+  if (what == 0) X = value;
+  else if (what == 1) Y = value;
+  else if (what == 2) Z = value;
+  else if (what == 3) radius = value;
+  else if(what == 4) X_Limit = value;
+  else if(what == 5) Y_Limit = value;
+  else if(what == 6) Z_Limit = value;
+  else if(what == 7) shape = value;
 }
 
 void Battleground::Load() {

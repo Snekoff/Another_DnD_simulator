@@ -27,7 +27,7 @@ const int kAbility_Maximum_Score = 20;
 //const int kAbility_Minimum_Score = 0;
 const int kAbility_Starting_Maximum = 16;
 const int kSkills_b_shift = 4;
-const int kGender = 3;
+const int kGender_Num = 4;
 const int kDeathsave_Max = 3;
 //const int kDeathsave_Min = 0;
 const int kCoordinates_shift = 36;
@@ -45,7 +45,7 @@ const int kMovement_types = 3;
 
 class Creature {
  protected:
-  int sex; //0 - female,1 - male, 3 - Futanari, 4 - creature
+  int sex; //0 - female,1 - male, 2 - Futanari, 3 - creature
   int experience, level;
   int health, maxhealth;
   int health_dice;
@@ -72,6 +72,10 @@ sleightOfHand 15,stealth 16,survival 17*/
    * 9.poisoned, 10.prone, 11.restrained, 12.stunned, 13.unconscious, 14.dead, 15.disease 16. ??*/
   int party;
   int Coordinates[kCoordinates_NUM];
+  string character_name;
+  string player_name;
+  string character_type;
+  string appearance;//appearance
 };
 
 #endif //ANOTHER_DND_SIMULATOR_CREATURE_H
