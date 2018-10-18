@@ -96,11 +96,15 @@ TEST_F(Battleground_TEST, AngleTest1){
 }
 
 TEST_F(Battleground_TEST, AngleFortyFiveTest){
-  EXPECT_EQ(Test_Subject->Angle_Between(1,1,2,2),asin(sqrt(2)/2));
+  EXPECT_LE(Test_Subject->Angle_Between(1,1,2,2) - asin(sqrt(2)/2), kEpsilon);
 }
 
 TEST_F(Battleground_TEST, AngleTest2){
-  EXPECT_EQ(Test_Subject->Angle_Between(1,1,2,3),asin(2/sqrt(2*2+1)));
+  EXPECT_LE(Test_Subject->Angle_Between(1,1,2,3) - asin(1/sqrt(2*2+1)), kEpsilon);
+}
+
+TEST_F(Battleground_TEST, AngleTest3){
+  EXPECT_LE(Test_Subject->Angle_Between(1,1,2,1), kEpsilon);
 }
 
 

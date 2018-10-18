@@ -21,6 +21,8 @@ const int kLevel_Minimum = 1;
 const int kExperience_Max = 355000;
 const int kExperience_Min = 0;
 
+const double kEpsilon = 0.01;
+
 struct Existing_Types {
   int minHeight[kRace_Num] = {6, 4, 6, 3, 3, 5, 5, 3, 5, 5, 5 };
   int maxHeight[kRace_Num] = {6, 5, 6, 4, 4, 6, 6, 3, 6, 6, 6 };

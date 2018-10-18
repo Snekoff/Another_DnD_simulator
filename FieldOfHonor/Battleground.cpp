@@ -144,15 +144,20 @@ int Battleground::Distance_Rounded(int from_X, int from_Y, int to_X, int to_Y) {
   if(distance_d - (double)distance_i > 0.5) distance_i++;
   return distance_i;
 }
-// some geometry here
+// angle [0,90)
 double Battleground::Angle_Between(int from_X, int from_Y, int to_X, int to_Y) {
   //lets add point C(from_X,to_Y) to have right triangle
   //A(from_X,from_Y)
   //B(to_X,to_Y)
   //AC is perpendicular to CB
   double angle;
-  int C_X = from_X,C_Y = to_Y;
-  angle = asin(Distance(from_X,from_Y,C_X,C_Y)/Distance(C_X,C_Y,to_X,to_Y));
+  int C_X = from_X, C_Y = to_Y;
+  double DistAB = Distance(from_X, from_Y, to_X, to_Y);
+  double DistCB = Distance(C_X, C_Y, to_X, to_Y);
+  cout << "C(" << C_X << ", " << C_Y << ")\n";
+  if (DistAB != DistCB) {
+    angle = asin(DistCB / DistAB);
+  } else angle = 0;
   return angle;
 }
 
