@@ -158,17 +158,15 @@ bool Game::Party_Load() {
     return false;
   }
   json party = json::parse(party_save_file);
-  cout << "Control reach method Party Load 0\n";
   int *p = new int[kData_size];
   bool *bool_p = new bool[kData_size];
   vector<string> persona;
   int Size = party["Size"].get<int>();
   characters.resize((unsigned) Size);
-  cout << "Control reach method Party Load 1\n";
   for (int i = 0; i < Size; i++) {
     vector<int> inventory_;
     unsigned inventory_Size = party["InventorySize"][i].get<int>();
-    cout << "Control reach method Party Load 2\n";
+    //cout << "Control reach method Party Load 2\n";
     for (int j = 0; j < kData_size; j++) {
       p[j] = party["Character"][i][j].get<int>();
       bool_p[j] = party["Character_bool"][i][j].get<bool>();
@@ -178,12 +176,9 @@ bool Game::Party_Load() {
     persona.push_back(party["CharacterWantedFile"][i]["character_type"]);
     persona.push_back(party["CharacterWantedFile"][i]["appearance"]);
 
-    cout << "Control reach method Party Load 3\n";
+    //cout << "Control reach method Party Load 3\n";
     inventory_.resize(inventory_Size);
-    //cout << inventory_Size << endl;
     for (int j = 0; j < inventory_Size; j++) { //
-      cout << "Control reach method Party Load _4\n";
-      cout << "inventory[" << i << "][" << j << "] = " << party["Inventory"][i][j].get<int>() << endl;
       inventory_[j] = party["Inventory"][i][j].get<int>();
     }
     cout << "Control reach method Party Load 4_1\n";
