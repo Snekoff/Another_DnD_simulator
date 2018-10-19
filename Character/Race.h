@@ -28,9 +28,9 @@ class Race {
 
   //void set(Random_Generator_ *Rand_gen, int a);
 
-  void set(int type_, int height_, int weight_, int age_);
+  void set(int type_, int height_, int weight_, int age_, Allowance * allowance);
 
-  virtual void Create(int sub_type, int height_, int weight_, int age_);
+  virtual void Create(int sub_type, int height_, int weight_, int age_, Allowance * allowance);
 
   int get(int what);
 
@@ -51,11 +51,11 @@ class Dragonborn : public Race {
   //int subtype;
  public:
   Dragonborn();
-  Dragonborn(int sub_type, int height_, int weight_, int age_);
+  Dragonborn(int sub_type, int height_, int weight_, int age_, Allowance * allowance);
   ~Dragonborn();
   void subRaceFeatures();
 
-  void Create(int sub_type, int height_, int weight_, int age_) override;
+  void Create(int sub_type, int height_, int weight_, int age_, Allowance * allowance) override;
 };
 
 class Dwarf : public Race {
@@ -63,11 +63,11 @@ class Dwarf : public Race {
   //int subtype;
  public:
   Dwarf();
-  Dwarf(int sub_type, int height_, int weight_, int age_);
+  Dwarf(int sub_type, int height_, int weight_, int age_, Allowance * allowance);
   ~Dwarf();
   void subRaceFeatures();
 
-  void Create(int sub_type, int height_, int weight_, int age_) override;
+  void Create(int sub_type, int height_, int weight_, int age_, Allowance * allowance) override;
 };
 
 class Elf : public Race {
@@ -75,11 +75,11 @@ class Elf : public Race {
   //int subtype;
  public:
   Elf();
-  Elf(int sub_type, int height_, int weight_, int age_);
+  Elf(int sub_type, int height_, int weight_, int age_, Allowance * allowance);
   ~Elf();
   void subRaceFeatures();
 
-  void Create(int sub_type, int height_, int weight_, int age_) override;
+  void Create(int sub_type, int height_, int weight_, int age_, Allowance * allowance) override;
 };
 
 class Gnome : public Race {
@@ -87,11 +87,11 @@ class Gnome : public Race {
   //int subtype;
  public:
   Gnome();
-  Gnome(int sub_type, int height_, int weight_, int age_);
+  Gnome(int sub_type, int height_, int weight_, int age_, Allowance * allowance);
   ~Gnome();
   void subRaceFeatures();
 
-  void Create(int sub_type, int height_, int weight_, int age_) override;
+  void Create(int sub_type, int height_, int weight_, int age_, Allowance * allowance) override;
 };
 
 class Goblin : public Race {
@@ -99,11 +99,11 @@ class Goblin : public Race {
   //int subtype;
  public:
   Goblin();
-  Goblin(int sub_type, int height_, int weight_, int age_);
+  Goblin(int sub_type, int height_, int weight_, int age_, Allowance * allowance);
   ~Goblin();
   void subRaceFeatures();
 
-  void Create(int sub_type, int height_, int weight_, int age_) override;
+  void Create(int sub_type, int height_, int weight_, int age_, Allowance * allowance) override;
 };
 
 class Half_Elf : public Race {
@@ -111,11 +111,11 @@ class Half_Elf : public Race {
   //int subtype;
  public:
   Half_Elf();
-  Half_Elf(int sub_type, int height_, int weight_, int age_);
+  Half_Elf(int sub_type, int height_, int weight_, int age_, Allowance * allowance);
   ~Half_Elf();
   void subRaceFeatures();
 
-  void Create(int sub_type, int height_, int weight_, int age_) override;
+  void Create(int sub_type, int height_, int weight_, int age_, Allowance * allowance) override;
 };
 
 class Half_Orc : public Race {
@@ -123,11 +123,11 @@ class Half_Orc : public Race {
   //int subtype;
  public:
   Half_Orc();
-  Half_Orc(int sub_type, int height_, int weight_, int age_);
+  Half_Orc(int sub_type, int height_, int weight_, int age_, Allowance * allowance);
   ~Half_Orc();
   void subRaceFeatures();
 
-  void Create(int sub_type, int height_, int weight_, int age_) override;
+  void Create(int sub_type, int height_, int weight_, int age_, Allowance * allowance) override;
 };
 
 class Halfling : public Race {
@@ -135,11 +135,11 @@ class Halfling : public Race {
   //int subtype;
  public:
   Halfling();
-  Halfling(int sub_type, int height_, int weight_, int age_);
+  Halfling(int sub_type, int height_, int weight_, int age_, Allowance * allowance);
   ~Halfling();
   void subRaceFeatures();
 
-  void Create(int sub_type, int height_, int weight_, int age_) override;
+  void Create(int sub_type, int height_, int weight_, int age_, Allowance * allowance) override;
 };
 
 class Human : public Race {
@@ -147,22 +147,22 @@ class Human : public Race {
   //int subtype;
  public:
   Human();
-  Human(int sub_type, int height_, int weight_, int age_);
+  Human(int sub_type, int height_, int weight_, int age_, Allowance * allowance);
   ~Human();
   void subRaceFeatures();
 
-  void Create(int sub_type, int height_, int weight_, int age_) override;
+  void Create(int sub_type, int height_, int weight_, int age_, Allowance * allowance) override;
 };
 class Lizardfolk : public Race {
  private:
   //int subtype;
  public:
   Lizardfolk();
-  Lizardfolk(int sub_type, int height_, int weight_, int age_);
+  Lizardfolk(int sub_type, int height_, int weight_, int age_, Allowance * allowance);
   ~Lizardfolk();
   void subRaceFeatures();
 
-  void Create(int sub_type, int height_, int weight_, int age_) override;
+  void Create(int sub_type, int height_, int weight_, int age_, Allowance * allowance) override;
 };
 
 class Tiefling : public Race {
@@ -170,18 +170,18 @@ class Tiefling : public Race {
   //int subtype;
  public:
   Tiefling();
-  Tiefling(int sub_type, int height_, int weight_, int age_);
+  Tiefling(int sub_type, int height_, int weight_, int age_, Allowance * allowance);
   ~Tiefling();
   void subRaceFeatures();
 
-  void Create(int sub_type, int height_, int weight_, int age_) override;
+  void Create(int sub_type, int height_, int weight_, int age_, Allowance * allowance) override;
 };
 
 template<class C>
 class Concrete_Factory {
  public:
-  C *Create(int subtype) {
-    return new C(subtype, 0, 0, 0);
+  C *Create(int subtype, Allowance * allowance) {
+    return new C(subtype, 0, 0, 0, allowance);
   }
 
   C *Load() {
@@ -191,40 +191,40 @@ class Concrete_Factory {
 
 class Race_Factory {
  public:
-  Race *Create(int type, int subtype) {
+  Race *Create(int type, int subtype, Allowance * allowance) {
     if (type == 0) {
       Concrete_Factory<Dragonborn> Dragonborn_;
-      return Dragonborn_.Create(subtype);
+      return Dragonborn_.Create(subtype, allowance);
     } else if (type == 1) {
       Concrete_Factory<Dwarf> Dwarf_;
-      return Dwarf_.Create(subtype);
+      return Dwarf_.Create(subtype, allowance);
     } else if (type == 2) {
       Concrete_Factory<Elf> Elf_;
-      return Elf_.Create(subtype);
+      return Elf_.Create(subtype, allowance);
     } else if (type == 3) {
       Concrete_Factory<Gnome> Gnome_;
-      return Gnome_.Create(subtype);
+      return Gnome_.Create(subtype, allowance);
     } else if (type == 4) {
       Concrete_Factory<Goblin> Goblin_;
-      return Goblin_.Create(subtype);
+      return Goblin_.Create(subtype, allowance);
     } else if (type == 5) {
       Concrete_Factory<Half_Elf> Half_Elf_;
-      return Half_Elf_.Create(subtype);
+      return Half_Elf_.Create(subtype, allowance);
     } else if (type == 6) {
       Concrete_Factory<Half_Orc> Half_Orc_;
-      return Half_Orc_.Create(subtype);
+      return Half_Orc_.Create(subtype, allowance);
     } else if (type == 7) {
       Concrete_Factory<Halfling> Halfling_;
-      return Halfling_.Create(subtype);
+      return Halfling_.Create(subtype, allowance);
     } else if (type == 8) {
       Concrete_Factory<Human> Human_;
-      return Human_.Create(subtype);
+      return Human_.Create(subtype, allowance);
     } else if (type == 9) {
       Concrete_Factory<Lizardfolk> Lizardfolk_;
-      return Lizardfolk_.Create(subtype);
+      return Lizardfolk_.Create(subtype, allowance);
     } else if (type == 10) {
       Concrete_Factory<Tiefling> Tiefling_;
-      return Tiefling_.Create(subtype);
+      return Tiefling_.Create(subtype, allowance);
     }
     return new Race();
   }

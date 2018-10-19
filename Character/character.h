@@ -23,9 +23,11 @@ class Character : public Creature {
  public:
   Character();
   Character(Random_Generator_ * Rand_gen,int storyline_, int exp, int levl, int Stre, int Dext,
-            int Cons, int Inte, int Wisd, int Charisma, int sex_, int rand_seed_change);
+            int Cons, int Inte, int Wisd, int Charisma, int sex_, int rand_seed_change, Allowance * alowance);
 
   void Starting_Maxhealth();
+
+  void Character_All_Set();
 
   ~Character();
 
@@ -49,13 +51,13 @@ class Character : public Creature {
 
   void Skill_Proficiencies();
 
-  void StorySetsSkills();
+  void StorySetsSkills(Allowance * allowance);
 
   int Check_Ability_Reach_Maximum(int ability);
 
   void Ability_improve();
 
-  void Race_Choosal();
+  void Race_Choosal(Allowance * alowance);
 
   void Race_Get_Abilities();
 
@@ -91,7 +93,7 @@ class Character : public Creature {
 
   void Class_Set_Wealth(Random_Generator_ * Rand_gen);
 
-  void SetClass(Random_Generator_ * Rand_gen);
+  void SetClass(Allowance * alowance, Random_Generator_ * Rand_gen);
 
   void SetSkill();
 

@@ -16,12 +16,12 @@ Class::Class() {
   archetype = 0;
 }
 
-Class::Class(int type_, std::vector<bool> skills_b) {
-  set(type_, skills_b);
+Class::Class(Allowance * alowance, int type_, std::vector<bool> skills_b) {
+  set(alowance, type_, skills_b);
 }
 Class::~Class() = default;
 
-void Class::set(int type_, std::vector<bool> skills_b) {
+void Class::set(Allowance * alowance, int type_, std::vector<bool> skills_b) {
   Existing_classes E_C;
   bool test = false;
   if(type_ > kClass_Num) {
@@ -47,9 +47,11 @@ void Class::set(int type_, std::vector<bool> skills_b) {
     if (str_or_dex_ == 1) primary_ability[0] = true;
     else primary_ability[1] = true;
   }
-  archetype = 0;
-  if(!test) { set_skills(skills_b); }
-  set_archetype();
+  if(!alowance->Is_Character_Set()){
+    archetype = 0;
+    if(!test) { set_skills(skills_b); }
+    set_archetype();
+  }
 }
 
 void Class::set_archetype() {
@@ -275,7 +277,13 @@ void Class::set_skills(std::vector<bool> skills_b) {
 int Class::Had_Skill_Been_Chosen(std::vector<bool> skills_b, std::vector<int> skills_access, int skill_1) {
   for(int i = 0; i < skills_access.size();i++){
     if(!skills_b[skills_access[i]]) break;
-    if(i == skills_access.size() - 1) return skill_1;
+    if(i == skills_access.size() - 1) {
+      std::cout << "You can choose any other skill 1-18\n";
+      int skill_11 = 0;
+      skill_11 = IsNumber(skill_11,1,kSkills_Num);
+      skills[skill_11 - 1] = 1;
+      return skill_1;
+    };
   }
   while (skills_b[skills_access[skill_1 - 1]]) {
     std::cout <<"you already got proficiency in this skill 1\n";
@@ -289,7 +297,13 @@ int Class::Had_Skill_Been_Chosen(std::vector<bool> skills_b, std::vector<int> sk
 int Class::Had_Skill_Been_Chosen(std::vector<bool> skills_b, std::vector<int> skills_access, int skill_1, int skill_2) {
   for(int i = 0; i < skills_access.size();i++){
     if(!skills_b[skills_access[i]]) break;
-    if(i == skills_access.size() - 1) return skill_2;
+    if(i == skills_access.size() - 1) {
+      std::cout << "You can choose any other skill 1-18\n";
+      int skill_21 = 0;
+      skill_21 = IsNumber(skill_21,1,kSkills_Num);
+      skills[skill_21 - 1] = 1;
+      return skill_2;
+    };
   }
   while (skill_2 == skill_1 || skills_b[skills_access[skill_2 - 1]]) {
     std::cout <<"you already got proficiency in this skill 2\n";
@@ -303,7 +317,13 @@ int Class::Had_Skill_Been_Chosen(std::vector<bool> skills_b, std::vector<int> sk
 int Class::Had_Skill_Been_Chosen(std::vector<bool> skills_b, std::vector<int> skills_access, int skill_1, int skill_2, int skill_3) {
   for(int i = 0; i < skills_access.size();i++){
     if(!skills_b[skills_access[i]]) break;
-    if(i == skills_access.size() - 1) return skill_3;
+    if(i == skills_access.size() - 1) {
+      std::cout << "You can choose any other skill 1-18\n";
+      int skill_31 = 0;
+      skill_31 = IsNumber(skill_31,1,kSkills_Num);
+      skills[skill_31 - 1] = 1;
+      return skill_3;
+    };
   }
   while (skill_2 == skill_3 || skill_1 == skill_3 || skills_b[skills_access[skill_3 - 1]]) {
     std::cout <<"you already got proficiency in this skill 3\n";
@@ -318,7 +338,13 @@ int Class::Had_Skill_Been_Chosen(
     std::vector<bool> skills_b, std::vector<int> skills_access, int skill_1, int skill_2, int skill_3, int skill_4) {
   for(int i = 0; i < skills_access.size();i++){
     if(!skills_b[skills_access[i]]) break;
-    if(i == skills_access.size() - 1) return skill_4;
+    if(i == skills_access.size() - 1) {
+      std::cout << "You can choose any other skill 1-18\n";
+      int skill_41 = 0;
+      skill_41 = IsNumber(skill_41,1,kSkills_Num);
+      skills[skill_41 - 1] = 1;
+      return skill_4;
+    };
   }
   while (skill_2 == skill_4 || skill_1 == skill_4 || skill_3 == skill_4 || skills_b[skills_access[skill_4 - 1]]) {
     std::cout <<"you already got proficiency in this skill 4\n";

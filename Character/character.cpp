@@ -61,7 +61,7 @@ Character::Character() {
 }
 
 Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int levl, int Stre, int Dext,
-                     int Cons, int Inte, int Wisd, int Charisma, int sex_, int rand_seed_change) {
+                     int Cons, int Inte, int Wisd, int Charisma, int sex_, int rand_seed_change, Allowance * allowance) {
   party = 0;
   health = 0;
   maxhealth = 0;
@@ -78,7 +78,7 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   Cha = Charisma;
   Minimum_Parameter_Value();
   Maximum_Parameter_Value();
-  int t1 = Ability_Random_Sets(Rand_gen, rand_seed_change);
+  Ability_Random_Sets(Rand_gen, rand_seed_change);
   armor_class = 0;
   deathsaves_s = 0;
   deathsaves_f = 0;
@@ -103,15 +103,16 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   character_type = "NoType";
   appearance = "Ordinary";
   Name_And_Appearance_Set();
-  Race_Choosal();
-  StorySetsSkills();
-  SetClass(Rand_gen);
+  Race_Choosal(allowance);
+  if(allowance->Is_Character_Set()) Character_All_Set();
+  else StorySetsSkills(allowance);
+  SetClass(allowance, Rand_gen);
   Starting_Health();
   if (classType.get(0) == 0) armor_class = kBarbarian_Unarmored_Defence + DexModifier + ConModifier;
   level = levl;
   Starting_Maxhealth();
   //cout << experience << " " << level << endl;
-  t1 = Level_Up(Rand_gen);
+  Level_Up(Rand_gen);
   Skill_Proficiencies();
   Add_To_Inventory();
   state[0] = true;
@@ -131,6 +132,15 @@ void Character::Starting_Maxhealth() {
     int health_ = 0;
     health_ = IsNumber(health_, maxhealth, maxhealth - 1);
     maxhealth = health_;
+  }
+}
+
+void Character::Character_All_Set() {
+  cout << "How much money have you got? Type 4 values: copper, silver, gold, platinum\n";
+  int monkey[kMoney_types] = {0};
+  for(int j = 0; j < kMoney_types; j++){
+    monkey[j] = IsNumber(monkey[j],0,-1);
+    Add_Money(j, monkey[j]);
   }
 }
 
@@ -266,71 +276,145 @@ void Character::Skill_Proficiencies() {
   }
 }
 
-void Character::StorySetsSkills() {
-  //Add_Money(2, 15);
+void Character::StorySetsSkills(Allowance * allowance) {
+  string name_;
+  Add_Money(2, 30);//for mess/kits
   if (storyline_i == 0) {
-    Add_Money(2, 15);
+    if(!allowance->Is_Character_Set()) Add_Money(2, 15);
     /*A holy symbol (a gift to you when you entered the priesthood), a prayer book or prayer wheel, 5 sticks of incense, vestments, a set of common clothes,*/
+    name_ = "Amulet";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
+    name_ = "Clothes_common";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
     skills_b[6] = true;
     skills_b[14] = true;
   } else if (storyline_i == 1) {
-    Add_Money(2, 15);
+    if(!allowance->Is_Character_Set()) Add_Money(2, 15);
     /*A set of fine clothes, a disguise kit, tools of the con of your choice (ten stoppered bottles filled with colored liquid, a set of weighted dice, a deck of marked cards, or a signet ring of an imaginary duke),*/
+    name_ = "Clothes_fine";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
     skills_b[4] = true;
     skills_b[15] = true;
   } else if (storyline_i == 2) {
-    Add_Money(2, 15);
+    if(!allowance->Is_Character_Set()) Add_Money(2, 15);
     /*A crowbar, a set of dark common clothes including a hood,*/
+    name_ = "Clothes_common";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
+    name_ = "Crowbar";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
     skills_b[4] = true;
     skills_b[16] = true;
   } else if (storyline_i == 3) {
-    Add_Money(2, 15);
+    if(!allowance->Is_Character_Set()) Add_Money(2, 15);
     /*A musical instrument (one of your choice), the favor of an admirer (love letter, lock of hair, or trinket), costume clothes,*/
+    name_ = "Clothes_costume";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
     skills_b[0] = true;
     skills_b[12] = true;
   } else if (storyline_i == 4) {
-    Add_Money(2, 10);
+    if(!allowance->Is_Character_Set()) Add_Money(2, 10);
     /*A set of artisan's tools (one of your choice), a shovel, an iron pot, a set of common clothes, */
+    name_ = "Shovel";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
+    name_ = "Clothes_common";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
+    name_ = "Pot_iron";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
     skills_b[1] = true;
     skills_b[17] = true;
   } else if (storyline_i == 5) {
-    Add_Money(2, 15);
+    if(!allowance->Is_Character_Set()) Add_Money(2, 15);
     /*A set of artisan's tools (one of your choice), a letter of introduction from your guild, a set of traveler's clothes,*/
+    name_ = "Clothes_traveler`s";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
+
     skills_b[6] = true;
     skills_b[13] = true;
   } else if (storyline_i == 6) {
-    Add_Money(2, 5);
+    if(!allowance->Is_Character_Set()) Add_Money(2, 5);
     /*A scroll case stuffed full of notes from your studies or prayers, a winter blanket, a set of common clothes, an herbalism kit,*/
+    name_ = "Blanket";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
+    name_ = "Clothes_common";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
     skills_b[9] = true;
     skills_b[14] = true;
   } else if (storyline_i == 7) {
-    Add_Money(2, 25);
+    if(!allowance->Is_Character_Set()) Add_Money(2, 25);
     /*A set of fine clothes, a signet ring, a scroll of pedigree*/
+    name_ = "Signet_ring";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
+    name_ = "Clothes_fine";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
     skills_b[5] = true;
     skills_b[13] = true;
   } else if (storyline_i == 8) {
-    Add_Money(2, 10);
+    if(!allowance->Is_Character_Set()) Add_Money(2, 10);
     /*A staff, a hunting trap, a trophy from an animal you killed, a set of traveler's clothes, */
+    name_ = "Wooden_staff";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
+    name_ = "Hunting_trap";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
+    name_ = "Clothes_traveler`s";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
     skills_b[3] = true;
     skills_b[17] = true;
   } else if (storyline_i == 9) {
-    Add_Money(2, 10);
+    if(!allowance->Is_Character_Set()) Add_Money(2, 10);
     /*A bottle of black ink, a quill, a small knife, a letter from a dead colleague posing a question you have not yet been able to answer, a set of common clothes*/
+    name_ = "Ink";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
+    name_ = "Clothes_common";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
     skills_b[2] = true;
     skills_b[5] = true;
   } else if (storyline_i == 10) {
-    Add_Money(2, 10);
+    if(!allowance->Is_Character_Set()) Add_Money(2, 10);
     /*A belaying pin (club), silk rope (50 feet), a lucky charm such as a rabbit foot or a small stone with a hole in the center (or you may roll for a random trinket on the Trinkets table in chapter 5), a set of common clothes, */
+    name_ = "Club";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
+    name_ = "Clothes_common";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
+    name_ = "Rope_silk";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
     skills_b[3] = true;
     skills_b[11] = true;
   } else if (storyline_i == 11) {
-    Add_Money(2, 10);
+    if(!allowance->Is_Character_Set()) Add_Money(2, 10);
     /*An insignia of rank, a trophy taken from a fallen enemy (a dagger, broken blade, or piece of a banner), a bone dice set or playing card set, a set of common clothes,*/
+    name_ = "Clothes_common";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
     skills_b[3] = true;
     skills_b[7] = true;
   } else if (storyline_i == 12) {
-    Add_Money(2, 10);
+    if(!allowance->Is_Character_Set()) Add_Money(2, 10);
     /*A small knife, a map of the city you grew up in, a pet mouse, a token to remember your parents by, a set of common clothes,*/
+    name_ = "Clothes_common";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
     skills_b[15] = true;
     skills_b[16] = true;
   }
@@ -376,7 +460,7 @@ void Character::Ability_improve() {
   }
 }
 
-void Character::Race_Choosal() {
+void Character::Race_Choosal(Allowance * allowance) {
   cout << "It is time to choose your race. What it will be?\n";
   Race_Factory Race_Factory_;
   cout << "1. Dragonborn (10 subraces)\n"
@@ -481,7 +565,7 @@ void Character::Race_Choosal() {
             "Type number, and proceed\n";
     subrace = IsNumber<int>(subrace, 1, 11);
   }
-  race_of_character = Race_Factory_.Create(race - 1, subrace - 1);
+  race_of_character = Race_Factory_.Create(race - 1, subrace - 1, allowance);
   Race_Get_Abilities();
   ConcreteAbilityModifier();
 }
@@ -534,13 +618,15 @@ void Character::Set(int what, int value) {// what - what parameter will be chang
       break;
     }
     case 18: {
-      classType.set(value, skills_b);
+      auto allowance = new Allowance();
+      classType.set(allowance, value, skills_b);
       health_dice = classType.get(kGetHealth_dice);
       for (int i = 0; i < kSkills_Num; i++) {
         if (classType.get(i + kClassType_get_shift) == 1) {
           skills_b[i] = true;
         }
       }
+      delete allowance;
       break;
     }
     case 19: { party = value; break; }
@@ -823,7 +909,6 @@ int Character::Add_To_Inventory() {
       auto b = Factory_Complex(name_, quantity);
       if (Paying_Money(b->get(0) * quantity)) {
         inventory.push_back(Factory_Complex(name_, quantity));
-        //cout << "Control reach method Add_To_Inventory 4\n";
         Add_To_Item_Map(name_);
       } else {
         cout << "You have not enough money for that. Your money(in copper equivalent) are:" <<
@@ -1002,7 +1087,7 @@ void Character::Class_Set_Wealth(Random_Generator_ *Rand_gen) {
   Add_Money(2, funds);
 }
 
-void Character::SetClass(Random_Generator_ *Rand_gen) {
+void Character::SetClass(Allowance * allowance, Random_Generator_ *Rand_gen) {
   cout << "Choose your class: \n";
   int class_type_ = 0;
   cout << "1. Barbarian\n"
@@ -1018,11 +1103,11 @@ void Character::SetClass(Random_Generator_ *Rand_gen) {
           "11. Warlock\n"
           "12. Wizard\n";
   class_type_ = IsNumber<int>(class_type_, 1, kClass_Num);
-  classType.set(class_type_ - 1, skills_b);
+  classType.set(allowance, class_type_ - 1, skills_b);
   health_dice = classType.get(kGetHealth_dice);
   proficiency = ProficiencySetter();
   //21-38 => skills[0] - skills[17]
-  Class_Set_Wealth(Rand_gen);
+  if(!allowance->Is_Character_Set()) Class_Set_Wealth(Rand_gen);
   for (int i = 0; i < kSkills_Num; i++) {
     if (classType.get(i + kClassType_get_shift) == 1) {
       skills_b[i] = true;

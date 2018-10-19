@@ -8,6 +8,7 @@
 #define ANOTHER_DND_SIMULATOR_USEFULFUNCTIONS_H
 #include "../gtest/googletest/include/gtest/gtest.h"
 #include "../gtest/googlemock/include/gmock/gmock.h"
+#include "../AditionalTools/Allowance.h"
 const int kRace_Num = 11;
 const int kRace_with_subraces_Num = 39;
 const int kRace_Load_parameters_shift = 26;
@@ -21,7 +22,7 @@ const int kLevel_Minimum = 1;
 const int kExperience_Max = 355000;
 const int kExperience_Min = 0;
 
-const double kEpsilon = 0.01;
+const double kEpsilon = 0.00001;
 
 struct Existing_Types {
   int minHeight[kRace_Num] = {6, 4, 6, 3, 3, 5, 5, 3, 5, 5, 5 };

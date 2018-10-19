@@ -7,10 +7,12 @@ using namespace std;
 
 Game::Game() {
   Rand_gen = new Random_Generator_();
+  allowance = new Allowance();
 };
 
 Game::Game(int start, int journey) {
   Rand_gen = new Random_Generator_();
+  allowance = new Allowance();
   cout << "Start new game: 1\nLoad saved game: 2\nLoad saved party and add players/familiars/NPC: 3\n";
   int new_or_load = 0;
   new_or_load = IsNumber(new_or_load, 1, 3);
@@ -76,7 +78,7 @@ void Game::Character_create(Random_Generator_ *Rand_gen) {
     int rand_seed_change = abilities[sex_] * sex_ + story_chose;
     cout << abilities[0] << endl;
     characters[i] = new Character(Rand_gen, story_chose - 1, exp_, level_, abilities[0], abilities[1],
-                                  abilities[2], abilities[3], abilities[4], abilities[5], sex_ - 1, rand_seed_change);
+                                  abilities[2], abilities[3], abilities[4], abilities[5], sex_ - 1, rand_seed_change, allowance);
     Character_Show_Parameters(i);
   }
   cout << "Do you want to save your party ?\n //Yes: 1//,// No: 2//\n";
@@ -134,7 +136,7 @@ bool Game::Party_Save() {
     party["CharacterStrings"] = {{"name", characters[i]->Get_string(0)},
                                  {"player_name", characters[i]->Get_string(1)},
                                  {"character_type", characters[i]->Get_string(2)},
-                                 {"appearance", characters[i]->Get_string(3)}}
+                                 {"appearance", characters[i]->Get_string(3)}};
     party["InventorySize"][i] = characters[i]->Get(99);//inventory size
     party["Inventory"][i] = inventory;
     bool_params.clear();

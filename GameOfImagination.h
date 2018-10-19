@@ -18,6 +18,7 @@ class Game {
   vector<Character*> characters;
   vector<Creature*> monsters_met;
   Random_Generator_ * Rand_gen;
+  Allowance * allowance;
  public:
   Game();
 

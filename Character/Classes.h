@@ -50,10 +50,10 @@ sleightOfHand 15,stealth 16,survival 17*/
  public:
   Class();
 
-  Class(int type_, std::vector<bool> skills_b);
+  Class(Allowance * alowance, int type_, std::vector<bool> skills_b);
   ~Class();
 
-  virtual void set(int type_, std::vector<bool> skills_b);
+  virtual void set(Allowance * alowance, int type_, std::vector<bool> skills_b);
 
   virtual void set_archetype();
 
