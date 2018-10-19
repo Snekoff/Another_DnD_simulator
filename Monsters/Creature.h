@@ -19,6 +19,7 @@
 using namespace std;
 
 const int kData_size = 99;
+const int kString_Data_size = 4;
 const int kParameterMinimum = 0;
 const int kMoney_types = 5;
 const int kEquip_places = 10;

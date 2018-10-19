@@ -108,7 +108,7 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   SetClass(Rand_gen);
   Starting_Health();
   if (classType.get(0) == 0) armor_class = kBarbarian_Unarmored_Defence + DexModifier + ConModifier;
-  //level = 1;
+  level = levl;// TODO: ask maxhealth
   cout << experience << " " << level << endl;
   t1 = Level_Up(Rand_gen);
   Skill_Proficiencies();
@@ -617,6 +617,16 @@ bool Character::Get_bool(int what) {
   return false;
 }
 
+string Character::Get_string(int what) {
+  switch (what){
+    case 0: { return character_name; break; }
+    case 1: { return player_name; break; }
+    case 2: { return character_type; break; }
+    case 3: { return appearance; break; }
+    default: return "";
+  }
+}
+
 vector<int> Character::Get_inventory() {
   vector<int> inventory_;
   Existing_Items E_I;
@@ -1046,7 +1056,7 @@ void Character::Starting_Health() {
   }
 }
 
-bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
+bool Character::Load(int parameter_i[], bool parameter_b[], vector<string> persona, vector<int> item_) {
   Existing_Types E;
   party = -1;
   skills.resize(kSkills_Num);
@@ -1103,6 +1113,10 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<int> item_) {
   classType.Load(parameter_i[kClass_type_parameter], parameter_b, parameter_i[kClass_archetype_parameter]);
   proficiency = ProficiencySetter();
   //cout <<"Control reach Character method Load 91\n";
+  character_name = persona[0];
+  player_name = persona[1];
+  character_type = persona[2];
+  appearance = persona[3];
   PassivePerceptionSetter();
   Maximum_Parameter_Value();
   ConcreteAbilityModifier();

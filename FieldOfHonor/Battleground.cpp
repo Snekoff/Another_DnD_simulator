@@ -78,10 +78,8 @@ for(int i = X-1; i != X_Limit - 1; i--){
   }
 }
 
-void Battleground::Round_Shape() {
-  //cout << "Control reach Round_Shape 0\n";
+void Battleground::Round_Shape() { ;
   int x_center = Round_Shape_Center(0), y_center = Round_Shape_Center(1);
-  //cout << " x_center = "<< x_center << " y_center = " << y_center << endl;
   square[x_center][y_center] = 0;
   for (int i = 0; i < X; i++) {
     for(int j = 0; j < Y; j++){
@@ -121,10 +119,38 @@ int Battleground::Round_Shape_Center(int what_to_show_X_or_Y){
 int Battleground::Distance_In_Moves(int from_X, int from_Y, int to_X, int to_Y) {
   /*double distance_d = sqrt(pow(abs(from_X - to_X),2) + pow(abs(from_Y - to_Y),2));*/ //Euclid's metrics
   int distance_i = 0;
+  int C_X = from_X,C_Y = from_Y;
   if(abs(from_X - to_X) != 0 && abs(from_Y - to_Y) != 0){
     for(int i = 0; i < min(abs(from_X - to_X),abs(from_Y - to_Y)); i++){
       if(i%2 == 0) distance_i++;
       else distance_i +=2;
+    }
+    int iter_A = max(abs(from_X - to_X),abs(from_Y - to_Y));
+    int iter_B = min(abs(from_X - to_X),abs(from_Y - to_Y));
+    int it_B = 1;
+    int direction_X = 1,direction_Y = 1;
+    if(from_X - to_X > 0) direction_X = -1;
+    if(from_Y - to_Y > 0) direction_Y = -1;
+    while (iter_A != 0){
+      int move_length;
+      while(iter_B != 0){
+        if(it_B % 2 == 0) move_length = 2;
+        else move_length = 1;
+        C_X += direction_X;
+        C_Y += direction_Y;
+        move_length *= IfHardTerrain(C_X,C_Y);
+        it_B++;
+        distance_i += move_length;
+        iter_B--;
+        iter_A--;
+      }
+      if(iter_A == 0) break;
+      move_length = 1;
+      if(C_X == to_X && C_Y != to_Y) C_Y += direction_Y;
+      else if(C_X != to_X && C_Y == to_Y) C_X += direction_X;
+      move_length *= IfHardTerrain(C_X,C_Y);
+      distance_i += move_length;
+      iter_A--;
     }
   }
   int difference = max(abs(from_X - to_X),abs(from_Y - to_Y)) - min(abs(from_X - to_X),abs(from_Y - to_Y));
@@ -143,6 +169,11 @@ int Battleground::Distance_Rounded(int from_X, int from_Y, int to_X, int to_Y) {
   distance_i = (int)distance_d;
   if(distance_d - (double)distance_i > 0.5) distance_i++;
   return distance_i;
+}
+
+int Battleground::IfHardTerrain(int X, int Y) {
+  if(square[X][Y] == 4 || square[X][Y] == 5 || square[X][Y] == 10) return 2;
+  else return 1;
 }
 // angle [0,90)
 double Battleground::Angle_Between(int from_X, int from_Y, int to_X, int to_Y) {

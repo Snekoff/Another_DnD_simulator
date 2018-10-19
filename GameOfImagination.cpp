@@ -58,9 +58,9 @@ void Game::Character_create(Random_Generator_ *Rand_gen) {
   unsigned party_size_before = characters.size();
   characters.resize(party_size_before + (unsigned) number_of_characters);
   for (int i = party_size_before; i < number_of_characters + party_size_before; i++) {
-    cout << "For player " << i + 1 << " type: experience, level\n "
+    cout << "For player " << i + 1 << " type: experience, level\n"
                                       "Note: 300 experience and 1 level will lead to LevelUp,"
-                                      " 0 experience and 2 level won lead to LevelUp\n";
+                                      " 0 experience and 2 level wont lead to LevelUp\n";
     int exp_ = 0, level_ = 0, sex_ = 0;
     exp_ = IsNumber(exp_, kExperience_Min, kExperience_Max);
     level_ = IsNumber(level_, kLevel_Minimum, kLevels_Num);
@@ -121,22 +121,26 @@ void Game::Character_Show_Parameters(int who) {
 bool Game::Party_Save() {
   nlohmann::json party;
   party["Size"] = characters.size();
-  vector<vector<int>> params;
-  vector<vector<bool>> bool_params;
-  params.resize(characters.size());
-  bool_params.resize(characters.size());
-  //cout << "Control reach Party Save 2\n";
+  vector<int> params;
+  vector<bool> bool_params;
   for (int i = 0; i < characters.size(); i++) {
     vector<int> inventory = characters[i]->Get_inventory();
     for (int p = 0; p < kData_size; p++) {
-      bool_params[i].push_back(characters[i]->Get_bool(p));
-      params[i].push_back(characters[i]->Get(p));
+      bool_params.push_back(characters[i]->Get_bool(p));
+      params.push_back(characters[i]->Get(p));
     }
-    party["Character"][i] = params[i];
-    party["Character_bool"][i] = bool_params[i];
+    party["Character"][i] = params;
+    party["Character_bool"][i] = bool_params;
+    party["CharacterStrings"] = {{"name", characters[i]->Get_string(0)},
+                                 {"player_name", characters[i]->Get_string(1)},
+                                 {"character_type", characters[i]->Get_string(2)},
+                                 {"appearance", characters[i]->Get_string(3)}}
     party["InventorySize"][i] = characters[i]->Get(99);//inventory size
     party["Inventory"][i] = inventory;
+    bool_params.clear();
+    params.clear();
   }
+
   std::ofstream outp;
   outp.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/MyParty.json", std::ofstream::out);
   if (!outp.is_open()) return false;
@@ -156,6 +160,7 @@ bool Game::Party_Load() {
   cout << "Control reach method Party Load 0\n";
   int *p = new int[kData_size];
   bool *bool_p = new bool[kData_size];
+  vector<string> persona;
   int Size = party["Size"].get<int>();
   characters.resize((unsigned) Size);
   cout << "Control reach method Party Load 1\n";
@@ -167,6 +172,11 @@ bool Game::Party_Load() {
       p[j] = party["Character"][i][j].get<int>();
       bool_p[j] = party["Character_bool"][i][j].get<bool>();
     }
+    persona.push_back(party["Character"][i]["name"]);
+    persona.push_back(party["Character"][i]["player_name"]);
+    persona.push_back(party["Character"][i]["character_type"]);
+    persona.push_back(party["Character"][i]["appearance"]);
+
     cout << "Control reach method Party Load 3\n";
     inventory_.resize(inventory_Size);
     //cout << inventory_Size << endl;
@@ -177,7 +187,7 @@ bool Game::Party_Load() {
     }
     cout << "Control reach method Party Load 4_1\n";
     characters[i] = new Character();
-    characters[i]->Load(p, bool_p, inventory_);
+    characters[i]->Load(p, bool_p, persona, inventory_);
   }
   delete[] p;
   delete[] bool_p;

@@ -63,6 +63,8 @@ class Character : public Creature {
 
   bool Get_bool(int what);
 
+  virtual string Get_string(int what);
+
   vector<int> Get_inventory();
 
   Item * Factory_Complex(string &name_, int quantity);
@@ -97,7 +99,7 @@ class Character : public Creature {
 
   void Starting_Health();
 
-  bool Load(int parameter_i[], bool parameter_b[], vector<int> item_);
+  bool Load(int parameter_i[], bool parameter_b[], vector<string> persona, vector<int> item_);
 
   void Name_And_Appearance_Set();
 
