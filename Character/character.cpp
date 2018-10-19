@@ -108,8 +108,9 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   SetClass(Rand_gen);
   Starting_Health();
   if (classType.get(0) == 0) armor_class = kBarbarian_Unarmored_Defence + DexModifier + ConModifier;
-  level = levl;// TODO: ask maxhealth
-  cout << experience << " " << level << endl;
+  level = levl;
+  Starting_Maxhealth();
+  //cout << experience << " " << level << endl;
   t1 = Level_Up(Rand_gen);
   Skill_Proficiencies();
   Add_To_Inventory();
@@ -121,6 +122,15 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   Equiping_Item();
   for(int i = 0; i < kCoordinates_NUM;i++){
     Coordinates[i] = 0;
+  }
+}
+
+void Character::Starting_Maxhealth() {
+  if(level > 1) {
+    cout << "insert maxhealth\n";
+    int health_ = 0;
+    health_ = IsNumber(health_, maxhealth, maxhealth - 1);
+    maxhealth = health_;
   }
 }
 

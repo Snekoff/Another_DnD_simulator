@@ -25,6 +25,8 @@ class Character : public Creature {
   Character(Random_Generator_ * Rand_gen,int storyline_, int exp, int levl, int Stre, int Dext,
             int Cons, int Inte, int Wisd, int Charisma, int sex_, int rand_seed_change);
 
+  void Starting_Maxhealth();
+
   ~Character();
 
   void Set_Party(int party_);
