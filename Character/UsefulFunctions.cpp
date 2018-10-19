@@ -62,6 +62,8 @@ T IsNumber(T a, T lower_limit, T higher_limit) {
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   }
+  std::cin.clear();
+  while (std::cin.get() != '\n');
   return a;
 }
 

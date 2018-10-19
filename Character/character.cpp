@@ -229,6 +229,7 @@ int Character::Ability_Random_Sets(Random_Generator_ *Rand_gen, int rand_seed_ch
       else if (i == 3) { Int = Sets[(int) (pow(kAbilities_Num, first_or_second_set - 1)) - 1 + i]; }
       else if (i == 4) { Wis = Sets[(int) (pow(kAbilities_Num, first_or_second_set - 1)) - 1 + i]; }
       else if (i == 5) { Cha = Sets[(int) (pow(kAbilities_Num, first_or_second_set - 1)) - 1 + i]; }
+      cin.clear();
     }
     //cout <<"Control reach end of Ability random sets\n";
     return 0;
@@ -1224,17 +1225,22 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<string> perso
 
 void Character::Name_And_Appearance_Set() {
   cout << "Please Name your character,";
-  cin >> character_name;
+  //cin >> character_name;
+
+  getline(cin, character_name);
   cout << " then you can introduce yourself.\n";
-  cin >> player_name;
+  //cin >> player_name;
+  getline(cin, player_name);
   cout << "Describe your character, does ";
   if(sex == 0 || sex == 2) cout << "she ";
   else if(sex == 1) cout << "he ";
   else cout << "it ";
   cout << "got red eyes? Or maybe long horns?\n";
-  cin >> appearance;
+  //cin >> appearance;
+  getline(cin, appearance);
   cout << "And last thing, your character is: (neutral/evil/lawful/etc.)\n";
-  cin >> character_type;
+  getline(cin, character_type);
+  //cin >> character_type;
 }
 
 void Character::Race_Call_Load(int *parameters) {
