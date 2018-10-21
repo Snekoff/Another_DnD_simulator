@@ -1,6 +1,5 @@
 
 
-#include "Character/character.h"
 #include "GameOfImagination.h"
 
 using namespace std;
@@ -143,7 +142,7 @@ bool Game::Party_Save() {
   }
 
   std::ofstream outp;
-  outp.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/MyParty.json", std::ofstream::out);
+  outp.open("MyParty.json", std::ofstream::out);
   if (!outp.is_open()) return false;
   outp << std::setw(4) << party << endl;
   outp.close();
@@ -152,7 +151,7 @@ bool Game::Party_Save() {
 
 bool Game::Party_Load() {
   ifstream party_save_file;
-  party_save_file.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/MyParty.json");
+  party_save_file.open("MyParty.json");// TODO: check
   if (!party_save_file.is_open()) {
     cout << "Error in loading file\n";
     return false;

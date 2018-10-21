@@ -4,7 +4,7 @@ using json = nlohmann::json;
 Monster::Monster(int name_, int challenge_rating_) {
   ifstream MonJson;
   Exsisting_Monsters E_M;
-  MonJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/Monsters/5e-SRD-Monsters.json");
+  MonJson.open("../AditionalTools/bestiary-all.json");//TODO: check
   if (MonJson.is_open()) {
     json MonsterJson = json::parse(MonJson);
     for (auto it : MonsterJson) {

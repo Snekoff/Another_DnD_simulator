@@ -4,6 +4,7 @@
 #include "character.h"
 
 using namespace std;
+//using json = nlohmann::json;
 
 Character::Character() {
   race_of_character = new Race();

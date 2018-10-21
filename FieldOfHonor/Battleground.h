@@ -5,6 +5,7 @@
 #include <iostream>
 #include "../Character/UsefulFunctions.h"
 #include "../Character/character.h"
+#include "Effect.h"
 
 const int kShapes_NUM = 2;
 const int kState_of_Field_NUM = 18;
@@ -13,10 +14,10 @@ const int kShow_Shape_String_spread_Multiplayer_y = 4;
 
 struct Exsisting_Fields{
   string shape_s[kShapes_NUM] = {"rectangle", "circle"};
-  string state_of_square[kState_of_Field_NUM] = {"empty ", "inaccessible ", "with_high_obstacle ", "with_meddium_obstacle ",
-                                    "with_low_obstacle ", "hard_terrain ", "occupied ", "occupied_by_body ", "door ",
-                                    "window ", "water ", "fire ", "deep_water ", "lava ", "poison ", "hatch ",
-                                    "ladder ", "forbidden_area "};
+  string state_of_square[kState_of_Field_NUM] = {"empty", "inaccessible", "with_high_obstacle", "with_meddium_obstacle",
+                                   "with_low_obstacle", "hard_terrain", "occupied", "occupied_by_body", "door",
+                                   "window", "water", "fire", "deep_water", "lava", "poison", "hatch",
+                                   "ladder", "forbidden_area"};
 };
 
 class Battleground {
