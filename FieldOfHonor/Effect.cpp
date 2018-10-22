@@ -42,5 +42,6 @@ Effect::Effect(int X, int Y, int Z, int type_, int center_X, int center_Y, int c
 Effect::~Effect() = default;
 
 int Effect::Distance_In_Moves(int from_X, int from_Y, int to_X, int to_Y) {
-
+  int distance_i = 0;
+  return distance_i;
 }

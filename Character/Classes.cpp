@@ -17,11 +17,11 @@ Class::Class() {
 }
 
 Class::Class(Allowance * alowance, int type_, std::vector<bool> skills_b) {
-  set(alowance, type_, skills_b);
+  Create(alowance, type_, skills_b);
 }
 Class::~Class() = default;
 
-void Class::set(Allowance * alowance, int type_, std::vector<bool> skills_b) {
+void Class::Create(Allowance * alowance, int type_, std::vector<bool> skills_b) {
   Existing_classes E_C;
   bool test = false;
   if(type_ > kClass_Num) {
@@ -30,12 +30,12 @@ void Class::set(Allowance * alowance, int type_, std::vector<bool> skills_b) {
   }
   type = type_;
   hit_dice = E_C.Class_atribute[type][0];
-  for (int i = 0; i < 7; i++) {
-    if (i < 6) {
-      if (E_C.Class_atribute[type][i + 1] > 0) primary_ability[i] = true;
-      if (E_C.Class_atribute[type][i + 7] > 0) saving_throw_proficiencies[i] = true;
+  for (int i = 0; i < kArmor_Weapon_proficiencies_Num; i++) {
+    if (i < kAbilities_Num) {
+      primary_ability[i] = E_C.Class_atribute[type][i + 1] > 0;
+      saving_throw_proficiencies[i] = E_C.Class_atribute[type][i + kArmor_Weapon_proficiencies_Num] > 0;
     }
-    if (E_C.Class_atribute[type][i + 13] > 0) armor_and_weapon_proficiencies[i] = true;
+    armor_and_weapon_proficiencies[i] = E_C.Class_atribute[type][i + kAttributes_Num - kArmor_Weapon_proficiencies_Num] > 0;//false;
   }
   for(int j = 0; j < kSkills_Num ; j++){
     skills[j] = 0;
@@ -49,7 +49,7 @@ void Class::set(Allowance * alowance, int type_, std::vector<bool> skills_b) {
   }
   if(!alowance->Is_Character_Set()){
     archetype = 0;
-    if(!test) { set_skills(skills_b); }
+    set_skills(skills_b);
     set_archetype();
   }
 }
@@ -65,19 +65,16 @@ bool Class::Load(int type_, bool b[], int archetype_) {//22-34
   E_C.fake_parameter = 1;
   type = type_;
   archetype = archetype_;
-  for (int i = 0; i < 7; i++) {
+  for (int i = 0; i < kArmor_Weapon_proficiencies_Num; i++) {
     armor_and_weapon_proficiencies[i] = b[kArmor_Weapon_shift + i];
   }
   hit_dice = E_C.Class_atribute[type][0];
   for (int i = 0; i < kAbilities_Num; i++) {
-    primary_ability[i] = false;
+    primary_ability[i] = E_C.Class_atribute[type][i + 1] > 0;
+    saving_throw_proficiencies[i] = b[kSaving_Throw_shift + i];
     skills[i] = 0;
     skills[kAbilities_Num + i] = 0;
     skills[kAbilities_Num * 2 + i] = 0;
-  }
-  for (int i = 0; i < kAbilities_Num; i++) {
-    if (E_C.Class_atribute[type][i + 1] > 0) primary_ability[i] = true;
-    saving_throw_proficiencies[i] = b[kSaving_Throw_shift + i];
   }
   if (type == 4) {
     std::cout << "Fighter class asks you again to choose one of primary abilities. Type 1.Str or 2.Dex. "
@@ -369,10 +366,17 @@ bool Class::get_bool(int what) {
     Existing_Types E_T;
     E_T.fake_parameter = 1;
     //std::cout << "\nClass: what = " << what << E_T.params_b[what + 16] << " = " << saving_throw_proficiencies[what - 6] << std::endl;
-    return saving_throw_proficiencies[what - 6];
+    return saving_throw_proficiencies[what - kSavingThrowShift];
   }
-  else if (11 < what && what < 19) return armor_and_weapon_proficiencies[what - 12];
+  else if (11 < what && what < 19) return armor_and_weapon_proficiencies[what - kArmorAndWeaponProficiencyShift];
   return false;
+}
+
+void Class::set(int f, bool value) {
+  if(f == 0) type = value;
+  else if(f < 7) primary_ability[f - 1] = value;
+  else if(f < 13) saving_throw_proficiencies[f - kSavingThrowShift] = value;
+  else if(f < 20) armor_and_weapon_proficiencies[f - kAttributes_Num - kArmor_Weapon_proficiencies_Num] = value;
 }
 
 MultiClass::MultiClass() : Class() {

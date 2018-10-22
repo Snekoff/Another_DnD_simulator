@@ -9,17 +9,20 @@ const int kAttributes_Num = 20;
 const int kGetHealth_dice = 20;
 const int kArmor_Weapon_proficiencies_Num = 7;
 const int kSaving_Throw_shift = 22;
+//const int kGetBoolBecauseOfHitDiceShift = 1;
 const int kArmor_Weapon_shift = 28;
+const int kSavingThrowShift = 6;
+const int kArmorAndWeaponProficiencyShift = 12;
 const int kClassType_get_shift = 21;
 
 struct Existing_classes{ // classes simplified! (weapon proficiencies)
+  //hit_dice(0), primary ability (1-6) , saving_throw_proficiencies (7-12) , armor_and_weapon_proficiencies (13-19)
   int Class_atribute[kClass_Num][kAttributes_Num] = {{12,1,0,0,0,0,0,1,0,1,0,0,0,1,1,0,1,0,1,0},{8,0,0,0,0,0,1,0,1,0,0,0,1,1,0,0,1,1,1,0},
                                 {8,0,0,0,0,1,0,0,0,0,0,1,1,1,1,0,1,0,0,0},{8,0,0,0,0,1,0,0,0,0,1,1,0,1,1,0,1,1,0,0},
                                 {10,0,0,0,0,0,0,1,0,1,0,0,0,1,1,1,1,0,1,0},{8,0,1,0,0,1,0,1,1,0,0,0,0,0,0,0,1,0,0,0},
                                 {10,1,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,0,1,0},{10,0,1,0,0,1,0,1,1,0,0,0,0,1,1,0,1,0,1,0},
                                 {8,0,1,0,0,0,0,0,1,0,1,0,0,1,0,0,1,1,1,0},{6,0,0,0,0,0,1,0,0,1,0,0,1,0,0,0,1,1,0,0},
                                 {8,0,0,0,0,0,1,0,0,0,0,1,1,1,0,0,1,0,0,0},{6,0,0,0,1,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0}};
-  //hit_dice(0), primary ability (1-6) , saving_throw_proficiencies (7-12) , armor_and_weapon_proficiencies (13-19)
   std::string skills_s[kSkills_Num] = {"acrobatics", "animal handling", "arcana", "athletics", "deception", "history",
                                        "insight", "intimidation", "investigation", "medicine", "nature", "perception",
                                        "performance", "persuasion", "religion", "sleight of hand", "stealth",
@@ -53,7 +56,7 @@ sleightOfHand 15,stealth 16,survival 17*/
   Class(Allowance * alowance, int type_, std::vector<bool> skills_b);
   ~Class();
 
-  virtual void set(Allowance * alowance, int type_, std::vector<bool> skills_b);
+  virtual void Create(Allowance * alowance, int type_, std::vector<bool> skills_b);
 
   virtual void set_archetype();
 
@@ -65,6 +68,8 @@ sleightOfHand 15,stealth 16,survival 17*/
   int Had_Skill_Been_Chosen(std::vector<bool> skills_b, std::vector<int> skills_access, int skill_1, int skill_2, int skill_3, int skill_4);
 
   bool Load(int type_, bool b[], int archetype_);
+
+  void set(int what, bool value);
 
   virtual int get(int what);
 

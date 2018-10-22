@@ -10,13 +10,13 @@
 #include <locale>
 
 #include "GameOfImagination.h"
-#include "Tests/Character_Test.h"
+#include "Tests/TEST.h"
 
 using namespace std;
 
 int main(int argc, char **argv) {
   printf("%s \n", "Dungeons and Dragons game (PC) starts here");
-  bool Test = false;
+  bool Test = true;
   if(Test) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

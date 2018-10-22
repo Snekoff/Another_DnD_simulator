@@ -212,7 +212,6 @@ TEST_F(CharacterTest, CharacterRaceLoadTest){
 TEST_F(CharacterTest, CharacterClassTest){
   /*Class*/
   Test_Subject->Set(18,19);//Class = Ranger ( 12 + 7 to avoid skill choose )
-  // health_dice = 10,
   EXPECT_EQ(Test_Subject->Get(7),10);//Health Dice
   EXPECT_EQ(Test_Subject->Get_bool(51),false);// primary ability (Str) = 0
   EXPECT_EQ(Test_Subject->Get_bool(52),true);// primary ability (Dex) = 1

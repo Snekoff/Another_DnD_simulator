@@ -77,6 +77,8 @@ sleightOfHand 15,stealth 16,survival 17*/
   string player_name;
   string character_type;
   string appearance;//appearance
+  int reaction;// how many reactions
+  int reach;//feets
 };
 
 #endif //ANOTHER_DND_SIMULATOR_CREATURE_H

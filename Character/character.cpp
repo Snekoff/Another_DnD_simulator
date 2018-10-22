@@ -125,6 +125,8 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   for(int i = 0; i < kCoordinates_NUM;i++){
     Coordinates[i] = 0;
   }
+  reaction = 1;
+  reach = 5;
 }
 
 void Character::Starting_Maxhealth() {
@@ -621,7 +623,9 @@ void Character::Set(int what, int value) {// what - what parameter will be chang
     }
     case 18: {
       auto allowance = new Allowance();
-      classType.set(allowance, value, skills_b);
+      allowance->Tested();
+      allowance->Character_Set();
+      classType.Create(allowance, value, skills_b);
       health_dice = classType.get(kGetHealth_dice);
       for (int i = 0; i < kSkills_Num; i++) {
         if (classType.get(i + kClassType_get_shift) == 1) {
@@ -1105,7 +1109,7 @@ void Character::SetClass(Allowance * allowance, Random_Generator_ *Rand_gen) {
           "11. Warlock\n"
           "12. Wizard\n";
   class_type_ = IsNumber<int>(class_type_, 1, kClass_Num);
-  classType.set(allowance, class_type_ - 1, skills_b);
+  classType.Create(allowance, class_type_ - 1, skills_b);
   health_dice = classType.get(kGetHealth_dice);
   proficiency = ProficiencySetter();
   //21-38 => skills[0] - skills[17]

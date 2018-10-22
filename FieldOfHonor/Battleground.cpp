@@ -121,10 +121,10 @@ int Battleground::Distance_In_Moves(int from_X, int from_Y, int to_X, int to_Y) 
   int distance_i = 0;
   int C_X = from_X,C_Y = from_Y;
   if(abs(from_X - to_X) != 0 && abs(from_Y - to_Y) != 0){
-    for(int i = 0; i < min(abs(from_X - to_X),abs(from_Y - to_Y)); i++){
+    /*for(int i = 0; i < min(abs(from_X - to_X),abs(from_Y - to_Y)); i++){
       if(i%2 == 0) distance_i++;
       else distance_i +=2;
-    }
+    }*/
     int iter_A = max(abs(from_X - to_X),abs(from_Y - to_Y));
     int iter_B = min(abs(from_X - to_X),abs(from_Y - to_Y));
     int it_B = 1;
@@ -153,7 +153,7 @@ int Battleground::Distance_In_Moves(int from_X, int from_Y, int to_X, int to_Y) 
       iter_A--;
     }
   }
-  int difference = max(abs(from_X - to_X),abs(from_Y - to_Y)) - min(abs(from_X - to_X),abs(from_Y - to_Y));
+  int difference = max(abs(C_X - to_X),abs(C_Y - to_Y)) ;
   distance_i += difference;
   return distance_i;
 }
@@ -185,7 +185,6 @@ double Battleground::Angle_Between(int from_X, int from_Y, int to_X, int to_Y) {
   int C_X = from_X, C_Y = to_Y;
   double DistAB = Distance(from_X, from_Y, to_X, to_Y);
   double DistCB = Distance(C_X, C_Y, to_X, to_Y);
-  cout << "C(" << C_X << ", " << C_Y << ")\n";
   if (DistAB != DistCB) {
     angle = asin(DistCB / DistAB);
   } else angle = 0;

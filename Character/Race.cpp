@@ -26,17 +26,17 @@ Race::~Race() = default;
   weight = Rand_gen->Rand(E.minWeight[type], E.maxWeight[type]);
   age = Rand_gen->Rand(E.minAge[type], E.maxAge[type]);
 }*/
-void Race::set(int type_, int height_, int weight_, int age_, Allowance * allowance) {
+void Race::set(int type_, int height_, int weight_, int age_, Allowance *allowance) {
   type = type_;
   height = height_;
   weight = weight_;
   age = age_;
-  if(!allowance->Is_Character_Set()){
+  if (!allowance->Is_Character_Set()) {
     SetRaceAbilityBonus();
     RaceAbilityBonus();
   }
 }
-void Race::Create(int sub_type, int height_, int weight_, int age_, Allowance * allowance) {
+void Race::Create(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   type = sub_type;
   //subtype = sub_type;
   height = height_;
@@ -152,7 +152,7 @@ bool Race::Load(int parameters_i[]) {
 }
 
 Dragonborn::Dragonborn() = default;
-Dragonborn::Dragonborn(int sub_type, int height_, int weight_, int age_, Allowance * allowance) {
+Dragonborn::Dragonborn(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Create(sub_type, height_, weight_, age_, allowance);
 }
 Dragonborn::~Dragonborn() = default;
@@ -195,7 +195,7 @@ void Dragonborn::subRaceFeatures() {
     raceFeatures = "fits,Cold,Draconic";
   }
 }
-void Dragonborn::Create(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+void Dragonborn::Create(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -211,12 +211,15 @@ void Dragonborn::Create(int sub_type, int height_, int weight_,  int age_, Allow
   height = height_;
   weight = weight_;
   age = age_;
-  Size_Set();
-  if(!allowance->Is_Character_Set()){subRaceFeatures();};
+  if (!allowance->Is_Tested()) { Size_Set(); };
+  if (!allowance->Is_Character_Set()) {
+    //if (!allowance->Is_Tested()) { Size_Set(); };
+    subRaceFeatures();
+  };
 }
 
 Dwarf::Dwarf() = default;
-Dwarf::Dwarf(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+Dwarf::Dwarf(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Create(sub_type, height_, weight_, age_, allowance);
 }
 Dwarf::~Dwarf() = default;
@@ -239,7 +242,7 @@ void Dwarf::subRaceFeatures() {
     raceFeatures = "25,Medium,Darkvision,skill like firebreath,fits,Languages";
   }
 }
-void Dwarf::Create(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+void Dwarf::Create(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -255,18 +258,21 @@ void Dwarf::Create(int sub_type, int height_, int weight_,  int age_, Allowance 
   height = height_;
   weight = weight_;
   age = age_;
-  Size_Set();
-  if(!allowance->Is_Character_Set()){subRaceFeatures();};
+  if (!allowance->Is_Tested()) { Size_Set(); };
+  //if (!allowance->Is_Tested()) { Size_Set(); };
+  if (!allowance->Is_Character_Set()) {
+    subRaceFeatures();
+  };
 }
 
 Elf::Elf() = default;
-Elf::Elf(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+Elf::Elf(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Create(sub_type, height_, weight_, age_, allowance);
 }
 Elf::~Elf() = default;
 void Elf::subRaceFeatures() {
   Movement = 30;
-  Size = 1;
+  Size = 2;
   Darkvision = 120;
   damage_resistance = 0;
   if (subtype == 0) {
@@ -299,7 +305,7 @@ void Elf::subRaceFeatures() {
     raceFeatures = "fits,Languages";
   }
 }
-void Elf::Create(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+void Elf::Create(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -315,12 +321,15 @@ void Elf::Create(int sub_type, int height_, int weight_,  int age_, Allowance * 
   height = height_;
   weight = weight_;
   age = age_;
-  Size_Set();
-  if(!allowance->Is_Character_Set()){subRaceFeatures();};
+  if (!allowance->Is_Tested()) { Size_Set(); };
+  if (!allowance->Is_Character_Set()) {
+    //if (!allowance->Is_Tested()) { Size_Set(); };
+    subRaceFeatures();
+  };
 }
 
 Gnome::Gnome() = default;
-Gnome::Gnome(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+Gnome::Gnome(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Create(sub_type, height_, weight_, age_, allowance);
 }
 Gnome::~Gnome() = default;
@@ -343,7 +352,7 @@ void Gnome::subRaceFeatures() {
     raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,Languages";
   }
 }
-void Gnome::Create(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+void Gnome::Create(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -359,12 +368,15 @@ void Gnome::Create(int sub_type, int height_, int weight_,  int age_, Allowance 
   height = height_;
   weight = weight_;
   age = age_;
-  Size_Set();
-  if(!allowance->Is_Character_Set()){subRaceFeatures();};
+  if (!allowance->Is_Tested()) { Size_Set(); };
+  if (!allowance->Is_Character_Set()) {
+    //if (!allowance->Is_Tested()) { Size_Set(); };
+    subRaceFeatures();
+  };
 }
 
 Goblin::Goblin() = default;
-Goblin::Goblin(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+Goblin::Goblin(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Create(sub_type, height_, weight_, age_, allowance);
 }
 Goblin::~Goblin() = default;
@@ -377,7 +389,7 @@ void Goblin::subRaceFeatures() {
   Con += 1;
   raceFeatures = "30,Small,Darkvision,skill like firebreath,fits,Languages";
 }
-void Goblin::Create(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+void Goblin::Create(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -393,12 +405,15 @@ void Goblin::Create(int sub_type, int height_, int weight_,  int age_, Allowance
   height = height_;
   weight = weight_;
   age = age_;
-  Size_Set();
-  if(!allowance->Is_Character_Set()){subRaceFeatures();};
+  if (!allowance->Is_Tested()) { Size_Set(); };
+  if (!allowance->Is_Character_Set()) {
+    //if (!allowance->Is_Tested()) { Size_Set(); };
+    subRaceFeatures();
+  };
 }
 
 Half_Elf::Half_Elf() = default;
-Half_Elf::Half_Elf(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+Half_Elf::Half_Elf(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Create(sub_type, height_, weight_, age_, allowance);
 }
 Half_Elf::~Half_Elf() = default;
@@ -429,7 +444,7 @@ void Half_Elf::subRaceFeatures() {
   E.race_ability_bonus[a - 1][15 + subtype] -= 1;
   E.race_ability_bonus[b - 1][15 + subtype] -= 1;
 }
-void Half_Elf::Create(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+void Half_Elf::Create(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -445,12 +460,15 @@ void Half_Elf::Create(int sub_type, int height_, int weight_,  int age_, Allowan
   height = height_;
   weight = weight_;
   age = age_;
-  Size_Set();
-  if(!allowance->Is_Character_Set()){subRaceFeatures();};
+  if (!allowance->Is_Tested()) { Size_Set(); };
+  if (!allowance->Is_Character_Set()) {
+    //if (!allowance->Is_Tested()) { Size_Set(); };
+    subRaceFeatures();
+  };
 }
 
 Half_Orc::Half_Orc() = default;
-Half_Orc::Half_Orc(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+Half_Orc::Half_Orc(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Create(sub_type, height_, weight_, age_, allowance);
 }
 Half_Orc::~Half_Orc() = default;
@@ -470,7 +488,7 @@ void Half_Orc::subRaceFeatures() {
     raceFeatures = "fits,Languages";
   }
 }
-void Half_Orc::Create(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+void Half_Orc::Create(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -486,12 +504,15 @@ void Half_Orc::Create(int sub_type, int height_, int weight_,  int age_, Allowan
   height = height_;
   weight = weight_;
   age = age_;
-  Size_Set();
-  if(!allowance->Is_Character_Set()){subRaceFeatures();};
+  if (!allowance->Is_Tested()) { Size_Set(); };
+  if (!allowance->Is_Character_Set()) {
+    //if (!allowance->Is_Tested()) { Size_Set(); };
+    subRaceFeatures();
+  };
 }
 
 Halfling::Halfling() = default;
-Halfling::Halfling(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+Halfling::Halfling(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Create(sub_type, height_, weight_, age_, allowance);
 }
 Halfling::~Halfling() = default;
@@ -512,7 +533,7 @@ void Halfling::subRaceFeatures() {
     raceFeatures = "25,Small,Darkvision,skill like firebreath,fits,Languages";
   }
 }
-void Halfling::Create(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+void Halfling::Create(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -528,12 +549,15 @@ void Halfling::Create(int sub_type, int height_, int weight_,  int age_, Allowan
   height = height_;
   weight = weight_;
   age = age_;
-  Size_Set();
-  if(!allowance->Is_Character_Set()){subRaceFeatures();};
+  if (!allowance->Is_Tested()) { Size_Set(); };
+  if (!allowance->Is_Character_Set()) {
+    //if (!allowance->Is_Tested()) { Size_Set(); };
+    subRaceFeatures();
+  };
 }
 
 Human::Human() = default;
-Human::Human(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+Human::Human(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Create(sub_type, height_, weight_, age_, allowance);
 }
 Human::~Human() = default;
@@ -564,7 +588,7 @@ void Human::subRaceFeatures() {
     E.race_ability_bonus[b - 1][24 + subtype] -= 1;
   }
 }
-void Human::Create(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+void Human::Create(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -580,18 +604,21 @@ void Human::Create(int sub_type, int height_, int weight_,  int age_, Allowance 
   height = height_;
   weight = weight_;
   age = age_;
-  Size_Set();
-  if(!allowance->Is_Character_Set()){subRaceFeatures();};
+  if (!allowance->Is_Tested()) { Size_Set(); };
+  if (!allowance->Is_Character_Set()) {
+    //if (!allowance->Is_Tested()) { Size_Set(); };
+    subRaceFeatures();
+  };
 }
 
 Lizardfolk::Lizardfolk() = default;
-Lizardfolk::Lizardfolk(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+Lizardfolk::Lizardfolk(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Create(sub_type, height_, weight_, age_, allowance);
 }
 Lizardfolk::~Lizardfolk() = default;
 void Lizardfolk::subRaceFeatures() {
-  std::cout << 
-      "You gain proficiency with two of the following skills of your choice: Animal Handling(2), Nature(11), Perception(12), Stealth(17), and Survival(18).\n";
+  std::cout <<
+            "You gain proficiency with two of the following skills of your choice: Animal Handling(2), Nature(11), Perception(12), Stealth(17), and Survival(18).\n";
   int a = 0, b = 0;
   //std::cin >> a >> b;
   a = IsNumber(a, 2, 18);
@@ -604,7 +631,7 @@ void Lizardfolk::subRaceFeatures() {
   Wis += 1;
   raceFeatures = "fits,Languages,s[" + std::to_string(a) + "],s[" + std::to_string(b) + "]";
 }
-void Lizardfolk::Create(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+void Lizardfolk::Create(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -620,12 +647,15 @@ void Lizardfolk::Create(int sub_type, int height_, int weight_,  int age_, Allow
   height = height_;
   weight = weight_;
   age = age_;
-  Size_Set();
-  if(!allowance->Is_Character_Set()){subRaceFeatures();};
+  if (!allowance->Is_Tested()) { Size_Set(); };
+  if (!allowance->Is_Character_Set()) {
+    //if (!allowance->Is_Tested()) { Size_Set(); };
+    subRaceFeatures();
+  };
 }
 
 Tiefling::Tiefling() = default;
-Tiefling::Tiefling(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+Tiefling::Tiefling(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Create(sub_type, height_, weight_, age_, allowance);
 }
 Tiefling::~Tiefling() = default;
@@ -691,7 +721,7 @@ void Tiefling::subRaceFeatures() {
     raceFeatures = "fits,Languages";
   }
 }
-void Tiefling::Create(int sub_type, int height_, int weight_,  int age_, Allowance * allowance) {
+void Tiefling::Create(int sub_type, int height_, int weight_, int age_, Allowance *allowance) {
   Str = 0;
   Dex = 0;
   Con = 0;
@@ -707,6 +737,9 @@ void Tiefling::Create(int sub_type, int height_, int weight_,  int age_, Allowan
   height = height_;
   weight = weight_;
   age = age_;
-  Size_Set();
-  if(!allowance->Is_Character_Set()){subRaceFeatures();};
+  if (!allowance->Is_Tested()) { Size_Set(); };
+  if (!allowance->Is_Character_Set()) {
+    //if (!allowance->Is_Tested()) { Size_Set(); };
+    subRaceFeatures();
+  };
 }

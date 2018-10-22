@@ -5,6 +5,7 @@
 class Allowance {
  private:
   bool is_character_set;
+  bool is_tested;
  public:
   Allowance();
 
@@ -13,6 +14,10 @@ class Allowance {
   void Character_Set();
 
   bool Is_Character_Set();
+
+  void Tested();
+
+  bool Is_Tested();
 };
 
 #endif //ANOTHER_DND_SIMULATOR_ALLOWANCE_H
