@@ -6,8 +6,7 @@ Allowance::Allowance() = default;
 Allowance::~Allowance() = default;
 
 void Allowance::Character_Set() {
-  if (is_character_set) is_character_set = false;
-  else is_character_set = true;
+  is_character_set = !(is_character_set);
 }
 
 bool Allowance::Is_Character_Set() {
@@ -15,8 +14,7 @@ bool Allowance::Is_Character_Set() {
 }
 
 void Allowance::Tested() {
-  if (is_tested) is_tested = false;
-  else is_tested = true;
+  is_tested = !(is_tested);
 }
 
 bool Allowance::Is_Tested() {
