@@ -745,66 +745,8 @@ vector<int> Character::Get_inventory() {
 } // { {(int)name_of_Item1, amount1} , {(int)name_of_Item2, amount2} ... }
 
 Item *Character::Factory_Complex(string &name_, int quantity) {
-  //cout << "Control reached Factory_complex 0\n";
-  Items_Factory<Weapon> Weapon_Factory;
-  Items_Factory<Ranged_Weapon> Ranged_Weapon_Factory;
-  Items_Factory<Armor> Armor_Factory;
-  Items_Factory<Usables> Usables_Factory;
-  Items_Factory<Ammo> Ammo_Factory;
-  Items_Factory<Magic_Items> Magic_Items_Factory;
-  Existing_Items E_I;
-  //cout << "Control reached Factory_complex 1\n";
-  for (int i = 0; i < kWeapon_NUM; i++) {
-    if (name_ == E_I.Weapon_s[i]) {
-      //cout << "Control reached Factory_complex 1_1\n";
-      return Weapon_Factory.create(name_, quantity);
-    }
-  }
-  for (int i = 0; i < kRanged_Weapon_NUM; i++) {
-    if (i < kRanged_Weapon_NUM && name_ == E_I.Ranged_Weapon_s[i]) {
-      //cout << "Control reached Factory_complex 1_2\n";
-      return Ranged_Weapon_Factory.create(name_, quantity);
-    }
-  }
-  for (int i = 0; i < kAmmo_NUM; i++) {
-    if (i < kAmmo_NUM && name_ == E_I.Ammo_s[i]) {
-      //cout << "Control reached Factory_complex 1_5\n";
-      return Ammo_Factory.create(name_, quantity);
-    }
-  }
-  for (int i = 0; i < kArmor_NUM; i++) {
-    if (i < kArmor_NUM && name_ == E_I.Armor_s[i]) {
-      //cout << "Control reached Factory_complex 1_3\n";
-      return Armor_Factory.create(name_, quantity);
-    }
-  }
-  for (int i = 0; i < kUsable_NUM; i++) {
-    if (i < kUsable_NUM && name_ == E_I.Usable_s[i]) {
-      //cout << "Control reached Factory_complex 1_4\n";
-      return Usables_Factory.create(name_, quantity);
-    }
-  }
-  for (int i = 0; i < kMagic_Items_NUM; i++) {
-    if (i < kMagic_Items_NUM && name_ == E_I.Magic_Items_s[i]) {
-      //cout << "Control reached Factory_complex 1_6\n";
-      return Magic_Items_Factory.create(name_, quantity);
-    }
-  }
-
-  /*for (int i = 0; i < kAll_Num; i++) {
-    if (i < kWeapon_NUM && a == E_I.Weapon_s[i]) {cout <<"Control reached Factory_complex 1_1\n"; return Weapon_Factory.create(a); }
-    else if (i < kRanged_Weapon_NUM &&a == E_I.Ranged_Weapon_s[i]) {cout <<"Control reached Factory_complex 1_2\n"; return Ranged_Weapon_Factory.create(a); }
-    else if (i < kAmmo_NUM &&a == E_I.Ammo_s[i]) {cout <<"Control reached Factory_complex 1_5\n"; return Ammo_Factory.create(a); }
-    else if (i < kArmor_NUM &&a == E_I.Armor_s[i]) {cout <<"Control reached Factory_complex 1_3\n"; return Armor_Factory.create(a); }
-    else if (i < kUsable_NUM &&a == E_I.Usable_s[i]) {cout <<"Control reached Factory_complex 1_4\n"; return Usables_Factory.create(a); }
-    else if (i < kMagic_Items_NUM &&a == E_I.Magic_Items_s[i]) {cout <<"Control reached Factory_complex 1_6\n"; return Magic_Items_Factory.create(a); }
-    else if (i == kUsable_NUM - 1) {
-      cout <<"Error in Factory complex\n";
-      return nullptr;
-    }
-  }*/
-  //cout << "Control reached Factory_complex 3\n";
-  return nullptr;
+  Complex_Factory complex_factory;
+  return complex_factory.Factory_Complex(name_, quantity);
 }
 
 void Character::Add_Money(int type, int sum) {

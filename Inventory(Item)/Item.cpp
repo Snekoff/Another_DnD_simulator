@@ -50,6 +50,10 @@ int Item::get(int a) {//armor class
   return -1;
 }
 void Item::equip(int a) {
+  if(abs(a) > count){
+    if(a > 0) a = count;
+    else a = (-1)*count;
+  }
   num_equiped += a;
   equiped = (num_equiped == count);
 }
@@ -107,6 +111,7 @@ int Weapon::get(int a) {
   else if (a == 3) { return num_of_dices; }
   else if (a == 4) { return damage_dice; }
   else if (a == 5) { return type_of_elemental_damage; }
+  else if (a == 6) { return num_equiped; }
   return -1;
 }
 
@@ -170,6 +175,7 @@ int Ranged_Weapon::get(int a) {
   else if (a == 5) { return type_of_elemental_damage; }
   else if (a == 6) { return aiming_range; }
   else if (a == 7) { return max_range; }
+  else if (a == 8) { return num_equiped; }
   return -1;
 }
 
@@ -291,6 +297,7 @@ int Usables::get(int a) {
   else if (a == 1) { return weight; }
   else if (a == 2) { return count; }
   else if (a == 3) { return is_obstacle ? 1 : -1; }
+  else if (a == 4) { return num_equiped; }
   return -1;
 }
 
@@ -338,6 +345,7 @@ int Ammo::get(int a) {
   else if (a == 2) { return count; }
   else if (a == 3) { return ammo_damage; }
   else if (a == 4) { return element; }
+  else if (a == 5) { return num_equiped; }
   return -1;
 }
 
@@ -391,6 +399,7 @@ int Magic_Items::get(int a) {
   else if (a == 6) { return arcane_focus ? 1 : -1; }
   else if (a == 7) { return druidic_focus ? 1 : -1; }
   else if (a == 8) { return holy_symbol ? 1 : -1; }
+  else if (a == 9) { return num_equiped; }
   return -1;
 }
 

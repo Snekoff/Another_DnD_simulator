@@ -5,4 +5,5 @@
 #include "Character_Test.h"
 #include "Classes_TEST.h"
 #include "Race_TEST.h"
+#include "Item_TEST.h"
 #endif //ANOTHER_DND_SIMULATOR_TEST_H
