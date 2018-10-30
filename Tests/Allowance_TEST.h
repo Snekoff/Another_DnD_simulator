@@ -11,6 +11,8 @@ class Allowance_TEST : public ::testing::Test {
 
   Allowance_TEST(){
     Test_Subject = new Allowance();
+    //if(Test_Subject->Is_Character_Set()) Test_Subject->Character_Set();
+    //if(Test_Subject->Is_Tested()) Test_Subject->Tested();
   }
 
   ~Allowance_TEST() override {

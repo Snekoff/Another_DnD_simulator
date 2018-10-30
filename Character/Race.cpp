@@ -213,7 +213,6 @@ void Dragonborn::Create(int sub_type, int height_, int weight_, int age_, Allowa
   age = age_;
   if (!allowance->Is_Tested()) { Size_Set(); };
   if (!allowance->Is_Character_Set()) {
-    //if (!allowance->Is_Tested()) { Size_Set(); };
     subRaceFeatures();
   };
 }
@@ -259,7 +258,6 @@ void Dwarf::Create(int sub_type, int height_, int weight_, int age_, Allowance *
   weight = weight_;
   age = age_;
   if (!allowance->Is_Tested()) { Size_Set(); };
-  //if (!allowance->Is_Tested()) { Size_Set(); };
   if (!allowance->Is_Character_Set()) {
     subRaceFeatures();
   };
@@ -323,7 +321,6 @@ void Elf::Create(int sub_type, int height_, int weight_, int age_, Allowance *al
   age = age_;
   if (!allowance->Is_Tested()) { Size_Set(); };
   if (!allowance->Is_Character_Set()) {
-    //if (!allowance->Is_Tested()) { Size_Set(); };
     subRaceFeatures();
   };
 }
@@ -370,7 +367,6 @@ void Gnome::Create(int sub_type, int height_, int weight_, int age_, Allowance *
   age = age_;
   if (!allowance->Is_Tested()) { Size_Set(); };
   if (!allowance->Is_Character_Set()) {
-    //if (!allowance->Is_Tested()) { Size_Set(); };
     subRaceFeatures();
   };
 }
@@ -407,7 +403,6 @@ void Goblin::Create(int sub_type, int height_, int weight_, int age_, Allowance 
   age = age_;
   if (!allowance->Is_Tested()) { Size_Set(); };
   if (!allowance->Is_Character_Set()) {
-    //if (!allowance->Is_Tested()) { Size_Set(); };
     subRaceFeatures();
   };
 }
@@ -462,7 +457,6 @@ void Half_Elf::Create(int sub_type, int height_, int weight_, int age_, Allowanc
   age = age_;
   if (!allowance->Is_Tested()) { Size_Set(); };
   if (!allowance->Is_Character_Set()) {
-    //if (!allowance->Is_Tested()) { Size_Set(); };
     subRaceFeatures();
   };
 }
@@ -506,7 +500,6 @@ void Half_Orc::Create(int sub_type, int height_, int weight_, int age_, Allowanc
   age = age_;
   if (!allowance->Is_Tested()) { Size_Set(); };
   if (!allowance->Is_Character_Set()) {
-    //if (!allowance->Is_Tested()) { Size_Set(); };
     subRaceFeatures();
   };
 }
@@ -551,7 +544,6 @@ void Halfling::Create(int sub_type, int height_, int weight_, int age_, Allowanc
   age = age_;
   if (!allowance->Is_Tested()) { Size_Set(); };
   if (!allowance->Is_Character_Set()) {
-    //if (!allowance->Is_Tested()) { Size_Set(); };
     subRaceFeatures();
   };
 }
@@ -606,7 +598,6 @@ void Human::Create(int sub_type, int height_, int weight_, int age_, Allowance *
   age = age_;
   if (!allowance->Is_Tested()) { Size_Set(); };
   if (!allowance->Is_Character_Set()) {
-    //if (!allowance->Is_Tested()) { Size_Set(); };
     subRaceFeatures();
   };
 }
@@ -649,7 +640,6 @@ void Lizardfolk::Create(int sub_type, int height_, int weight_, int age_, Allowa
   age = age_;
   if (!allowance->Is_Tested()) { Size_Set(); };
   if (!allowance->Is_Character_Set()) {
-    //if (!allowance->Is_Tested()) { Size_Set(); };
     subRaceFeatures();
   };
 }
@@ -739,7 +729,6 @@ void Tiefling::Create(int sub_type, int height_, int weight_, int age_, Allowanc
   age = age_;
   if (!allowance->Is_Tested()) { Size_Set(); };
   if (!allowance->Is_Character_Set()) {
-    //if (!allowance->Is_Tested()) { Size_Set(); };
     subRaceFeatures();
   };
 }

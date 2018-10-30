@@ -21,7 +21,7 @@ class Items_Factory {
 class Complex_Factory {
  public:
   virtual Item * Factory_Complex(std::string &name_, int quantity) {
-    Items_Factory<Weapon> Weapon_Factory;
+    Items_Factory<Melee_Weapon> Weapon_Factory;
     Items_Factory<Ranged_Weapon> Ranged_Weapon_Factory;
     Items_Factory<Armor> Armor_Factory;
     Items_Factory<Usables> Usables_Factory;

@@ -9,7 +9,7 @@ TEST_F(Allowance_TEST, AllowanceGetIsCharacterSetShouldReturnTrueIfChangedOnceTe
   EXPECT_EQ(Test_Subject->Is_Character_Set(), true);
 }
 
-TEST_F(Allowance_TEST, AllowanceGetIsCharacterSetShouldReturnFalseIfChangedTwiceTest){
+TEST_F(Allowance_TEST, AllowanceIsCharacterSetShouldReturnFalseIfChangedTwiceTest){
   Test_Subject->Character_Set();// Is_Character_Set = true
   Test_Subject->Character_Set();// Is_Character_Set = false
   EXPECT_EQ(Test_Subject->Is_Character_Set(), false);

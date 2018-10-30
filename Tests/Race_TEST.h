@@ -14,7 +14,8 @@ class Race_TEST : public ::testing::Test {
 
   Race_TEST(){
     allowance = new Allowance();
-    allowance->Tested();
+    if(!allowance->Is_Tested())allowance->Tested();
+    if(allowance->Is_Character_Set())allowance->Character_Set();
     Test_Subject = new Elf(0,1,1,1,allowance);
   }
   // You can do set-up work for each test here.

@@ -16,12 +16,13 @@ class Classes_TEST : public ::testing::Test {
 
   Classes_TEST(){
     allowance = new Allowance();
-    allowance->Tested();
+    if(!allowance->Is_Tested()) allowance->Tested();
     for(int i = 0; i < kSkills_Num; i++){
       skills_b.push_back(false);
     }
-    allowance->Character_Set();
+    if(!allowance->Is_Character_Set()) allowance->Character_Set();
     Test_Subject = new Class();
+    Test_Subject->Create(allowance, 0, skills_b);
   }
   // You can do set-up work for each test here.
 

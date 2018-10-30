@@ -623,8 +623,8 @@ void Character::Set(int what, int value) {// what - what parameter will be chang
     }
     case 18: {
       auto allowance = new Allowance();
-      allowance->Tested();
-      allowance->Character_Set();
+      if(!allowance->Is_Tested())allowance->Tested();
+      if(!allowance->Is_Character_Set())allowance->Character_Set();
       classType.Create(allowance, value, skills_b);
       health_dice = classType.get(kGetHealth_dice);
       for (int i = 0; i < kSkills_Num; i++) {

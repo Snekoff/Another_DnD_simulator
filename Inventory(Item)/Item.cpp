@@ -62,11 +62,11 @@ std::string Item::What_class() {
   return what_class_is_it;
 }
 
-Weapon::Weapon() = default;
-Weapon::Weapon(std::string &name_) {
+Melee_Weapon::Melee_Weapon() = default;
+Melee_Weapon::Melee_Weapon(std::string &name_) {
   set(name_, 1);
 }
-Weapon::Weapon(std::string &name_, int count_) {
+Melee_Weapon::Melee_Weapon(std::string &name_, int count_) {
   num_of_dices = 0;
   damage_dice = 0;
   type_of_elemental_damage = 0;
@@ -75,8 +75,8 @@ Weapon::Weapon(std::string &name_, int count_) {
 /*Weapon::Weapon(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_) {
   set(name_, count_, num_of_dices_, damage_dice_, type_of_elemental_damage_);
 }*/
-Weapon::~Weapon() = default;
-void Weapon::set(std::string &name_, int count_) {
+Melee_Weapon::~Melee_Weapon() = default;
+void Melee_Weapon::set(std::string &name_, int count_) {
   //std::cout << "Control reach Item:Weapon:set 0\n";
   Existing_Items E_I;
   equiped = false;
@@ -97,14 +97,14 @@ void Weapon::set(std::string &name_, int count_) {
   count = count_;
   what_class_is_it = "Weapon";
 }
-int Weapon::show() {
+int Melee_Weapon::show() {
   Existing_Items E_I;
   std::cout << name << std::endl;
   std::cout << "Damage " << num_of_dices << "d" << damage_dice <<
             " element: " << E_I.elements[type_of_elemental_damage] << std::endl;
   return damage_dice;
 }
-int Weapon::get(int a) {
+int Melee_Weapon::get(int a) {
   if (a == 0) { return cost; }
   else if (a == 1) { return weight; }
   else if (a == 2) { return count; }
@@ -179,25 +179,6 @@ int Ranged_Weapon::get(int a) {
   return -1;
 }
 
-/*class Food : public Item {
- public:
-  Food(std::string &name_, int count_) {
-    set(name_, count_);
-  }
-  ~Food() = default;
-  void set(std::string &name_, int count_) {
-    name = name_;
-    count = count_;
-    stackable = true;
-  }
-  int show() {
-    printf("%s", "Usable:");
-    std::cout << name << std::endl;
-    return count;
-  }
-};*/
-
-
 Armor::Armor(std::string &name_) {
   set(name_, 1);
 }
@@ -256,43 +237,43 @@ int Armor::get(int a) {
   return -1;
 }
 
-Usables::Usables() {
+Goods::Goods() {
   stackable = false;
   is_obstacle = false;
 };
-Usables::Usables(std::string &name_, int count_) {
+Goods::Goods(std::string &name_, int count_) {
   stackable = false;
   is_obstacle = false;
   set(name_, count_);
 }
-Usables::Usables(std::string &name_) {
+Goods::Goods(std::string &name_) {
   stackable = false;
   is_obstacle = false;
   set(name_, 1);
 }
-Usables::~Usables() = default;
-void Usables::set(std::string &name_, int count_) {
+Goods::~Goods() = default;
+void Goods::set(std::string &name_, int count_) {
   Existing_Items E_I;
   equiped = false;
-  for (int i = 0; i < kUsable_NUM; i++) {
-    if (E_I.Usable_s[i] == name_) {
+  for (int i = 0; i < kGoods_NUM; i++) {
+    if (E_I.Goods_s[i] == name_) {
       name = name_;
-      cost = E_I.Usable_i[i][0];
-      weight = E_I.Usable_i[i][1];
-      if (E_I.Usable_i[i][2] != 0) is_obstacle = true;
+      cost = E_I.Goods_i[i][0];
+      weight = E_I.Goods_i[i][1];
+      if (E_I.Goods_i[i][2] != 0) is_obstacle = true;
       break;
     }
   }
   count = count_;
   stackable = false;
-  what_class_is_it = "Usables";
+  what_class_is_it = "Goods";
 }
-int Usables::show() {
-  printf("%s", "Usable: ");
+int Goods::show() {
+  printf("%s", "Goods: ");
   std::cout << name << std::endl;
   return count;
 }
-int Usables::get(int a) {
+int Goods::get(int a) {
   if (a == 0) { return cost; }
   else if (a == 1) { return weight; }
   else if (a == 2) { return count; }
@@ -335,7 +316,7 @@ void Ammo::set(std::string &name_, int count_) {
   what_class_is_it = "Ammo";
 }
 int Ammo::show() {
-  printf("%s", "Usable:");
+  printf("%s", "Goods:");
   std::cout << name << std::endl;
   return count;
 }
@@ -385,7 +366,7 @@ void Magic_Items::set(std::string &name_, int count_) {
   what_class_is_it = "Magic_Items";
 }
 int Magic_Items::show() {
-  printf("%s", "Usable:");
+  printf("%s", "Goods:");
   std::cout << name << std::endl;
   return count;
 }
@@ -402,5 +383,350 @@ int Magic_Items::get(int a) {
   else if (a == 9) { return num_equiped; }
   return -1;
 }
+
+//012030122222222222222224295392485709485739084593847529384705234509823745983475029834579238547093845720398457
+
+ArtisanTools::ArtisanTools() = default;
+ArtisanTools::ArtisanTools(std::string &name_) {
+  set(name_, 1);
+}
+ArtisanTools::ArtisanTools(std::string &name_, int count_) {
+  set(name_, count_);
+}
+ArtisanTools::~ArtisanTools() = default;
+void ArtisanTools::set(std::string &name_, int count_) {
+  what_class_is_it = "ArtisanTools";
+}
+int ArtisanTools::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+Ship::Ship() = default;
+Ship::Ship(std::string &name_) {
+  set(name_, 1);
+}
+Ship::Ship(std::string &name_, int count_) {
+  set(name_, count_);
+}
+Ship::~Ship() = default;
+void Ship::set(std::string &name_, int count_) {
+  what_class_is_it = "Ship";
+}
+int Ship::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+Valuables::Valuables() = default;
+Valuables::Valuables(std::string &name_) {
+  set(name_, 1);
+}
+Valuables::Valuables(std::string &name_, int count_) {
+  set(name_, count_);
+}
+Valuables::~Valuables() = default;
+void Valuables::set(std::string &name_, int count_) {
+  what_class_is_it = "Valuables";
+}
+int Valuables::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+SpellCastingFocus::SpellCastingFocus() = default;
+SpellCastingFocus::SpellCastingFocus(std::string &name_) {
+  set(name_, 1);
+}
+SpellCastingFocus::SpellCastingFocus(std::string &name_, int count_) {
+  set(name_, count_);
+}
+SpellCastingFocus::~SpellCastingFocus() = default;
+void SpellCastingFocus::set(std::string &name_, int count_) {
+  what_class_is_it = "SpellCastingFocus";
+}
+int SpellCastingFocus::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+Shield::Shield() = default;
+Shield::Shield(std::string &name_) {
+  set(name_, 1);
+}
+Shield::Shield(std::string &name_, int count_) {
+  set(name_, count_);
+}
+Shield::~Shield() = default;
+void Shield::set(std::string &name_, int count_) {
+  what_class_is_it = "Shield";
+}
+int Shield::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+Instrument::Instrument() = default;
+Instrument::Instrument(std::string &name_) {
+  set(name_, 1);
+}
+Instrument::Instrument(std::string &name_, int count_) {
+  set(name_, count_);
+}
+Instrument::~Instrument() = default;
+void Instrument::set(std::string &name_, int count_) {
+  what_class_is_it = "Instrument";
+}
+int Instrument::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+Ring::Ring() = default;
+Ring::Ring(std::string &name_) {
+  set(name_, 1);
+}
+Ring::Ring(std::string &name_, int count_) {
+  set(name_, count_);
+}
+Ring::~Ring() = default;
+void Ring::set(std::string &name_, int count_) {
+  what_class_is_it = "Ring";
+}
+int Ring::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+AnimalGear::AnimalGear() = default;
+AnimalGear::AnimalGear(std::string &name_) {
+  set(name_, 1);
+}
+AnimalGear::AnimalGear(std::string &name_, int count_) {
+  set(name_, count_);
+}
+AnimalGear::~AnimalGear() = default;
+void AnimalGear::set(std::string &name_, int count_) {
+  what_class_is_it = "AnimalGear";
+}
+int AnimalGear::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+Explosive::Explosive() = default;
+Explosive::Explosive(std::string &name_) {
+  set(name_, 1);
+}
+Explosive::Explosive(std::string &name_, int count_) {
+  set(name_, count_);
+}
+Explosive::~Explosive() = default;
+void Explosive::set(std::string &name_, int count_) {
+  what_class_is_it = "Explosive";
+}
+int Explosive::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+Potion::Potion() = default;
+Potion::Potion(std::string &name_) {
+  set(name_, 1);
+}
+Potion::Potion(std::string &name_, int count_) {
+  set(name_, count_);
+}
+Potion::~Potion() = default;
+void Potion::set(std::string &name_, int count_) {
+  what_class_is_it = "Potion";
+}
+int Potion::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+Mounties::Mounties() = default;
+Mounties::Mounties(std::string &name_) {
+  set(name_, 1);
+}
+Mounties::Mounties(std::string &name_, int count_) {
+  set(name_, count_);
+}
+Mounties::~Mounties() = default;
+void Mounties::set(std::string &name_, int count_) {
+  what_class_is_it = "Mounties";
+}
+int Mounties::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+Vehicle::Vehicle() = default;
+Vehicle::Vehicle(std::string &name_) {
+  set(name_, 1);
+}
+Vehicle::Vehicle(std::string &name_, int count_) {
+  set(name_, count_);
+}
+Vehicle::~Vehicle() = default;
+void Vehicle::set(std::string &name_, int count_) {
+  what_class_is_it = "Vehicle";
+}
+int Vehicle::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+TradeGoods::TradeGoods() = default;
+TradeGoods::TradeGoods(std::string &name_) {
+  set(name_, 1);
+}
+TradeGoods::TradeGoods(std::string &name_, int count_) {
+  set(name_, count_);
+}
+TradeGoods::~TradeGoods() = default;
+void TradeGoods::set(std::string &name_, int count_) {
+  what_class_is_it = "TradeGoods";
+}
+int TradeGoods::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+GamingSet::GamingSet() = default;
+GamingSet::GamingSet(std::string &name_) {
+  set(name_, 1);
+}
+GamingSet::GamingSet(std::string &name_, int count_) {
+  set(name_, count_);
+}
+GamingSet::~GamingSet() = default;
+void GamingSet::set(std::string &name_, int count_) {
+  what_class_is_it = "GamingSet";
+}
+int GamingSet::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+Device::Device() = default;
+Device::Device(std::string &name_) {
+  set(name_, 1);
+}
+Device::Device(std::string &name_, int count_) {
+  set(name_, count_);
+}
+Device::~Device() = default;
+void Device::set(std::string &name_, int count_) {
+  what_class_is_it = "Device";
+}
+int Device::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+Tools::Tools() = default;
+Tools::Tools(std::string &name_) {
+  set(name_, 1);
+}
+Tools::Tools(std::string &name_, int count_) {
+  set(name_, count_);
+}
+Tools::~Tools() = default;
+void Tools::set(std::string &name_, int count_) {
+  what_class_is_it = "Tools";
+}
+int Tools::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+Rod::Rod() = default;
+Rod::Rod(std::string &name_) {
+  set(name_, 1);
+}
+Rod::Rod(std::string &name_, int count_) {
+  set(name_, count_);
+}
+Rod::~Rod() = default;
+void Rod::set(std::string &name_, int count_) {
+  what_class_is_it = "Rod";
+}
+int Rod::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+Scroll::Scroll() = default;
+Scroll::Scroll(std::string &name_) {
+  set(name_, 1);
+}
+Scroll::Scroll(std::string &name_, int count_) {
+  set(name_, count_);
+}
+Scroll::~Scroll() = default;
+void Scroll::set(std::string &name_, int count_) {
+  what_class_is_it = "Scroll";
+}
+int Scroll::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+Wand::Wand() = default;
+Wand::Wand(std::string &name_) {
+  set(name_, 1);
+}
+Wand::Wand(std::string &name_, int count_) {
+  set(name_, count_);
+}
+Wand::~Wand() = default;
+void Wand::set(std::string &name_, int count_) {
+  what_class_is_it = "Wand";
+}
+int Wand::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
 
 

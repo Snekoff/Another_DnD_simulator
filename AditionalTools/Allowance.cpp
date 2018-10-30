@@ -1,7 +1,10 @@
 
 #include "Allowance.h"
 
-Allowance::Allowance() = default;
+Allowance::Allowance(){
+  is_character_set = false;
+  is_tested = false;
+}
 
 Allowance::~Allowance() = default;
 

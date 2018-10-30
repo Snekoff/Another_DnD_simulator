@@ -20,7 +20,7 @@ TEST_F(Race_TEST, SizeTest){
   EXPECT_EQ(Test_Subject->get(11),2);//Size
 }
 
-TEST_F(Race_TEST, DamageResTest){
+TEST_F(Race_TEST, DamageResistanceTest){
   EXPECT_EQ(Test_Subject->get(13),0);//DamageResistance
 }
 

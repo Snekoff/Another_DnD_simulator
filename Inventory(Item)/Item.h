@@ -18,14 +18,15 @@ const int kAmmo_NUM = 4;
 const int kAmmo_Parameters_Num = 4;
 const int kArmor_NUM = 13;
 const int kArmor_Parameters_Num = 5;
-const int kUsable_NUM = 81;
-const int kUsable_Parameters_Num = 3;
+const int kGoods_NUM = 81;
+const int kGoods_Parameters_Num = 3;
 const int kMagic_Items_NUM = 13;
 const int kMagic_Items_Parameters_Num = 3;
-const int kAll_Num = kWeapon_NUM + kRanged_Weapon_NUM + kAmmo_NUM + kArmor_NUM + kUsable_NUM + kMagic_Items_NUM;
+const int kAll_Num = kWeapon_NUM + kRanged_Weapon_NUM + kAmmo_NUM + kArmor_NUM + kGoods_NUM + kMagic_Items_NUM;
 const int kItem_Types = 6;
 const int kDamage_Types = 6;// bludgeoning not included and so on
 const int kArmor_types = 3;
+const int kClass_NuM = 12;
 
 struct Existing_Items {
   std::string elements[kElements_Num] = {"no", "acid", "lightning", "fire", "cold", "poison"};
@@ -74,7 +75,7 @@ struct Existing_Items {
                               true,
                               false};
   // stealth_disadvantage
-  std::string Usable_s[kUsable_NUM] = {"Abacus",
+  std::string Goods_s[kGoods_NUM] = {"Abacus",
                                        "Acid_vial", "Alchemists_fire_flask",
                                        "Antitoxin", "Backpack", "Ball_bearings", "Barrel", "Basket", "Bedroll", "Bell",
                                        "Blanket", "Block_and_tackle", "Book", "Bottle_glass", "Bucket", "Caltrops",
@@ -91,7 +92,7 @@ struct Existing_Items {
                                        "Scale_merchant`s", "Sealing_wax", "Shovel", "Signal_whistle", "Signet_ring",
                                        "Soap", "Spellbook", "Spikes_iron", "Spyglass", "Tent_two_person", "Tinderbox",
                                        "Torch", "Vial", "Waterskin", "Whetstone"};
-  int Usable_i[kUsable_NUM][kUsable_Parameters_Num] = {{200, 2, 0},
+  int Goods_i[kGoods_NUM][kGoods_Parameters_Num] = {{200, 2, 0},
                                                        {25 * 100, 1, 0}, {50 * 100, 1, 0},
                                                        {50 * 100, 0, 0}, {2 * 100, 5, 0}, {1 * 100, 2, 1},
                                                        {2 * 100, 70, 0}, {4 * 10, 2, 0},
@@ -181,7 +182,15 @@ struct Existing_Items {
                                  "Crystal", "Orb", "Rod", "Staff", "Wand", "Spring_of_mistletoe", "Totem",
                                  "Wooden_staff", "Yew_wand", "Amulet", "Emblem", "Reliquary", "Potion_of_healing"};
 };
-
+//types = {"G", "M", "SHP", "AT", "$", "SCF", "S",
+// "HA", "INS", "RG", "TAH", "MA", "EXP", "P", "MNT",
+// "VEH", "TG", "GS", "EM", "T", "LA", "OTH", "RD", "R"
+// "SC", "A", "WD", "GV", "", "", "", "", "", "", "", "", }
+// Goods, Melee, Ship, Artisan Tools, Valuables, Spell Casting Focus, Shield,
+// Heavy Armor, Instrument (music)?, Ring, To Animal Handle?, MediumArmor, Explosive, Potions, Mounties
+// Vehicle, Trade Goods, Gaming Set, ElectronicMachines???, Tools, Light Armor, OTH, Rod, Ranged
+// Scroll, Ammo?, Wand, GV?
+// No DMG, TftYP, ToA because of (no type)
 class Item {
  protected:
   bool equiped;
@@ -192,6 +201,10 @@ class Item {
   int cost;
   int weight;
   std::string what_class_is_it;
+  std::string source;
+  std::string rarity;
+  std::string tier;
+  std::vector<std::string> entries;
  public:
   Item();
   ~Item();
@@ -205,23 +218,23 @@ class Item {
   virtual std::string What_class();
 };
 
-class Weapon : public Item {
+class Melee_Weapon : public Item {
  protected:
   int num_of_dices;
   int damage_dice;
   int type_of_elemental_damage;
  public:
-  Weapon();
-  Weapon(std::string &name_);
-  Weapon(std::string &name_, int count_);
+  Melee_Weapon();
+  Melee_Weapon(std::string &name_);
+  Melee_Weapon(std::string &name_, int count_);
   //Weapon(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_);
-  ~Weapon();
+  ~Melee_Weapon();
   virtual void set(std::string &name_, int count_);
   int show() override;
   virtual int get(int a);
 };
 
-class Ranged_Weapon : public Weapon {
+class Ranged_Weapon : public Melee_Weapon {
  protected:
   int aiming_range;
   int max_range;
@@ -251,7 +264,7 @@ class Ranged_Weapon : public Weapon {
     stackable = true;
   }
   int show() {
-    printf("%s", "Usable:");
+    printf("%s", "Goods:");
     std::cout << name << std::endl;
     return count;
   }
@@ -274,21 +287,21 @@ class Armor : public Item {
   int get(int a) override;
 };
 
-class Usables : public Item {
+class Goods : public Item {
  private:
   bool is_obstacle;
  public:
-  Usables();
-  Usables(std::string &name_, int count_);
-  Usables(std::string &name_);
-  ~Usables();
+  Goods();
+  Goods(std::string &name_, int count_);
+  Goods(std::string &name_);
+  ~Goods();
   virtual void set(std::string &name_, int count_);
   int show() override;
 
   virtual int get(int a);
 };
 
-class Ammo : public Usables {
+class Ammo : public Goods {
  protected:
   int ammo_damage;
   int element;
@@ -322,5 +335,297 @@ class Magic_Items : public Item {
 
   int get(int a) override;
 };
+
+class ArtisanTools : public Item {
+ private:
+ public:
+  ArtisanTools();
+  ArtisanTools(std::string &name_);
+  ArtisanTools(std::string &name_, int count_);
+  ~ArtisanTools();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class Ship : public Item {
+ private:
+  int speed;
+  int carryingcapacity;
+  int crew;
+  int vehAc;
+  int vehHp;
+  int vehDmgThresh;
+ public:
+  Ship();
+  Ship(std::string &name_);
+  Ship(std::string &name_, int count_);
+  ~Ship();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class Valuables : public Item {
+ private:
+ public:
+  Valuables();
+  Valuables(std::string &name_);
+  Valuables(std::string &name_, int count_);
+  ~Valuables();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class SpellCastingFocus : public Item {
+ private:
+  int scfType;//holy, druid, arcane
+ public:
+  SpellCastingFocus();
+  SpellCastingFocus(std::string &name_);
+  SpellCastingFocus(std::string &name_, int count_);
+  ~SpellCastingFocus();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class Shield : public Item {
+ private:
+  int ac;
+ public:
+  Shield();
+  Shield(std::string &name_);
+  Shield(std::string &name_, int count_);
+  ~Shield();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class Instrument : public Item {
+ private:
+
+ public:
+  Instrument();
+  Instrument(std::string &name_);
+  Instrument(std::string &name_, int count_);
+  ~Instrument();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class Ring : public Item {
+ private:
+  int resistance_type;
+ public:
+  Ring();
+  Ring(std::string &name_);
+  Ring(std::string &name_, int count_);
+  ~Ring();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class AnimalGear : public Item {
+ private:
+
+ public:
+  AnimalGear();
+  AnimalGear(std::string &name_);
+  AnimalGear(std::string &name_, int count_);
+  ~AnimalGear();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class Explosive : public Item {
+ private:
+  std::string age;
+ public:
+  Explosive();
+  Explosive(std::string &name_);
+  Explosive(std::string &name_, int count_);
+  ~Explosive();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class Potion : public Item {
+ private:
+ public:
+  Potion();
+  Potion(std::string &name_);
+  Potion(std::string &name_, int count_);
+  ~Potion();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class Mounties : public Item {
+ private:
+  int carryingcapacity;
+  int speed;
+ public:
+  Mounties();
+  Mounties(std::string &name_);
+  Mounties(std::string &name_, int count_);
+  ~Mounties();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class Vehicle : public Item {
+ private:
+ public:
+  Vehicle();
+  Vehicle(std::string &name_);
+  Vehicle(std::string &name_, int count_);
+  ~Vehicle();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class TradeGoods : public Item {
+ private:
+
+ public:
+  TradeGoods();
+  TradeGoods(std::string &name_);
+  TradeGoods(std::string &name_, int count_);
+  ~TradeGoods();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class GamingSet : public Item {
+ private:
+
+ public:
+  GamingSet();
+  GamingSet(std::string &name_);
+  GamingSet(std::string &name_, int count_);
+  ~GamingSet();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class Device : public Item {
+ private:
+  bool reqAttune;//?
+ public:
+  Device();//EM
+  Device(std::string &name_);
+  Device(std::string &name_, int count_);
+  ~Device();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class Tools : public Item {
+ private:
+
+ public:
+  Tools();
+  Tools(std::string &name_);
+  Tools(std::string &name_, int count_);
+  ~Tools();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class OTH : public Item {
+ private:
+
+ public:
+  OTH();
+  OTH(std::string &name_);
+  OTH(std::string &name_, int count_);
+  ~OTH();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class Rod : public Item {
+ private:
+  bool reqAttune;
+  bool reqAttuneByWho[kClass_NuM];//classes
+ public:
+  Rod();
+  Rod(std::string &name_);
+  Rod(std::string &name_, int count_);
+  ~Rod();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class Scroll : public Item {
+ private:
+
+ public:
+  Scroll();
+  Scroll(std::string &name_);
+  Scroll(std::string &name_, int count_);
+  ~Scroll();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class Wand : public Item {
+ private:
+  bool reqAttune;
+  bool reqAttuneByWho[kClass_NuM];//classes
+ public:
+  Wand();
+  Wand(std::string &name_);
+  Wand(std::string &name_, int count_);
+  ~Wand();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+class GV : public Item {
+ private:
+
+ public:
+  GV();
+  GV(std::string &name_);
+  GV(std::string &name_, int count_);
+  ~GV();
+  void set(std::string &name_, int count_);
+
+  int get(int a) override;
+};
+
+/*class  : public Item {
+ private:
+
+ public:
+  Magic_Items();
+  Magic_Items(std::string &name_);
+  Magic_Items(std::string &name_, int count_);
+  ~Magic_Items();
+  void set(std::string &name_, int count_);
+
+  int show() override;
+
+  int get(int a) override;
+};*/
 
 #endif //ANOTHER_DND_SIMULATOR_ITEM_H
