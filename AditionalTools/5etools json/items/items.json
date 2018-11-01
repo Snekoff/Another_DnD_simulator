@@ -12725,7 +12725,7 @@
 			]
 		},
 		{
-			"name": "Rod of the Pact Keeper, +1",
+			"name": "Rod of the Pact Keeper, (+1)",
 			"type": "RD",
 			"weight": "2",
 			"tier": "Major",
@@ -12755,7 +12755,7 @@
 			]
 		},
 		{
-			"name": "Rod of the Pact Keeper, +2",
+			"name": "Rod of the Pact Keeper (+2)",
 			"type": "RD",
 			"weight": "2",
 			"tier": "Major",
@@ -12785,7 +12785,7 @@
 			]
 		},
 		{
-			"name": "Rod of the Pact Keeper, +3",
+			"name": "Rod of the Pact Keeper (+3)",
 			"type": "RD",
 			"weight": "2",
 			"tier": "Major",
@@ -17412,7 +17412,7 @@
 			"charges": 3
 		},
 		{
-			"name": "Wand of the War Mage, +1",
+			"name": "Wand of the War Mage (+1)",
 			"type": "WD",
 			"weight": "1",
 			"tier": "Major",
@@ -17425,7 +17425,7 @@
 			]
 		},
 		{
-			"name": "Wand of the War Mage, +2",
+			"name": "Wand of the War Mage (+2)",
 			"type": "WD",
 			"weight": "1",
 			"tier": "Major",
@@ -17438,7 +17438,7 @@
 			]
 		},
 		{
-			"name": "Wand of the War Mage, +3",
+			"name": "Wand of the War Mage (+3)",
 			"type": "WD",
 			"weight": "1",
 			"tier": "Major",

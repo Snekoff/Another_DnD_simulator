@@ -26,7 +26,7 @@ class Game {
 
   ~Game();
 
-  void Character_create(Random_Generator_ * Rand_gen);
+  void Party_create(Random_Generator_ *Rand_gen);
 
   vector<int> Set_Character_Abilities(vector<int> abilities);
 

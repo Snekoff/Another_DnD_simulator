@@ -12,9 +12,9 @@ Game::Game() {
 Game::Game(int start, int journey) {
   Rand_gen = new Random_Generator_();
   allowance = new Allowance();
-  cout << "Start new game: 1\nLoad saved game: 2\nLoad saved party and add players/familiars/NPC: 3\n";
+  cout << "Start new game: 1\nLoad saved game: 2\nLoad saved party and add players/familiars/NPC: 3 (not done yet)\n";
   int new_or_load = 0;
-  new_or_load = IsNumber(new_or_load, 1, 3);
+  new_or_load = IsNumber(new_or_load, 1, 2);
   if (new_or_load == 2) {
     Party_Load();
     // to be deleted
@@ -38,10 +38,10 @@ Game::Game(int start, int journey) {
     //or
     //NPC(only pre-saved)
     //or
-    //Character_create(Rand_gen);
+    //Party_create(Rand_gen);
     //}
   }
-  else if(new_or_load == 1) Character_create(Rand_gen);
+  else if(new_or_load == 1) Party_create(Rand_gen);
   //auto FieldOfHonor = new Battleground(X,Y,Z);
 }
 
@@ -50,7 +50,7 @@ Game::~Game() {
   delete Rand_gen;
 };
 
-void Game::Character_create(Random_Generator_ *Rand_gen) {
+void Game::Party_create(Random_Generator_ *Rand_gen) {
   cout << "Welcome adventurer. We start with character creation, shouldn't we?\n";
   cout << "Lets start with a number of current players except master. Type it.\n";
   cout << "( You will be able to add or delete character during your game )\n";

@@ -212,19 +212,20 @@ int Character::Ability_Random_Sets(Random_Generator_ *Rand_gen, int rand_seed_ch
     int first_or_second_set = -1;
     int ability_[kAbilities_Num];
     bool checked[kAbilities_Num] = {false};
-    first_or_second_set = IsNumber<int>(first_or_second_set, 1, 3);
+    first_or_second_set = IsNumber(first_or_second_set, 1, 3);
     if (first_or_second_set == 3) return Ability_Random_Sets(Rand_gen, 0);
     cout << "type six numbers what represents to what ability  you apply each value "
             "1.Str, 2.Dex, 3.Con, 4.Int, 5.Wis, 6.Cha\n";
     for (int i = 0; i < kAbilities_Num; i++) {
-      ability_[i] = IsNumber<int>(ability_[i], 1, kAbilities_Num);
+      ability_[i] = IsNumber(ability_[i], 1, kAbilities_Num);
       if (!checked[ability_[i] - 1]) checked[ability_[i] - 1] = true;
       else {
-        while (checked[ability_[i]]) {
+        while (checked[ability_[i] - 1]) {
           cout << "You have already used this number ";
           cout << ability_[i] << endl;
           ability_[i] = IsNumber<int>(ability_[i], 1, kAbilities_Num);
         }
+        checked[ability_[i] - 1] = true;
       }
       if (i == 0) { Str = Sets[(int) (pow(kAbilities_Num, first_or_second_set - 1)) - 1 + i]; }
       else if (i == 1) { Dex = Sets[(int) (pow(kAbilities_Num, first_or_second_set - 1)) - 1 + i]; }
@@ -411,6 +412,9 @@ void Character::StorySetsSkills(Allowance * allowance) {
     name_ = "Clothes_common";
     inventory.push_back(Factory_Complex(name_, 1));
     Add_To_Item_Map(name_);
+    name_ = "Playing Card Set";
+    inventory.push_back(Factory_Complex(name_, 1));
+    Add_To_Item_Map(name_);
     skills_b[3] = true;
     skills_b[7] = true;
   } else if (storyline_i == 12) {
@@ -481,7 +485,7 @@ void Character::Race_Choosal(Allowance * allowance) {
           "Type number, and proceed\n";
   int race = 9;
   race = IsNumber<int>(race, 1, kRace_Num);
-  int subrace = 0;
+  int subrace = 1;
   if (race == 1) {
     cout << "Choose your subrace. What it will be?\n";
     cout << "1. Black (Acid) 30ft. line\n"
@@ -887,7 +891,15 @@ void Character::Equip_Item(int where, Item *what) {
   where = Correctness_of_input<int>(where, 0, kEquip_places - 1);
   what->equip(1);
   if (Equipped[where] != nullptr) {// ->get(2) != 0
-    Equipped[where]->equip(-1);
+    string name_ = Equipped[where]->get_name();
+    cout << name_ << "To be unequipped\n";
+    for(auto it : items_map){
+      if(it.second->get_name() == name_){
+        it.second->equip(-1);
+        break;
+      }
+    }
+    //Equipped[where]->equip(-1);
   } else { cout << "null check fine\n"; }
   Equipped[where] = what;
   if (where < 2) {
