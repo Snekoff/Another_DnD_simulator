@@ -24,9 +24,12 @@ class Complex_Factory {
     Items_Factory<Melee_Weapon> Weapon_Factory;
     Items_Factory<Ranged_Weapon> Ranged_Weapon_Factory;
     Items_Factory<Armor> Armor_Factory;
-    Items_Factory<Usables> Usables_Factory;
+    Items_Factory<Goods> Goods_Factory;
     Items_Factory<Ammo> Ammo_Factory;
-    Items_Factory<Magic_Items> Magic_Items_Factory;
+    Items_Factory<SpellCastingFocus> SpellCastingFocus_Factory;
+    Items_Factory<Shield> Shield_Factory;
+    Items_Factory<Ring> Ring_Factory;
+    Items_Factory<Potion> Potion_Factory;
     Existing_Items E_I;
     for (int i = 0; i < kWeapon_NUM; i++) {
       if (name_ == E_I.Weapon_s[i]) {
@@ -48,14 +51,29 @@ class Complex_Factory {
         return Armor_Factory.create(name_, quantity);
       }
     }
-    for (int i = 0; i < kUsable_NUM; i++) {
-      if (i < kUsable_NUM && name_ == E_I.Usable_s[i]) {
-        return Usables_Factory.create(name_, quantity);
+    for (int i = 0; i < kGoods_NUM; i++) {
+      if (i < kGoods_NUM && name_ == E_I.Goods_s[i]) {
+        return Goods_Factory.create(name_, quantity);
       }
     }
-    for (int i = 0; i < kMagic_Items_NUM; i++) {
-      if (i < kMagic_Items_NUM && name_ == E_I.Magic_Items_s[i]) {
-        return Magic_Items_Factory.create(name_, quantity);
+    for (int i = 0; i < kSpellCastingFocus_NUM; i++) {
+      if (i < kSpellCastingFocus_NUM && name_ == E_I.SpellCastingFocus_s[i]) {
+        return SpellCastingFocus_Factory.create(name_, quantity);
+      }
+    }
+    for (int i = 0; i < kShield_NUM; i++) {
+      if (i < kShield_NUM && name_ == E_I.Shield_s[i]) {
+        return Shield_Factory.create(name_, quantity);
+      }
+    }
+    for (int i = 0; i < kRing_NUM; i++) {
+      if (i < kRing_NUM && name_ == E_I.Ring_s[i]) {
+        return Ring_Factory.create(name_, quantity);
+      }
+    }
+    for (int i = 0; i < kPotion_NUM; i++) {
+      if (i < kPotion_NUM && name_ == E_I.Potion_s[i]) {
+        return Potion_Factory.create(name_, quantity);
       }
     }
     return nullptr;

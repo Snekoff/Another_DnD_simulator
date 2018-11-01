@@ -421,80 +421,6 @@ int Ammo::get(int a) {
   return -1;
 }
 
-Magic_Items::Magic_Items() = default;
-Magic_Items::Magic_Items(std::string &name_) {
-  set(name_, 1);
-}
-Magic_Items::Magic_Items(std::string &name_, int count_) {
-  healing_dice = 0;
-  num_of_healing_dices = 0;
-  passive_healing = 0;
-  arcane_focus = false;
-  druidic_focus = false;
-  holy_symbol = false;
-  set(name_, count_);
-}
-Magic_Items::~Magic_Items() = default;
-void Magic_Items::set(std::string &name_, int count_) {
-  Existing_Items E_I;
-  name = " ";
-  equiped = false;
-  for (int i = 0; i < kMagic_Items_NUM; i++) {
-    if (E_I.Magic_Items_s[i] == name_) {
-      name = name_;
-      passive_healing = E_I.Magic_Items_i[i][0];
-      if (passive_healing == 2) {
-        healing_dice = 4;
-        num_of_healing_dices = 2;
-      }
-      if (E_I.Magic_Items_b[i][0]) arcane_focus = true;
-      if (E_I.Magic_Items_b[i][1]) druidic_focus = true;
-      if (E_I.Magic_Items_b[i][2]) holy_symbol = true;
-      break;
-    }
-  }
-  count = count_;
-  if(name == " "){
-    source = "Default";
-    std::ifstream inputJson;
-    inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
-    json j = json::parse(inputJson);
-    for(auto i : j["name"]){
-      if(j["item"]["type"] != NULL){
-        if(name_ == i["name"]){
-          name = name_;
-          rarity = i["rarity"];
-          weight = i["weight"];
-          source = i["source"];
-          if(i["tier"] != NULL) tier = i["tier"];
-
-          break;
-        }
-      }
-    }
-  }
-  stackable = false;
-  what_class_is_it = "Magic_Items";
-}
-int Magic_Items::show() {
-  printf("%s", "Goods:");
-  std::cout << name << std::endl;
-  return count;
-}
-int Magic_Items::get(int a) {
-  if (a == 0) { return cost; }
-  else if (a == 1) { return weight; }
-  else if (a == 2) { return count; }
-  else if (a == 3) { return healing_dice; }
-  else if (a == 4) { return num_of_healing_dices; }
-  else if (a == 5) { return passive_healing; }
-  else if (a == 6) { return arcane_focus ? 1 : -1; }
-  else if (a == 7) { return druidic_focus ? 1 : -1; }
-  else if (a == 8) { return holy_symbol ? 1 : -1; }
-  else if (a == 9) { return num_equiped; }
-  return -1;
-}
-
 //012030122222222222222224295392485709485739084593847529384705234509823745983475029834579238547093845720398457
 
 ArtisanTools::ArtisanTools() = default;
@@ -615,27 +541,38 @@ SpellCastingFocus::SpellCastingFocus(std::string &name_, int count_) {
 SpellCastingFocus::~SpellCastingFocus() = default;
 void SpellCastingFocus::set(std::string &name_, int count_) {
   weight = 0;
-  source = "Default";
-  std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
-  json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
-        name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
-        break;
-      }
+  Existing_Items E_I;
+  name = " ";
+  equiped = false;
+  for (int i = 0; i < kSpellCastingFocus_NUM; i++) {
+    if (E_I.SpellCastingFocus_s[i] == name_) {
+      name = name_;
+      cost = E_I.SpellCastingFocus_i[i][0];
+      weight = E_I.SpellCastingFocus_i[i][1];
+      if (E_I.SpellCastingFocus_b[i][0]) arcane_focus = true;
+      if (E_I.SpellCastingFocus_b[i][1]) druidic_focus = true;
+      if (E_I.SpellCastingFocus_b[i][2]) holy_symbol = true;
+      break;
     }
   }
-  if(source == "Default"){
-    Existing_Items E_I;
-    for(int i = 0; i < ; i++){
+  count = count_;
+  source = "Default";
+  if(name == " "){
+    std::ifstream inputJson;
+    inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+    json j = json::parse(inputJson);
+    for(auto i : j["name"]){
+      if(j["item"]["type"] != NULL){
+        if(name_ == i["name"]){
+          name = name_;
+          rarity = i["rarity"];
+          weight = i["weight"];
+          source = i["source"];
+          if(i["tier"] != NULL) tier = i["tier"];
 
+          break;
+        }
+      }
     }
   }
   what_class_is_it = "SpellCastingFocus";
@@ -676,8 +613,14 @@ void Shield::set(std::string &name_, int count_) {
   }
   if(source == "Default"){
     Existing_Items E_I;
-    for(int i = 0; i < ; i++){
-
+    for(int i = 0; i < kShield_NUM; i++){
+      if(name_ == E_I.Shield_s[i]){
+        name = name_;
+        cost = E_I.Shield_i[i][0];
+        weight = E_I.Shield_i[i][1];
+        ac = E_I.Shield_i[i][2];
+        break;
+      }
     }
   }
   what_class_is_it = "Shield";
@@ -755,9 +698,10 @@ void Ring::set(std::string &name_, int count_) {
   if(source == "Default"){
     Existing_Items E_I;
     for(int i = 0; i < kGoods_NUM; i++){
-      if(name_ == E_I.Goods_s[i]){
+      if(name_ == E_I.Ring_s[i]){
         name = name_;
-        cost =
+        cost = E_I.Ring_i[i][0];
+        weight = E_I.Ring_i[i][1];
         break;
       }
     }
@@ -872,8 +816,16 @@ void Potion::set(std::string &name_, int count_) {
   }
   if(source == "Default"){
     Existing_Items E_I;
-    for(int i = 0; i < ; i++){
-
+    for(int i = 0; i < kPotion_NUM; i++){
+      if(name_ == E_I.Potion_s[i]){
+        name = name_;
+        cost = E_I.Potion_i[i][0];
+        weight = E_I.Potion_i[i][1];
+        healing = E_I.Potion_i[i][2];
+        num_of_healing_dices = E_I.Potion_i[i][3];
+        healing_dice = E_I.Potion_i[i][4];
+        break;
+      }
     }
   }
   what_class_is_it = "Potion";

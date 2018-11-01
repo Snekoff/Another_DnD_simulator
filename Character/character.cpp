@@ -805,9 +805,9 @@ bool Character::Paying_Money(int how_many_copper) {
 }
 
 int Character::Add_To_Inventory() {
-  Items_Factory<Usables> Usables_Factory1;
+  Items_Factory<Goods> Goods_Factory1;
   string name_ = "Backpack";
-  inventory.push_back(Usables_Factory1.create(name_));
+  inventory.push_back(Goods_Factory1.create(name_));
   int choose_to_proceed = 0;
   Add_To_Item_Map(name_);
   inventory[inventory.size() - 1]->equip(1);
@@ -826,15 +826,18 @@ int Character::Add_To_Inventory() {
               "2. Ranged weapon\n"
               "3. Ammo\n"
               "4. Armor\n"
-              "5. Usables\n"
-              "6. Magic Items\n"
+              "5. Goods\n"
+              "6. SpellCastingFocus\n"
+              "7. Shield\n"
+              "8. Ring\n"
+              "9. Potion\n"
               "(this list will be extended in future versions)\n";
       item_ = IsNumber<int>(item_, 1, kItem_Types);
       //cout << "Control reach method Add_To_Inventory 0\n";
       cout << "Your funds: " << money[kMoney_types - 1] << endl;
       int limit[kItem_Types + 1] =
           {0, kWeapon_NUM, kRanged_Weapon_NUM + limit[1], kAmmo_NUM + limit[2], kArmor_NUM + limit[3],
-           kUsable_NUM + limit[4], kMagic_Items_NUM + limit[5]};
+           kGoods_NUM + limit[4], kSpellCastingFocus_NUM + limit[5], kShield_NUM + limit[6], kRing_NUM + limit[7], kPotion_NUM + limit[8]};
       Existing_Items E_I;
       //cout << "Control reach method Add_To_Inventory 1\n";
       for (int i = limit[item_ - 1]; i < limit[item_]; i++) {
@@ -843,8 +846,11 @@ int Character::Add_To_Inventory() {
         else if (item_ == 2) { cout << E_I.Ranged_Weapon_i[i - limit[item_ - 1]][0]; }
         else if (item_ == 3) { cout << E_I.Ammo_i[i - limit[item_ - 1]][0]; }
         else if (item_ == 4) { cout << E_I.Armor_i[i - limit[item_ - 1]][0]; }
-        else if (item_ == 5) { cout << E_I.Usable_i[i - limit[item_ - 1]][0]; }
-        else if (item_ == 6) { cout << E_I.Magic_Items_i[i - limit[item_ - 1]][0]; }
+        else if (item_ == 5) { cout << E_I.Goods_i[i - limit[item_ - 1]][0]; }
+        else if (item_ == 6) { cout << E_I.SpellCastingFocus_i[i - limit[item_ - 1]][0]; }
+        else if (item_ == 7) { cout << E_I.Shield_i[i - limit[item_ - 1]][0]; }
+        else if (item_ == 8) { cout << E_I.Ring_i[i - limit[item_ - 1]][0]; }
+        else if (item_ == 9) { cout << E_I.Potion_i[i - limit[item_ - 1]][0]; }
         cout << endl;
       }
       item_ = IsNumber<int>(item_, limit[item_ - 1], limit[item_]);

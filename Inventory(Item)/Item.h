@@ -26,9 +26,9 @@ const int kSpellCastingFocus_NUM = 12;
 const int kSpellCastingFocus_Parameters_NUM = 2;
 const int kFocus_Types_NUM = 3;
 const int kShield_NUM = 1;
-const int kShield_Parameters_NUM = 5;
+const int kShield_Parameters_NUM = 3;
 const int kRing_NUM = 1;
-const int kRing_Parameters_NUM = 3;
+const int kRing_Parameters_NUM = 2;
 const int kPotion_NUM = 1;
 const int kPotion_Parameters_NUM = 5;
 const int kAll_Num = kWeapon_NUM + kRanged_Weapon_NUM + kAmmo_NUM + kArmor_NUM + kGoods_NUM
@@ -158,10 +158,11 @@ struct Existing_Items {
        {false, false, true},
        };
   std::string Shield_s[kShield_NUM] = {"Shield"};
-  //Cost , Type , Armor_Class , Strength_needed , weight
-  int Shield_i[kShield_NUM][kShield_Parameters_NUM] = {{1000, 2, 2, 0, 6}};
+  //Cost , weight , Armor_Class
+  int Shield_i[kShield_NUM][kShield_Parameters_NUM] = {{1000, 6, 2}};
   std::string Ring_s[kRing_NUM] = {"Signet_ring"};
-  int Ring_i[kRing_NUM][kRing_Parameters_NUM] = {{5 * 100, 0, 0}};
+  //cost, weight,
+  int Ring_i[kRing_NUM][kRing_Parameters_NUM] = {{5 * 100, 0}};
   std::string Potion_s[kPotion_NUM] = {"Potion_of_healing"};
   //cost, weight, const healing, num of healing dices, healing dice
   int Potion_i[kPotion_NUM][kPotion_Parameters_NUM] = {{5000, 1, 2, 2, 4}};// 2d4+2
@@ -333,25 +334,6 @@ class Ammo : public Goods {
 
 };
 
-class Magic_Items : public Item {
- private:
-  int healing_dice;
-  int num_of_healing_dices;
-  int passive_healing;
-  bool arcane_focus;
-  bool druidic_focus;
-  bool holy_symbol;
- public:
-  Magic_Items();
-  Magic_Items(std::string &name_);
-  Magic_Items(std::string &name_, int count_);
-  ~Magic_Items();
-  void set(std::string &name_, int count_);
-  int show() override;
-
-  int get(int a) override;
-};
-
 class ArtisanTools : public Item {
  private:
  public:
@@ -396,6 +378,9 @@ class Valuables : public Item {
 
 class SpellCastingFocus : public Item {
  private:
+  bool arcane_focus;
+  bool druidic_focus;
+  bool holy_symbol;
   int scfType;//holy, druid, arcane
  public:
   SpellCastingFocus();
@@ -474,6 +459,9 @@ class Explosive : public Item {
 
 class Potion : public Item {
  private:
+  int healing;
+  int num_of_healing_dices;
+  int healing_dice;
  public:
   Potion();
   Potion(std::string &name_);
