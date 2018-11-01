@@ -524,12 +524,6 @@ void ArtisanTools::set(std::string &name_, int count_) {
       }
     }
   }
-  if(source == "Default"){
-    Existing_Items E_I;
-    for(int i = 0; i < ; i++){
-
-    }
-  }
   what_class_is_it = "ArtisanTools";
 }
 int ArtisanTools::get(int a) {
@@ -600,12 +594,6 @@ void Valuables::set(std::string &name_, int count_) {
         
         break;
       }
-    }
-  }
-  if(source == "Default"){
-    Existing_Items E_I;
-    for(int i = 0; i < ; i++){
-
     }
   }
   what_class_is_it = "Valuables";
@@ -1102,12 +1090,6 @@ void Tools::set(std::string &name_, int count_) {
         
         break;
       }
-    }
-  }
-  if(source == "Default"){
-    Existing_Items E_I;
-    for(int i = 0; i < ; i++){
-
     }
   }
   what_class_is_it = "Tools";

@@ -18,14 +18,22 @@ const int kRanged_Weapon_NUM = 9;
 const int kRanged_Weapon_Parameters_Num = 7;
 const int kAmmo_NUM = 4;
 const int kAmmo_Parameters_Num = 4;
-const int kArmor_NUM = 13;
+const int kArmor_NUM = 12;
 const int kArmor_Parameters_Num = 5;
-const int kGoods_NUM = 81;
+const int kGoods_NUM = 80;
 const int kGoods_Parameters_Num = 3;
-const int kMagic_Items_NUM = 13;
-const int kMagic_Items_Parameters_Num = 3;
-const int kAll_Num = kWeapon_NUM + kRanged_Weapon_NUM + kAmmo_NUM + kArmor_NUM + kGoods_NUM + kMagic_Items_NUM;
-const int kItem_Types = 6;
+const int kSpellCastingFocus_NUM = 12;
+const int kSpellCastingFocus_Parameters_NUM = 2;
+const int kFocus_Types_NUM = 3;
+const int kShield_NUM = 1;
+const int kShield_Parameters_NUM = 5;
+const int kRing_NUM = 1;
+const int kRing_Parameters_NUM = 3;
+const int kPotion_NUM = 1;
+const int kPotion_Parameters_NUM = 5;
+const int kAll_Num = kWeapon_NUM + kRanged_Weapon_NUM + kAmmo_NUM + kArmor_NUM + kGoods_NUM
+    + kSpellCastingFocus_NUM + kShield_NUM + kRing_NUM + kPotion_NUM ;
+const int kItem_Types = 9;
 const int kDamage_Types = 6;// bludgeoning not included and so on
 const int kArmor_types = 3;
 const int kClass_NuM = 12;
@@ -38,6 +46,7 @@ struct Existing_Items {
                                        "Greataxe", "Greatsword", "Halberd", "Lance", "Longsword", "Maul",
                                        "Morningstar", "Pike", "Rapier", "Scimitar", "Shortsword", "Trident",
                                        "War_pick", "Warhammer", "Whip"};
+  //cost(copper), num_of_dices, damage_dice, weight, type_of_elemental_damage
   int Weapon_i[kWeapon_NUM][kWeapon_Parameters_Num] =
       {{10, 1, 4, 2, 0}, {200, 1, 4, 2, 0}, {20, 1, 8, 10, 0}, {500, 1, 6, 2, 0}, {50, 1, 6, 2, 0},
        {200, 1, 4, 2, 0}, {500, 1, 6, 4, 0}, {20, 1, 6, 4, 0}, {100, 1, 4, 2, 0}, {100, 1, 6, 3, 0},
@@ -46,37 +55,33 @@ struct Existing_Items {
        {1500, 1, 8, 3, 0}, {1000, 2, 6, 10, 0}, {1500, 1, 8, 4, 0}, {500, 1, 10, 18, 0},
        {2500, 1, 8, 2, 0}, {2500, 1, 6, 3, 0}, {1000, 1, 6, 2, 0}, {500, 1, 6, 4, 0},
        {500, 1, 8, 2, 0}, {1500, 1, 8, 2, 0}, {200, 1, 4, 3, 0}};
-  //cost(copper), num_of_dices, damage_dice, weight, type_of_elemental_damage
   std::string Ranged_Weapon_s[kRanged_Weapon_NUM] = {"Crossbow_light", "Dart", "Shortbow", "Sling", "Blowgun",
                                                      "Crossbow_hand", "Crossbow_heavy", "Longbow", "Net"};
+  //cost(copper), num_of_dices, damage_dice, weight, type_of_elemental_damage , aiming_range, max_range
   int Ranged_Weapon_i[kRanged_Weapon_NUM][kRanged_Weapon_Parameters_Num] =
       {{2500, 1, 8, 5, 0, 80, 320}, {5, 1, 4, 0, 0, 20, 60}, {2500, 1, 6, 2, 0, 80, 320}, {10, 1, 4, 0, 0, 30, 120},
        {1000, 1, 1, 1, 0, 25, 100}, {7500, 1, 6, 3, 0, 30, 120}, {5000, 1, 10, 18, 0, 100, 400},
        {5000, 1, 8, 2, 0, 150, 600},
        {100, 0, 0, 3, 0, 5, 15}};
-  //cost(copper), num_of_dices, damage_dice, weight, type_of_elemental_damage , aiming_range, max_range
   std::string Ammo_s[kAmmo_NUM] = {"Arrows", "Blowgun_needles", "Crossbow_bolts", "Sling_bullets"};
+  //cost, weight, ammo damage, element
   int Ammo_i[kAmmo_NUM][kAmmo_Parameters_Num] =
       {{1 * 100, 1, 0, 0}, {1 * 100, 1, 0, 0}, {1 * 100, 1, 0, 0}, {4, 1, 0, 0}};
-  //cost, weight, ammo damage, element
   std::string Armor_s[kArmor_NUM] = {"Padded", "Leather", "Studded_leather",
                                      "Hide", "Chain_shirt", "Scale_mail", "Breastplate", "Half_plate",
-                                     "Ring_mail", "Chain_mail", "Splint", "Plate",
-                                     "Shield"};
+                                     "Ring_mail", "Chain_mail", "Splint", "Plate"};
+  //Cost , Type , Armor_Class , Strength_needed , weight
   int Armor_i[kArmor_NUM][kArmor_Parameters_Num] = {{500, 0, 11, 0, 8}, {1000, 0, 11, 0, 10}, {4500, 0, 12, 0, 13},
                                                     {1000, 1, 12, 0, 12}, {5000, 1, 13, 0, 20}, {5000, 1, 14, 0, 45},
                                                     {40000, 1, 14, 0, 20}, {75000, 1, 15, 0, 40},
                                                     {3000, 2, 14, 0, 40}, {7500, 2, 16, 13, 55}, {20000, 2, 17, 15, 60},
-                                                    {150000, 2, 18, 15, 65},
-                                                    {1000, 2, 2, 0, 6}};
-  //Cost , Type , Armor_Class , Strength_needed , weight
+                                                    {150000, 2, 18, 15, 65}};
+  // stealth_disadvantage
   bool Armor_b[kArmor_NUM] = {true, false, false,
                               false, false, true,
                               false, true,
                               true, true, true,
-                              true,
-                              false};
-  // stealth_disadvantage
+                              true};
   std::string Goods_s[kGoods_NUM] = {"Abacus",
                                        "Acid_vial", "Alchemists_fire_flask",
                                        "Antitoxin", "Backpack", "Ball_bearings", "Barrel", "Basket", "Bedroll", "Bell",
@@ -91,9 +96,10 @@ struct Existing_Items {
                                        "Perfume",
                                        "Pick_miner`s", "Piton", "Poison_basic", "Pole", "Pot_iron", "Pouch", "Quiver",
                                        "Ram_portable", "Rations", "Robes", "Rope_hempen", "Rope_silk", "Sack",
-                                       "Scale_merchant`s", "Sealing_wax", "Shovel", "Signal_whistle", "Signet_ring",
+                                       "Scale_merchant`s", "Sealing_wax", "Shovel", "Signal_whistle",
                                        "Soap", "Spellbook", "Spikes_iron", "Spyglass", "Tent_two_person", "Tinderbox",
                                        "Torch", "Vial", "Waterskin", "Whetstone"};
+  //cost, weight, is_obstacle,
   int Goods_i[kGoods_NUM][kGoods_Parameters_Num] = {{200, 2, 0},
                                                        {25 * 100, 1, 0}, {50 * 100, 1, 0},
                                                        {50 * 100, 0, 0}, {2 * 100, 5, 0}, {1 * 100, 2, 1},
@@ -126,32 +132,40 @@ struct Existing_Items {
                                                        {1 * 100, 10, 0}, {10 * 100, 5, 0},
                                                        {1, 1, 0},
                                                        {5 * 100, 3, 0}, {5 * 10, 0, 0}, {2 * 100, 5, 0}, {5, 0, 0},
-                                                       {5 * 100, 0, 0},
                                                        {2, 0, 0}, {50 * 100, 3, 0}, {1 * 100, 5, 0}, {1000 * 100, 1, 0},
                                                        {2 * 100, 20, 0},
                                                        {5 * 10, 1, 0},
                                                        {1, 1, 0}, {1 * 100, 0, 0}, {2 * 10, 5, 0}, {1, 1, 0}};
-  //cost, weight, is_obstacle,
-  std::string
-      Magic_Items_s[kMagic_Items_NUM] = {"Crystal", "Orb", "Rod", "Staff", "Wand", "Spring_of_mistletoe", "Totem",
-                                         "Wooden_staff", "Yew_wand", "Amulet", "Emblem", "Reliquary",
-                                         "Potion_of_healing"};
-  int Magic_Items_i[kMagic_Items_NUM][kMagic_Items_Parameters_Num] = {{1000, 1, 0}, {2000, 3, 0}, {1000, 2, 0},
-                                                                      {500, 4, 0}, {1000, 1, 0}, {100, 0, 0},
-                                                                      {100, 0, 0},
-                                                                      {500, 4, 0}, {1000, 1, 0}, {500, 1, 0},
-                                                                      {500, 0, 0},
-                                                                      {500, 2, 0},
-                                                                      {5000, 1, 2}};//2d4 + 2
-  bool Magic_Items_b[kMagic_Items_NUM][kMagic_Items_Parameters_Num] =
+
+  std::string SpellCastingFocus_s[kSpellCastingFocus_NUM] = {"Crystal", "Orb", "Rod", "Staff", "Wand", "Spring_of_mistletoe", "Totem",
+                                                             "Wooden_staff", "Yew_wand", "Amulet", "Emblem", "Reliquary",
+  };
+  //cost, weight
+  int SpellCastingFocus_i[kSpellCastingFocus_NUM][kSpellCastingFocus_Parameters_NUM] = {{1000, 1}, {2000, 3}, {1000, 2},
+                                                                                  {500, 4}, {1000, 1}, {100},
+                                                                                  {100, 0},
+                                                                                  {500, 4}, {1000, 1}, {500, 1},
+                                                                                  {500, 0},
+                                                                                  {500, 2},
+                                                                                  };
+  //arcane_focus, druidic_focus, holy_symbol;
+  bool SpellCastingFocus_b[kSpellCastingFocus_NUM][kFocus_Types_NUM] =
       {{true, false, false}, {true, false, false}, {true, false, false},
        {true, false, false}, {true, false, false}, {false, true, false},
        {false, true, false},
        {false, true, false}, {false, true, false}, {false, false, true},
        {false, false, true},
        {false, false, true},
-       {false, false, false}};
-  //cost, weight, healing, arcane_focus, druidic_focus, holy_symbol;
+       };
+  std::string Shield_s[kShield_NUM] = {"Shield"};
+  //Cost , Type , Armor_Class , Strength_needed , weight
+  int Shield_i[kShield_NUM][kShield_Parameters_NUM] = {{1000, 2, 2, 0, 6}};
+  std::string Ring_s[kRing_NUM] = {"Signet_ring"};
+  int Ring_i[kRing_NUM][kRing_Parameters_NUM] = {{5 * 100, 0, 0}};
+  std::string Potion_s[kPotion_NUM] = {"Potion_of_healing"};
+  //cost, weight, const healing, num of healing dices, healing dice
+  int Potion_i[kPotion_NUM][kPotion_Parameters_NUM] = {{5000, 1, 2, 2, 4}};// 2d4+2
+
   std::string All_s[kAll_Num] = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light_hammer",
                                  "Mace", "Quarterstaff", "Sickle", "Spear", "Unarmed_strike", "Battleaxe", "Flail",
                                  "Glaive",
@@ -164,7 +178,6 @@ struct Existing_Items {
                                  "Padded", "Leather", "Studded_leather",
                                  "Hide", "Chain_shirt", "Scale_mail", "Breastplate", "Half_plate",
                                  "Ring_mail", "Chain_mail", "Splint", "Plate",
-                                 "Shield",
                                  "Abacus",
                                  "Acid_vial", "Alchemists_fire_flask",
                                  "Antitoxin", "Backpack", "Ball_bearings", "Barrel", "Basket", "Bedroll", "Bell",
@@ -178,11 +191,12 @@ struct Existing_Items {
                                  "Magnifying_glass", "Manacles", "Mess_kit", "Oil", "Paper", "Parchment", "Perfume",
                                  "Pick_miner`s", "Piton", "Poison_basic", "Pole", "Pot_iron", "Pouch", "Quiver",
                                  "Ram_portable", "Rations", "Robes", "Rope_hempen", "Rope_silk", "Sack",
-                                 "Scale_merchant`s", "Sealing_wax", "Shovel", "Signal_whistle", "Signet_ring",
+                                 "Scale_merchant`s", "Sealing_wax", "Shovel", "Signal_whistle",
                                  "Soap", "Spellbook", "Spikes_iron", "Spyglass", "Tent_two_person", "Tinderbox",
                                  "Torch", "Vial", "Waterskin", "Whetstone",
                                  "Crystal", "Orb", "Rod", "Staff", "Wand", "Spring_of_mistletoe", "Totem",
-                                 "Wooden_staff", "Yew_wand", "Amulet", "Emblem", "Reliquary", "Potion_of_healing"};
+                                 "Wooden_staff", "Yew_wand", "Amulet", "Emblem", "Reliquary",
+                                 "Shield", "Signet_ring", "Potion_of_healing",};
 };
 //types = {"G", "M", "SHP", "AT", "$", "SCF", "S",
 // "HA", "INS", "RG", "TAH", "MA", "EXP", "P", "MNT",
