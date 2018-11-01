@@ -1,5 +1,6 @@
 
 #include "Item.h"
+using json = nlohmann::json;
 
 Item::Item() : name(" ") { // : name(name) first initialise with reference
   equiped = false;
@@ -95,6 +96,22 @@ void Melee_Weapon::set(std::string &name_, int count_) {
   //
   name = name_;
   count = count_;
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.jsonjson ");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Weapon";
 }
 int Melee_Weapon::show() {
@@ -157,6 +174,22 @@ void Ranged_Weapon::set(std::string &name_, int count_) {
   }
   name = name_;
   count = count_;
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.jsonjson ");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Ranged_Weapon";
 }
 int Ranged_Weapon::show() {
@@ -219,6 +252,22 @@ void Armor::set(std::string &name_, int count_) {
   //std::cout << "Control reach Item:Armor:set 2\n";
   name = name_;
   count = count_;
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.jsonjson ");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Armor";
 }
 int Armor::show() {
@@ -266,6 +315,22 @@ void Goods::set(std::string &name_, int count_) {
   }
   count = count_;
   stackable = false;
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json"); 
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Goods";
 }
 int Goods::show() {
@@ -313,6 +378,22 @@ void Ammo::set(std::string &name_, int count_) {
   name = name_;
   count = count_;
   stackable = true;
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Ammo";
 }
 int Ammo::show() {
@@ -363,6 +444,22 @@ void Magic_Items::set(std::string &name_, int count_) {
   }
   count = count_;
   stackable = false;
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json"); 
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Magic_Items";
 }
 int Magic_Items::show() {
@@ -395,6 +492,22 @@ ArtisanTools::ArtisanTools(std::string &name_, int count_) {
 }
 ArtisanTools::~ArtisanTools() = default;
 void ArtisanTools::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "ArtisanTools";
 }
 int ArtisanTools::get(int a) {
@@ -413,6 +526,22 @@ Ship::Ship(std::string &name_, int count_) {
 }
 Ship::~Ship() = default;
 void Ship::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Ship";
 }
 int Ship::get(int a) {
@@ -431,6 +560,22 @@ Valuables::Valuables(std::string &name_, int count_) {
 }
 Valuables::~Valuables() = default;
 void Valuables::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Valuables";
 }
 int Valuables::get(int a) {
@@ -449,6 +594,22 @@ SpellCastingFocus::SpellCastingFocus(std::string &name_, int count_) {
 }
 SpellCastingFocus::~SpellCastingFocus() = default;
 void SpellCastingFocus::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "SpellCastingFocus";
 }
 int SpellCastingFocus::get(int a) {
@@ -467,6 +628,22 @@ Shield::Shield(std::string &name_, int count_) {
 }
 Shield::~Shield() = default;
 void Shield::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Shield";
 }
 int Shield::get(int a) {
@@ -485,6 +662,22 @@ Instrument::Instrument(std::string &name_, int count_) {
 }
 Instrument::~Instrument() = default;
 void Instrument::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Instrument";
 }
 int Instrument::get(int a) {
@@ -503,6 +696,22 @@ Ring::Ring(std::string &name_, int count_) {
 }
 Ring::~Ring() = default;
 void Ring::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Ring";
 }
 int Ring::get(int a) {
@@ -521,6 +730,22 @@ AnimalGear::AnimalGear(std::string &name_, int count_) {
 }
 AnimalGear::~AnimalGear() = default;
 void AnimalGear::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "AnimalGear";
 }
 int AnimalGear::get(int a) {
@@ -539,6 +764,22 @@ Explosive::Explosive(std::string &name_, int count_) {
 }
 Explosive::~Explosive() = default;
 void Explosive::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Explosive";
 }
 int Explosive::get(int a) {
@@ -557,6 +798,22 @@ Potion::Potion(std::string &name_, int count_) {
 }
 Potion::~Potion() = default;
 void Potion::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Potion";
 }
 int Potion::get(int a) {
@@ -575,6 +832,22 @@ Mounties::Mounties(std::string &name_, int count_) {
 }
 Mounties::~Mounties() = default;
 void Mounties::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Mounties";
 }
 int Mounties::get(int a) {
@@ -593,6 +866,22 @@ Vehicle::Vehicle(std::string &name_, int count_) {
 }
 Vehicle::~Vehicle() = default;
 void Vehicle::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Vehicle";
 }
 int Vehicle::get(int a) {
@@ -611,6 +900,22 @@ TradeGoods::TradeGoods(std::string &name_, int count_) {
 }
 TradeGoods::~TradeGoods() = default;
 void TradeGoods::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "TradeGoods";
 }
 int TradeGoods::get(int a) {
@@ -629,6 +934,22 @@ GamingSet::GamingSet(std::string &name_, int count_) {
 }
 GamingSet::~GamingSet() = default;
 void GamingSet::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "GamingSet";
 }
 int GamingSet::get(int a) {
@@ -647,6 +968,22 @@ Device::Device(std::string &name_, int count_) {
 }
 Device::~Device() = default;
 void Device::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Device";
 }
 int Device::get(int a) {
@@ -665,6 +1002,22 @@ Tools::Tools(std::string &name_, int count_) {
 }
 Tools::~Tools() = default;
 void Tools::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Tools";
 }
 int Tools::get(int a) {
@@ -683,6 +1036,22 @@ Rod::Rod(std::string &name_, int count_) {
 }
 Rod::~Rod() = default;
 void Rod::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Rod";
 }
 int Rod::get(int a) {
@@ -701,6 +1070,22 @@ Scroll::Scroll(std::string &name_, int count_) {
 }
 Scroll::~Scroll() = default;
 void Scroll::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(j["item"]["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Scroll";
 }
 int Scroll::get(int a) {
@@ -719,6 +1104,22 @@ Wand::Wand(std::string &name_, int count_) {
 }
 Wand::~Wand() = default;
 void Wand::set(std::string &name_, int count_) {
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for(auto i : j["name"]){
+    if(i["type"] != NULL){
+      if(name_ == i["name"]){
+        name = name_;
+        rarity = i["rarity"];
+        weight = i["weight"];
+        source = i["source"];
+        if(i["tier"] != NULL) tier = i["tier"];
+        
+        break;
+      }
+    }
+  }
   what_class_is_it = "Wand";
 }
 int Wand::get(int a) {

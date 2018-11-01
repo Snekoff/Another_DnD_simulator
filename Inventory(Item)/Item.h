@@ -2,10 +2,12 @@
 #include <iostream>
 #include <map>
 #include <memory>
+#include <fstream>
 #include <string>
 #include <vector>
 #include "../gtest/googletest/include/gtest/gtest.h"
 #include "../gtest/googlemock/include/gmock/gmock.h"
+#include "../json_parse_by_nlohmann/json.hpp"
 #ifndef ANOTHER_DND_SIMULATOR_ITEM_H
 #define ANOTHER_DND_SIMULATOR_ITEM_H
 
