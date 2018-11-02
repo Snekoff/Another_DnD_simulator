@@ -826,7 +826,7 @@ int Character::Add_To_Inventory() {
     while (some_more) {
       int item_ = 0;
       cout << "You can add this types of items:\n"
-              "1. Weapon\n"
+              "1. Melee Weapon\n"
               "2. Ranged weapon\n"
               "3. Ammo\n"
               "4. Armor\n"
@@ -835,13 +835,32 @@ int Character::Add_To_Inventory() {
               "7. Shield\n"
               "8. Ring\n"
               "9. Potion\n"
+              "10. Ship\n"
+              "11. Artisan Tools\n"
+              "12. Valuables (Jewelry, Gemstones)\n"
+              "13. Instruments (musical)\n"
+              "14. Animal Gear\n"
+              "15. Explosive\n"
+              "16. Mountie\n"
+              "17. Vehicle\n"
+              "18. Trading Goods\n"
+              "19. Gaming Set\n"
+              "20. Tools\n"
+              "21. Rod\n"
+              "22. Scroll\n"
+              "23. Wand\n"
               "(this list will be extended in future versions)\n";
-      item_ = IsNumber<int>(item_, 1, kItem_Types);
+      item_ = IsNumber<int>(item_, 1, kItem_For_Sale_Types);
       //cout << "Control reach method Add_To_Inventory 0\n";
       cout << "Your funds: " << money[kMoney_types - 1] << endl;
-      int limit[kItem_Types + 1] =
-          {0, kWeapon_NUM, kRanged_Weapon_NUM + limit[1], kAmmo_NUM + limit[2], kArmor_NUM + limit[3],
-           kGoods_NUM + limit[4], kSpellCastingFocus_NUM + limit[5], kShield_NUM + limit[6], kRing_NUM + limit[7], kPotion_NUM + limit[8]};
+      int limit[kItem_For_Sale_Types + 1] =
+          {0, kWeapon_NUM + kM_NUM, kRanged_Weapon_NUM + kR_NUM + limit[1], kAmmo_NUM + kA_NUM + limit[2],
+           kArmor_NUM + kMA_NUM + kLA_NUM + kHA_NUM + limit[3], kGoods_NUM + kG_NUM + limit[4],
+           kSpellCastingFocus_NUM + kSCF_NUM + limit[5], kShield_NUM + kS_NUM + limit[6],
+           kRing_NUM + kRG_NUM + limit[7], kPotion_NUM + kP_NUM + limit[8], kSHP_NUM + limit[9], kAT_NUM + limit[10],
+           k$_NUM + limit[11], kINS_NUM + limit[12], kTAH_NUM + limit[13], kEXP_NUM + limit[14], kMNT_NUM + limit[15],
+           kVEH_NUM + limit[16], kTG_NUM + limit[17], kGS_NUM + limit[18], kT_NUM + limit[19], kRD_NUM + limit[20],
+           kSC_NUM + limit[21], kWD_NUM + limit[22]};
       Existing_Items E_I;
       //cout << "Control reach method Add_To_Inventory 1\n";
       for (int i = limit[item_ - 1]; i < limit[item_]; i++) {
