@@ -874,6 +874,7 @@ int Character::Add_To_Inventory() {
         else if (item_ == 7) { cout << E_I.Shield_i[i - limit[item_ - 1]][0]; }
         else if (item_ == 8) { cout << E_I.Ring_i[i - limit[item_ - 1]][0]; }
         else if (item_ == 9) { cout << E_I.Potion_i[i - limit[item_ - 1]][0]; }
+        else if (item_ == 10) { /*cout << E_I.SHP_s_i[i - limit[item_ - 1]][0];*/ }
         cout << endl;
       }
       item_ = IsNumber<int>(item_, limit[item_ - 1], limit[item_]);
