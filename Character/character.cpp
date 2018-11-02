@@ -864,7 +864,9 @@ int Character::Add_To_Inventory() {
       Existing_Items E_I;
       //cout << "Control reach method Add_To_Inventory 1\n";
       for (int i = limit[item_ - 1]; i < limit[item_]; i++) {
-        cout << i + 1 << ". " << E_I.All_s[i] << " price: ";
+        if(i < kItems_Without_JSON_NUM) cout << i + 1 << ". " << E_I.All_s[i];
+        else cout << i + 1 << ". " << E_I.names_of_sellable_items[i];
+        cout << " price: ";
         if (item_ == 1) { cout << E_I.Weapon_i[i][0]; }
         else if (item_ == 2) { cout << E_I.Ranged_Weapon_i[i - limit[item_ - 1]][0]; }
         else if (item_ == 3) { cout << E_I.Ammo_i[i - limit[item_ - 1]][0]; }
@@ -874,11 +876,10 @@ int Character::Add_To_Inventory() {
         else if (item_ == 7) { cout << E_I.Shield_i[i - limit[item_ - 1]][0]; }
         else if (item_ == 8) { cout << E_I.Ring_i[i - limit[item_ - 1]][0]; }
         else if (item_ == 9) { cout << E_I.Potion_i[i - limit[item_ - 1]][0]; }
-        else if (item_ == 10) { /*cout << E_I.SHP_s_i[i - limit[item_ - 1]][0];*/ }
+        else if (item_ > 9 && item_ < 24) { cout << E_I.prices_[i - limit[item_ - 1]]; }
         cout << endl;
       }
       item_ = IsNumber<int>(item_, limit[item_ - 1], limit[item_]);
-      //cout << "Control reach method Add_To_Inventory 2\n";
       name_ = E_I.All_s[item_ - 1];
       int quantity = 1;
       cout << "How many " << name_ << "s do you want ?\n";
