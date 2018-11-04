@@ -616,7 +616,21 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
     inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-      if (!j["item"][i]["type"].empty()) {
+      if (!j["item"][i]["technology"].empty()){
+        if(j["item"][i]["technology"] == "Staff"){
+          arcane_focus = true;
+          druidic_focus = false;
+          holy_symbol = false;
+          weight = E_I.SpellCastingFocus_i[4][1];// technology @Staff
+          rarity = j["item"][i]["rarity"];
+          if(!j["item"][i]["weight"].empty())weight = j["item"][i]["weight"];
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          cost = Price_Parce(j, i);
+          break;
+        }
+      }
+      else if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           rarity = j["item"][i]["rarity"];
