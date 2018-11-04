@@ -50,13 +50,51 @@ int Item::get(int a) {//armor class
   else if(a == 23){ return holy_symbol ? 1 : -1; }*/
   return -1;
 }
+int Item::Price_Parce(const json &j, int i) {
+  if (!j["item"][i]["value"].empty()) {
+    cost = 0;
+    std::__cxx11::string value_ = j["item"][i]["value"];
+    std::__cxx11::string cost_;
+    int multiplier = 1;
+    int s = 0;
+    while (((int) value_[s] < (int) 'A' || (int) value_[s] > (int) 'z') && s < value_.length()) {
+      cost_ += value_[s];
+      s++;
+    }
+    while (true) {
+      if (value_[s] == 's') {
+        multiplier = 10;
+        break;
+      }
+      else if (value_[s] == 'g') {
+        multiplier = 100;
+        break;
+      }
+      else if (value_[s] == 'p') {
+        multiplier = 1000;
+        break;
+      }
+      else if (s < value_.length() - 1) s++;
+      else break;
+    }
+    cost = stoi(cost_) * multiplier;
+    return cost;
+  }
+  return -100;
+}
 void Item::equip(int a) {
-  if(abs(a) > count){
-    if(a > 0) a = count;
-    else a = (-1)*count;
+  if (abs(a) > count) {
+    if (a > 0) a = count;
+    else a = (-1) * count;
   }
   num_equiped += a;
   equiped = (num_equiped == count);
+}
+void Item::Attune() {
+  Attuned = !Attuned;
+}
+bool Item::Is_Attuned() {
+  return Attuned;
 }
 bool Item::is_equiped() { return equiped; }
 std::string Item::What_class() {
@@ -68,8 +106,10 @@ Melee_Weapon::Melee_Weapon(std::string &name_) {
   set(name_, 1);
 }
 Melee_Weapon::Melee_Weapon(std::string &name_, int count_) {
-  num_of_dices = 0;
-  damage_dice = 0;
+  num_of_dices1 = 0;
+  damage_dice1 = 0;
+  num_of_dices2 = 0;
+  damage_dice2 = 0;
   type_of_elemental_damage = 0;
   set(name_, count_);
 }
@@ -85,8 +125,8 @@ void Melee_Weapon::set(std::string &name_, int count_) {
     if (E_I.Weapon_s[i] == name_) {
       name = name_;
       cost = E_I.Weapon_i[i][0];
-      num_of_dices = E_I.Weapon_i[i][1];
-      damage_dice = E_I.Weapon_i[i][2];
+      num_of_dices1 = E_I.Weapon_i[i][1];
+      damage_dice1 = E_I.Weapon_i[i][2];
       weight = E_I.Weapon_i[i][3];
       type_of_elemental_damage = E_I.Weapon_i[i][4];
       stackable = false;
@@ -94,20 +134,21 @@ void Melee_Weapon::set(std::string &name_, int count_) {
     }
   }
   count = count_;
-  if(name == " "){
+  if (name == " ") {
     source = "Default";
     std::ifstream inputJson;
-    inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.jsonjson ");
+    inputJson
+        .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.jsonjson ");
     json j = json::parse(inputJson);
-    for(auto i : j["name"]){
-      if(j["item"]["type"] != NULL){
-        if(name_ == i["name"]){
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = i["rarity"];
-          weight = i["weight"];
-          source = i["source"];
-          if(i["tier"] != NULL) tier = i["tier"];
-
+          rarity = j["item"][i]["rarity"];
+          weight = j["item"][i]["weight"];
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          cost = Price_Parce(j, i);
           break;
         }
       }
@@ -118,18 +159,20 @@ void Melee_Weapon::set(std::string &name_, int count_) {
 int Melee_Weapon::show() {
   Existing_Items E_I;
   std::cout << name << std::endl;
-  std::cout << "Damage " << num_of_dices << "d" << damage_dice <<
+  std::cout << "Damage " << num_of_dices1 << "d" << damage_dice1 <<
             " element: " << E_I.elements[type_of_elemental_damage] << std::endl;
-  return damage_dice;
+  return damage_dice1;
 }
 int Melee_Weapon::get(int a) {
   if (a == 0) { return cost; }
   else if (a == 1) { return weight; }
   else if (a == 2) { return count; }
-  else if (a == 3) { return num_of_dices; }
-  else if (a == 4) { return damage_dice; }
-  else if (a == 5) { return type_of_elemental_damage; }
-  else if (a == 6) { return num_equiped; }
+  else if (a == 3) { return num_of_dices1; }
+  else if (a == 4) { return damage_dice1; }
+  else if (a == 5) { return num_of_dices2; }
+  else if (a == 6) { return damage_dice2; }
+  else if (a == 7) { return type_of_elemental_damage; }
+  else if (a == 8) { return num_equiped; }
   return -1;
 }
 
@@ -138,8 +181,10 @@ Ranged_Weapon::Ranged_Weapon(std::string &name_) {
   set(name_, 1);
 }
 Ranged_Weapon::Ranged_Weapon(std::string &name_, int count_) {
-  num_of_dices = 0;
-  damage_dice = 0;
+  num_of_dices1 = 0;
+  damage_dice1 = 0;
+  num_of_dices2 = 0;
+  damage_dice2 = 0;
   type_of_elemental_damage = 0;
   aiming_range = 0;
   max_range = 0;
@@ -163,8 +208,8 @@ void Ranged_Weapon::set(std::string &name_, int count_) {
     if (E_I.Ranged_Weapon_s[i] == name_) {
       name = name_;
       cost = E_I.Ranged_Weapon_i[i][0];
-      num_of_dices = E_I.Ranged_Weapon_i[i][1];
-      damage_dice = E_I.Ranged_Weapon_i[i][2];
+      num_of_dices1 = E_I.Ranged_Weapon_i[i][1];
+      damage_dice1 = E_I.Ranged_Weapon_i[i][2];
       weight = E_I.Ranged_Weapon_i[i][3];
       type_of_elemental_damage = E_I.Ranged_Weapon_i[i][4];
       aiming_range = E_I.Ranged_Weapon_i[i][5];
@@ -174,20 +219,21 @@ void Ranged_Weapon::set(std::string &name_, int count_) {
     }
   }
   count = count_;
-  if(name == " "){
+  if (name == " ") {
     source = "Default";
     std::ifstream inputJson;
-    inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.jsonjson ");
+    inputJson
+        .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.jsonjson ");
     json j = json::parse(inputJson);
-    for(auto i : j["name"]){
-      if(j["item"]["type"] != NULL){
-        if(name_ == i["name"]){
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = i["rarity"];
-          weight = i["weight"];
-          source = i["source"];
-          if(i["tier"] != NULL) tier = i["tier"];
-
+          rarity = j["item"][i]["rarity"];
+          weight = j["item"][i]["weight"];
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          cost = Price_Parce(j, i);
           break;
         }
       }
@@ -198,20 +244,22 @@ void Ranged_Weapon::set(std::string &name_, int count_) {
 int Ranged_Weapon::show() {
   Existing_Items E_I;
   std::cout << name << std::endl;
-  std::cout << "Damage " << num_of_dices << "d" << damage_dice <<
+  std::cout << "Damage " << num_of_dices1 << "d" << damage_dice1 <<
             " element:" << E_I.elements[type_of_elemental_damage] << std::endl;
-  return damage_dice;
+  return damage_dice1;
 }
 int Ranged_Weapon::get(int a) {
   if (a == 0) { return cost; }
   else if (a == 1) { return weight; }
   else if (a == 2) { return count; }
-  else if (a == 3) { return num_of_dices; }
-  else if (a == 4) { return damage_dice; }
-  else if (a == 5) { return type_of_elemental_damage; }
-  else if (a == 6) { return aiming_range; }
-  else if (a == 7) { return max_range; }
-  else if (a == 8) { return num_equiped; }
+  else if (a == 3) { return num_of_dices1; }
+  else if (a == 4) { return damage_dice1; }
+  else if (a == 5) { return num_of_dices2; }
+  else if (a == 6) { return damage_dice2; }
+  else if (a == 7) { return type_of_elemental_damage; }
+  else if (a == 8) { return aiming_range; }
+  else if (a == 9) { return max_range; }
+  else if (a == 10) { return num_equiped; }
   return -1;
 }
 
@@ -252,20 +300,21 @@ void Armor::set(std::string &name_, int count_) {
     }
   }
   count = count_;
-  if(name == " "){
+  if (name == " ") {
     source = "Default";
     std::ifstream inputJson;
-    inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.jsonjson ");
+    inputJson
+        .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.jsonjson ");
     json j = json::parse(inputJson);
-    for(auto i : j["name"]){
-      if(j["item"]["type"] != NULL){
-        if(name_ == i["name"]){
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = i["rarity"];
-          weight = i["weight"];
-          source = i["source"];
-          if(i["tier"] != NULL) tier = i["tier"];
-
+          rarity = j["item"][i]["rarity"];
+          weight = j["item"][i]["weight"];
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          cost = Price_Parce(j, i);
           break;
         }
       }
@@ -318,20 +367,20 @@ void Goods::set(std::string &name_, int count_) {
     }
   }
   count = count_;
-  if(name == " "){
+  if (name == " ") {
     source = "Default";
     std::ifstream inputJson;
     inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
-    for(auto i : j["name"]){
-      if(j["item"]["type"] != NULL){
-        if(name_ == i["name"]){
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = i["rarity"];
-          weight = i["weight"];
-          source = i["source"];
-          if(i["tier"] != NULL) tier = i["tier"];
-
+          rarity = j["item"][i]["rarity"];
+          weight = j["item"][i]["weight"];
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          cost = Price_Parce(j, i);
           break;
         }
       }
@@ -384,20 +433,20 @@ void Ammo::set(std::string &name_, int count_) {
     }
   }
   count = count_;
-  if(name == " "){
+  if (name == " ") {
     source = "Default";
     std::ifstream inputJson;
     inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
-    for(auto i : j["name"]){
-      if(j["item"]["type"] != NULL){
-        if(name_ == i["name"]){
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = i["rarity"];
-          weight = i["weight"];
-          source = i["source"];
-          if(i["tier"] != NULL) tier = i["tier"];
-
+          rarity = j["item"][i]["rarity"];
+          weight = j["item"][i]["weight"];
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          cost = Price_Parce(j, i);
           break;
         }
       }
@@ -433,25 +482,27 @@ ArtisanTools::ArtisanTools(std::string &name_, int count_) {
 ArtisanTools::~ArtisanTools() = default;
 void ArtisanTools::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
   }
   what_class_is_it = "ArtisanTools";
 }
+
 int ArtisanTools::get(int a) {
   if (a == 0) { return cost; }
   else if (a == 1) { return weight; }
@@ -469,19 +520,20 @@ Ship::Ship(std::string &name_, int count_) {
 Ship::~Ship() = default;
 void Ship::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
@@ -505,19 +557,20 @@ Valuables::Valuables(std::string &name_, int count_) {
 Valuables::~Valuables() = default;
 void Valuables::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
@@ -541,6 +594,7 @@ SpellCastingFocus::SpellCastingFocus(std::string &name_, int count_) {
 SpellCastingFocus::~SpellCastingFocus() = default;
 void SpellCastingFocus::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   Existing_Items E_I;
   name = " ";
   equiped = false;
@@ -557,19 +611,19 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
   }
   count = count_;
   source = "Default";
-  if(name == " "){
+  if (name == " ") {
     std::ifstream inputJson;
     inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
-    for(auto i : j["name"]){
-      if(j["item"]["type"] != NULL){
-        if(name_ == i["name"]){
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = i["rarity"];
-          weight = i["weight"];
-          source = i["source"];
-          if(i["tier"] != NULL) tier = i["tier"];
-
+          rarity = j["item"][i]["rarity"];
+          weight = j["item"][i]["weight"];
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          cost = Price_Parce(j, i);
           break;
         }
       }
@@ -594,27 +648,28 @@ Shield::Shield(std::string &name_, int count_) {
 Shield::~Shield() = default;
 void Shield::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
   }
-  if(source == "Default"){
+  if (source == "Default") {
     Existing_Items E_I;
-    for(int i = 0; i < kShield_NUM; i++){
-      if(name_ == E_I.Shield_s[i]){
+    for (int i = 0; i < kShield_NUM; i++) {
+      if (name_ == E_I.Shield_s[i]) {
         name = name_;
         cost = E_I.Shield_i[i][0];
         weight = E_I.Shield_i[i][1];
@@ -642,19 +697,20 @@ Instrument::Instrument(std::string &name_, int count_) {
 Instrument::~Instrument() = default;
 void Instrument::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
@@ -678,27 +734,28 @@ Ring::Ring(std::string &name_, int count_) {
 Ring::~Ring() = default;
 void Ring::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
   }
-  if(source == "Default"){
+  if (source == "Default") {
     Existing_Items E_I;
-    for(int i = 0; i < kGoods_NUM; i++){
-      if(name_ == E_I.Ring_s[i]){
+    for (int i = 0; i < kGoods_NUM; i++) {
+      if (name_ == E_I.Ring_s[i]) {
         name = name_;
         cost = E_I.Ring_i[i][0];
         weight = E_I.Ring_i[i][1];
@@ -725,19 +782,20 @@ AnimalGear::AnimalGear(std::string &name_, int count_) {
 AnimalGear::~AnimalGear() = default;
 void AnimalGear::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
@@ -761,19 +819,20 @@ Explosive::Explosive(std::string &name_, int count_) {
 Explosive::~Explosive() = default;
 void Explosive::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
@@ -797,27 +856,28 @@ Potion::Potion(std::string &name_, int count_) {
 Potion::~Potion() = default;
 void Potion::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
   }
-  if(source == "Default"){
+  if (source == "Default") {
     Existing_Items E_I;
-    for(int i = 0; i < kPotion_NUM; i++){
-      if(name_ == E_I.Potion_s[i]){
+    for (int i = 0; i < kPotion_NUM; i++) {
+      if (name_ == E_I.Potion_s[i]) {
         name = name_;
         cost = E_I.Potion_i[i][0];
         weight = E_I.Potion_i[i][1];
@@ -847,19 +907,20 @@ Mounties::Mounties(std::string &name_, int count_) {
 Mounties::~Mounties() = default;
 void Mounties::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
@@ -883,19 +944,20 @@ Vehicle::Vehicle(std::string &name_, int count_) {
 Vehicle::~Vehicle() = default;
 void Vehicle::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
@@ -919,19 +981,20 @@ TradeGoods::TradeGoods(std::string &name_, int count_) {
 TradeGoods::~TradeGoods() = default;
 void TradeGoods::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
@@ -955,19 +1018,20 @@ GamingSet::GamingSet(std::string &name_, int count_) {
 GamingSet::~GamingSet() = default;
 void GamingSet::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
@@ -991,19 +1055,20 @@ Device::Device(std::string &name_, int count_) {
 Device::~Device() = default;
 void Device::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
@@ -1027,19 +1092,20 @@ Tools::Tools(std::string &name_, int count_) {
 Tools::~Tools() = default;
 void Tools::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
@@ -1063,19 +1129,20 @@ Rod::Rod(std::string &name_, int count_) {
 Rod::~Rod() = default;
 void Rod::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
@@ -1100,19 +1167,20 @@ Scroll::Scroll(std::string &name_, int count_) {
 Scroll::~Scroll() = default;
 void Scroll::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(j["item"]["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (!j["item"][i]["type"].empty()) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }
@@ -1136,19 +1204,20 @@ Wand::Wand(std::string &name_, int count_) {
 Wand::~Wand() = default;
 void Wand::set(std::string &name_, int count_) {
   weight = 0;
+  count = count_;
   source = "Default";
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for(auto i : j["name"]){
-    if(i["type"] != NULL){
-      if(name_ == i["name"]){
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (j["item"][i]["type"] != NULL) {
+      if (name_ == j["item"][i]["name"]) {
         name = name_;
-        rarity = i["rarity"];
-        weight = i["weight"];
-        source = i["source"];
-        if(i["tier"] != NULL) tier = i["tier"];
-        
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        cost = Price_Parce(j, i);
         break;
       }
     }

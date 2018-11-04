@@ -11,7 +11,6 @@
 
 #include "GameOfImagination.h"
 #include "Tests/TEST.h"
-#include "Inventory(Item)/TMPIt.h"
 
 using namespace std;
 
@@ -22,8 +21,7 @@ int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
   }
-  //Game * starts = new Game(1,1);
-  Pircse();
+  Game * starts = new Game(1,1);
   //cout << starts->is_Created() << endl;
   //auto Mobs = new Monster(1,0,0,1);
   //auto FieldOfHonor = new Battleground(17,10,5);// X,Y,Z

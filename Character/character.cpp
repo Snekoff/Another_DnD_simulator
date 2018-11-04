@@ -880,7 +880,8 @@ int Character::Add_To_Inventory() {
         cout << endl;
       }
       item_ = IsNumber<int>(item_, limit[item_ - 1], limit[item_]);
-      name_ = E_I.All_s[item_ - 1];
+      if(item_ - 1 < kItems_Without_JSON_NUM) name_ = E_I.All_s[item_ - 1];
+      else name_ = E_I.names_of_sellable_items[item_ - 1];
       int quantity = 1;
       cout << "How many " << name_ << "s do you want ?\n";
       quantity = IsNumber<int>(quantity, 1, 0);

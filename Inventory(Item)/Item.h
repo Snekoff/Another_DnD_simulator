@@ -8,6 +8,7 @@
 #include "../gtest/googletest/include/gtest/gtest.h"
 #include "../gtest/googlemock/include/gmock/gmock.h"
 #include "../json_parse_by_nlohmann/json.hpp"
+#include "../Skills_Spells_and_Feats_/Skills_and_Spells.h"
 #ifndef ANOTHER_DND_SIMULATOR_ITEM_H
 #define ANOTHER_DND_SIMULATOR_ITEM_H
 
@@ -642,9 +643,13 @@ class Item {
   int weight;
   std::string what_class_is_it;
   std::string source;
+  bool attune_requirement;
+  std::vector<bool> who_can_attune;
+  bool Attuned;
   std::string rarity;
   std::string tier;
   std::vector<std::string> entries;
+  std::vector<Spell *> AttachedSpells;
  public:
   Item();
   ~Item();
@@ -654,22 +659,31 @@ class Item {
   virtual void set_count(int a);
   virtual int get(int a);
   virtual void equip(int a);
+  void Attune();
+  bool Is_Attuned();
   virtual bool is_equiped();
+  int Price_Parce(const nlohmann::basic_json<> &j, int i);
   virtual std::string What_class();
 };
 
 class Melee_Weapon :
     public Item {
  protected:
-  int num_of_dices;
-  int damage_dice;
+  int num_of_dices1;
+  int damage_dice1;
+  int num_of_dices2;
+  int damage_dice2;
   int type_of_elemental_damage;
+  int weapon_category;
+  int aiming_range;
+  int max_range;
+  std::string damage_type;
+  std::vector<std::string> property;
  public:
   Melee_Weapon();
   Melee_Weapon(std::string &name_);
   Melee_Weapon(std::string &name_, int
   count_);
-  //Weapon(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_);
   ~Melee_Weapon();
   virtual void set(std::string &name_, int count_);
   int show()
@@ -680,15 +694,12 @@ class Melee_Weapon :
 class Ranged_Weapon :
     public Melee_Weapon {
  protected:
-  int aiming_range;
-  int max_range;
+
  public:
   Ranged_Weapon();
   Ranged_Weapon(std::string &name_);
   Ranged_Weapon(std::string &name_, int
   count_);
-  /*Ranged_Weapon(std::string &name_, int count_, int num_of_dices_, int damage_dice_, int type_of_elemental_damage_,
-                int aiming_range_, int max_range_);*/
   ~Ranged_Weapon();
   void set(std::string &name_, int count_)
   override;
