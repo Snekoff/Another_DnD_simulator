@@ -533,6 +533,12 @@ void Ship::set(std::string &name_, int count_) {
         weight = j["item"][i]["weight"];
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
+        if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
+        if (!j["item"][i]["crew"].empty()) crew = j["item"][i]["crew"];
+        if (!j["item"][i]["vehAc"].empty()) vehAc = j["item"][i]["vehAc"];
+        if (!j["item"][i]["vehHp"].empty()) vehHp = j["item"][i]["vehHp"];
+        if (!j["item"][i]["vehDmgThresh"].empty()) vehDmgThresh = j["item"][i]["vehDmgThresh"];
         cost = Price_Parce(j, i);
         break;
       }
@@ -637,6 +643,15 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
           weight = j["item"][i]["weight"];
           source = j["item"][i]["source"];
           if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (!j["item"][i]["scfType"].empty()) {
+            for(int m = 0; m < kSpellCastingFocus_Types; m++){
+              if(E_I.SpellCastingFocus_types[m] == j["item"][i]["scfType"]){
+                scfType = m;
+                break;
+              }
+            }
+          }
+
           cost = Price_Parce(j, i);
           break;
         }
@@ -675,6 +690,46 @@ void Shield::set(std::string &name_, int count_) {
         weight = j["item"][i]["weight"];
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        if (!j["item"][i]["entries"].empty()) {
+          for (int k = 0; !j["item"][i]["entries"][k].empty(); k++) {
+            if(!j["item"][i]["entries"][k]["type"].empty()){
+              for(int f = 0; !j["item"][i]["entries"][k]["entries"][f].empty();f++){
+                if(!j["item"][i]["entries"][k]["entries"][f]["type"].empty()){
+                  /*OH FUCK ME IF THAT JSON IS SO COMPLEX*/
+                  if(!j["item"][i]["entries"][k]["name"].empty()){
+                    if(j["item"][i]["entries"][k]["name"] == "Random Properties"){
+                      for(int a = 0; !j["item"][i]["entries"][k]["entries"][f]["entries"][a].empty();a++){
+                        entries.push_back(j["item"][i]["entries"][k]["entries"][f]["entries"][a]);
+                      }
+                      for(int a = 0; !j["item"][i]["entries"][k]["entries"][f]["items"][a].empty();a++){
+                        entries.push_back(j["item"][i]["entries"][k]["entries"][f]["items"][a]);
+                      }
+                    }
+                  }
+                }
+                else entries.push_back(j["item"][i]["entries"][k]["entries"][f]);
+              }
+              for(int f = 0; !j["item"][i]["entries"][k]["items"][f].empty();f++){
+                if(!j["item"][i]["entries"][k]["entries"][f]["type"].empty()){
+                  /*OH FUCK ME IF THAT JSON IS SO COMPLEX*/
+                  if(!j["item"][i]["entries"][k]["name"].empty()){
+                    if(j["item"][i]["entries"][k]["name"] == "Random Properties"){
+                      for(int a = 0; !j["item"][i]["entries"][k]["entries"][f]["entries"][a].empty();a++){
+                        entries.push_back(j["item"][i]["entries"][k]["entries"][f]["entries"][a]);
+                      }
+                      for(int a = 0; !j["item"][i]["entries"][k]["entries"][f]["items"][a].empty();a++){
+                        entries.push_back(j["item"][i]["entries"][k]["entries"][f]["items"][a]);
+                      }
+                    }
+                  }
+                }
+                else entries.push_back(j["item"][i]["entries"][k]["items"][f]);
+              }
+            }
+            else entries.push_back(j["item"][i]["entries"][k]);
+          }
+        }
+        if (!j["item"][i]["ac"].empty()) ac = j["item"][i]["ac"];
         cost = Price_Parce(j, i);
         break;
       }

@@ -71,6 +71,7 @@ const int kItem_For_Sale_Types = 23;
 const int kDamage_Types = 6;// bludgeoning not included and so on
 const int kArmor_types = 3;
 const int kClass_NuM = 12;
+const int kSpellCastingFocus_Types = 3;
 
 struct Existing_Items {
   std::string elements[kElements_Num] = {"no", "acid", "lightning", "fire", "cold", "poison"};
@@ -171,6 +172,7 @@ struct Existing_Items {
                                                     {5 * 10, 1, 0},
                                                     {1, 1, 0}, {1 * 100, 0, 0}, {2 * 10, 5, 0}, {1, 1, 0}};
 
+  std::string SpellCastingFocus_types[kSpellCastingFocus_Types] = {"holy", "druid", "arcane"};
   std::string SpellCastingFocus_s[kSpellCastingFocus_NUM] =
       {"Crystal", "Orb", "Rod", "Staff", "Wand", "Spring_of_mistletoe", "Totem",
        "Wooden_staff", "Yew_wand", "Amulet", "Emblem", "Reliquary",
@@ -806,12 +808,14 @@ class ArtisanTools :
 class Ship :
     public Item {
  private:
-  int speed;
-  int carryingcapacity;
+  std::string speed;
+  std::string carryingcapacity;
   int crew;
   int vehAc;
   int vehHp;
   int vehDmgThresh;
+  /*Damage Threshold. If a ship has a Damage Threshold, it has immunity to all damage unless it takes an
+   * amount of damage equal to or greater than its damage threshold, in which case it takes damage as normal.*/
  public:
   Ship();
   Ship(std::string &name_);
