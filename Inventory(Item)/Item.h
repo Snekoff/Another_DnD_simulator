@@ -551,78 +551,249 @@ struct Existing_Items {
       "Wand of the War Mage (+3)", "Wand of Viscid Globs", "Wand of Web", "Wand of Winter", "Wand of Wonder"
 
   };
-  std::vector<std::string> names_of_sellable_itemsG = {"Abacus", "Acid (vial)", "Alchemist's Fire (flask)", "Antitoxin", "Assassin's Blood (Ingested)", "Backpack", "Ball Bearing", "Ball Bearings (Bag of 1,000)", "Barrel", "Basic Poison (vial)", "Basket", "Bedroll", "Bell", "Blanket", "Block and Tackle", "Book", "Bucket", "Bullseye Lantern", "Burglar's Pack", "Burnt Othur Fumes (Inhaled)", "Caltrops", "Caltrops (20)", "Candle", "Carrion Crawler Mucus (Contact)", "Chain (10 feet)", "Chalk (1 piece)", "Chest", "Climber's Kit", "Common Clothes", "Component Pouch", "Costume Clothes", "Crossbow Bolt Case", "Crowbar", "Dancing Monkey Fruit", "Diplomat's Pack", "Drow Poison (Injury)", "Dungeoneer's Pack", "Entertainer's Pack", "Essence of Ether (Inhaled)", "Explorer's Pack", "Fine Clothes", "Fishing Tackle", "Flask", "Glass Bottle", "Grappling Hook", "Hammer", "Healer's Kit", "Hempen Rope (50 feet)", "Holy Water (flask)", "Hooded Lantern", "Hourglass", "Hunting Trap", "Ink (1-ounce bottle)", "Ink Pen",
-                                             "Insect Repellent (block of incense)", "Insect Repellent (greasy salve)", "Iron Pot", "Iron Spikes", "Iron Spikes (10)", "Jug", "Ladder (10-foot)", "Lamp", "Lock", "Magnifying Glass", "Malice (Inhaled)", "Manacles", "Map or Scroll Case", "Menga leaves (1 ounce)", "Merchant's Scale", "Mess Kit", "Midnight Tears (Ingested)", "Miner's Pick", "Monster Hunter's Pack", "Oil (flask)", "Oil of Taggit (Contact)", "Pale Tincture (Ingested)", "Paper (one sheet)", "Parchment (one sheet)", "Perfume (vial)", "Pitcher", "Piton", "Pole (10-foot)", "Portable Ram", "Pouch", "Priest's Pack", "Purple Worm Poison (Injury)", "Quiver", "Rain Catcher", "Rations (1 day)", "Robes", "Ryath Root", "Sack", "Scholar's Pack", "Sealing Wax", "Serpent Venom (Injury)", "Shovel", "Signal Whistle", "Signet Ring", "Silk Rope (50 feet)", "Sinda berries (10)", "Sledgehammer", "Soap", "Spellbook", "Spyglass", "Steel Mirror", "Tankard", "Tej", "Tinderbox", "Torch", "Torpor (Ingested)", "Traveler's Clothes", "Truth Serum (Ingested)",
-                                             "Two-Person Tent", "Vial", "Waterskin", "Whetstone", "Wildroot", "Wukka Nut", "Wyvern Poison (Injury)", "Yahcha", "Zabou", };
-  std::vector<std::string> names_of_sellable_itemsM = {"Reszur", };
-  std::vector<std::string> names_of_sellable_itemsSHP = {"Airship", "Galley", "Keelboat", "Longship", "Rowboat", "Sailing Ship", "Warship", };
-  std::vector<std::string> names_of_sellable_itemsAT = {"Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", };
-  std::vector<std::string> names_of_sellable_items$ = {"Alexandrite", "Amber", "Amethyst", "Aquamarine", "Azurite", "Banded Agate", "Bejeweled ivory drinking horn with gold filigree", "Black Opal", "Black Pearl", "Black Sapphire", "Black velvet mask stitched with silver thread", "Bloodstone", "Blue Quartz", "Blue Sapphire", "Blue Spinel", "Bottle stopper cork embossed with gold leaf and set with amethysts", "Box of turquoise animal figurines", "Brass mug with jade inlay", "Bronze crown", "Carnelian", "Carved bone statuette", "Carved harp of exotic wood with ivory inlay and zircon gems", "Carved ivory statuette", "Ceremonial electrum dagger with a black pearl in the pommel", "Chalcedony", "Chrysoberyl", "Chrysoprase", "Citrine", "Cloth-of-gold vestments", "Copper (cp)", "Copper chalice with silver filigree", "Coral", "Diamond", "Electrum (ep)", "Embroidered glove set with jewel chips", "Embroidered silk and velvet mantle set with numerous moonstones", "Embroidered silk handkerchief", "Emerald", "Eye Agate",
-                                             "Eye patch with a mock eye set in blue sapphire and moonstone", "Fine gold chain set with a fire opal", "Fire Opal", "Garnet", "Gold (gp)", "Gold bird cage with electrum filigree", "Gold circlet set with four aquamarines", "Gold cup set with emeralds", "Gold dragon comb set with red garnets as eyes", "Gold jewelry box with platinum filigree", "Gold locket with a painted portrait inside", "Gold music box", "Gold ring set with bloodstones", "Hematite", "Jacinth", "Jade", "Jade game board with solid gold playing pieces", "Jasper", "Jet", "Jeweled anklet", "Jeweled gold crown", "Jeweled platinum ring", "Lapis Lazuli", "Large gold bracelet", "Large well-made tapestry", "Malachite", "Moonstone", "Moss Agate", "Necklace string of small pink pearls", "Obsidian", "Obsidian statuette with gold fittings and inlay", "Old masterpiece painting", "Onyx", "Opal", "Painted gold child's sarcophagus", "Painted gold war mask", "Pair of engraved bone dice", "Pearl", "Peridot", "Platinum (pp)",
-                                             "Platinum bracelet set with a sapphire", "Quartz", "Rhodochrosite", "Ruby", "Sardonyx", "Silk robe with gold embroidery", "Silver (sp)", "Silver and gold brooch", "Silver chalice set with moonstones", "Silver ewer", "Silver necklace with a gemstone pendant", "Silver-plated steel longsword with jet set in hilt", "Small gold bracelet", "Small gold idol", "Small gold statuette set with rubies", "Small mirror set in a painted wooden frame", "Spinel", "Star rose quartz", "Star Ruby", "Star Sapphire", "Tiger Eye", "Topaz", "Tourmaline", "Turquoise", "Yellow Sapphire", "Zircon", "Nib", "Shard", "Toal", "Dragon", "Sun", "Harbor Moon", };
-  std::vector<std::string> names_of_sellable_itemsSCF = {"Amulet", "Emblem", "Reliquary", "Sprig of Mistletoe", "Totem", "Wooden Staff", "Yew Wand", };
+  std::vector<std::string> names_of_sellable_itemsG =
+      {"Abacus", "Acid (vial)", "Alchemist's Fire (flask)", "Antitoxin", "Assassin's Blood (Ingested)", "Backpack",
+       "Ball Bearing", "Ball Bearings (Bag of 1,000)", "Barrel", "Basic Poison (vial)", "Basket", "Bedroll", "Bell",
+       "Blanket", "Block and Tackle", "Book", "Bucket", "Bullseye Lantern", "Burglar's Pack",
+       "Burnt Othur Fumes (Inhaled)", "Caltrops", "Caltrops (20)", "Candle", "Carrion Crawler Mucus (Contact)",
+       "Chain (10 feet)", "Chalk (1 piece)", "Chest", "Climber's Kit", "Common Clothes", "Component Pouch",
+       "Costume Clothes", "Crossbow Bolt Case", "Crowbar", "Dancing Monkey Fruit", "Diplomat's Pack",
+       "Drow Poison (Injury)", "Dungeoneer's Pack", "Entertainer's Pack", "Essence of Ether (Inhaled)",
+       "Explorer's Pack", "Fine Clothes", "Fishing Tackle", "Flask", "Glass Bottle", "Grappling Hook", "Hammer",
+       "Healer's Kit", "Hempen Rope (50 feet)", "Holy Water (flask)", "Hooded Lantern", "Hourglass", "Hunting Trap",
+       "Ink (1-ounce bottle)", "Ink Pen",
+       "Insect Repellent (block of incense)", "Insect Repellent (greasy salve)", "Iron Pot", "Iron Spikes",
+       "Iron Spikes (10)", "Jug", "Ladder (10-foot)", "Lamp", "Lock", "Magnifying Glass", "Malice (Inhaled)",
+       "Manacles", "Map or Scroll Case", "Menga leaves (1 ounce)", "Merchant's Scale", "Mess Kit",
+       "Midnight Tears (Ingested)", "Miner's Pick", "Monster Hunter's Pack", "Oil (flask)", "Oil of Taggit (Contact)",
+       "Pale Tincture (Ingested)", "Paper (one sheet)", "Parchment (one sheet)", "Perfume (vial)", "Pitcher", "Piton",
+       "Pole (10-foot)", "Portable Ram", "Pouch", "Priest's Pack", "Purple Worm Poison (Injury)", "Quiver",
+       "Rain Catcher", "Rations (1 day)", "Robes", "Ryath Root", "Sack", "Scholar's Pack", "Sealing Wax",
+       "Serpent Venom (Injury)", "Shovel", "Signal Whistle", "Signet Ring", "Silk Rope (50 feet)", "Sinda berries (10)",
+       "Sledgehammer", "Soap", "Spellbook", "Spyglass", "Steel Mirror", "Tankard", "Tej", "Tinderbox", "Torch",
+       "Torpor (Ingested)", "Traveler's Clothes", "Truth Serum (Ingested)",
+       "Two-Person Tent", "Vial", "Waterskin", "Whetstone", "Wildroot", "Wukka Nut", "Wyvern Poison (Injury)", "Yahcha",
+       "Zabou",};
+  std::vector<std::string> names_of_sellable_itemsM = {"Reszur",};
+  std::vector<std::string>
+      names_of_sellable_itemsSHP = {"Airship", "Galley", "Keelboat", "Longship", "Rowboat", "Sailing Ship", "Warship",};
+  std::vector<std::string> names_of_sellable_itemsAT =
+      {"Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools",
+       "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools",
+       "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools",
+       "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools",};
+  std::vector<std::string> names_of_sellable_items$ =
+      {"Alexandrite", "Amber", "Amethyst", "Aquamarine", "Azurite", "Banded Agate",
+       "Bejeweled ivory drinking horn with gold filigree", "Black Opal", "Black Pearl", "Black Sapphire",
+       "Black velvet mask stitched with silver thread", "Bloodstone", "Blue Quartz", "Blue Sapphire", "Blue Spinel",
+       "Bottle stopper cork embossed with gold leaf and set with amethysts", "Box of turquoise animal figurines",
+       "Brass mug with jade inlay", "Bronze crown", "Carnelian", "Carved bone statuette",
+       "Carved harp of exotic wood with ivory inlay and zircon gems", "Carved ivory statuette",
+       "Ceremonial electrum dagger with a black pearl in the pommel", "Chalcedony", "Chrysoberyl", "Chrysoprase",
+       "Citrine", "Cloth-of-gold vestments", "Copper (cp)", "Copper chalice with silver filigree", "Coral", "Diamond",
+       "Electrum (ep)", "Embroidered glove set with jewel chips",
+       "Embroidered silk and velvet mantle set with numerous moonstones", "Embroidered silk handkerchief", "Emerald",
+       "Eye Agate",
+       "Eye patch with a mock eye set in blue sapphire and moonstone", "Fine gold chain set with a fire opal",
+       "Fire Opal", "Garnet", "Gold (gp)", "Gold bird cage with electrum filigree",
+       "Gold circlet set with four aquamarines", "Gold cup set with emeralds",
+       "Gold dragon comb set with red garnets as eyes", "Gold jewelry box with platinum filigree",
+       "Gold locket with a painted portrait inside", "Gold music box", "Gold ring set with bloodstones", "Hematite",
+       "Jacinth", "Jade", "Jade game board with solid gold playing pieces", "Jasper", "Jet", "Jeweled anklet",
+       "Jeweled gold crown", "Jeweled platinum ring", "Lapis Lazuli", "Large gold bracelet", "Large well-made tapestry",
+       "Malachite", "Moonstone", "Moss Agate", "Necklace string of small pink pearls", "Obsidian",
+       "Obsidian statuette with gold fittings and inlay", "Old masterpiece painting", "Onyx", "Opal",
+       "Painted gold child's sarcophagus", "Painted gold war mask", "Pair of engraved bone dice", "Pearl", "Peridot",
+       "Platinum (pp)",
+       "Platinum bracelet set with a sapphire", "Quartz", "Rhodochrosite", "Ruby", "Sardonyx",
+       "Silk robe with gold embroidery", "Silver (sp)", "Silver and gold brooch", "Silver chalice set with moonstones",
+       "Silver ewer", "Silver necklace with a gemstone pendant", "Silver-plated steel longsword with jet set in hilt",
+       "Small gold bracelet", "Small gold idol", "Small gold statuette set with rubies",
+       "Small mirror set in a painted wooden frame", "Spinel", "Star rose quartz", "Star Ruby", "Star Sapphire",
+       "Tiger Eye", "Topaz", "Tourmaline", "Turquoise", "Yellow Sapphire", "Zircon", "Nib", "Shard", "Toal", "Dragon",
+       "Sun", "Harbor Moon",};
+  std::vector<std::string> names_of_sellable_itemsSCF =
+      {"Amulet", "Emblem", "Reliquary", "Sprig of Mistletoe", "Totem", "Wooden Staff", "Yew Wand",};
   std::vector<std::string> names_of_sellable_itemsS = {};
   std::vector<std::string> names_of_sellable_itemsHA = {};
-  std::vector<std::string> names_of_sellable_itemsINS = {"Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", };
+  std::vector<std::string> names_of_sellable_itemsINS =
+      {"Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol",};
   std::vector<std::string> names_of_sellable_itemsRG = {};
-  std::vector<std::string> names_of_sellable_itemsTAH = {"Barding", "Bit and bridle", "Exotic Saddle", "Feed (per day)", "Military Saddle", "Pack Saddle", "Riding Saddle", "Saddlebags", "Stabling (per day)", };
+  std::vector<std::string> names_of_sellable_itemsTAH =
+      {"Barding", "Bit and bridle", "Exotic Saddle", "Feed (per day)", "Military Saddle", "Pack Saddle",
+       "Riding Saddle", "Saddlebags", "Stabling (per day)",};
   std::vector<std::string> names_of_sellable_itemsMA = {};
-  std::vector<std::string> names_of_sellable_itemsEXP = {"Bomb", "Gunpowder Horn", "Gunpowder Keg", };
-  std::vector<std::string> names_of_sellable_itemsP = {"Potion of Healing", };
-  std::vector<std::string> names_of_sellable_itemsMNT = {"Camel", "Donkey", "Draft Horse", "Elephant", "Mastiff", "Mule", "Pony", "Riding Horse", "Warhorse", };
-  std::vector<std::string> names_of_sellable_itemsVEH = {"Canoe", "Carriage", "Cart", "Chariot", "Sled", "Wagon", };
-  std::vector<std::string> names_of_sellable_itemsTG = {"Canvas (1 sq. yd.)", "Chicken", "Cinnamon", "Cloves", "Copper", "Cotton Cloth (1 sq. yd.)", "Cow", "Flour", "Ginger", "Goat", "Gold", "Iron", "Linen (1 sq. yd.)", "Ox", "Pepper", "Pig", "Platinum", "Saffron", "Salt", "Sheep", "Silk (1 sq. yd.)", "Silver", "Wheat", };
-  std::vector<std::string> names_of_sellable_itemsGS = {"Dice Set", "Dragonchess Set", "Playing Card Set", "Three-Dragon Ante Set", };
+  std::vector<std::string> names_of_sellable_itemsEXP = {"Bomb", "Gunpowder Horn", "Gunpowder Keg",};
+  std::vector<std::string> names_of_sellable_itemsP = {"Potion of Healing",};
+  std::vector<std::string> names_of_sellable_itemsMNT =
+      {"Camel", "Donkey", "Draft Horse", "Elephant", "Mastiff", "Mule", "Pony", "Riding Horse", "Warhorse",};
+  std::vector<std::string> names_of_sellable_itemsVEH = {"Canoe", "Carriage", "Cart", "Chariot", "Sled", "Wagon",};
+  std::vector<std::string> names_of_sellable_itemsTG =
+      {"Canvas (1 sq. yd.)", "Chicken", "Cinnamon", "Cloves", "Copper", "Cotton Cloth (1 sq. yd.)", "Cow", "Flour",
+       "Ginger", "Goat", "Gold", "Iron", "Linen (1 sq. yd.)", "Ox", "Pepper", "Pig", "Platinum", "Saffron", "Salt",
+       "Sheep", "Silk (1 sq. yd.)", "Silver", "Wheat",};
+  std::vector<std::string>
+      names_of_sellable_itemsGS = {"Dice Set", "Dragonchess Set", "Playing Card Set", "Three-Dragon Ante Set",};
   std::vector<std::string> names_of_sellable_itemsEM = {};
-  std::vector<std::string> names_of_sellable_itemsT = {"Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools", };
+  std::vector<std::string> names_of_sellable_itemsT =
+      {"Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools",};
   std::vector<std::string> names_of_sellable_itemsLA = {};
-  std::vector<std::string> names_of_sellable_itemsOTH = {"Statuette of Saint Markovia", };
+  std::vector<std::string> names_of_sellable_itemsOTH = {"Statuette of Saint Markovia",};
   std::vector<std::string> names_of_sellable_itemsRD = {};
   std::vector<std::string> names_of_sellable_itemsR = {};
   std::vector<std::string> names_of_sellable_itemsSC = {};
   std::vector<std::string> names_of_sellable_itemsA = {};
   std::vector<std::string> names_of_sellable_itemsWD = {};
   std::vector<std::string> names_of_sellable_itemsGV = {};
-  std::vector<std::string> prices_G = {"2 gp", "25 gp", "50 gp", "50 gp", "150 gp", "2 gp", "0.1 cp", "1 gp", "2 gp", "100 gp", "4 sp", "1 gp", "1 gp", "5 sp", "1 gp", "25 gp", "5 cp", "10 gp", "16 gp", "500 gp", "5 cp", "1 gp", "1 cp", "200 gp", "5 gp", "1 cp", "5 gp", "25 gp", "5 sp", "25 gp", "5 gp", "1 gp", "2 gp", "5 gp", "39 gp", "200 gp", "12 gp", "40 gp", "300 gp", "10 gp", "15 gp", "1 gp", "1 cp", "2 gp", "2 gp", "1 gp", "5 gp", "1 gp", "25 gp", "5 gp", "25 gp", "5 gp", "10 gp", "2 cp", "1 sp", "1 gp", "2 gp", "1 sp", "1 gp", "2 cp", "1 sp", "5 sp", "10 gp", "100 gp", "250 gp", "2 gp", "1 gp", "2 gp", "5 gp", "2 sp", "1500 gp", "2 gp", "33 gp", "1 sp", "400 gp", "250 gp", "2 sp", "1 sp", "5 gp", "2 cp", "5 cp", "5 cp", "4 gp", "5 sp", "19 gp", "2000 gp", "1 gp", "1 gp", "5 sp", "1 gp", "50 gp", "1 cp", "40 gp", "5 sp", "200 gp", "2 gp", "5 cp", "5 gp", "10 gp", "5 gp", "2 gp", "2 cp", "50 gp", "1000 gp", "5 gp", "1 cp", "Varies", "5 sp", "1 cp", "600 gp", "2 gp", "150 gp", "2 gp", "1 gp", "2 sp", "1 cp",
-                          "25 gp", "1 gp", "1200 gp", "1 gp", "10 gp", };
-  std::vector<std::string> prices_M = {"2 gp", };
-  std::vector<std::string> prices_SHP = {"20000 gp", "30000 gp", "3000 gp", "10000 gp", "50 gp", "10000 gp", "25000 gp", };
-  std::vector<std::string> prices_AT = {"50 gp", "20 gp", "10 gp", "8 gp", "15 gp", "5 gp", "1 gp", "30 gp", "25 gp", "5 gp", "10 gp", "10 gp", "10 gp", "20 gp", "50 gp", "1 gp", "1 gp", };
-  std::vector<std::string> prices_$ = {"500 gp", "100 gp", "100 gp", "500 gp", "10 gp", "10 gp", "7500 gp", "1000 gp", "500 gp", "5000 gp", "25 gp", "50 gp", "10 gp", "1000 gp", "500 gp", "750 gp", "250 gp", "250 gp", "250 gp", "50 gp", "25 gp", "750 gp", "250 gp", "750 gp", "50 gp", "100 gp", "50 gp", "50 gp", "25 gp", "1 cp", "25 gp", "100 gp", "5000 gp", "1ep", "2500 gp", "2500 gp", "25 gp", "1000 gp", "10 gp", "2500 gp", "2500 gp", "1000 gp", "100 gp", "1 gp", "250 gp", "2500 gp", "7500 gp", "750 gp", "7500 gp", "25 gp", "2500 gp", "250 gp", "10 gp", "5000 gp", "100 gp", "7500 gp", "50 gp", "100 gp", "2500 gp", "7500 gp", "7500 gp", "10 gp", "250 gp", "250 gp", "10 gp", "50 gp", "10 gp", "2500 gp", "10 gp", "750 gp", "2500 gp", "50 gp", "1000 gp", "7500 gp", "750 gp", "25 gp", "100 gp", "500 gp", "1 pp", "2500 gp", "50 gp", "10 gp", "5000 gp", "50 gp", "250 gp", "1 sp", "750 gp", "750 gp", "25 gp", "250 gp", "750 gp", "25 gp", "750 gp", "7500 gp", "25 gp", "100 gp", "50 gp", "1000 gp", "1000 gp", "10 gp", "500 gp",
-                          "100 gp", "10 gp", "1000 gp", "50 gp", "1cp", "1sp", "2gp", "1gp", "1pp", "5pp", };
-  std::vector<std::string> prices_SCF = {"5 gp", "5 gp", "5 gp", "1 gp", "1 gp", "5 gp", "10 gp", };
+  std::vector<std::string> prices_G =
+      {"2 gp", "25 gp", "50 gp", "50 gp", "150 gp", "2 gp", "0.1 cp", "1 gp", "2 gp", "100 gp", "4 sp", "1 gp", "1 gp",
+       "5 sp", "1 gp", "25 gp", "5 cp", "10 gp", "16 gp", "500 gp", "5 cp", "1 gp", "1 cp", "200 gp", "5 gp", "1 cp",
+       "5 gp", "25 gp", "5 sp", "25 gp", "5 gp", "1 gp", "2 gp", "5 gp", "39 gp", "200 gp", "12 gp", "40 gp", "300 gp",
+       "10 gp", "15 gp", "1 gp", "1 cp", "2 gp", "2 gp", "1 gp", "5 gp", "1 gp", "25 gp", "5 gp", "25 gp", "5 gp",
+       "10 gp", "2 cp", "1 sp", "1 gp", "2 gp", "1 sp", "1 gp", "2 cp", "1 sp", "5 sp", "10 gp", "100 gp", "250 gp",
+       "2 gp", "1 gp", "2 gp", "5 gp", "2 sp", "1500 gp", "2 gp", "33 gp", "1 sp", "400 gp", "250 gp", "2 sp", "1 sp",
+       "5 gp", "2 cp", "5 cp", "5 cp", "4 gp", "5 sp", "19 gp", "2000 gp", "1 gp", "1 gp", "5 sp", "1 gp", "50 gp",
+       "1 cp", "40 gp", "5 sp", "200 gp", "2 gp", "5 cp", "5 gp", "10 gp", "5 gp", "2 gp", "2 cp", "50 gp", "1000 gp",
+       "5 gp", "1 cp", "Varies", "5 sp", "1 cp", "600 gp", "2 gp", "150 gp", "2 gp", "1 gp", "2 sp", "1 cp",
+       "25 gp", "1 gp", "1200 gp", "1 gp", "10 gp",};
+  std::vector<std::string> prices_M = {"2 gp",};
+  std::vector<std::string>
+      prices_SHP = {"20000 gp", "30000 gp", "3000 gp", "10000 gp", "50 gp", "10000 gp", "25000 gp",};
+  std::vector<std::string> prices_AT =
+      {"50 gp", "20 gp", "10 gp", "8 gp", "15 gp", "5 gp", "1 gp", "30 gp", "25 gp", "5 gp", "10 gp", "10 gp", "10 gp",
+       "20 gp", "50 gp", "1 gp", "1 gp",};
+  std::vector<std::string> prices_$ =
+      {"500 gp", "100 gp", "100 gp", "500 gp", "10 gp", "10 gp", "7500 gp", "1000 gp", "500 gp", "5000 gp", "25 gp",
+       "50 gp", "10 gp", "1000 gp", "500 gp", "750 gp", "250 gp", "250 gp", "250 gp", "50 gp", "25 gp", "750 gp",
+       "250 gp", "750 gp", "50 gp", "100 gp", "50 gp", "50 gp", "25 gp", "1 cp", "25 gp", "100 gp", "5000 gp", "1ep",
+       "2500 gp", "2500 gp", "25 gp", "1000 gp", "10 gp", "2500 gp", "2500 gp", "1000 gp", "100 gp", "1 gp", "250 gp",
+       "2500 gp", "7500 gp", "750 gp", "7500 gp", "25 gp", "2500 gp", "250 gp", "10 gp", "5000 gp", "100 gp", "7500 gp",
+       "50 gp", "100 gp", "2500 gp", "7500 gp", "7500 gp", "10 gp", "250 gp", "250 gp", "10 gp", "50 gp", "10 gp",
+       "2500 gp", "10 gp", "750 gp", "2500 gp", "50 gp", "1000 gp", "7500 gp", "750 gp", "25 gp", "100 gp", "500 gp",
+       "1 pp", "2500 gp", "50 gp", "10 gp", "5000 gp", "50 gp", "250 gp", "1 sp", "750 gp", "750 gp", "25 gp", "250 gp",
+       "750 gp", "25 gp", "750 gp", "7500 gp", "25 gp", "100 gp", "50 gp", "1000 gp", "1000 gp", "10 gp", "500 gp",
+       "100 gp", "10 gp", "1000 gp", "50 gp", "1cp", "1sp", "2gp", "1gp", "1pp", "5pp",};
+  std::vector<std::string> prices_SCF = {"5 gp", "5 gp", "5 gp", "1 gp", "1 gp", "5 gp", "10 gp",};
   std::vector<std::string> prices_S = {};
   std::vector<std::string> prices_HA = {};
-  std::vector<std::string> prices_INS = {"30 gp", "6 gp", "25 gp", "2 gp", "3 gp", "35 gp", "30 gp", "12 gp", "2 gp", "30 gp", };
+  std::vector<std::string>
+      prices_INS = {"30 gp", "6 gp", "25 gp", "2 gp", "3 gp", "35 gp", "30 gp", "12 gp", "2 gp", "30 gp",};
   std::vector<std::string> prices_RG = {};
-  std::vector<std::string> prices_TAH = {"x4", "2 gp", "60 gp", "5 cp", "20 gp", "5 gp", "10 gp", "4 gp", "5 sp", };
+  std::vector<std::string> prices_TAH = {"x4", "2 gp", "60 gp", "5 cp", "20 gp", "5 gp", "10 gp", "4 gp", "5 sp",};
   std::vector<std::string> prices_MA = {};
-  std::vector<std::string> prices_EXP = {"150 gp", "35 gp", "250 gp", };
-  std::vector<std::string> prices_P = {"50 gp", };
-  std::vector<std::string> prices_MNT = {"50 gp", "8 gp", "50 gp", "200 gp", "25 gp", "8 gp", "30 gp", "75 gp", "400 gp", };
-  std::vector<std::string> prices_VEH = {"50 gp", "100 gp", "15 gp", "250 gp", "20 gp", "35 gp", };
-  std::vector<std::string> prices_TG = {"1 sp", "2 cp", "2 gp", "3 gp", "5 sp", "5 sp", "10 gp", "2 cp", "1 gp", "1 gp", "50 gp", "1 sp", "5 gp", "15 gp", "2 gp", "3 gp", "500 gp", "15 gp", "5 cp", "2 gp", "10 gp", "5 gp", "1 cp", };
-  std::vector<std::string> prices_GS = {"1 sp", "1 gp", "5 sp", "1 gp", };
+  std::vector<std::string> prices_EXP = {"150 gp", "35 gp", "250 gp",};
+  std::vector<std::string> prices_P = {"50 gp",};
+  std::vector<std::string>
+      prices_MNT = {"50 gp", "8 gp", "50 gp", "200 gp", "25 gp", "8 gp", "30 gp", "75 gp", "400 gp",};
+  std::vector<std::string> prices_VEH = {"50 gp", "100 gp", "15 gp", "250 gp", "20 gp", "35 gp",};
+  std::vector<std::string> prices_TG =
+      {"1 sp", "2 cp", "2 gp", "3 gp", "5 sp", "5 sp", "10 gp", "2 cp", "1 gp", "1 gp", "50 gp", "1 sp", "5 gp",
+       "15 gp", "2 gp", "3 gp", "500 gp", "15 gp", "5 cp", "2 gp", "10 gp", "5 gp", "1 cp",};
+  std::vector<std::string> prices_GS = {"1 sp", "1 gp", "5 sp", "1 gp",};
   std::vector<std::string> prices_EM = {};
-  std::vector<std::string> prices_T = {"25 gp", "15 gp", "5 gp", "25 gp", "50 gp", "25 gp", };
+  std::vector<std::string> prices_T = {"25 gp", "15 gp", "5 gp", "25 gp", "50 gp", "25 gp",};
   std::vector<std::string> prices_LA = {};
-  std::vector<std::string> prices_OTH = {"250 gp", };
+  std::vector<std::string> prices_OTH = {"250 gp",};
   std::vector<std::string> prices_RD = {};
   std::vector<std::string> prices_R = {};
   std::vector<std::string> prices_SC = {};
   std::vector<std::string> prices_A = {};
   std::vector<std::string> prices_WD = {};
   std::vector<std::string> prices_GV = {};
-  std::vector<std::string> names_of_sellable_items = {"Abacus", "Acid (vial)", "Alchemist's Fire (flask)", "Antitoxin", "Assassin's Blood (Ingested)", "Backpack", "Ball Bearing", "Ball Bearings (Bag of 1,000)", "Barrel", "Basic Poison (vial)", "Basket", "Bedroll", "Bell", "Blanket", "Block and Tackle", "Book", "Bucket", "Bullseye Lantern", "Burglar's Pack", "Burnt Othur Fumes (Inhaled)", "Caltrops", "Caltrops (20)", "Candle", "Carrion Crawler Mucus (Contact)", "Chain (10 feet)", "Chalk (1 piece)", "Chest", "Climber's Kit", "Common Clothes", "Component Pouch", "Costume Clothes", "Crossbow Bolt Case", "Crowbar", "Dancing Monkey Fruit", "Diplomat's Pack", "Drow Poison (Injury)", "Dungeoneer's Pack", "Entertainer's Pack", "Essence of Ether (Inhaled)", "Explorer's Pack", "Fine Clothes", "Fishing Tackle", "Flask", "Glass Bottle", "Grappling Hook", "Hammer", "Healer's Kit", "Hempen Rope (50 feet)", "Holy Water (flask)", "Hooded Lantern", "Hourglass", "Hunting Trap", "Ink (1-ounce bottle)", "Ink Pen",
-                                                      "Insect Repellent (block of incense)", "Insect Repellent (greasy salve)", "Iron Pot", "Iron Spikes", "Iron Spikes (10)", "Jug", "Ladder (10-foot)", "Lamp", "Lock", "Magnifying Glass", "Malice (Inhaled)", "Manacles", "Map or Scroll Case", "Menga leaves (1 ounce)", "Merchant's Scale", "Mess Kit", "Midnight Tears (Ingested)", "Miner's Pick", "Monster Hunter's Pack", "Oil (flask)", "Oil of Taggit (Contact)", "Pale Tincture (Ingested)", "Paper (one sheet)", "Parchment (one sheet)", "Perfume (vial)", "Pitcher", "Piton", "Pole (10-foot)", "Portable Ram", "Pouch", "Priest's Pack", "Purple Worm Poison (Injury)", "Quiver", "Rain Catcher", "Rations (1 day)", "Robes", "Ryath Root", "Sack", "Scholar's Pack", "Sealing Wax", "Serpent Venom (Injury)", "Shovel", "Signal Whistle", "Signet Ring", "Silk Rope (50 feet)", "Sinda berries (10)", "Sledgehammer", "Soap", "Spellbook", "Spyglass", "Steel Mirror", "Tankard", "Tej", "Tinderbox", "Torch", "Torpor (Ingested)", "Traveler's Clothes", "Truth Serum (Ingested)",
-                                                      "Two-Person Tent", "Vial", "Waterskin", "Whetstone", "Wildroot", "Wukka Nut", "Wyvern Poison (Injury)", "Yahcha", "Zabou", "Reszur", "Airship", "Galley", "Keelboat", "Longship", "Rowboat", "Sailing Ship", "Warship", "Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", "Alexandrite", "Amber", "Amethyst", "Aquamarine", "Azurite", "Banded Agate", "Bejeweled ivory drinking horn with gold filigree", "Black Opal", "Black Pearl", "Black Sapphire", "Black velvet mask stitched with silver thread", "Bloodstone", "Blue Quartz", "Blue Sapphire", "Blue Spinel", "Bottle stopper cork embossed with gold leaf and set with amethysts", "Box of turquoise animal figurines", "Brass mug with jade inlay", "Bronze crown", "Carnelian",
-                                                      "Carved bone statuette", "Carved harp of exotic wood with ivory inlay and zircon gems", "Carved ivory statuette", "Ceremonial electrum dagger with a black pearl in the pommel", "Chalcedony", "Chrysoberyl", "Chrysoprase", "Citrine", "Cloth-of-gold vestments", "Copper (cp)", "Copper chalice with silver filigree", "Coral", "Diamond", "Electrum (ep)", "Embroidered glove set with jewel chips", "Embroidered silk and velvet mantle set with numerous moonstones", "Embroidered silk handkerchief", "Emerald", "Eye Agate", "Eye patch with a mock eye set in blue sapphire and moonstone", "Fine gold chain set with a fire opal", "Fire Opal", "Garnet", "Gold (gp)", "Gold bird cage with electrum filigree", "Gold circlet set with four aquamarines", "Gold cup set with emeralds", "Gold dragon comb set with red garnets as eyes", "Gold jewelry box with platinum filigree", "Gold locket with a painted portrait inside", "Gold music box", "Gold ring set with bloodstones", "Hematite", "Jacinth", "Jade",
-                                                      "Jade game board with solid gold playing pieces", "Jasper", "Jet", "Jeweled anklet", "Jeweled gold crown", "Jeweled platinum ring", "Lapis Lazuli", "Large gold bracelet", "Large well-made tapestry", "Malachite", "Moonstone", "Moss Agate", "Necklace string of small pink pearls", "Obsidian", "Obsidian statuette with gold fittings and inlay", "Old masterpiece painting", "Onyx", "Opal", "Painted gold child's sarcophagus", "Painted gold war mask", "Pair of engraved bone dice", "Pearl", "Peridot", "Platinum (pp)", "Platinum bracelet set with a sapphire", "Quartz", "Rhodochrosite", "Ruby", "Sardonyx", "Silk robe with gold embroidery", "Silver (sp)", "Silver and gold brooch", "Silver chalice set with moonstones", "Silver ewer", "Silver necklace with a gemstone pendant", "Silver-plated steel longsword with jet set in hilt", "Small gold bracelet", "Small gold idol", "Small gold statuette set with rubies", "Small mirror set in a painted wooden frame", "Spinel", "Star rose quartz", "Star Ruby", "Star Sapphire",
-                                                      "Tiger Eye", "Topaz", "Tourmaline", "Turquoise", "Yellow Sapphire", "Zircon", "Nib", "Shard", "Toal", "Dragon", "Sun", "Harbor Moon", "Amulet", "Emblem", "Reliquary", "Sprig of Mistletoe", "Totem", "Wooden Staff", "Yew Wand", "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", "Barding", "Bit and bridle", "Exotic Saddle", "Feed (per day)", "Military Saddle", "Pack Saddle", "Riding Saddle", "Saddlebags", "Stabling (per day)", "Bomb", "Gunpowder Horn", "Gunpowder Keg", "Potion of Healing", "Camel", "Donkey", "Draft Horse", "Elephant", "Mastiff", "Mule", "Pony", "Riding Horse", "Warhorse", "Canoe", "Carriage", "Cart", "Chariot", "Sled", "Wagon", "Canvas (1 sq. yd.)", "Chicken", "Cinnamon", "Cloves", "Copper", "Cotton Cloth (1 sq. yd.)", "Cow", "Flour", "Ginger", "Goat", "Gold", "Iron", "Linen (1 sq. yd.)", "Ox", "Pepper", "Pig", "Platinum", "Saffron", "Salt", "Sheep", "Silk (1 sq. yd.)", "Silver", "Wheat", "Dice Set", "Dragonchess Set", "Playing Card Set",
-                                                      "Three-Dragon Ante Set", "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools", "Statuette of Saint Markovia" };
-  std::vector<std::string> prices_ = {"2 gp", "25 gp", "50 gp", "50 gp", "150 gp", "2 gp", "0.1 cp", "1 gp", "2 gp", "100 gp", "4 sp", "1 gp", "1 gp", "5 sp", "1 gp", "25 gp", "5 cp", "10 gp", "16 gp", "500 gp", "5 cp", "1 gp", "1 cp", "200 gp", "5 gp", "1 cp", "5 gp", "25 gp", "5 sp", "25 gp", "5 gp", "1 gp", "2 gp", "5 gp", "39 gp", "200 gp", "12 gp", "40 gp", "300 gp", "10 gp", "15 gp", "1 gp", "1 cp", "2 gp", "2 gp", "1 gp", "5 gp", "1 gp", "25 gp", "5 gp", "25 gp", "5 gp", "10 gp", "2 cp", "1 sp", "1 gp", "2 gp", "1 sp", "1 gp", "2 cp", "1 sp", "5 sp", "10 gp", "100 gp", "250 gp", "2 gp", "1 gp", "2 gp", "5 gp", "2 sp", "1500 gp", "2 gp", "33 gp", "1 sp", "400 gp", "250 gp", "2 sp", "1 sp", "5 gp", "2 cp", "5 cp", "5 cp", "4 gp", "5 sp", "19 gp", "2000 gp", "1 gp", "1 gp", "5 sp", "1 gp", "50 gp", "1 cp", "40 gp", "5 sp", "200 gp", "2 gp", "5 cp", "5 gp", "10 gp", "5 gp", "2 gp", "2 cp", "50 gp", "1000 gp", "5 gp", "1 cp", "Varies", "5 sp", "1 cp", "600 gp", "2 gp", "150 gp", "2 gp", "1 gp", "2 sp",
-                                      "1 cp", "25 gp", "1 gp", "1200 gp", "1 gp", "10 gp", "2 gp", "20000 gp", "30000 gp", "3000 gp", "10000 gp", "50 gp", "10000 gp", "25000 gp", "50 gp", "20 gp", "10 gp", "8 gp", "15 gp", "5 gp", "1 gp", "30 gp", "25 gp", "5 gp", "10 gp", "10 gp", "10 gp", "20 gp", "50 gp", "1 gp", "1 gp", "500 gp", "100 gp", "100 gp", "500 gp", "10 gp", "10 gp", "7500 gp", "1000 gp", "500 gp", "5000 gp", "25 gp", "50 gp", "10 gp", "1000 gp", "500 gp", "750 gp", "250 gp", "250 gp", "250 gp", "50 gp", "25 gp", "750 gp", "250 gp", "750 gp", "50 gp", "100 gp", "50 gp", "50 gp", "25 gp", "1 cp", "25 gp", "100 gp", "5000 gp", "1ep", "2500 gp", "2500 gp", "25 gp", "1000 gp", "10 gp", "2500 gp", "2500 gp", "1000 gp", "100 gp", "1 gp", "250 gp", "2500 gp", "7500 gp", "750 gp", "7500 gp", "25 gp", "2500 gp", "250 gp", "10 gp", "5000 gp", "100 gp", "7500 gp", "50 gp", "100 gp", "2500 gp", "7500 gp", "7500 gp", "10 gp", "250 gp", "250 gp", "10 gp", "50 gp", "10 gp", "2500 gp", "10 gp", "750 gp", "2500 gp", "50 gp", "1000 gp", "7500 gp",
-                                      "750 gp", "25 gp", "100 gp", "500 gp", "1 pp", "2500 gp", "50 gp", "10 gp", "5000 gp", "50 gp", "250 gp", "1 sp", "750 gp", "750 gp", "25 gp", "250 gp", "750 gp", "25 gp", "750 gp", "7500 gp", "25 gp", "100 gp", "50 gp", "1000 gp", "1000 gp", "10 gp", "500 gp", "100 gp", "10 gp", "1000 gp", "50 gp", "1cp", "1sp", "2gp", "1gp", "1pp", "5pp", "5 gp", "5 gp", "5 gp", "1 gp", "1 gp", "5 gp", "10 gp", "30 gp", "6 gp", "25 gp", "2 gp", "3 gp", "35 gp", "30 gp", "12 gp", "2 gp", "30 gp", "x4", "2 gp", "60 gp", "5 cp", "20 gp", "5 gp", "10 gp", "4 gp", "5 sp", "150 gp", "35 gp", "250 gp", "50 gp", "50 gp", "8 gp", "50 gp", "200 gp", "25 gp", "8 gp", "30 gp", "75 gp", "400 gp", "50 gp", "100 gp", "15 gp", "250 gp", "20 gp", "35 gp", "1 sp", "2 cp", "2 gp", "3 gp", "5 sp", "5 sp", "10 gp", "2 cp", "1 gp", "1 gp", "50 gp", "1 sp", "5 gp", "15 gp", "2 gp", "3 gp", "500 gp", "15 gp", "5 cp", "2 gp", "10 gp", "5 gp", "1 cp", "1 sp", "1 gp", "5 sp", "1 gp", "25 gp", "15 gp", "5 gp", "25 gp", "50 gp", "25 gp", "250 gp" };
+  std::vector<std::string> names_of_sellable_items =
+      {"Abacus", "Acid (vial)", "Alchemist's Fire (flask)", "Antitoxin", "Assassin's Blood (Ingested)", "Backpack",
+       "Ball Bearing", "Ball Bearings (Bag of 1,000)", "Barrel", "Basic Poison (vial)", "Basket", "Bedroll", "Bell",
+       "Blanket", "Block and Tackle", "Book", "Bucket", "Bullseye Lantern", "Burglar's Pack",
+       "Burnt Othur Fumes (Inhaled)", "Caltrops", "Caltrops (20)", "Candle", "Carrion Crawler Mucus (Contact)",
+       "Chain (10 feet)", "Chalk (1 piece)", "Chest", "Climber's Kit", "Common Clothes", "Component Pouch",
+       "Costume Clothes", "Crossbow Bolt Case", "Crowbar", "Dancing Monkey Fruit", "Diplomat's Pack",
+       "Drow Poison (Injury)", "Dungeoneer's Pack", "Entertainer's Pack", "Essence of Ether (Inhaled)",
+       "Explorer's Pack", "Fine Clothes", "Fishing Tackle", "Flask", "Glass Bottle", "Grappling Hook", "Hammer",
+       "Healer's Kit", "Hempen Rope (50 feet)", "Holy Water (flask)", "Hooded Lantern", "Hourglass", "Hunting Trap",
+       "Ink (1-ounce bottle)", "Ink Pen",
+       "Insect Repellent (block of incense)", "Insect Repellent (greasy salve)", "Iron Pot", "Iron Spikes",
+       "Iron Spikes (10)", "Jug", "Ladder (10-foot)", "Lamp", "Lock", "Magnifying Glass", "Malice (Inhaled)",
+       "Manacles", "Map or Scroll Case", "Menga leaves (1 ounce)", "Merchant's Scale", "Mess Kit",
+       "Midnight Tears (Ingested)", "Miner's Pick", "Monster Hunter's Pack", "Oil (flask)", "Oil of Taggit (Contact)",
+       "Pale Tincture (Ingested)", "Paper (one sheet)", "Parchment (one sheet)", "Perfume (vial)", "Pitcher", "Piton",
+       "Pole (10-foot)", "Portable Ram", "Pouch", "Priest's Pack", "Purple Worm Poison (Injury)", "Quiver",
+       "Rain Catcher", "Rations (1 day)", "Robes", "Ryath Root", "Sack", "Scholar's Pack", "Sealing Wax",
+       "Serpent Venom (Injury)", "Shovel", "Signal Whistle", "Signet Ring", "Silk Rope (50 feet)", "Sinda berries (10)",
+       "Sledgehammer", "Soap", "Spellbook", "Spyglass", "Steel Mirror", "Tankard", "Tej", "Tinderbox", "Torch",
+       "Torpor (Ingested)", "Traveler's Clothes", "Truth Serum (Ingested)",
+       "Two-Person Tent", "Vial", "Waterskin", "Whetstone", "Wildroot", "Wukka Nut", "Wyvern Poison (Injury)", "Yahcha",
+       "Zabou", "Reszur", "Airship", "Galley", "Keelboat", "Longship", "Rowboat", "Sailing Ship", "Warship",
+       "Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools",
+       "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools",
+       "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools",
+       "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools", "Alexandrite", "Amber", "Amethyst", "Aquamarine",
+       "Azurite", "Banded Agate", "Bejeweled ivory drinking horn with gold filigree", "Black Opal", "Black Pearl",
+       "Black Sapphire", "Black velvet mask stitched with silver thread", "Bloodstone", "Blue Quartz", "Blue Sapphire",
+       "Blue Spinel", "Bottle stopper cork embossed with gold leaf and set with amethysts",
+       "Box of turquoise animal figurines", "Brass mug with jade inlay", "Bronze crown", "Carnelian",
+       "Carved bone statuette", "Carved harp of exotic wood with ivory inlay and zircon gems", "Carved ivory statuette",
+       "Ceremonial electrum dagger with a black pearl in the pommel", "Chalcedony", "Chrysoberyl", "Chrysoprase",
+       "Citrine", "Cloth-of-gold vestments", "Copper (cp)", "Copper chalice with silver filigree", "Coral", "Diamond",
+       "Electrum (ep)", "Embroidered glove set with jewel chips",
+       "Embroidered silk and velvet mantle set with numerous moonstones", "Embroidered silk handkerchief", "Emerald",
+       "Eye Agate", "Eye patch with a mock eye set in blue sapphire and moonstone",
+       "Fine gold chain set with a fire opal", "Fire Opal", "Garnet", "Gold (gp)",
+       "Gold bird cage with electrum filigree", "Gold circlet set with four aquamarines", "Gold cup set with emeralds",
+       "Gold dragon comb set with red garnets as eyes", "Gold jewelry box with platinum filigree",
+       "Gold locket with a painted portrait inside", "Gold music box", "Gold ring set with bloodstones", "Hematite",
+       "Jacinth", "Jade",
+       "Jade game board with solid gold playing pieces", "Jasper", "Jet", "Jeweled anklet", "Jeweled gold crown",
+       "Jeweled platinum ring", "Lapis Lazuli", "Large gold bracelet", "Large well-made tapestry", "Malachite",
+       "Moonstone", "Moss Agate", "Necklace string of small pink pearls", "Obsidian",
+       "Obsidian statuette with gold fittings and inlay", "Old masterpiece painting", "Onyx", "Opal",
+       "Painted gold child's sarcophagus", "Painted gold war mask", "Pair of engraved bone dice", "Pearl", "Peridot",
+       "Platinum (pp)", "Platinum bracelet set with a sapphire", "Quartz", "Rhodochrosite", "Ruby", "Sardonyx",
+       "Silk robe with gold embroidery", "Silver (sp)", "Silver and gold brooch", "Silver chalice set with moonstones",
+       "Silver ewer", "Silver necklace with a gemstone pendant", "Silver-plated steel longsword with jet set in hilt",
+       "Small gold bracelet", "Small gold idol", "Small gold statuette set with rubies",
+       "Small mirror set in a painted wooden frame", "Spinel", "Star rose quartz", "Star Ruby", "Star Sapphire",
+       "Tiger Eye", "Topaz", "Tourmaline", "Turquoise", "Yellow Sapphire", "Zircon", "Nib", "Shard", "Toal", "Dragon",
+       "Sun", "Harbor Moon", "Amulet", "Emblem", "Reliquary", "Sprig of Mistletoe", "Totem", "Wooden Staff", "Yew Wand",
+       "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol", "Barding",
+       "Bit and bridle", "Exotic Saddle", "Feed (per day)", "Military Saddle", "Pack Saddle", "Riding Saddle",
+       "Saddlebags", "Stabling (per day)", "Bomb", "Gunpowder Horn", "Gunpowder Keg", "Potion of Healing", "Camel",
+       "Donkey", "Draft Horse", "Elephant", "Mastiff", "Mule", "Pony", "Riding Horse", "Warhorse", "Canoe", "Carriage",
+       "Cart", "Chariot", "Sled", "Wagon", "Canvas (1 sq. yd.)", "Chicken", "Cinnamon", "Cloves", "Copper",
+       "Cotton Cloth (1 sq. yd.)", "Cow", "Flour", "Ginger", "Goat", "Gold", "Iron", "Linen (1 sq. yd.)", "Ox",
+       "Pepper", "Pig", "Platinum", "Saffron", "Salt", "Sheep", "Silk (1 sq. yd.)", "Silver", "Wheat", "Dice Set",
+       "Dragonchess Set", "Playing Card Set",
+       "Three-Dragon Ante Set", "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit",
+       "Thieves' Tools", "Statuette of Saint Markovia"};
+  std::vector<std::string> prices_ =
+      {"2 gp", "25 gp", "50 gp", "50 gp", "150 gp", "2 gp", "0.1 cp", "1 gp", "2 gp", "100 gp", "4 sp", "1 gp", "1 gp",
+       "5 sp", "1 gp", "25 gp", "5 cp", "10 gp", "16 gp", "500 gp", "5 cp", "1 gp", "1 cp", "200 gp", "5 gp", "1 cp",
+       "5 gp", "25 gp", "5 sp", "25 gp", "5 gp", "1 gp", "2 gp", "5 gp", "39 gp", "200 gp", "12 gp", "40 gp", "300 gp",
+       "10 gp", "15 gp", "1 gp", "1 cp", "2 gp", "2 gp", "1 gp", "5 gp", "1 gp", "25 gp", "5 gp", "25 gp", "5 gp",
+       "10 gp", "2 cp", "1 sp", "1 gp", "2 gp", "1 sp", "1 gp", "2 cp", "1 sp", "5 sp", "10 gp", "100 gp", "250 gp",
+       "2 gp", "1 gp", "2 gp", "5 gp", "2 sp", "1500 gp", "2 gp", "33 gp", "1 sp", "400 gp", "250 gp", "2 sp", "1 sp",
+       "5 gp", "2 cp", "5 cp", "5 cp", "4 gp", "5 sp", "19 gp", "2000 gp", "1 gp", "1 gp", "5 sp", "1 gp", "50 gp",
+       "1 cp", "40 gp", "5 sp", "200 gp", "2 gp", "5 cp", "5 gp", "10 gp", "5 gp", "2 gp", "2 cp", "50 gp", "1000 gp",
+       "5 gp", "1 cp", "Varies", "5 sp", "1 cp", "600 gp", "2 gp", "150 gp", "2 gp", "1 gp", "2 sp",
+       "1 cp", "25 gp", "1 gp", "1200 gp", "1 gp", "10 gp", "2 gp", "20000 gp", "30000 gp", "3000 gp", "10000 gp",
+       "50 gp", "10000 gp", "25000 gp", "50 gp", "20 gp", "10 gp", "8 gp", "15 gp", "5 gp", "1 gp", "30 gp", "25 gp",
+       "5 gp", "10 gp", "10 gp", "10 gp", "20 gp", "50 gp", "1 gp", "1 gp", "500 gp", "100 gp", "100 gp", "500 gp",
+       "10 gp", "10 gp", "7500 gp", "1000 gp", "500 gp", "5000 gp", "25 gp", "50 gp", "10 gp", "1000 gp", "500 gp",
+       "750 gp", "250 gp", "250 gp", "250 gp", "50 gp", "25 gp", "750 gp", "250 gp", "750 gp", "50 gp", "100 gp",
+       "50 gp", "50 gp", "25 gp", "1 cp", "25 gp", "100 gp", "5000 gp", "1ep", "2500 gp", "2500 gp", "25 gp", "1000 gp",
+       "10 gp", "2500 gp", "2500 gp", "1000 gp", "100 gp", "1 gp", "250 gp", "2500 gp", "7500 gp", "750 gp", "7500 gp",
+       "25 gp", "2500 gp", "250 gp", "10 gp", "5000 gp", "100 gp", "7500 gp", "50 gp", "100 gp", "2500 gp", "7500 gp",
+       "7500 gp", "10 gp", "250 gp", "250 gp", "10 gp", "50 gp", "10 gp", "2500 gp", "10 gp", "750 gp", "2500 gp",
+       "50 gp", "1000 gp", "7500 gp",
+       "750 gp", "25 gp", "100 gp", "500 gp", "1 pp", "2500 gp", "50 gp", "10 gp", "5000 gp", "50 gp", "250 gp", "1 sp",
+       "750 gp", "750 gp", "25 gp", "250 gp", "750 gp", "25 gp", "750 gp", "7500 gp", "25 gp", "100 gp", "50 gp",
+       "1000 gp", "1000 gp", "10 gp", "500 gp", "100 gp", "10 gp", "1000 gp", "50 gp", "1cp", "1sp", "2gp", "1gp",
+       "1pp", "5pp", "5 gp", "5 gp", "5 gp", "1 gp", "1 gp", "5 gp", "10 gp", "30 gp", "6 gp", "25 gp", "2 gp", "3 gp",
+       "35 gp", "30 gp", "12 gp", "2 gp", "30 gp", "x4", "2 gp", "60 gp", "5 cp", "20 gp", "5 gp", "10 gp", "4 gp",
+       "5 sp", "150 gp", "35 gp", "250 gp", "50 gp", "50 gp", "8 gp", "50 gp", "200 gp", "25 gp", "8 gp", "30 gp",
+       "75 gp", "400 gp", "50 gp", "100 gp", "15 gp", "250 gp", "20 gp", "35 gp", "1 sp", "2 cp", "2 gp", "3 gp",
+       "5 sp", "5 sp", "10 gp", "2 cp", "1 gp", "1 gp", "50 gp", "1 sp", "5 gp", "15 gp", "2 gp", "3 gp", "500 gp",
+       "15 gp", "5 cp", "2 gp", "10 gp", "5 gp", "1 cp", "1 sp", "1 gp", "5 sp", "1 gp", "25 gp", "15 gp", "5 gp",
+       "25 gp", "50 gp", "25 gp", "250 gp"};
 
 };
 //types = {"G", "M", "SHP", "AT", "$", "SCF", "S",
@@ -668,12 +839,15 @@ class Item {
   std::vector<std::string> Entries_Parse(const nlohmann::basic_json<> &j, int i);
   std::vector<std::string> AttachedSpells_Parse(const nlohmann::basic_json<> &j, int i);
 
+  //TODO: Who can Attune
   virtual std::string What_class();
 };
 
 class Melee_Weapon :
     public Item {
  protected:
+  bool reqAttune;
+  bool reqAttuneByWho[kClass_NuM + kRace_Num + kRace_Num];
   int num_of_dices1;
   int damage_dice1;
   int num_of_dices2;
@@ -699,7 +873,6 @@ class Melee_Weapon :
 class Ranged_Weapon :
     public Melee_Weapon {
  protected:
-
  public:
   Ranged_Weapon();
   Ranged_Weapon(std::string &name_);
@@ -737,6 +910,8 @@ class Ranged_Weapon :
 class Armor :
     public Item {
  protected:
+  bool reqAttune;
+  bool reqAttuneByWho[kClass_NuM + kRace_Num];
   int type_of_armor;
   int armor_class;
   int strength_needed;
@@ -775,6 +950,8 @@ class Goods :
 class Ammo :
     public Goods {
  protected:
+  bool reqAttune;
+  bool reqAttuneByWho[kClass_NuM + kRace_Num];
   int ammo_damage;
   int element;
  public:
@@ -849,6 +1026,8 @@ class Valuables :
 class SpellCastingFocus :
     public Item {
  private:
+  bool reqAttune;
+  bool reqAttuneByWho[kClass_NuM + kRace_Num];
   bool arcane_focus;
   bool druidic_focus;
   bool holy_symbol;
@@ -869,6 +1048,8 @@ class Shield :
     public Item {
  private:
   int ac;
+  bool reqAttune;
+  bool reqAttuneByWho[kClass_NuM + kRace_Num];
  public:
   Shield();
   Shield(std::string &name_);
@@ -902,6 +1083,8 @@ class Ring :
  private:
   int charges;
   int resistance_type;
+  bool reqAttune;
+  bool reqAttuneByWho[kClass_NuM + kRace_Num];
  public:
   Ring();
   Ring(std::string &name_);
@@ -967,8 +1150,8 @@ class Potion :
 class Mounties :
     public Item {
  private:
-  int carryingcapacity;
-  int speed;
+  std::string carryingcapacity;
+  std::string speed;
  public:
   Mounties();
   Mounties(std::string &name_);
@@ -984,6 +1167,8 @@ class Mounties :
 class Vehicle :
     public Item {
  private:
+  std::string speed;
+  std::string carryingcapacity;
  public:
   Vehicle();
   Vehicle(std::string &name_);
@@ -1080,7 +1265,7 @@ class Rod :
     public Item {
  private:
   bool reqAttune;
-  bool reqAttuneByWho[kClass_NuM];//classes
+  bool reqAttuneByWho[kClass_NuM + kRace_Num];//classes
  public:
   Rod();
   Rod(std::string &name_);
@@ -1113,7 +1298,8 @@ class Wand :
     public Item {
  private:
   bool reqAttune;
-  bool reqAttuneByWho[kClass_NuM];//classes
+  bool reqAttuneByWho[kClass_NuM + kRace_Num];
+  int charges;
  public:
   Wand();
   Wand(std::string &name_);

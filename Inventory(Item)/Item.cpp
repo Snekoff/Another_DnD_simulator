@@ -65,16 +65,13 @@ int Item::Price_Parce(const json &j, int i) {
       if (value_[s] == 's') {
         multiplier = 10;
         break;
-      }
-      else if (value_[s] == 'g') {
+      } else if (value_[s] == 'g') {
         multiplier = 100;
         break;
-      }
-      else if (value_[s] == 'p') {
+      } else if (value_[s] == 'p') {
         multiplier = 1000;
         break;
-      }
-      else if (s < value_.length() - 1) s++;
+      } else if (s < value_.length() - 1) s++;
       else break;
     }
     cost = stoi(cost_) * multiplier;
@@ -103,48 +100,45 @@ std::string Item::What_class() {
 std::vector<std::string> Item::Entries_Parse(const nlohmann::basic_json<> &j, int i) {
   if (!j["item"][i]["entries"].empty()) {
     for (int k = 0; !j["item"][i]["entries"][k].empty(); k++) {
-      if(!j["item"][i]["entries"][k]["type"].empty()){
-        for(int f = 0; !j["item"][i]["entries"][k]["entries"][f].empty();f++){
-          if(!j["item"][i]["entries"][k]["entries"][f]["type"].empty()){
+      if (!j["item"][i]["entries"][k]["type"].empty()) {
+        for (int f = 0; !j["item"][i]["entries"][k]["entries"][f].empty(); f++) {
+          if (!j["item"][i]["entries"][k]["entries"][f]["type"].empty()) {
             /*OH FUCK ME IF THAT JSON IS SO COMPLEX*/
-            if(!j["item"][i]["entries"][k]["name"].empty()){
-              if(j["item"][i]["entries"][k]["name"] == "Random Properties"){
-                for(int a = 0; !j["item"][i]["entries"][k]["entries"][f]["entries"][a].empty();a++){
+            if (!j["item"][i]["entries"][k]["name"].empty()) {
+              if (j["item"][i]["entries"][k]["name"] == "Random Properties") {
+                for (int a = 0; !j["item"][i]["entries"][k]["entries"][f]["entries"][a].empty(); a++) {
                   entries.push_back(j["item"][i]["entries"][k]["entries"][f]["entries"][a]);
                 }
-                for(int a = 0; !j["item"][i]["entries"][k]["entries"][f]["items"][a].empty();a++){
+                for (int a = 0; !j["item"][i]["entries"][k]["entries"][f]["items"][a].empty(); a++) {
                   entries.push_back(j["item"][i]["entries"][k]["entries"][f]["items"][a]);
                 }
               }
             }
-          }
-          else entries.push_back(j["item"][i]["entries"][k]["entries"][f]);
+          } else entries.push_back(j["item"][i]["entries"][k]["entries"][f]);
         }
-        for(int f = 0; !j["item"][i]["entries"][k]["items"][f].empty();f++){
-          if(!j["item"][i]["entries"][k]["entries"][f]["type"].empty()){
-            if(!j["item"][i]["entries"][k]["name"].empty()){
-              if(j["item"][i]["entries"][k]["name"] == "Random Properties"){
+        for (int f = 0; !j["item"][i]["entries"][k]["items"][f].empty(); f++) {
+          if (!j["item"][i]["entries"][k]["entries"][f]["type"].empty()) {
+            if (!j["item"][i]["entries"][k]["name"].empty()) {
+              if (j["item"][i]["entries"][k]["name"] == "Random Properties") {
                 entries.emplace_back("Random Properties");
-                for(int a = 0; !j["item"][i]["entries"][k]["entries"][f]["entries"][a].empty();a++){
+                for (int a = 0; !j["item"][i]["entries"][k]["entries"][f]["entries"][a].empty(); a++) {
                   entries.push_back(j["item"][i]["entries"][k]["entries"][f]["entries"][a]);
                 }
-                for(int a = 0; !j["item"][i]["entries"][k]["entries"][f]["items"][a].empty();a++){
+                for (int a = 0; !j["item"][i]["entries"][k]["entries"][f]["items"][a].empty(); a++) {
                   entries.push_back(j["item"][i]["entries"][k]["entries"][f]["items"][a]);
                 }
               }
             }
-          }
-          else entries.push_back(j["item"][i]["entries"][k]["items"][f]);
+          } else entries.push_back(j["item"][i]["entries"][k]["items"][f]);
         }
-      }
-      else entries.push_back(j["item"][i]["entries"][k]);
+      } else entries.push_back(j["item"][i]["entries"][k]);
     }
   }
   return entries;
 }
 std::vector<std::string> Item::AttachedSpells_Parse(const nlohmann::basic_json<> &j, int i) {
-  if(!j["item"][i]["attachedSpells"].empty()){
-    for(int k = 0; j["item"][i]["attachedSpells"][k].empty(); k++){
+  if (!j["item"][i]["attachedSpells"].empty()) {
+    for (int k = 0; j["item"][i]["attachedSpells"][k].empty(); k++) {
       attachedSpells.push_back(j["item"][i]["attachedSpells"][k]);
     }
   }
@@ -198,6 +192,11 @@ void Melee_Weapon::set(std::string &name_, int count_) {
           source = j["item"][i]["source"];
           if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
+          if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i]["reqAttune"] != true) {
+
+            } else reqAttune = j["item"][i]["reqAttune"];
+          }
           cost = Price_Parce(j, i);
           break;
         }
@@ -284,6 +283,11 @@ void Ranged_Weapon::set(std::string &name_, int count_) {
           source = j["item"][i]["source"];
           if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
+          if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i]["reqAttune"] != true) {
+
+            } else reqAttune = j["item"][i]["reqAttune"];
+          }
           cost = Price_Parce(j, i);
           break;
         }
@@ -366,6 +370,11 @@ void Armor::set(std::string &name_, int count_) {
           source = j["item"][i]["source"];
           if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
+          if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i]["reqAttune"] != true) {
+
+            } else reqAttune = j["item"][i]["reqAttune"];
+          }
           cost = Price_Parce(j, i);
           break;
         }
@@ -500,6 +509,11 @@ void Ammo::set(std::string &name_, int count_) {
           source = j["item"][i]["source"];
           if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
+          if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i]["reqAttune"] != true) {
+
+            } else reqAttune = j["item"][i]["reqAttune"];
+          }
           cost = Price_Parce(j, i);
           break;
         }
@@ -679,22 +693,26 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
     inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-      if (!j["item"][i]["technology"].empty()){
-        if(j["item"][i]["technology"] == "Staff"){
+      if (!j["item"][i]["technology"].empty()) {
+        if (j["item"][i]["technology"] == "Staff") {
           arcane_focus = true;
           druidic_focus = false;
           holy_symbol = false;
           weight = E_I.SpellCastingFocus_i[4][1];// technology @Staff
           rarity = j["item"][i]["rarity"];
-          if(!j["item"][i]["weight"].empty())weight = j["item"][i]["weight"];
+          if (!j["item"][i]["weight"].empty())weight = j["item"][i]["weight"];
           source = j["item"][i]["source"];
           if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
+          if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i]["reqAttune"] != true) {
+
+            } else reqAttune = j["item"][i]["reqAttune"];
+          }
           cost = Price_Parce(j, i);
           break;
         }
-      }
-      else if (!j["item"][i]["type"].empty()) {
+      } else if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           rarity = j["item"][i]["rarity"];
@@ -703,14 +721,19 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
           if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
           if (!j["item"][i]["scfType"].empty()) {
-            for(int m = 0; m < kSpellCastingFocus_Types; m++){
-              if(E_I.SpellCastingFocus_types[m] == j["item"][i]["scfType"]){
+            for (int m = 0; m < kSpellCastingFocus_Types; m++) {
+              if (E_I.SpellCastingFocus_types[m] == j["item"][i]["scfType"]) {
                 scfType = m;
                 break;
               }
             }
           }
 
+          if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i]["reqAttune"] != true) {
+
+            } else reqAttune = j["item"][i]["reqAttune"];
+          }
           cost = Price_Parce(j, i);
           break;
         }
@@ -791,6 +814,11 @@ void Shield::set(std::string &name_, int count_) {
           }
         }*/
         if (!j["item"][i]["ac"].empty()) ac = j["item"][i]["ac"];
+        if (!j["item"][i]["reqAttune"].empty()) {
+          if (j["item"][i]["reqAttune"] != true) {
+
+          } else reqAttune = j["item"][i]["reqAttune"];
+        }
         cost = Price_Parce(j, i);
         break;
       }
@@ -880,16 +908,21 @@ void Ring::set(std::string &name_, int count_) {
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         entries = Entries_Parse(j, i);
-        if (!j["item"][i]["resist"].empty()){
-          for(int k = 1; k < kElements_Num; k++){
-            if(E_I.elements[k] == j["item"][i]["resist"]){
+        if (!j["item"][i]["resist"].empty()) {
+          for (int k = 1; k < kElements_Num; k++) {
+            if (E_I.elements[k] == j["item"][i]["resist"]) {
               resistance_type = k - 1;// because "first" type is non-elemental damage
               break;
             }
           }
         }
         attachedSpells = AttachedSpells_Parse(j, i);
-        if(!j["item"][i]["charges"].empty()) charges = !j["item"][i]["charges"];
+        if (!j["item"][i]["charges"].empty()) charges = !j["item"][i]["charges"];
+        if (!j["item"][i]["reqAttune"].empty()) {
+          if (j["item"][i]["reqAttune"] != true) {
+
+          } else reqAttune = j["item"][i]["reqAttune"];
+        }
         cost = Price_Parce(j, i);
         break;
       }
@@ -1109,6 +1142,8 @@ void Vehicle::set(std::string &name_, int count_) {
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         entries = Entries_Parse(j, i);
+        if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
+        if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
         cost = Price_Parce(j, i);
         break;
       }
@@ -1223,6 +1258,11 @@ void Device::set(std::string &name_, int count_) {
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         entries = Entries_Parse(j, i);
+        if (!j["item"][i]["reqAttune"].empty()) {
+          if (j["item"][i]["reqAttune"] != true) {
+
+          } else reqAttune = j["item"][i]["reqAttune"];
+        }
         cost = Price_Parce(j, i);
         break;
       }
@@ -1244,7 +1284,7 @@ Tools::Tools(std::string &name_) {
 Tools::Tools(std::string &name_, int count_) {
   set(name_, count_);
 }
-Tools::~Tools() = default;
+Tools::~Tools() = default; //TODO: AditionalEntries
 void Tools::set(std::string &name_, int count_) {
   weight = 0;
   count = count_;
@@ -1299,6 +1339,12 @@ void Rod::set(std::string &name_, int count_) {
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         entries = Entries_Parse(j, i);
+        attachedSpells = AttachedSpells_Parse(j, i);
+        if (!j["item"][i]["reqAttune"].empty()) {
+          if (j["item"][i]["reqAttune"] != true) {
+
+          } else reqAttune = j["item"][i]["reqAttune"];
+        }
         cost = Price_Parce(j, i);
         break;
       }
@@ -1338,6 +1384,7 @@ void Scroll::set(std::string &name_, int count_) {
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         entries = Entries_Parse(j, i);
+        attachedSpells = AttachedSpells_Parse(j, i);
         cost = Price_Parce(j, i);
         break;
       }
@@ -1376,6 +1423,13 @@ void Wand::set(std::string &name_, int count_) {
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         entries = Entries_Parse(j, i);
+        if (!j["item"][i]["reqAttune"].empty()) {
+          if (j["item"][i]["reqAttune"] != true) {
+
+          } else reqAttune = j["item"][i]["reqAttune"];
+        }
+        attachedSpells = AttachedSpells_Parse(j, i);
+        if (!j["item"][i]["charges"].empty()) charges = !j["item"][i]["charges"];
         cost = Price_Parce(j, i);
         break;
       }
