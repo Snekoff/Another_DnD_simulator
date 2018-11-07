@@ -651,7 +651,7 @@ class Item {
   std::string rarity;
   std::string tier;
   std::vector<std::string> entries;
-  std::vector<Spell *> AttachedSpells;
+  std::vector<std::string> attachedSpells;
  public:
   Item();
   ~Item();
@@ -665,6 +665,9 @@ class Item {
   bool Is_Attuned();
   virtual bool is_equiped();
   int Price_Parce(const nlohmann::basic_json<> &j, int i);
+  std::vector<std::string> Entries_Parse(const nlohmann::basic_json<> &j, int i);
+  std::vector<std::string> AttachedSpells_Parse(const nlohmann::basic_json<> &j, int i);
+
   virtual std::string What_class();
 };
 
@@ -897,6 +900,7 @@ class Instrument :
 class Ring :
     public Item {
  private:
+  int charges;
   int resistance_type;
  public:
   Ring();
