@@ -98,49 +98,92 @@ std::string Item::What_class() {
   return what_class_is_it;
 }
 std::vector<std::string> Item::Entries_Parse(const nlohmann::basic_json<> &j, int i) {
-  if (!j["item"][i]["entries"].empty()) {
-    for (int k = 0; !j["item"][i]["entries"][k].empty(); k++) {
-      if (!j["item"][i]["entries"][k]["type"].empty()) {
-        for (int f = 0; !j["item"][i]["entries"][k]["entries"][f].empty(); f++) {
-          if (!j["item"][i]["entries"][k]["entries"][f]["type"].empty()) {
-            /*OH FUCK ME IF THAT JSON IS SO COMPLEX*/
-            if (!j["item"][i]["entries"][k]["name"].empty()) {
-              if (j["item"][i]["entries"][k]["name"] == "Random Properties") {
-                for (int a = 0; !j["item"][i]["entries"][k]["entries"][f]["entries"][a].empty(); a++) {
-                  entries.push_back(j["item"][i]["entries"][k]["entries"][f]["entries"][a]);
-                }
-                for (int a = 0; !j["item"][i]["entries"][k]["entries"][f]["items"][a].empty(); a++) {
-                  entries.push_back(j["item"][i]["entries"][k]["entries"][f]["items"][a]);
-                }
-              }
-            }
-          } else entries.push_back(j["item"][i]["entries"][k]["entries"][f]);
-        }
-        for (int f = 0; !j["item"][i]["entries"][k]["items"][f].empty(); f++) {
-          if (!j["item"][i]["entries"][k]["entries"][f]["type"].empty()) {
-            if (!j["item"][i]["entries"][k]["name"].empty()) {
-              if (j["item"][i]["entries"][k]["name"] == "Random Properties") {
-                entries.emplace_back("Random Properties");
-                for (int a = 0; !j["item"][i]["entries"][k]["entries"][f]["entries"][a].empty(); a++) {
-                  entries.push_back(j["item"][i]["entries"][k]["entries"][f]["entries"][a]);
-                }
-                for (int a = 0; !j["item"][i]["entries"][k]["entries"][f]["items"][a].empty(); a++) {
-                  entries.push_back(j["item"][i]["entries"][k]["entries"][f]["items"][a]);
+  //std::cout << "Control reach Item::Entries_Parse 0\n";
+  try {
+    if (!j["item"][i]["entries"].empty()) {
+      //std::cout << "Entries not empty\n";
+      std::cout << "Control reach Item::Entries_Parse 1\n";
+      //std::cout << j["item"][i]["entries"].size() << std::endl;
+      for (int k = 0; k < j["item"][i]["entries"].size(); k++) {
+        if (!j["item"][i]["entries"][k].empty()) {//entries
+          std::cout << "Control reach Item::Entries_Parse 2\n";
+          std::cout <<  j["item"][i]["entries"][k].size() << std::endl;// 048872304958273495823749523794587239458
+          for (int f = 0; f < j["item"][i]["entries"][k]["entries"].size(); f++) {
+            if (!j["item"][i]["entries"][k]["entries"][f].empty()) {//type
+              std::cout << "Control reach Item::Entries_Parse 3\n";
+              /*OH FUCK ME IF THAT JSON IS SO COMPLEX*/
+              if (!j["item"][i]["entries"][k]["name"].empty()) {
+                std::cout << "Control reach Item::Entries_Parse 4\n";
+                if (j["item"][i]["entries"][k]["name"] == "Random Properties") {
+                  std::cout << "Control reach Item::Entries_Parse 5\n";
+                  for (int a = 0; a < j["item"][i]["entries"][k]["entries"][f]["entries"].size(); a++) {
+                    std::string entries_ = j["item"][i]["entries"][k]["entries"][f]["entries"][a];
+                    entries.push_back(entries_);
+                  }
+                  for (int a = 0; a < j["item"][i]["entries"][k]["entries"][f]["items"].size(); a++) {
+                    std::string entries_ = j["item"][i]["entries"][k]["entries"][f]["items"][a];
+                    entries.push_back(entries_);
+                  }
                 }
               }
+            } else {
+              std::string entries_ = j["item"][i]["entries"][k]["entries"][f];
+              entries.push_back(entries_);
             }
-          } else entries.push_back(j["item"][i]["entries"][k]["items"][f]);
+          }
+          std::cout << "Control reach Item::Entries_Parse 6\n";
+          for (int f = 0; f < j["item"][i]["entries"][k]["items"].size(); f++) {
+            if (!j["item"][i]["entries"][k]["entries"][f].empty()) {//type
+              std::cout << "Control reach Item::Entries_Parse 7\n";
+              if (!j["item"][i]["entries"][k]["name"].empty()) {
+                std::cout << "Control reach Item::Entries_Parse 8\n";
+                if (j["item"][i]["entries"][k]["name"] == "Random Properties") {
+                  std::cout << "Control reach Item::Entries_Parse 9\n";
+                  entries.emplace_back("Random Properties");
+                  for (int a = 0; a < j["item"][i]["entries"][k]["entries"][f]["entries"].size(); a++) {
+                    std::string entries_ = j["item"][i]["entries"][k]["entries"][f]["entries"][a];
+                    entries.push_back(entries_);
+                  }
+                  for (int a = 0; a < j["item"][i]["entries"][k]["entries"][f]["items"].size(); a++) {
+                    std::string entries_ = j["item"][i]["entries"][k]["entries"][f]["items"][a];
+                    entries.push_back(entries_);
+                  }
+                }
+              }
+            } else {
+              std::string entries_ = j["item"][i]["entries"][k]["items"][f];
+              entries.push_back(entries_);
+            }
+          }
+        } else {
+          std::cout << "Control reach Item::Entries_Parse 11\n";
+          std::string entries_ = j["item"][i]["entries"][k];
+          //std::cout << "Not fine here ?\n";
+          entries.push_back(entries_);
         }
-      } else entries.push_back(j["item"][i]["entries"][k]);
+      }
     }
   }
+  catch (json::type_error &e) {
+    // output exception information
+    std::cout << "message: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
+  }
+  if(!entries.empty()) std::cout << entries[0];
   return entries;
 }
 std::vector<std::string> Item::AttachedSpells_Parse(const nlohmann::basic_json<> &j, int i) {
-  if (!j["item"][i]["attachedSpells"].empty()) {
-    for (int k = 0; j["item"][i]["attachedSpells"][k].empty(); k++) {
-      attachedSpells.push_back(j["item"][i]["attachedSpells"][k]);
+  try {
+    if (!j["item"][i]["attachedSpells"].empty()) {
+      for (int k = 0; j["item"][i]["attachedSpells"][k].empty(); k++) {
+        attachedSpells.push_back(j["item"][i]["attachedSpells"][k]);
+      }
     }
+  }
+  catch (json::type_error &e) {
+    // output exception information
+    std::cout << "message: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
   }
   return attachedSpells;
 }
@@ -184,24 +227,33 @@ void Melee_Weapon::set(std::string &name_, int count_) {
     inputJson
         .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.jsonjson ");
     json j = json::parse(inputJson);
-    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-      if (!j["item"][i]["type"].empty()) {
-        if (name_ == j["item"][i]["name"]) {
-          name = name_;
-          rarity = j["item"][i]["rarity"];
-          weight = j["item"][i]["weight"];
-          source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
-          if (!j["item"][i]["reqAttune"].empty()) {
-            if (j["item"][i]["reqAttune"] != true) {
+    try {
+      for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+        if (!j["item"][i]["type"].empty()) {
+          if (name_ == j["item"][i]["name"]) {
+            name = name_;
+            rarity = j["item"][i]["rarity"];
+            if (!j["item"][i]["weight"].empty()) {
+              std::string weight_ = j["item"][i]["weight"];
+              weight = std::stoi(weight_);
+            }
+            source = j["item"][i]["source"];
+            if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+            entries = Entries_Parse(j, i);
+            if (!j["item"][i]["reqAttune"].empty()) {
+              if (j["item"][i]["reqAttune"] != true) {
 
-            } else reqAttune = j["item"][i]["reqAttune"];
+              } else reqAttune = j["item"][i]["reqAttune"];
+            }
+            cost = Price_Parse(j, i);
+            break;
           }
-          cost = Price_Parse(j, i);
-          break;
         }
       }
+    }
+    catch (json::type_error &e) {
+      std::cout << "messege: " << e.what() << '\n'
+                << "exception id: " << e.id << std::endl;
     }
   }
   what_class_is_it = "Weapon";
@@ -275,24 +327,33 @@ void Ranged_Weapon::set(std::string &name_, int count_) {
     inputJson
         .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.jsonjson ");
     json j = json::parse(inputJson);
-    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-      if (!j["item"][i]["type"].empty()) {
-        if (name_ == j["item"][i]["name"]) {
-          name = name_;
-          rarity = j["item"][i]["rarity"];
-          weight = j["item"][i]["weight"];
-          source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
-          if (!j["item"][i]["reqAttune"].empty()) {
-            if (j["item"][i]["reqAttune"] != true) {
+    try {
+      for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+        if (!j["item"][i]["type"].empty()) {
+          if (name_ == j["item"][i]["name"]) {
+            name = name_;
+            rarity = j["item"][i]["rarity"];
+            if (!j["item"][i]["weight"].empty()) {
+              std::string weight_ = j["item"][i]["weight"];
+              weight = std::stoi(weight_);
+            }
+            source = j["item"][i]["source"];
+            if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+            entries = Entries_Parse(j, i);
+            if (!j["item"][i]["reqAttune"].empty()) {
+              if (j["item"][i]["reqAttune"] != true) {
 
-            } else reqAttune = j["item"][i]["reqAttune"];
+              } else reqAttune = j["item"][i]["reqAttune"];
+            }
+            cost = Price_Parse(j, i);
+            break;
           }
-          cost = Price_Parse(j, i);
-          break;
         }
       }
+    }
+    catch (json::type_error &e) {
+      std::cout << "messege: " << e.what() << '\n'
+                << "exception id: " << e.id << std::endl;
     }
   }
   what_class_is_it = "Ranged_Weapon";
@@ -362,24 +423,33 @@ void Armor::set(std::string &name_, int count_) {
     inputJson
         .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.jsonjson ");
     json j = json::parse(inputJson);
-    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-      if (!j["item"][i]["type"].empty()) {
-        if (name_ == j["item"][i]["name"]) {
-          name = name_;
-          rarity = j["item"][i]["rarity"];
-          weight = j["item"][i]["weight"];
-          source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
-          if (!j["item"][i]["reqAttune"].empty()) {
-            if (j["item"][i]["reqAttune"] != true) {
+    try {
+      for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+        if (!j["item"][i]["type"].empty()) {
+          if (name_ == j["item"][i]["name"]) {
+            name = name_;
+            rarity = j["item"][i]["rarity"];
+            if (!j["item"][i]["weight"].empty()) {
+              std::string weight_ = j["item"][i]["weight"];
+              weight = std::stoi(weight_);
+            }
+            source = j["item"][i]["source"];
+            if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+            entries = Entries_Parse(j, i);
+            if (!j["item"][i]["reqAttune"].empty()) {
+              if (j["item"][i]["reqAttune"] != true) {
 
-            } else reqAttune = j["item"][i]["reqAttune"];
+              } else reqAttune = j["item"][i]["reqAttune"];
+            }
+            cost = Price_Parse(j, i);
+            break;
           }
-          cost = Price_Parse(j, i);
-          break;
         }
       }
+    }
+    catch (json::type_error &e) {
+      std::cout << "messege: " << e.what() << '\n'
+                << "exception id: " << e.id << std::endl;
     }
   }
   what_class_is_it = "Armor";
@@ -417,7 +487,7 @@ Goods::Goods(std::string &name_) {
 Goods::~Goods() = default;
 void Goods::set(std::string &name_, int count_) {
   Existing_Items E_I;
-  std::cout << "Control reach Item::Goods::set 0/0\n";
+  //std::cout << "Control reach Item::Goods::set 0/0\n";
   name = " ";
   equipped = false;
   for (int i = 0; i < kGoods_NUM; i++) {
@@ -430,28 +500,42 @@ void Goods::set(std::string &name_, int count_) {
     }
   }
   count = count_;
-  std::cout << "Control reach Item::Goods::set 0\n";
+  //std::cout << "Control reach Item::Goods::set 0\n";
   if (name == " ") {
     source = "Default";
     std::ifstream inputJson;
     inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
-    std::cout << "Control reach Item::Goods::set 1\n";
-    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-      if (!j["item"][i]["type"].empty()) {
-        if (name_ == j["item"][i]["name"]) {
-          std::cout << "Control reach Item::Goods::set 2\n";
-          name = name_;
-          rarity = j["item"][i]["rarity"];
-          weight = j["item"][i]["weight"];
-          source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
-          cost = Price_Parse(j, i);
-          break;
+    try {
+      for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+        if (!j["item"][i]["type"].empty()) {
+          if (name_ == j["item"][i]["name"]) {
+            //std::cout << "Control reach Item::Goods::set 2\n";
+            name = name_;
+            rarity = j["item"][i]["rarity"];
+            if (!j["item"][i]["weight"].empty()) {
+              std::string weight_ = j["item"][i]["weight"];
+              //std::cout << "Control reach I}tem::Goods::set 3\n";
+              weight = std::stoi(weight_);
+            }
+            source = j["item"][i]["source"];
+            //std::cout << "Control reach Item::Goods::set 4\n";
+            if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+            //std::cout << "Control reach Item::Goods::set 5\n";
+            entries = Entries_Parse(j, i);
+            //std::cout << "Control reach Item::Goods::set 6\n";
+            cost = Price_Parse(j, i);
+            break;
+          }
         }
       }
     }
+    catch (json::type_error &e) {
+      std::cout << "messege: " << e.what() << '\n'
+                << "exception id: " << e.id << std::endl;
+    }
+    //std::cout << "Control reach Item::Goods::set 1\n";
+
   }
   stackable = false;
   what_class_is_it = "Goods";
@@ -505,24 +589,33 @@ void Ammo::set(std::string &name_, int count_) {
     std::ifstream inputJson;
     inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
-    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-      if (!j["item"][i]["type"].empty()) {
-        if (name_ == j["item"][i]["name"]) {
-          name = name_;
-          rarity = j["item"][i]["rarity"];
-          weight = j["item"][i]["weight"];
-          source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
-          if (!j["item"][i]["reqAttune"].empty()) {
-            if (j["item"][i]["reqAttune"] != true) {
+    try {
+      for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+        if (!j["item"][i]["type"].empty()) {
+          if (name_ == j["item"][i]["name"]) {
+            name = name_;
+            rarity = j["item"][i]["rarity"];
+            if (!j["item"][i]["weight"].empty()) {
+              std::string weight_ = j["item"][i]["weight"];
+              weight = std::stoi(weight_);
+            }
+            source = j["item"][i]["source"];
+            if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+            entries = Entries_Parse(j, i);
+            if (!j["item"][i]["reqAttune"].empty()) {
+              if (j["item"][i]["reqAttune"] != true) {
 
-            } else reqAttune = j["item"][i]["reqAttune"];
+              } else reqAttune = j["item"][i]["reqAttune"];
+            }
+            cost = Price_Parse(j, i);
+            break;
           }
-          cost = Price_Parse(j, i);
-          break;
         }
       }
+    }
+    catch (json::type_error &e) {
+      std::cout << "messege: " << e.what() << '\n'
+                << "exception id: " << e.id << std::endl;
     }
   }
   stackable = true;
@@ -560,19 +653,28 @@ void ArtisanTools::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        cost = Price_Parse(j, i);
-        break;
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          cost = Price_Parse(j, i);
+          break;
+        }
       }
     }
+  }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
   }
   what_class_is_it = "ArtisanTools";
 }
@@ -599,25 +701,34 @@ void Ship::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
-        if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
-        if (!j["item"][i]["crew"].empty()) crew = j["item"][i]["crew"];
-        if (!j["item"][i]["vehAc"].empty()) vehAc = j["item"][i]["vehAc"];
-        if (!j["item"][i]["vehHp"].empty()) vehHp = j["item"][i]["vehHp"];
-        if (!j["item"][i]["vehDmgThresh"].empty()) vehDmgThresh = j["item"][i]["vehDmgThresh"];
-        cost = Price_Parse(j, i);
-        break;
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
+          if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
+          if (!j["item"][i]["crew"].empty()) crew = j["item"][i]["crew"];
+          if (!j["item"][i]["vehAc"].empty()) vehAc = j["item"][i]["vehAc"];
+          if (!j["item"][i]["vehHp"].empty()) vehHp = j["item"][i]["vehHp"];
+          if (!j["item"][i]["vehDmgThresh"].empty()) vehDmgThresh = j["item"][i]["vehDmgThresh"];
+          cost = Price_Parse(j, i);
+          break;
+        }
       }
     }
+  }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
   }
   what_class_is_it = "Ship";
 }
@@ -643,19 +754,28 @@ void Valuables::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        cost = Price_Parse(j, i);
-        break;
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          cost = Price_Parse(j, i);
+          break;
+        }
       }
     }
+  }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
   }
   what_class_is_it = "Valuables";
 }
@@ -697,52 +817,63 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
     std::ifstream inputJson;
     inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
-    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-      if (!j["item"][i]["technology"].empty()) {
-        if (j["item"][i]["technology"] == "Staff") {
-          arcane_focus = true;
-          druidic_focus = false;
-          holy_symbol = false;
-          weight = E_I.SpellCastingFocus_i[4][1];// technology @Staff
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty())weight = j["item"][i]["weight"];
-          source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
-          if (!j["item"][i]["reqAttune"].empty()) {
-            if (j["item"][i]["reqAttune"] != true) {
+    try {
+      for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+        if (!j["item"][i]["technology"].empty()) {
+          if (j["item"][i]["technology"] == "Staff") {
+            arcane_focus = true;
+            druidic_focus = false;
+            holy_symbol = false;
+            weight = E_I.SpellCastingFocus_i[4][1];// technology @Staff
+            rarity = j["item"][i]["rarity"];
+            if (!j["item"][i]["weight"].empty()) {
+              std::string weight_ = j["item"][i]["weight"];
+              weight = std::stoi(weight_);
+            }
+            if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+            entries = Entries_Parse(j, i);
+            if (!j["item"][i]["reqAttune"].empty()) {
+              if (j["item"][i]["reqAttune"] != true) {
 
-            } else reqAttune = j["item"][i]["reqAttune"];
+              } else reqAttune = j["item"][i]["reqAttune"];
+            }
+            cost = Price_Parse(j, i);
+            break;
           }
-          cost = Price_Parse(j, i);
-          break;
-        }
-      } else if (!j["item"][i]["type"].empty()) {
-        if (name_ == j["item"][i]["name"]) {
-          name = name_;
-          rarity = j["item"][i]["rarity"];
-          weight = j["item"][i]["weight"];
-          source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
-          if (!j["item"][i]["scfType"].empty()) {
-            for (int m = 0; m < kSpellCastingFocus_Types; m++) {
-              if (E_I.SpellCastingFocus_types[m] == j["item"][i]["scfType"]) {
-                scfType = m;
-                break;
+        } else if (!j["item"][i]["type"].empty()) {
+          if (name_ == j["item"][i]["name"]) {
+            name = name_;
+            rarity = j["item"][i]["rarity"];
+            if (!j["item"][i]["weight"].empty()) {
+              std::string weight_ = j["item"][i]["weight"];
+              weight = std::stoi(weight_);
+            }
+            source = j["item"][i]["source"];
+            if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+            entries = Entries_Parse(j, i);
+            if (!j["item"][i]["scfType"].empty()) {
+              for (int m = 0; m < kSpellCastingFocus_Types; m++) {
+                if (E_I.SpellCastingFocus_types[m] == j["item"][i]["scfType"]) {
+                  scfType = m;
+                  break;
+                }
               }
             }
-          }
 
-          if (!j["item"][i]["reqAttune"].empty()) {
-            if (j["item"][i]["reqAttune"] != true) {
+            if (!j["item"][i]["reqAttune"].empty()) {
+              if (j["item"][i]["reqAttune"] != true) {
 
-            } else reqAttune = j["item"][i]["reqAttune"];
+              } else reqAttune = j["item"][i]["reqAttune"];
+            }
+            cost = Price_Parse(j, i);
+            break;
           }
-          cost = Price_Parse(j, i);
-          break;
         }
       }
+    }
+    catch (json::type_error &e) {
+      std::cout << "messege: " << e.what() << '\n'
+                << "exception id: " << e.id << std::endl;
     }
   }
   what_class_is_it = "SpellCastingFocus";
@@ -769,65 +900,34 @@ void Shield::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        /*if (!j["item"][i]["entries"].empty()) {
-          for (int k = 0; !j["item"][i]["entries"][k].empty(); k++) {
-            if(!j["item"][i]["entries"][k]["type"].empty()){
-              for(int f = 0; !j["item"][i]["entries"][k]["entries"][f].empty();f++){
-                if(!j["item"][i]["entries"][k]["entries"][f]["type"].empty()){
-                  OH FUCK ME IF THAT JSON IS SO COMPLEX
-                  if(!j["item"][i]["entries"][k]["name"].empty()){
-                    if(j["item"][i]["entries"][k]["name"] == "Random Properties"){
-                      for(int a = 0; !j["item"][i]["entries"][k]["entries"][f]["entries"][a].empty();a++){
-                        entries.push_back(j["item"][i]["entries"][k]["entries"][f]["entries"][a]);
-                      }
-                      for(int a = 0; !j["item"][i]["entries"][k]["entries"][f]["items"][a].empty();a++){
-                        entries.push_back(j["item"][i]["entries"][k]["entries"][f]["items"][a]);
-                      }
-                    }
-                  }
-                }
-                else entries.push_back(j["item"][i]["entries"][k]["entries"][f]);
-              }
-              for(int f = 0; !j["item"][i]["entries"][k]["items"][f].empty();f++){
-                if(!j["item"][i]["entries"][k]["entries"][f]["type"].empty()){
-                  OH FUCK ME IF THAT JSON IS SO COMPLEX
-                  if(!j["item"][i]["entries"][k]["name"].empty()){
-                    if(j["item"][i]["entries"][k]["name"] == "Random Properties"){
-                      entries.emplace_back("Random Properties");
-                      for(int a = 0; !j["item"][i]["entries"][k]["entries"][f]["entries"][a].empty();a++){
-                        entries.push_back(j["item"][i]["entries"][k]["entries"][f]["entries"][a]);
-                      }
-                      for(int a = 0; !j["item"][i]["entries"][k]["entries"][f]["items"][a].empty();a++){
-                        entries.push_back(j["item"][i]["entries"][k]["entries"][f]["items"][a]);
-                      }
-                    }
-                  }
-                }
-                else entries.push_back(j["item"][i]["entries"][k]["items"][f]);
-              }
-            }
-            else entries.push_back(j["item"][i]["entries"][k]);
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
           }
-        }*/
-        if (!j["item"][i]["ac"].empty()) ac = j["item"][i]["ac"];
-        if (!j["item"][i]["reqAttune"].empty()) {
-          if (j["item"][i]["reqAttune"] != true) {
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          if (!j["item"][i]["ac"].empty()) ac = j["item"][i]["ac"];
+          if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i]["reqAttune"] != true) {
 
-          } else reqAttune = j["item"][i]["reqAttune"];
+            } else reqAttune = j["item"][i]["reqAttune"];
+          }
+          cost = Price_Parse(j, i);
+          break;
         }
-        cost = Price_Parse(j, i);
-        break;
       }
     }
+  }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
   }
   if (source == "Default") {
     Existing_Items E_I;
@@ -865,19 +965,28 @@ void Instrument::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        cost = Price_Parse(j, i);
-        break;
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          cost = Price_Parse(j, i);
+          break;
+        }
       }
     }
+  }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
   }
   what_class_is_it = "Instrument";
 }
@@ -904,34 +1013,43 @@ void Ring::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        if (!j["item"][i]["resist"].empty()) {
-          for (int k = 1; k < kElements_Num; k++) {
-            if (E_I.elements[k] == j["item"][i]["resist"]) {
-              resistance_type = k - 1;// because "first" type is non-elemental damage
-              break;
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          if (!j["item"][i]["resist"].empty()) {
+            for (int k = 1; k < kElements_Num; k++) {
+              if (E_I.elements[k] == j["item"][i]["resist"]) {
+                resistance_type = k - 1;// because "first" type is non-elemental damage
+                break;
+              }
             }
           }
-        }
-        attachedSpells = AttachedSpells_Parse(j, i);
-        if (!j["item"][i]["charges"].empty()) charges = !j["item"][i]["charges"];
-        if (!j["item"][i]["reqAttune"].empty()) {
-          if (j["item"][i]["reqAttune"] != true) {
+          attachedSpells = AttachedSpells_Parse(j, i);
+          if (!j["item"][i]["charges"].empty()) charges = !j["item"][i]["charges"];
+          if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i]["reqAttune"] != true) {
 
-          } else reqAttune = j["item"][i]["reqAttune"];
+            } else reqAttune = j["item"][i]["reqAttune"];
+          }
+          cost = Price_Parse(j, i);
+          break;
         }
-        cost = Price_Parse(j, i);
-        break;
       }
     }
+  }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
   }
   if (source == "Default") {
     Existing_Items E_I;
@@ -968,19 +1086,28 @@ void AnimalGear::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        cost = Price_Parse(j, i);
-        break;
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          cost = Price_Parse(j, i);
+          break;
+        }
       }
     }
+  }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
   }
   what_class_is_it = "AnimalGear";
 }
@@ -1006,20 +1133,29 @@ void Explosive::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        age = j["item"][i]["age"];
-        entries = Entries_Parse(j, i);
-        cost = Price_Parse(j, i);
-        break;
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          age = j["item"][i]["age"];
+          entries = Entries_Parse(j, i);
+          cost = Price_Parse(j, i);
+          break;
+        }
       }
     }
+  }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
   }
   what_class_is_it = "Explosive";
 }
@@ -1045,20 +1181,29 @@ void Potion::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        attachedSpells = AttachedSpells_Parse(j, i);
-        cost = Price_Parse(j, i);
-        break;
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          attachedSpells = AttachedSpells_Parse(j, i);
+          cost = Price_Parse(j, i);
+          break;
+        }
       }
     }
+  }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
   }
   if (source == "Default") {
     Existing_Items E_I;
@@ -1098,22 +1243,32 @@ void Mounties::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
-        if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
-        cost = Price_Parse(j, i);
-        break;
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
+          if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
+          cost = Price_Parse(j, i);
+          break;
+        }
       }
     }
   }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
+  }
+
   what_class_is_it = "Mounties";
 }
 int Mounties::get(int a) {
@@ -1138,22 +1293,32 @@ void Vehicle::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
-        if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
-        cost = Price_Parse(j, i);
-        break;
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
+          if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
+          cost = Price_Parse(j, i);
+          break;
+        }
       }
     }
   }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
+  }
+
   what_class_is_it = "Vehicle";
 }
 int Vehicle::get(int a) {
@@ -1178,19 +1343,27 @@ void TradeGoods::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        if (!j["item"][i]["weight"].empty()) weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        if (!j["item"][i]["entries"].empty()) entries = Entries_Parse(j, i);
-        if (!j["item"][i]["cost"].empty()) cost = Price_Parse(j, i);
-        break;
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            source = std::stoi(weight_);
+          }
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (!j["item"][i]["entries"].empty()) entries = Entries_Parse(j, i);
+          if (!j["item"][i]["cost"].empty()) cost = Price_Parse(j, i);
+          break;
+        }
       }
     }
+  }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
   }
   what_class_is_it = "TradeGoods";
 }
@@ -1216,20 +1389,30 @@ void GamingSet::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        cost = Price_Parse(j, i);
-        break;
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          weight = 0;
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          std::cout << "Control Reach Item::Gaming Set::set 0\n";
+          //entries = Entries_Parse(j, i);
+          std::cout << "Control Reach Item::Gaming Set::set 1\n";
+          cost = Price_Parse(j, i);
+          std::cout << "Control Reach Item::Gaming Set::set 2\n";
+          break;
+        }
       }
     }
   }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
+  }
+
   what_class_is_it = "GamingSet";
 }
 int GamingSet::get(int a) {
@@ -1254,25 +1437,35 @@ void Device::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        if (!j["item"][i]["reqAttune"].empty()) {
-          if (j["item"][i]["reqAttune"] != true) {
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i]["reqAttune"] != true) {
 
-          } else reqAttune = j["item"][i]["reqAttune"];
+            } else reqAttune = j["item"][i]["reqAttune"];
+          }
+          cost = Price_Parse(j, i);
+          break;
         }
-        cost = Price_Parse(j, i);
-        break;
       }
     }
   }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
+  }
+
   what_class_is_it = "Device";
 }
 int Device::get(int a) {
@@ -1297,20 +1490,30 @@ void Tools::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        cost = Price_Parse(j, i);
-        break;
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          cost = Price_Parse(j, i);
+          break;
+        }
       }
     }
   }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
+  }
+
   what_class_is_it = "Tools";
 }
 int Tools::get(int a) {
@@ -1335,25 +1538,35 @@ void Rod::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        attachedSpells = AttachedSpells_Parse(j, i);
-        if (!j["item"][i]["reqAttune"].empty()) {
-          if (j["item"][i]["reqAttune"] != true) {
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          attachedSpells = AttachedSpells_Parse(j, i);
+          if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i]["reqAttune"] != true) {
 
-          } else reqAttune = j["item"][i]["reqAttune"];
+            } else reqAttune = j["item"][i]["reqAttune"];
+          }
+          cost = Price_Parse(j, i);
+          break;
         }
-        cost = Price_Parse(j, i);
-        break;
       }
     }
+
+  }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
   }
 
   what_class_is_it = "Rod";
@@ -1380,20 +1593,29 @@ void Scroll::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (!j["item"][i]["type"].empty()) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        attachedSpells = AttachedSpells_Parse(j, i);
-        cost = Price_Parse(j, i);
-        break;
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (!j["item"][i]["type"].empty()) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          attachedSpells = AttachedSpells_Parse(j, i);
+          cost = Price_Parse(j, i);
+          break;
+        }
       }
     }
+  }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
   }
   what_class_is_it = "Scroll";
 }
@@ -1419,26 +1641,36 @@ void Wand::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (j["item"][i]["type"] != NULL) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        if (!j["item"][i]["reqAttune"].empty()) {
-          if (j["item"][i]["reqAttune"] != true) {
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (j["item"][i]["type"] != NULL) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i]["reqAttune"] != true) {
 
-          } else reqAttune = j["item"][i]["reqAttune"];
+            } else reqAttune = j["item"][i]["reqAttune"];
+          }
+          attachedSpells = AttachedSpells_Parse(j, i);
+          if (!j["item"][i]["charges"].empty()) charges = !j["item"][i]["charges"];
+          cost = Price_Parse(j, i);
+          break;
         }
-        attachedSpells = AttachedSpells_Parse(j, i);
-        if (!j["item"][i]["charges"].empty()) charges = !j["item"][i]["charges"];
-        cost = Price_Parse(j, i);
-        break;
       }
     }
+
+  }
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
   }
 
   what_class_is_it = "Wand";
@@ -1465,28 +1697,36 @@ void OTH::set(std::string &name_, int count_) {
   std::ifstream inputJson;
   inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
-  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-    if (j["item"][i]["type"] != NULL) {
-      if (name_ == j["item"][i]["name"]) {
-        name = name_;
-        rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
-        source = j["item"][i]["source"];
-        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        if (!j["item"][i]["reqAttune"].empty()) {
-          if (j["item"][i]["reqAttune"] != true) {
+  try {
+    for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+      if (j["item"][i]["type"] != NULL) {
+        if (name_ == j["item"][i]["name"]) {
+          name = name_;
+          rarity = j["item"][i]["rarity"];
+          if (!j["item"][i]["weight"].empty()) {
+            std::string weight_ = j["item"][i]["weight"];
+            weight = std::stoi(weight_);
+          }
+          source = j["item"][i]["source"];
+          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          entries = Entries_Parse(j, i);
+          if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i]["reqAttune"] != true) {
 
-          } else reqAttune = j["item"][i]["reqAttune"];
+            } else reqAttune = j["item"][i]["reqAttune"];
+          }
+          attachedSpells = AttachedSpells_Parse(j, i);
+          if (!j["item"][i]["charges"].empty()) charges = !j["item"][i]["charges"];
+          cost = Price_Parse(j, i);
+          break;
         }
-        attachedSpells = AttachedSpells_Parse(j, i);
-        if (!j["item"][i]["charges"].empty()) charges = !j["item"][i]["charges"];
-        cost = Price_Parse(j, i);
-        break;
       }
     }
   }
-
+  catch (json::type_error &e) {
+    std::cout << "messege: " << e.what() << '\n'
+              << "exception id: " << e.id << std::endl;
+  }
   what_class_is_it = "OTH";
 }
 int OTH::get(int a) {
