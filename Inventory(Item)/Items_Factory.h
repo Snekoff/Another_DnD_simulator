@@ -48,8 +48,11 @@ class Complex_Factory {
     Items_Factory<Scroll> SC_Factory;
     Items_Factory<Wand> WD_Factory;
     Existing_Items E_I;
-    for (int i = 0; i < kWeapon_NUM; i++) {
-      if (name_ == E_I.Weapon_s[i]) {
+    for (int i = 0; i < kM_NUM; i++) {
+      if (i < kWeapon_NUM && name_ == E_I.Weapon_s[i]) {
+        return Weapon_Factory.create(name_, quantity);
+      }
+      if (name_ == E_I.M_s[i]) {
         return Weapon_Factory.create(name_, quantity);
       }
     }
@@ -57,9 +60,15 @@ class Complex_Factory {
       if (i < kRanged_Weapon_NUM && name_ == E_I.Ranged_Weapon_s[i]) {
         return Ranged_Weapon_Factory.create(name_, quantity);
       }
+      if (i < kR_NUM && name_ == E_I.R_s[i]) {
+        return Ranged_Weapon_Factory.create(name_, quantity);
+      }
     }
     for (int i = 0; i < kAmmo_NUM; i++) {
       if (i < kAmmo_NUM && name_ == E_I.Ammo_s[i]) {
+        return Ammo_Factory.create(name_, quantity);
+      }
+      if (i < kA_NUM && name_ == E_I.A_s[i]) {
         return Ammo_Factory.create(name_, quantity);
       }
     }
@@ -67,9 +76,21 @@ class Complex_Factory {
       if (i < kArmor_NUM && name_ == E_I.Armor_s[i]) {
         return Armor_Factory.create(name_, quantity);
       }
+      if (i < kHA_NUM && name_ == E_I.HA_s[i]) {
+        return Armor_Factory.create(name_, quantity);
+      }
+      if (i < kMA_NUM && name_ == E_I.MA_s[i]) {
+        return Armor_Factory.create(name_, quantity);
+      }
+      if (i < kLA_NUM && name_ == E_I.LA_s[i]) {
+        return Armor_Factory.create(name_, quantity);
+      }
     }
-    for (int i = 0; i < kGoods_NUM; i++) {
+    for (int i = 0; i < kG_NUM; i++) {
       if (i < kGoods_NUM && name_ == E_I.Goods_s[i]) {
+        return Goods_Factory.create(name_, quantity);
+      }
+      if (name_ == E_I.G_s[i]) {
         return Goods_Factory.create(name_, quantity);
       }
     }
@@ -77,19 +98,31 @@ class Complex_Factory {
       if (i < kSpellCastingFocus_NUM && name_ == E_I.SpellCastingFocus_s[i]) {
         return SpellCastingFocus_Factory.create(name_, quantity);
       }
+      if (i < kSCF_NUM && name_ == E_I.SCF_s[i]) {
+        return SpellCastingFocus_Factory.create(name_, quantity);
+      }
     }
-    for (int i = 0; i < kShield_NUM; i++) {
+    for (int i = 0; i < kS_NUM; i++) {
       if (i < kShield_NUM && name_ == E_I.Shield_s[i]) {
         return Shield_Factory.create(name_, quantity);
       }
+      if (i < kS_NUM && name_ == E_I.S_s[i]) {
+        return Shield_Factory.create(name_, quantity);
+      }
     }
-    for (int i = 0; i < kRing_NUM; i++) {
+    for (int i = 0; i < kRG_NUM; i++) {
       if (i < kRing_NUM && name_ == E_I.Ring_s[i]) {
         return Ring_Factory.create(name_, quantity);
       }
+      if (name_ == E_I.RG_s[i]) {
+        return Ring_Factory.create(name_, quantity);
+      }
     }
-    for (int i = 0; i < kPotion_NUM; i++) {
+    for (int i = 0; i < kP_NUM; i++) {
       if (i < kPotion_NUM && name_ == E_I.Potion_s[i]) {
+        return Potion_Factory.create(name_, quantity);
+      }
+      if (i < kP_NUM && name_ == E_I.P_s[i]) {
         return Potion_Factory.create(name_, quantity);
       }
     }

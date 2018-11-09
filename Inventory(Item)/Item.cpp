@@ -417,6 +417,7 @@ Goods::Goods(std::string &name_) {
 Goods::~Goods() = default;
 void Goods::set(std::string &name_, int count_) {
   Existing_Items E_I;
+  std::cout << "Control reach Item::Goods::set 0/0\n";
   name = " ";
   equipped = false;
   for (int i = 0; i < kGoods_NUM; i++) {
@@ -429,14 +430,17 @@ void Goods::set(std::string &name_, int count_) {
     }
   }
   count = count_;
+  std::cout << "Control reach Item::Goods::set 0\n";
   if (name == " ") {
     source = "Default";
     std::ifstream inputJson;
     inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
+    std::cout << "Control reach Item::Goods::set 1\n";
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
+          std::cout << "Control reach Item::Goods::set 2\n";
           name = name_;
           rarity = j["item"][i]["rarity"];
           weight = j["item"][i]["weight"];
@@ -1179,11 +1183,11 @@ void TradeGoods::set(std::string &name_, int count_) {
       if (name_ == j["item"][i]["name"]) {
         name = name_;
         rarity = j["item"][i]["rarity"];
-        weight = j["item"][i]["weight"];
+        if (!j["item"][i]["weight"].empty()) weight = j["item"][i]["weight"];
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-        entries = Entries_Parse(j, i);
-        cost = Price_Parse(j, i);
+        if (!j["item"][i]["entries"].empty()) entries = Entries_Parse(j, i);
+        if (!j["item"][i]["cost"].empty()) cost = Price_Parse(j, i);
         break;
       }
     }

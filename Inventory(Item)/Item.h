@@ -62,7 +62,7 @@ const int kSC_NUM = 18;
 const int kA_NUM = 1;
 const int kWD_NUM = 23;
 const int kGV_NUM = 0;
-const int kAll_Num = kWeapon_NUM + kRanged_Weapon_NUM + kAmmo_NUM + kArmor_NUM + kGoods_NUM
+const int kItemsAll_Num = kWeapon_NUM + kRanged_Weapon_NUM + kAmmo_NUM + kArmor_NUM + kGoods_NUM
     + kSpellCastingFocus_NUM + kShield_NUM + kRing_NUM + kPotion_NUM + kG_NUM
     + kM_NUM + kSHP_NUM + kAT_NUM + k$_NUM + kSCF_NUM + kS_NUM + kHA_NUM + kINS_NUM + kRG_NUM + kTAH_NUM
     + kMA_NUM + kEXP_NUM + kP_NUM + kMNT_NUM + kVEH_NUM + kTG_NUM + kGS_NUM + kEM_NUM + kT_NUM + kLA_NUM
@@ -226,7 +226,7 @@ struct Existing_Items {
        "Spellbook", "Spyglass", "Steel Mirror", "Tankard", "Tej", "Tinderbox", "Tome of Strahd", "Torch",
        "Torpor (Ingested)", "Traveler's Clothes", "Trinket (CoS)", "Trinket (EET)", "Trinket (PHB)",
        "Truth Serum (Ingested)", "Two-Person Tent", "Vial", "Waterskin", "Whetstone", "Wildroot", "Wukka Nut",
-       "Wyvern Poison (Injury)", "Yahcha", "Zabou",};
+       "Wyvern Poison (Injury)", "Yahcha", "Zabou"};
   std::string M_s[kM_NUM] =
       {"Adventurer's Battleaxe", "Axe of the Dwarvish Lords", "Blackrazor", "Blood Spear", "Bookmark",
        "Dagger of Venom", "Dawnbringer", "Dragontooth Dagger", "Drown", "Dwarven Thrower", "Greater Silver Sword",
@@ -238,13 +238,13 @@ struct Existing_Items {
        "Sword of Answering (Back Talker)", "Sword of Answering (Concluder)", "Sword of Answering (Last Quip)",
        "Sword of Answering (Rebutter)", "Sword of Answering (Replier)", "Sword of Answering (Retorter)",
        "Sword of Answering (Scather)", "Sword of Answering (Squelcher)", "Sword of Kas", "Tinderstrike",
-       "Trident of Fish Command", "Wave", "Waythe", "Whelm", "Windvane", "Azuredge",};
-  std::string SHP_s[kSHP_NUM] = {"Airship", "Galley", "Keelboat", "Longship", "Rowboat", "Sailing Ship", "Warship",};
+       "Trident of Fish Command", "Wave", "Waythe", "Whelm", "Windvane", "Azuredge"};
+  std::string SHP_s[kSHP_NUM] = {"Airship", "Galley", "Keelboat", "Longship", "Rowboat", "Sailing Ship", "Warship"};
   std::string AT_s[kAT_NUM] =
       {"Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools",
        "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools",
        "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools",
-       "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools",};
+       "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools"};
   std::string $_s[k$_NUM] = {"Alexandrite", "Amber", "Amethyst", "Aquamarine", "Azurite", "Banded Agate",
                              "Bejeweled ivory drinking horn with gold filigree", "Black Opal", "Black Pearl",
                              "Black Sapphire", "Black velvet mask stitched with silver thread", "Bloodstone",
@@ -280,16 +280,16 @@ struct Existing_Items {
                              "Small gold idol", "Small gold statuette set with rubies",
                              "Small mirror set in a painted wooden frame", "Spinel", "Star rose quartz", "Star Ruby",
                              "Star Sapphire", "Tiger Eye", "Topaz", "Tourmaline", "Turquoise", "Yellow Sapphire",
-                             "Zircon", "Nib", "Shard", "Toal", "Dragon", "Sun", "Harbor Moon",};
+                             "Zircon", "Nib", "Shard", "Toal", "Dragon", "Sun", "Harbor Moon"};
   std::string
-      SCF_s[kSCF_NUM] = {"Amulet", "Emblem", "Reliquary", "Sprig of Mistletoe", "Totem", "Wooden Staff", "Yew Wand",};
+      SCF_s[kSCF_NUM] = {"Amulet", "Emblem", "Reliquary", "Sprig of Mistletoe", "Totem", "Wooden Staff", "Yew Wand"};
   std::string S_s[kS_NUM] =
       {"Animated Shield", "Arrow-Catching Shield", "Sentinel Shield", "Shield of Expression", "Shield of Far Sight",
-       "Shield of Missile Attraction", "Silver Dragon Shield +2", "Spellguard Shield",};
+       "Shield of Missile Attraction", "Silver Dragon Shield +2", "Spellguard Shield"};
   std::string HA_s[kHA_NUM] =
       {"Armor of Invulnerability", "Armor of Vulnerability (Bludgeoning)", "Armor of Vulnerability (Piercing)",
        "Armor of Vulnerability (Slashing)", "Demon Armor", "Dwarven Plate", "Efreeti Chain",
-       "Plate Armor of Etherealness", "Scorpion Armor",};
+       "Plate Armor of Etherealness", "Scorpion Armor"};
   std::string INS_s[kINS_NUM] =
       {"Bagpipes", "Birdpipes", "Drum", "Dulcimer", "Flute", "Glaur", "Hand Drum", "Horn", "Instrument of Illusions",
        "Instrument of Scribing", "Instrument of the Bards, Anstruth Harp", "Instrument of the Bards, Canaith Mandolin",
@@ -297,7 +297,7 @@ struct Existing_Items {
        "Instrument of the Bards, Fochlucan Bandore", "Instrument of the Bards, Mac-Fuirmidh Cittern",
        "Instrument of the Bards, Ollamh Harp", "Longhorn", "Lute", "Lyre", "Pan Flute", "Pipes of Haunting",
        "Pipes of the Sewers", "Shawm", "Shawm", "Songhorn", "Tantan", "Thelarr", "Tocken", "Viol", "Wargong", "Yarting",
-       "Zulkoon",};
+       "Zulkoon"};
   std::string RG_s[kRG_NUM] =
       {"Band of Loyalty", "Ring of Acid Resistance", "Ring of Air Elemental Command", "Ring of Animal Influence",
        "Ring of Cold Resistance", "Ring of Djinni Summoning", "Ring of Earth Elemental Command", "Ring of Evasion",
@@ -309,17 +309,17 @@ struct Existing_Items {
        "Ring of Swimming", "Ring of Telekinesis", "Ring of the Ram", "Ring of Three Wishes",
        "Ring of Thunder Resistance", "Ring of Warmth", "Ring of Water Elemental Command", "Ring of Water Walking",
        "Ring of Winter", "Ring of X-ray Vision", "Rings of Shared Suffering", "Ring of Truth Telling",
-       "Teleporter Ring",};
+       "Teleporter Ring"};
   std::string TAH_s[kTAH_NUM] =
       {"Barding", "Bit and bridle", "Exotic Saddle", "Feed (per day)", "Military Saddle", "Pack Saddle",
-       "Riding Saddle", "Saddlebags", "Stabling (per day)",};
+       "Riding Saddle", "Saddlebags", "Stabling (per day)"};
   std::string MA_s[kMA_NUM] =
       {"Black Dragon Scale Mail", "Blue Dragon Scale Mail", "Brass Dragon Scale Mail", "Bronze Dragon Scale Mail",
        "Copper Dragon Scale Mail", "Dragonguard", "Elven Chain", "Gold Dragon Scale Mail", "Green Dragon Scale Mail",
-       "Red Dragon Scale Mail", "Silver Dragon Scale Mail", "Survival Mantle", "White Dragon Scale Mail",};
+       "Red Dragon Scale Mail", "Silver Dragon Scale Mail", "Survival Mantle", "White Dragon Scale Mail"};
   std::string EXP_s[kEXP_NUM] =
       {"Bomb", "Dynamite (Stick)", "Fragmentation Grenade", "Grenade Launcher", "Gunpowder Horn", "Gunpowder Keg",
-       "Smoke Grenade",};
+       "Smoke Grenade"};
   std::string P_s[kP_NUM] =
       {"Bottled Breath", "Elixir of Health", "Oil of Etherealness", "Oil of Sharpness", "Oil of Slipperiness",
        "Philter of Love", "Potion of Acid Resistance", "Potion of Animal Friendship", "Potion of Clairvoyance",
@@ -333,26 +333,26 @@ struct Existing_Items {
        "Potion of Necrotic Resistance", "Potion of Poison", "Potion of Poison Resistance",
        "Potion of Psychic Resistance", "Potion of Radiant Resistance", "Potion of Speed",
        "Potion of Stone Giant Strength", "Potion of Storm Giant Strength", "Potion of Superior Healing",
-       "Potion of Supreme Healing", "Potion of Thunder Resistance", "Potion of Vitality", "Potion of Water Breathing",};
+       "Potion of Supreme Healing", "Potion of Thunder Resistance", "Potion of Vitality", "Potion of Water Breathing"};
   std::string MNT_s[kMNT_NUM] =
-      {"Camel", "Donkey", "Draft Horse", "Elephant", "Mastiff", "Mule", "Pony", "Riding Horse", "Warhorse",};
-  std::string VEH_s[kVEH_NUM] = {"Canoe", "Carriage", "Cart", "Chariot", "Sled", "Wagon",};
+      {"Camel", "Donkey", "Draft Horse", "Elephant", "Mastiff", "Mule", "Pony", "Riding Horse", "Warhorse"};
+  std::string VEH_s[kVEH_NUM] = {"Canoe", "Carriage", "Cart", "Chariot", "Sled", "Wagon"};
   std::string TG_s[kTG_NUM] =
       {"Canvas (1 sq. yd.)", "Chicken", "Cinnamon", "Cloves", "Copper", "Cotton Cloth (1 sq. yd.)", "Cow", "Flour",
        "Ginger", "Goat", "Gold", "Iron", "Linen (1 sq. yd.)", "Ox", "Pepper", "Pig", "Platinum", "Saffron", "Salt",
-       "Sheep", "Silk (1 sq. yd.)", "Silver", "Wheat",};
-  std::string GS_s[kGS_NUM] = {"Dice Set", "Dragonchess Set", "Playing Card Set", "Three-Dragon Ante Set",};
-  std::string EM_s[kEM_NUM] = {"Dimensional Seal", "Mabaran Resonator", "Master's Call", "Spell Sink", "Storm Sphere",};
+       "Sheep", "Silk (1 sq. yd.)", "Silver", "Wheat"};
+  std::string GS_s[kGS_NUM] = {"Dice Set", "Dragonchess Set", "Playing Card Set", "Three-Dragon Ante Set"};
+  std::string EM_s[kEM_NUM] = {"Dimensional Seal", "Mabaran Resonator", "Master's Call", "Spell Sink", "Storm Sphere"};
   std::string T_s[kT_NUM] =
       {"Disguise Kit", "Forgery Kit", "Hacking Tools", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit",
-       "Thieves' Tools",};
-  std::string LA_s[kLA_NUM] = {"Glamoured Studded Leather",};
-  std::string OTH_s[kOTH_NUM] = {"Green Copper Ewer", "Statuette of Saint Markovia",};
+       "Thieves' Tools"};
+  std::string LA_s[kLA_NUM] = {"Glamoured Studded Leather"};
+  std::string OTH_s[kOTH_NUM] = {"Green Copper Ewer", "Statuette of Saint Markovia"};
   std::string RD_s[kRD_NUM] =
       {"Immovable Rod", "Rod of Absorption", "Rod of Alertness", "Rod of Lordly Might", "Rod of Resurrection",
        "Rod of Rulership", "Rod of Security", "Rod of the Pact Keeper, (+1)", "Rod of the Pact Keeper (+2)",
-       "Rod of the Pact Keeper (+3)", "Rod of the Vonindod", "Tentacle Rod",};
-  std::string R_s[kR_NUM] = {"Oathbow", "Seeker Dart", "Storm Boomerang", "Oversized Longbow",};
+       "Rod of the Pact Keeper (+3)", "Rod of the Vonindod", "Tentacle Rod"};
+  std::string R_s[kR_NUM] = {"Oathbow", "Seeker Dart", "Storm Boomerang", "Oversized Longbow"};
   std::string SC_s[kSC_NUM] = {"Scroll of Protection from Aberrations", "Scroll of Protection from Beasts",
                                "Scroll of Protection from Celestials", "Scroll of Protection from Elementals",
                                "Scroll of Protection from Fey", "Scroll of Protection from Fiends",
@@ -360,17 +360,17 @@ struct Existing_Items {
                                "Spell Scroll (1st Level)", "Spell Scroll (2nd Level)", "Spell Scroll (3rd Level)",
                                "Spell Scroll (4th Level)", "Spell Scroll (5th Level)", "Spell Scroll (6th Level)",
                                "Spell Scroll (7th Level)", "Spell Scroll (8th Level)", "Spell Scroll (9th Level)",
-                               "Spell Scroll (Cantrip)",};
-  std::string A_s[kA_NUM] = {"Unbreakable Arrow",};
+                               "Spell Scroll (Cantrip)"};
+  std::string A_s[kA_NUM] = {"Unbreakable Arrow"};
   std::string WD_s[kWD_NUM] =
       {"Wand of Binding", "Wand of Conducting", "Wand of Enemy Detection", "Wand of Entangle", "Wand of Fear",
        "Wand of Fireballs", "Wand of Lightning Bolts", "Wand of Magic Detection", "Wand of Magic Missiles",
        "Wand of Orcus", "Wand of Paralysis", "Wand of Polymorph", "Wand of Pyrotechnics", "Wand of Scowls",
        "Wand of Secrets", "Wand of Smiles", "Wand of the War Mage (+1)", "Wand of the War Mage (+2)",
-       "Wand of the War Mage (+3)", "Wand of Viscid Globs", "Wand of Web", "Wand of Winter", "Wand of Wonder",};
+       "Wand of the War Mage (+3)", "Wand of Viscid Globs", "Wand of Web", "Wand of Winter", "Wand of Wonder"};
   //std::string GV_s[kGV_NUM] = {};
 
-  std::string All_s[kAll_Num] = {
+  std::string All_s[kItemsAll_Num] = {
       "Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light_hammer",
       "Mace", "Quarterstaff", "Sickle", "Spear", "Unarmed_strike", "Battleaxe",
       "Flail",
@@ -665,15 +665,14 @@ struct Existing_Items {
        "Signal Whistle", "Signet Ring", "Silk Rope (50 feet)", "Sledgehammer", "Soap", "Spellbook", "Spyglass",
        "Steel Mirror", "Tankard", "Tej", "Tinderbox", "Torch", "Torpor (Ingested)", "Traveler's Clothes",
        "Truth Serum (Ingested)", "Two-Person Tent", "Vial", "Waterskin", "Whetstone",
-       "Wyvern Poison (Injury)", "Yahcha", "Zabou",};
-  std::vector<std::string> names_of_M_merchants_items = {};
+       "Wyvern Poison (Injury)", "Yahcha", "Zabou"};
   std::vector<std::string> names_of_SHP_merchants_items =
-      {"Airship", "Galley", "Keelboat", "Longship", "Rowboat", "Sailing Ship", "Warship",};
+      {"Airship", "Galley", "Keelboat", "Longship", "Rowboat", "Sailing Ship", "Warship"};
   std::vector<std::string> names_of_AT_merchants_items =
       {"Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools",
        "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools",
        "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools",
-       "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools",};
+       "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools"};
   std::vector<std::string> names_of_$_merchants_items =
       {"Alexandrite", "Amber", "Amethyst", "Aquamarine", "Azurite", "Banded Agate",
        "Bejeweled ivory drinking horn with gold filigree", "Black Opal", "Black Pearl", "Black Sapphire",
@@ -703,40 +702,26 @@ struct Existing_Items {
        "Small gold bracelet", "Small gold idol", "Small gold statuette set with rubies",
        "Small mirror set in a painted wooden frame", "Spinel", "Star rose quartz", "Star Ruby", "Star Sapphire",
        "Tiger Eye", "Topaz", "Tourmaline", "Turquoise", "Yellow Sapphire", "Zircon", "Nib", "Shard", "Toal", "Dragon",
-       "Sun", "Harbor Moon",};
+       "Sun", "Harbor Moon"};
   std::vector<std::string> names_of_SCF_merchants_items =
-      {"Amulet", "Emblem", "Reliquary", "Sprig of Mistletoe", "Totem", "Wooden Staff", "Yew Wand",};
-  std::vector<std::string> names_of_S_merchants_items = {};
-  std::vector<std::string> names_of_HA_merchants_items = {};
+      {"Amulet", "Emblem", "Reliquary", "Sprig of Mistletoe", "Totem", "Wooden Staff", "Yew Wand"};
   std::vector<std::string> names_of_INS_merchants_items =
-      {"Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol",};
-  std::vector<std::string> names_of_RG_merchants_items = {};
+      {"Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre", "Pan Flute", "Shawm", "Viol"};
   std::vector<std::string> names_of_TAH_merchants_items =
       {"Barding", "Bit and bridle", "Exotic Saddle", "Feed (per day)", "Military Saddle", "Pack Saddle",
-       "Riding Saddle", "Saddlebags", "Stabling (per day)",};
-  std::vector<std::string> names_of_MA_merchants_items = {};
-  std::vector<std::string> names_of_EXP_merchants_items = {"Bomb", "Gunpowder Horn", "Gunpowder Keg",};
-  std::vector<std::string> names_of_P_merchants_items = {};
+       "Riding Saddle", "Saddlebags", "Stabling (per day)"};
+  std::vector<std::string> names_of_EXP_merchants_items = {"Bomb", "Gunpowder Horn", "Gunpowder Keg"};
   std::vector<std::string> names_of_MNT_merchants_items =
-      {"Camel", "Donkey", "Draft Horse", "Elephant", "Mastiff", "Mule", "Pony", "Riding Horse", "Warhorse",};
-  std::vector<std::string> names_of_VEH_merchants_items = {"Canoe", "Carriage", "Cart", "Chariot", "Sled", "Wagon",};
+      {"Camel", "Donkey", "Draft Horse", "Elephant", "Mastiff", "Mule", "Pony", "Riding Horse", "Warhorse"};
+  std::vector<std::string> names_of_VEH_merchants_items = {"Canoe", "Carriage", "Cart", "Chariot", "Sled", "Wagon"};
   std::vector<std::string> names_of_TG_merchants_items =
       {"Canvas (1 sq. yd.)", "Chicken", "Cinnamon", "Cloves", "Copper", "Cotton Cloth (1 sq. yd.)", "Cow", "Flour",
        "Ginger", "Goat", "Gold", "Iron", "Linen (1 sq. yd.)", "Ox", "Pepper", "Pig", "Platinum", "Saffron", "Salt",
-       "Sheep", "Silk (1 sq. yd.)", "Silver", "Wheat",};
+       "Sheep", "Silk (1 sq. yd.)", "Silver", "Wheat"};
   std::vector<std::string>
-      names_of_GS_merchants_items = {"Dice Set", "Dragonchess Set", "Playing Card Set", "Three-Dragon Ante Set",};
-  std::vector<std::string> names_of_EM_merchants_items = {};
+      names_of_GS_merchants_items = {"Dice Set", "Dragonchess Set", "Playing Card Set", "Three-Dragon Ante Set"};
   std::vector<std::string> names_of_T_merchants_items =
-      {"Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools",};
-  std::vector<std::string> names_of_LA_merchants_items = {};
-  std::vector<std::string> names_of_OTH_merchants_items = {};
-  std::vector<std::string> names_of_RD_merchants_items = {};
-  std::vector<std::string> names_of_R_merchants_items = {};
-  std::vector<std::string> names_of_SC_merchants_items = {};
-  std::vector<std::string> names_of_A_merchants_items = {};
-  std::vector<std::string> names_of_WD_merchants_items = {};
-  std::vector<std::string> names_of_GV_merchants_items = {};
+      {"Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools"};
   std::vector<std::string> prices_of_G_merchants_items =
       {"2 gp", "25 gp", "50 gp", "50 gp", "150 gp", "2 gp", "0.1 cp", "1 gp", "2 gp", "100 gp", "4 sp", "1 gp", "1 gp",
        "5 sp", "1 gp", "25 gp", "5 cp", "10 gp", "16 gp", "500 gp", "5 cp", "1 gp", "1 cp", "200 gp", "5 gp", "1 cp",
@@ -747,13 +732,12 @@ struct Existing_Items {
        "5 cp", "5 cp", "4 gp", "5 sp", "19 gp", "2000 gp", "1 gp", "1 gp", "5 sp", "1 gp", "1 cp", "40 gp", "5 sp",
        "200 gp", "2 gp", "5 cp", "5 gp", "10 gp", "2 gp", "2 cp", "50 gp", "1000 gp", "5 gp", "1 cp", "Varies", "5 sp",
        "1 cp", "600 gp", "2 gp", "150 gp", "2 gp", "1 gp", "2 sp", "1 cp",
-       "1200 gp", "1 gp", "10 gp",};
-  std::vector<std::string> prices_of_M_merchants_items = {};
+       "1200 gp", "1 gp", "10 gp"};
   std::vector<std::string>
-      prices_of_SHP_merchants_items = {"20000 gp", "30000 gp", "3000 gp", "10000 gp", "50 gp", "10000 gp", "25000 gp",};
+      prices_of_SHP_merchants_items = {"20000 gp", "30000 gp", "3000 gp", "10000 gp", "50 gp", "10000 gp", "25000 gp"};
   std::vector<std::string> prices_of_AT_merchants_items =
       {"50 gp", "20 gp", "10 gp", "8 gp", "15 gp", "5 gp", "1 gp", "30 gp", "25 gp", "5 gp", "10 gp", "10 gp", "10 gp",
-       "20 gp", "50 gp", "1 gp", "1 gp",};
+       "20 gp", "50 gp", "1 gp", "1 gp"};
   std::vector<std::string> prices_of_$_merchants_items =
       {"500 gp", "100 gp", "100 gp", "500 gp", "10 gp", "10 gp", "7500 gp", "1000 gp", "500 gp", "5000 gp", "25 gp",
        "50 gp", "10 gp", "1000 gp", "500 gp", "750 gp", "250 gp", "250 gp", "250 gp", "50 gp", "25 gp", "750 gp",
@@ -764,35 +748,20 @@ struct Existing_Items {
        "2500 gp", "10 gp", "750 gp", "2500 gp", "50 gp", "1000 gp", "7500 gp", "750 gp", "25 gp", "100 gp", "500 gp",
        "1 pp", "2500 gp", "50 gp", "10 gp", "5000 gp", "50 gp", "250 gp", "1 sp", "750 gp", "750 gp", "25 gp", "250 gp",
        "750 gp", "25 gp", "750 gp", "7500 gp", "25 gp", "100 gp", "50 gp", "1000 gp",
-       "1000 gp", "10 gp", "500 gp", "100 gp", "10 gp", "1000 gp", "50 gp", "1cp", "1sp", "2gp", "1gp", "1pp", "5pp",};
-  std::vector<std::string> prices_of_SCF_merchants_items = {"5 gp", "5 gp", "5 gp", "1 gp", "1 gp", "5 gp", "10 gp",};
-  std::vector<std::string> prices_of_S_merchants_items = {};
-  std::vector<std::string> prices_of_HA_merchants_items = {};
+       "1000 gp", "10 gp", "500 gp", "100 gp", "10 gp", "1000 gp", "50 gp", "1cp", "1sp", "2gp", "1gp", "1pp", "5pp"};
   std::vector<std::string> prices_of_INS_merchants_items =
-      {"30 gp", "6 gp", "25 gp", "2 gp", "3 gp", "35 gp", "30 gp", "12 gp", "2 gp", "30 gp",};
-  std::vector<std::string> prices_of_RG_merchants_items = {};
+      {"30 gp", "6 gp", "25 gp", "2 gp", "3 gp", "35 gp", "30 gp", "12 gp", "2 gp", "30 gp"};
   std::vector<std::string>
-      prices_of_TAH_merchants_items = {"x4", "2 gp", "60 gp", "5 cp", "20 gp", "5 gp", "10 gp", "4 gp", "5 sp",};
-  std::vector<std::string> prices_of_MA_merchants_items = {};
-  std::vector<std::string> prices_of_EXP_merchants_items = {"150 gp", "35 gp", "250 gp",};
-  std::vector<std::string> prices_of_P_merchants_items = {};
+      prices_of_TAH_merchants_items = {"x4", "2 gp", "60 gp", "5 cp", "20 gp", "5 gp", "10 gp", "4 gp", "5 sp"};
+  std::vector<std::string> prices_of_EXP_merchants_items = {"150 gp", "35 gp", "250 gp"};
   std::vector<std::string> prices_of_MNT_merchants_items =
-      {"50 gp", "8 gp", "50 gp", "200 gp", "25 gp", "8 gp", "30 gp", "75 gp", "400 gp",};
-  std::vector<std::string> prices_of_VEH_merchants_items = {"50 gp", "100 gp", "15 gp", "250 gp", "20 gp", "35 gp",};
+      {"50 gp", "8 gp", "50 gp", "200 gp", "25 gp", "8 gp", "30 gp", "75 gp", "400 gp"};
+  std::vector<std::string> prices_of_VEH_merchants_items = {"50 gp", "100 gp", "15 gp", "250 gp", "20 gp", "35 gp"};
   std::vector<std::string> prices_of_TG_merchants_items =
       {"1 sp", "2 cp", "2 gp", "3 gp", "5 sp", "5 sp", "10 gp", "2 cp", "1 gp", "1 gp", "50 gp", "1 sp", "5 gp",
-       "15 gp", "2 gp", "3 gp", "500 gp", "15 gp", "5 cp", "2 gp", "10 gp", "5 gp", "1 cp",};
-  std::vector<std::string> prices_of_GS_merchants_items = {"1 sp", "1 gp", "5 sp", "1 gp",};
-  std::vector<std::string> prices_of_EM_merchants_items = {};
-  std::vector<std::string> prices_of_T_merchants_items = {"25 gp", "15 gp", "5 gp", "25 gp", "50 gp", "25 gp",};
-  std::vector<std::string> prices_of_LA_merchants_items = {};
-  std::vector<std::string> prices_of_OTH_merchants_items = {};
-  std::vector<std::string> prices_of_RD_merchants_items = {};
-  std::vector<std::string> prices_of_R_merchants_items = {};
-  std::vector<std::string> prices_of_SC_merchants_items = {};
-  std::vector<std::string> prices_of_A_merchants_items = {};
-  std::vector<std::string> prices_of_WD_merchants_items = {};
-  std::vector<std::string> prices_of_GV_merchants_items = {};
+       "15 gp", "2 gp", "3 gp", "500 gp", "15 gp", "5 cp", "2 gp", "10 gp", "5 gp", "1 cp"};
+  std::vector<std::string> prices_of_GS_merchants_items = {"1 sp", "1 gp", "5 sp", "1 gp"};
+  std::vector<std::string> prices_of_T_merchants_items = {"25 gp", "15 gp", "5 gp", "25 gp", "50 gp", "25 gp"};
 
   std::vector<std::string> names_of_merchants_items =
       {"Abacus", "Acid (vial)", "Alchemist's Fire (flask)", "Antitoxin", "Assassin's Blood (Ingested)", "Backpack",
@@ -855,7 +824,7 @@ struct Existing_Items {
        "Chicken", "Cinnamon", "Cloves", "Copper", "Cotton Cloth (1 sq. yd.)", "Cow", "Flour", "Ginger", "Goat", "Gold",
        "Iron", "Linen (1 sq. yd.)", "Ox", "Pepper", "Pig", "Platinum", "Saffron", "Salt", "Sheep", "Silk (1 sq. yd.)",
        "Silver", "Wheat", "Dice Set", "Dragonchess Set", "Playing Card Set", "Three-Dragon Ante Set", "Disguise Kit",
-       "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools",};
+       "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools"};
   std::vector<std::string> prices_of_merchants_items =
       {"2 gp", "25 gp", "50 gp", "50 gp", "150 gp", "2 gp", "0.1 cp", "1 gp", "2 gp", "100 gp", "4 sp", "1 gp", "1 gp",
        "5 sp", "1 gp", "25 gp", "5 cp", "10 gp", "16 gp", "500 gp", "5 cp", "1 gp", "1 cp", "200 gp", "5 gp", "1 cp",
@@ -884,7 +853,7 @@ struct Existing_Items {
        "200 gp", "25 gp", "8 gp", "30 gp", "75 gp", "400 gp", "50 gp", "100 gp", "15 gp", "250 gp", "20 gp", "35 gp",
        "1 sp", "2 cp", "2 gp", "3 gp", "5 sp", "5 sp", "10 gp", "2 cp", "1 gp", "1 gp", "50 gp", "1 sp", "5 gp",
        "15 gp", "2 gp", "3 gp", "500 gp", "15 gp", "5 cp", "2 gp", "10 gp", "5 gp", "1 cp", "1 sp", "1 gp", "5 sp",
-       "1 gp", "25 gp", "15 gp", "5 gp", "25 gp", "50 gp", "25 gp",};
+       "1 gp", "25 gp", "15 gp", "5 gp", "25 gp", "50 gp", "25 gp"};
 
 };
 //types = {"G", "M", "SHP", "AT", "$", "SCF", "S",
@@ -934,8 +903,7 @@ class Item {
   virtual std::string What_class();
 };
 
-class Melee_Weapon :
-    public Item {
+class Melee_Weapon : public Item {
  protected:
   bool reqAttune;
   bool reqAttuneByWho[kClass_NuM + kRace_Num + kRace_Num];
@@ -951,55 +919,28 @@ class Melee_Weapon :
   std::vector<std::string> property;
  public:
   Melee_Weapon();
-  Melee_Weapon(std::string &name_);
-  Melee_Weapon(std::string &name_, int
-  count_);
+  explicit Melee_Weapon(std::string &name_);
+  Melee_Weapon(std::string &name_, int count_);
   ~Melee_Weapon();
   virtual void set(std::string &name_, int count_);
   int show()
   override;
-  virtual int get(int a);
+  int get(int a) override;
 };
 
-class Ranged_Weapon :
-    public Melee_Weapon {
+class Ranged_Weapon : public Melee_Weapon {
  protected:
  public:
   Ranged_Weapon();
-  Ranged_Weapon(std::string &name_);
-  Ranged_Weapon(std::string &name_, int
-  count_);
+  explicit Ranged_Weapon(std::string &name_);
+  Ranged_Weapon(std::string &name_, int count_);
   ~Ranged_Weapon();
-  void set(std::string &name_, int count_)
-  override;
-
-  int show()
-  override;
-
-  int get(int a)
-  override;
+  void set(std::string &name_, int count_) override;
+  int show() override;
+  int get(int a) override;
 };
 
-/*class Food : public Item {
- public:
-  Food(std::string &name_, int count_) {
-    set(name_, count_);
-  }
-  ~Food() = default;
-  void set(std::string &name_, int count_) {
-    name = name_;
-    count = count_;
-    stackable = true;
-  }
-  int show() {
-    printf("%s", "Goods:");
-    std::cout << name << std::endl;
-    return count;
-  }
-};*/
-
-class Armor :
-    public Item {
+class Armor : public Item {
  protected:
   bool reqAttune;
   bool reqAttuneByWho[kClass_NuM + kRace_Num];
@@ -1008,38 +949,30 @@ class Armor :
   int strength_needed;
   bool stealth_disadvantage;
  public:
-  Armor(std::string &name_);
-  Armor(std::string &name_, int
-  count_);
+  explicit Armor(std::string &name_);
+  Armor(std::string &name_, int count_);
   //Armor(std::string &name_, int type_, int count_, int armor_class_, int strength_needed_, bool stealth_disadvantage_);
   ~Armor();
   void set(std::string &name_, int count_);
-  int show()
-  override;
+  int show() override;
 
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class Goods :
-    public Item {
+class Goods : public Item {
  private:
   bool is_obstacle;
  public:
   Goods();
-  Goods(std::string &name_, int
-  count_);
-  Goods(std::string &name_);
+  Goods(std::string &name_, int count_);
+  explicit Goods(std::string &name_);
   ~Goods();
   virtual void set(std::string &name_, int count_);
-  int show()
-  override;
-
-  virtual int get(int a);
+  int show() override;
+  int get(int a) override;
 };
 
-class Ammo :
-    public Goods {
+class Ammo : public Goods {
  protected:
   bool reqAttune;
   bool reqAttuneByWho[kClass_NuM + kRace_Num];
@@ -1047,37 +980,26 @@ class Ammo :
   int element;
  public:
   Ammo();
-  Ammo(std::string &name_, int
-  count_);
-  Ammo(std::string &name_);
-  //Ammo(std::string &name_, int count_, int ammo_damage_, int element_);
-  void set(std::string &name_, int count_)
-  override;
-  int show()
-  override;
-
-  int get(int a)
-  override;
+  Ammo(std::string &name_, int count_);
+  explicit Ammo(std::string &name_);
+  void set(std::string &name_, int count_) override;
+  int show() override;
+  int get(int a) override;
 
 };
 
-class ArtisanTools :
-    public Item {
+class ArtisanTools : public Item {
  private:
  public:
   ArtisanTools();
-  ArtisanTools(std::string &name_);
-  ArtisanTools(std::string &name_, int
-  count_);
+  explicit ArtisanTools(std::string &name_);
+  ArtisanTools(std::string &name_, int count_);
   ~ArtisanTools();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class Ship :
-    public Item {
+class Ship : public Item {
  private:
   std::string speed;
   std::string carryingcapacity;
@@ -1089,33 +1011,25 @@ class Ship :
    * amount of damage equal to or greater than its damage threshold, in which case it takes damage as normal.*/
  public:
   Ship();
-  Ship(std::string &name_);
-  Ship(std::string &name_, int
-  count_);
+  explicit Ship(std::string &name_);
+  Ship(std::string &name_, int count_);
   ~Ship();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class Valuables :
-    public Item {
+class Valuables : public Item {
  private:
  public:
   Valuables();
-  Valuables(std::string &name_);
-  Valuables(std::string &name_, int
-  count_);
+  explicit Valuables(std::string &name_);
+  Valuables(std::string &name_, int count_);
   ~Valuables();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class SpellCastingFocus :
-    public Item {
+class SpellCastingFocus : public Item {
  private:
   bool reqAttune;
   bool reqAttuneByWho[kClass_NuM + kRace_Num];
@@ -1125,52 +1039,39 @@ class SpellCastingFocus :
   int scfType;//holy, druid, arcane
  public:
   SpellCastingFocus();
-  SpellCastingFocus(std::string &name_);
-  SpellCastingFocus(std::string &name_, int
-  count_);
+  explicit SpellCastingFocus(std::string &name_);
+  SpellCastingFocus(std::string &name_, int count_);
   ~SpellCastingFocus();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class Shield :
-    public Item {
+class Shield : public Item {
  private:
   int ac;
   bool reqAttune;
   bool reqAttuneByWho[kClass_NuM + kRace_Num];
  public:
   Shield();
-  Shield(std::string &name_);
-  Shield(std::string &name_, int
-  count_);
+  explicit Shield(std::string &name_);
+  Shield(std::string &name_, int count_);
   ~Shield();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class Instrument :
-    public Item {
+class Instrument : public Item {
  private:
-
  public:
   Instrument();
-  Instrument(std::string &name_);
-  Instrument(std::string &name_, int
-  count_);
+  explicit Instrument(std::string &name_);
+  Instrument(std::string &name_, int count_);
   ~Instrument();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class Ring :
-    public Item {
+class Ring : public Item {
  private:
   int charges;
   int resistance_type;
@@ -1178,247 +1079,182 @@ class Ring :
   bool reqAttuneByWho[kClass_NuM + kRace_Num];
  public:
   Ring();
-  Ring(std::string &name_);
-  Ring(std::string &name_, int
-  count_);
+  explicit Ring(std::string &name_);
+  Ring(std::string &name_, int count_);
   ~Ring();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class AnimalGear :
-    public Item {
+class AnimalGear : public Item {
  private:
-
  public:
   AnimalGear();
-  AnimalGear(std::string &name_);
-  AnimalGear(std::string &name_, int
-  count_);
+  explicit AnimalGear(std::string &name_);
+  AnimalGear(std::string &name_, int count_);
   ~AnimalGear();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class Explosive :
-    public Item {
+class Explosive : public Item {
  private:
   std::string age;
  public:
   Explosive();
-  Explosive(std::string &name_);
-  Explosive(std::string &name_, int
-  count_);
+  explicit Explosive(std::string &name_);
+  Explosive(std::string &name_, int count_);
   ~Explosive();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class Potion :
-    public Item {
+class Potion : public Item {
  private:
   int healing;
   int num_of_healing_dices;
   int healing_dice;
  public:
   Potion();
-  Potion(std::string &name_);
-  Potion(std::string &name_, int
-  count_);
+  explicit Potion(std::string &name_);
+  Potion(std::string &name_, int count_);
   ~Potion();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class Mounties :
-    public Item {
+class Mounties : public Item {
  private:
   std::string carryingcapacity;
   std::string speed;
  public:
   Mounties();
-  Mounties(std::string &name_);
-  Mounties(std::string &name_, int
-  count_);
+  explicit Mounties(std::string &name_);
+  Mounties(std::string &name_, int count_);
   ~Mounties();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class Vehicle :
-    public Item {
+class Vehicle : public Item {
  private:
   std::string speed;
   std::string carryingcapacity;
  public:
   Vehicle();
-  Vehicle(std::string &name_);
-  Vehicle(std::string &name_, int
-  count_);
+  explicit Vehicle(std::string &name_);
+  Vehicle(std::string &name_, int count_);
   ~Vehicle();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class TradeGoods :
-    public Item {
+class TradeGoods : public Item {
  private:
-
  public:
   TradeGoods();
-  TradeGoods(std::string &name_);
-  TradeGoods(std::string &name_, int
-  count_);
+  explicit TradeGoods(std::string &name_);
+  TradeGoods(std::string &name_, int count_);
   ~TradeGoods();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class GamingSet :
-    public Item {
+class GamingSet : public Item {
  private:
-
  public:
   GamingSet();
-  GamingSet(std::string &name_);
-  GamingSet(std::string &name_, int
-  count_);
+  explicit GamingSet(std::string &name_);
+  GamingSet(std::string &name_, int count_);
   ~GamingSet();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class Device :
-    public Item {
+class Device : public Item {
  private:
   bool reqAttune;//?
  public:
   Device();//EM
-  Device(std::string &name_);
-  Device(std::string &name_, int
-  count_);
+  explicit Device(std::string &name_);
+  Device(std::string &name_, int count_);
   ~Device();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class Tools :
-    public Item {
+class Tools : public Item {
  private:
-
  public:
   Tools();
-  Tools(std::string &name_);
-  Tools(std::string &name_, int
-  count_);
+  explicit Tools(std::string &name_);
+  Tools(std::string &name_, int count_);
   ~Tools();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class OTH :
-    public Item {
+class OTH : public Item {
  private:
   bool reqAttune;
   bool reqAttuneByWho[kClass_NuM + kRace_Num];
   int charges;
  public:
   OTH();
-  OTH(std::string &name_);
-  OTH(std::string &name_, int
-  count_);
+  explicit OTH(std::string &name_);
+  OTH(std::string &name_, int count_);
   ~OTH();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class Rod :
-    public Item {
+class Rod : public Item {
  private:
   bool reqAttune;
   bool reqAttuneByWho[kClass_NuM + kRace_Num];
  public:
   Rod();
-  Rod(std::string &name_);
-  Rod(std::string &name_, int
-  count_);
+  explicit Rod(std::string &name_);
+  Rod(std::string &name_, int count_);
   ~Rod();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class Scroll :
-    public Item {
+class Scroll : public Item {
  private:
-
  public:
   Scroll();
-  Scroll(std::string &name_);
-  Scroll(std::string &name_, int
-  count_);
+  explicit Scroll(std::string &name_);
+  Scroll(std::string &name_, int count_);
   ~Scroll();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class Wand :
-    public Item {
+class Wand : public Item {
  private:
   bool reqAttune;
   bool reqAttuneByWho[kClass_NuM + kRace_Num];
   int charges;
  public:
   Wand();
-  Wand(std::string &name_);
-  Wand(std::string &name_, int
-  count_);
+  explicit Wand(std::string &name_);
+  Wand(std::string &name_, int count_);
   ~Wand();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
-class GV :
-    public Item {
+class GV : public Item {
  private:
-
  public:
   GV();
-  GV(std::string &name_);
-  GV(std::string &name_, int
-  count_);
+  explicit GV(std::string &name_);
+  GV(std::string &name_, int count_);
   ~GV();
   void set(std::string &name_, int count_);
-
-  int get(int a)
-  override;
+  int get(int a) override;
 };
 
 /*class  : public Item {
@@ -1426,7 +1262,7 @@ class GV :
 
  public:
   Magic_Items();
-  Magic_Items(std::string &name_);
+  explicit Magic_Items(std::string &name_);
   Magic_Items(std::string &name_, int count_);
   ~Magic_Items();
   void set(std::string &name_, int count_);
