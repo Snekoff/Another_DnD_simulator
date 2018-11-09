@@ -38,33 +38,33 @@ TEST_F(Item_TEST, ItemGetElementShouldReturnZeroTest){
 }
 
 TEST_F(Item_TEST, ItemIsEquipedShouldReturnFalseTest){
-  EXPECT_EQ(Test_Subject->is_equiped(), false);
+  EXPECT_EQ(Test_Subject->is_equipped(), false);
 }
 
 TEST_F(Item_TEST, ItemIsEquipedShouldReturnTrueIfWasEquippedTest){
   Test_Subject->equip(1);//equip 1 Longsword
-  EXPECT_EQ(Test_Subject->is_equiped(), true);
+  EXPECT_EQ(Test_Subject->is_equipped(), true);
 }
 
 TEST_F(Item_TEST, ItemIsEquipedShouldReturnFalseIfNumOfEquipedIsLessThanTotalTest){
   Test_Subject->set_count(2);// add 2 Longswords to existing one
   Test_Subject->equip(2);//equip 2 of 3 Longswords means that we still can equip at least one.
-  EXPECT_EQ(Test_Subject->is_equiped(), false);
+  EXPECT_EQ(Test_Subject->is_equipped(), false);
 }
 
 TEST_F(Item_TEST, ItemIsEquipedShouldReturnTrueIfNumOfEquipedIsEqualThanTotalTest){
   Test_Subject->equip(1);//equip 1 of 1 Longswords
-  EXPECT_EQ(Test_Subject->is_equiped(), true);
+  EXPECT_EQ(Test_Subject->is_equipped(), true);
 }
 
 TEST_F(Item_TEST, ItemIsEquipedShouldReturnTrueIfNumOfEquipedIsGreaterThanTotalTest){
   Test_Subject->equip(2);//equip 2 of 1 Longswords means that we equip one(maximum).
-  EXPECT_EQ(Test_Subject->is_equiped(), true);
+  EXPECT_EQ(Test_Subject->is_equipped(), true);
 }
 
 TEST_F(Item_TEST, ItemIsEquipedShouldReturnFalseIfNumOfEquipedIsNegativeTest){
   Test_Subject->equip(-10);//unequip 10 of 1 Longswords means that we unequip one(maximum).
-  EXPECT_EQ(Test_Subject->is_equiped(), false);
+  EXPECT_EQ(Test_Subject->is_equipped(), false);
 }
 
 /*TEST_F(Item_TEST, ItemGetShouldReturnTest){

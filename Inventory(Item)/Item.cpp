@@ -3,9 +3,9 @@
 using json = nlohmann::json;
 
 Item::Item() : name(" ") { // : name(name) first initialise with reference
-  equiped = false;
+  equipped = false;
   count = 0;
-  num_equiped = 0;
+  num_equipped = 0;
   stackable = false;
   cost = 0;
   weight = 0;
@@ -50,7 +50,7 @@ int Item::get(int a) {//armor class
   else if(a == 23){ return holy_symbol ? 1 : -1; }*/
   return -1;
 }
-int Item::Price_Parce(const json &j, int i) {
+int Item::Price_Parse(const nlohmann::basic_json<> &j, int i) {
   if (!j["item"][i]["value"].empty()) {
     cost = 0;
     std::__cxx11::string value_ = j["item"][i]["value"];
@@ -84,8 +84,8 @@ void Item::equip(int a) {
     if (a > 0) a = count;
     else a = (-1) * count;
   }
-  num_equiped += a;
-  equiped = (num_equiped == count);
+  num_equipped += a;
+  equipped = (num_equipped == count);
 }
 void Item::Attune() {
   Attuned = !Attuned;
@@ -93,7 +93,7 @@ void Item::Attune() {
 bool Item::Is_Attuned() {
   return Attuned;
 }
-bool Item::is_equiped() { return equiped; }
+bool Item::is_equipped() { return equipped; }
 std::string Item::What_class() {
   return what_class_is_it;
 }
@@ -163,7 +163,7 @@ Melee_Weapon::~Melee_Weapon() = default;
 void Melee_Weapon::set(std::string &name_, int count_) {
   Existing_Items E_I;
   name = " ";
-  equiped = false;
+  equipped = false;
   for (int i = 0; i < kWeapon_NUM; i++) {
     if (E_I.Weapon_s[i] == name_) {
       name = name_;
@@ -197,7 +197,7 @@ void Melee_Weapon::set(std::string &name_, int count_) {
 
             } else reqAttune = j["item"][i]["reqAttune"];
           }
-          cost = Price_Parce(j, i);
+          cost = Price_Parse(j, i);
           break;
         }
       }
@@ -221,7 +221,7 @@ int Melee_Weapon::get(int a) {
   else if (a == 5) { return num_of_dices2; }
   else if (a == 6) { return damage_dice2; }
   else if (a == 7) { return type_of_elemental_damage; }
-  else if (a == 8) { return num_equiped; }
+  else if (a == 8) { return num_equipped; }
   return -1;
 }
 
@@ -252,7 +252,7 @@ Ranged_Weapon::~Ranged_Weapon() = default;
 void Ranged_Weapon::set(std::string &name_, int count_) {
   Existing_Items E_I;
   name = " ";
-  equiped = false;
+  equipped = false;
   for (int i = 0; i < kRanged_Weapon_NUM; i++) {
     if (E_I.Ranged_Weapon_s[i] == name_) {
       name = name_;
@@ -288,7 +288,7 @@ void Ranged_Weapon::set(std::string &name_, int count_) {
 
             } else reqAttune = j["item"][i]["reqAttune"];
           }
-          cost = Price_Parce(j, i);
+          cost = Price_Parse(j, i);
           break;
         }
       }
@@ -314,7 +314,7 @@ int Ranged_Weapon::get(int a) {
   else if (a == 7) { return type_of_elemental_damage; }
   else if (a == 8) { return aiming_range; }
   else if (a == 9) { return max_range; }
-  else if (a == 10) { return num_equiped; }
+  else if (a == 10) { return num_equipped; }
   return -1;
 }
 
@@ -340,7 +340,7 @@ Armor::~Armor() = default;
 void Armor::set(std::string &name_, int count_) {
   Existing_Items E_I;
   name = " ";
-  equiped = false;
+  equipped = false;
   for (int i = 0; i < kArmor_NUM; i++) {
     if (E_I.Armor_s[i] == name_) {
       name = name_;
@@ -375,7 +375,7 @@ void Armor::set(std::string &name_, int count_) {
 
             } else reqAttune = j["item"][i]["reqAttune"];
           }
-          cost = Price_Parce(j, i);
+          cost = Price_Parse(j, i);
           break;
         }
       }
@@ -417,7 +417,7 @@ Goods::~Goods() = default;
 void Goods::set(std::string &name_, int count_) {
   Existing_Items E_I;
   name = " ";
-  equiped = false;
+  equipped = false;
   for (int i = 0; i < kGoods_NUM; i++) {
     if (E_I.Goods_s[i] == name_) {
       name = name_;
@@ -442,7 +442,7 @@ void Goods::set(std::string &name_, int count_) {
           source = j["item"][i]["source"];
           if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
-          cost = Price_Parce(j, i);
+          cost = Price_Parse(j, i);
           break;
         }
       }
@@ -461,7 +461,7 @@ int Goods::get(int a) {
   else if (a == 1) { return weight; }
   else if (a == 2) { return count; }
   else if (a == 3) { return is_obstacle ? 1 : -1; }
-  else if (a == 4) { return num_equiped; }
+  else if (a == 4) { return num_equipped; }
   return -1;
 }
 
@@ -483,7 +483,7 @@ Ammo::Ammo(std::string &name_) {
 void Ammo::set(std::string &name_, int count_) {
   Existing_Items E_I;
   name = " ";
-  equiped = false;
+  equipped = false;
   for (int j = 0; j < kAmmo_NUM; j++) {
     if (E_I.Ammo_s[j] == name_) {
       name = name_;
@@ -514,7 +514,7 @@ void Ammo::set(std::string &name_, int count_) {
 
             } else reqAttune = j["item"][i]["reqAttune"];
           }
-          cost = Price_Parce(j, i);
+          cost = Price_Parse(j, i);
           break;
         }
       }
@@ -534,7 +534,7 @@ int Ammo::get(int a) {
   else if (a == 2) { return count; }
   else if (a == 3) { return ammo_damage; }
   else if (a == 4) { return element; }
-  else if (a == 5) { return num_equiped; }
+  else if (a == 5) { return num_equipped; }
   return -1;
 }
 
@@ -564,7 +564,7 @@ void ArtisanTools::set(std::string &name_, int count_) {
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         entries = Entries_Parse(j, i);
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -609,7 +609,7 @@ void Ship::set(std::string &name_, int count_) {
         if (!j["item"][i]["vehAc"].empty()) vehAc = j["item"][i]["vehAc"];
         if (!j["item"][i]["vehHp"].empty()) vehHp = j["item"][i]["vehHp"];
         if (!j["item"][i]["vehDmgThresh"].empty()) vehDmgThresh = j["item"][i]["vehDmgThresh"];
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -647,7 +647,7 @@ void Valuables::set(std::string &name_, int count_) {
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         entries = Entries_Parse(j, i);
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -674,7 +674,7 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
   count = count_;
   Existing_Items E_I;
   name = " ";
-  equiped = false;
+  equipped = false;
   for (int i = 0; i < kSpellCastingFocus_NUM; i++) {
     if (E_I.SpellCastingFocus_s[i] == name_) {
       name = name_;
@@ -709,7 +709,7 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
 
             } else reqAttune = j["item"][i]["reqAttune"];
           }
-          cost = Price_Parce(j, i);
+          cost = Price_Parse(j, i);
           break;
         }
       } else if (!j["item"][i]["type"].empty()) {
@@ -734,7 +734,7 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
 
             } else reqAttune = j["item"][i]["reqAttune"];
           }
-          cost = Price_Parce(j, i);
+          cost = Price_Parse(j, i);
           break;
         }
       }
@@ -819,7 +819,7 @@ void Shield::set(std::string &name_, int count_) {
 
           } else reqAttune = j["item"][i]["reqAttune"];
         }
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -869,7 +869,7 @@ void Instrument::set(std::string &name_, int count_) {
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         entries = Entries_Parse(j, i);
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -923,7 +923,7 @@ void Ring::set(std::string &name_, int count_) {
 
           } else reqAttune = j["item"][i]["reqAttune"];
         }
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -972,7 +972,7 @@ void AnimalGear::set(std::string &name_, int count_) {
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         entries = Entries_Parse(j, i);
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -1011,7 +1011,7 @@ void Explosive::set(std::string &name_, int count_) {
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         age = j["item"][i]["age"];
         entries = Entries_Parse(j, i);
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -1050,7 +1050,7 @@ void Potion::set(std::string &name_, int count_) {
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         entries = Entries_Parse(j, i);
         attachedSpells = AttachedSpells_Parse(j, i);
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -1104,7 +1104,7 @@ void Mounties::set(std::string &name_, int count_) {
         entries = Entries_Parse(j, i);
         if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
         if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -1144,7 +1144,7 @@ void Vehicle::set(std::string &name_, int count_) {
         entries = Entries_Parse(j, i);
         if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
         if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -1182,7 +1182,7 @@ void TradeGoods::set(std::string &name_, int count_) {
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         entries = Entries_Parse(j, i);
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -1220,7 +1220,7 @@ void GamingSet::set(std::string &name_, int count_) {
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         entries = Entries_Parse(j, i);
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -1263,7 +1263,7 @@ void Device::set(std::string &name_, int count_) {
 
           } else reqAttune = j["item"][i]["reqAttune"];
         }
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -1301,7 +1301,7 @@ void Tools::set(std::string &name_, int count_) {
         source = j["item"][i]["source"];
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         entries = Entries_Parse(j, i);
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -1345,7 +1345,7 @@ void Rod::set(std::string &name_, int count_) {
 
           } else reqAttune = j["item"][i]["reqAttune"];
         }
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -1385,7 +1385,7 @@ void Scroll::set(std::string &name_, int count_) {
         if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
         entries = Entries_Parse(j, i);
         attachedSpells = AttachedSpells_Parse(j, i);
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
@@ -1430,7 +1430,7 @@ void Wand::set(std::string &name_, int count_) {
         }
         attachedSpells = AttachedSpells_Parse(j, i);
         if (!j["item"][i]["charges"].empty()) charges = !j["item"][i]["charges"];
-        cost = Price_Parce(j, i);
+        cost = Price_Parse(j, i);
         break;
       }
     }
