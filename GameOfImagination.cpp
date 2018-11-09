@@ -54,6 +54,7 @@ void Game::Party_create(Random_Generator_ *Rand_gen) {
   cout << "Welcome adventurer. We start with character creation, shouldn't we?\n";
   cout << "Lets start with a number of current players except master. Type it.\n";
   cout << "( You will be able to add or delete character during your game )\n";
+  cout << "HINT: Each input value has to be separated by ENTER key.\n";
   int number_of_characters = 0;
   number_of_characters = IsNumber(number_of_characters, 0, -1);
   unsigned party_size_before = characters.size();

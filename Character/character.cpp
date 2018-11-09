@@ -879,8 +879,8 @@ int Character::Add_To_Inventory() {
   int choose_to_proceed = 0;
   Add_To_Item_Map(name_);
   inventory[inventory.size() - 1]->equip(1);
-  cout << "Your Backpack is a black hole without any limits, but you can carry not as much weight,"
-          " so choose wisely what to take with you in future journeys\n";
+  cout << "Your Backpack is a black hole without any limits, but you can carry not as much weight,\n"
+          "So choose wisely what to take with you in future journeys\n";
   cout << "Do you want to take anything with you ?  Yes(1)  No(2) *\n";
   choose_to_proceed = IsNumber<int>(choose_to_proceed, 1, 2);
   if (choose_to_proceed == 2) {
@@ -894,41 +894,45 @@ int Character::Add_To_Inventory() {
               "2. Ranged weapon\n"
               "3. Ammo\n"
               "4. Armor\n"
-              "5. Goods\n"
+              "5. Goods ( PHB only )\n"
               "6. SpellCastingFocus\n"
               "7. Shield\n"
               "8. Ring\n"
               "9. Potion\n"
-              "10. Ship\n"
-              "11. Artisan Tools\n"
-              "12. Valuables (Jewelry, Gemstones)\n"
-              "13. Instruments (musical)\n"
-              "14. Animal Gear\n"
-              "15. Explosive\n"
-              "16. Mountie\n"
-              "17. Vehicle\n"
-              "18. Trading Goods\n"
-              "19. Gaming Set\n"
-              "20. Tools\n"
-              "21. Rod\n"
-              "22. Scroll\n"
-              "23. Wand\n"
-              "(this list will be extended in future versions)\n";
+              "10. Goods ( If you didn't find what you wanted in PHB Goods)\n"
+              "11. Ship\n"
+              "12. Artisan Tools\n"
+              "13. Valuables (Jewelry, Gemstones)\n"
+              "14. Instruments (musical)\n"
+              "15. Animal Gear\n"
+              "16. Explosive\n"
+              "17. Mountie\n"
+              "18. Vehicle\n"
+              "19. Trading Goods\n"
+              "20. Gaming Set\n"
+              "21. Tools\n";
+              //"(this list will be extended in future versions)\n";
       item_ = IsNumber<int>(item_, 1, kItem_For_Sale_Types);
       //cout << "Control reach method Add_To_Inventory 0\n";
       cout << "Your funds: " << money[kMoney_types - 1] << endl;
+      Existing_Items E_I;
       int limit[kItem_For_Sale_Types + 1] =
           {0, kWeapon_NUM + kM_NUM, kRanged_Weapon_NUM + kR_NUM + limit[1], kAmmo_NUM + kA_NUM + limit[2],
-           kArmor_NUM + kMA_NUM + kLA_NUM + kHA_NUM + limit[3], kGoods_NUM + kG_NUM + limit[4],
+           kArmor_NUM + kMA_NUM + kLA_NUM + kHA_NUM + limit[3], kGoods_NUM + limit[4],
            kSpellCastingFocus_NUM + kSCF_NUM + limit[5], kShield_NUM + kS_NUM + limit[6],
-           kRing_NUM + kRG_NUM + limit[7], kPotion_NUM + kP_NUM + limit[8], kSHP_NUM + limit[9], kAT_NUM + limit[10],
-           k$_NUM + limit[11], kINS_NUM + limit[12], kTAH_NUM + limit[13], kEXP_NUM + limit[14], kMNT_NUM + limit[15],
-           kVEH_NUM + limit[16], kTG_NUM + limit[17], kGS_NUM + limit[18], kT_NUM + limit[19], kRD_NUM + limit[20],
-           kSC_NUM + limit[21], kWD_NUM + limit[22]};
-      Existing_Items E_I;
-      std::ifstream inputJson;
-      inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
-      json ItemsJson = json::parse(inputJson);
+           kRing_NUM + kRG_NUM + limit[7], kPotion_NUM + kP_NUM + limit[8],
+           (int) E_I.names_of_G_merchants_items.size() + limit[9],
+           (int) E_I.names_of_SHP_merchants_items.size() + limit[10],
+           (int) E_I.names_of_AT_merchants_items.size() + limit[11],
+           (int) E_I.names_of_$_merchants_items.size() + limit[12],
+           (int) E_I.names_of_INS_merchants_items.size() + limit[13],
+           (int) E_I.names_of_TAH_merchants_items.size() + limit[14],
+           (int) E_I.names_of_EXP_merchants_items.size() + limit[15],
+           (int) E_I.names_of_MNT_merchants_items.size() + limit[16],
+           (int) E_I.names_of_VEH_merchants_items.size() + limit[17],
+           (int) E_I.names_of_TG_merchants_items.size() + limit[18],
+           (int) E_I.names_of_GS_merchants_items.size() + limit[19],
+           (int) E_I.names_of_T_merchants_items.size() + limit[20]};
       for (int i = limit[item_ - 1]; i < limit[item_]; i++) {
         if (i < kItems_Without_JSON_NUM) cout << i + 1 << ". " << E_I.All_s[i];
         else cout << i + 1 << ". " << E_I.names_of_merchants_items[i];
@@ -942,13 +946,24 @@ int Character::Add_To_Inventory() {
         else if (item_ == 7) { cout << E_I.Shield_i[i - limit[item_ - 1]][0]; }
         else if (item_ == 8) { cout << E_I.Ring_i[i - limit[item_ - 1]][0]; }
         else if (item_ == 9) { cout << E_I.Potion_i[i - limit[item_ - 1]][0]; }
-          // NewIndex = i + 1 ...
-        else if (item_ > 9 && item_ < 24) { cout << E_I.prices_of_merchants_items[NewIndex - limit[item_ - 1] - 1]; }
+        else if (item_ == 10) { cout << E_I.prices_of_G_merchants_items[i - limit[item_ - 1]]; }
+        else if (item_ == 11) { cout << E_I.prices_of__merchants_items[i - limit[item_ - 1]]; }
+        else if (item_ == 12) { cout << E_I.prices_of__merchants_items[i - limit[item_ - 1]]; }
+        else if (item_ == 13) { cout << E_I.prices_of__merchants_items[i - limit[item_ - 1]]; }
+        else if (item_ == 14) { cout << E_I.prices_of__merchants_items[i - limit[item_ - 1]]; }
+        else if (item_ == 15) { cout << E_I.prices_of__merchants_items[i - limit[item_ - 1]]; }
+        else if (item_ == 16) { cout << E_I.prices_of__merchants_items[i - limit[item_ - 1]]; }
+        else if (item_ == 17) { cout << E_I.prices_of__merchants_items[i - limit[item_ - 1]]; }
+        else if (item_ == 18) { cout << E_I.prices_of__merchants_items[i - limit[item_ - 1]]; }
+        else if (item_ == 19) { cout << E_I.prices_of__merchants_items[i - limit[item_ - 1]]; }
+        else if (item_ == 20) { cout << E_I.prices_of__merchants_items[i - limit[item_ - 1]]; }
+        else if (item_ == 21) { cout << E_I.prices_of__merchants_items[i - limit[item_ - 1]]; }
+        //else if (item_ > 9 && item_ < 24) { cout << E_I.prices_of_merchants_items[i - limit[item_ - 1]]; }
         cout << endl;
       }
       item_ = IsNumber<int>(item_, limit[item_ - 1], limit[item_]);
       if (item_ - 1 < kItems_Without_JSON_NUM) name_ = E_I.All_s[item_ - 1];
-      else name_ = E_I.names_of_merchants_items[item_ - 1];
+      else name_ = E_I.names_of_merchants_items[item_ - kAll_Num - 1];//9-0790-90790-790-
       int quantity = 1;
       cout << "How many " << name_ << "s do you want ?\n";
       quantity = IsNumber<int>(quantity, 1, 0);

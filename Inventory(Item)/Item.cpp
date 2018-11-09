@@ -142,6 +142,7 @@ std::vector<std::string> Item::AttachedSpells_Parse(const nlohmann::basic_json<>
       attachedSpells.push_back(j["item"][i]["attachedSpells"][k]);
     }
   }
+  return attachedSpells;
 }
 
 Melee_Weapon::Melee_Weapon() = default;
@@ -1439,6 +1440,52 @@ void Wand::set(std::string &name_, int count_) {
   what_class_is_it = "Wand";
 }
 int Wand::get(int a) {
+  if (a == 0) { return cost; }
+  else if (a == 1) { return weight; }
+  else if (a == 2) { return count; }
+  return -1;
+}
+
+OTH::OTH() = default;
+OTH::OTH(std::string &name_) {
+  set(name_, 1);
+}
+OTH::OTH(std::string &name_, int count_) {
+  set(name_, count_);
+}
+OTH::~OTH() = default;
+void OTH::set(std::string &name_, int count_) {
+  weight = 0;
+  count = count_;
+  source = "Default";
+  std::ifstream inputJson;
+  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  json j = json::parse(inputJson);
+  for (int i = 0; !j["item"][i]["name"].empty(); i++) {
+    if (j["item"][i]["type"] != NULL) {
+      if (name_ == j["item"][i]["name"]) {
+        name = name_;
+        rarity = j["item"][i]["rarity"];
+        weight = j["item"][i]["weight"];
+        source = j["item"][i]["source"];
+        if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+        entries = Entries_Parse(j, i);
+        if (!j["item"][i]["reqAttune"].empty()) {
+          if (j["item"][i]["reqAttune"] != true) {
+
+          } else reqAttune = j["item"][i]["reqAttune"];
+        }
+        attachedSpells = AttachedSpells_Parse(j, i);
+        if (!j["item"][i]["charges"].empty()) charges = !j["item"][i]["charges"];
+        cost = Price_Parse(j, i);
+        break;
+      }
+    }
+  }
+
+  what_class_is_it = "OTH";
+}
+int OTH::get(int a) {
   if (a == 0) { return cost; }
   else if (a == 1) { return weight; }
   else if (a == 2) { return count; }
