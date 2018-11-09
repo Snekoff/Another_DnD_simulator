@@ -39,7 +39,7 @@ Character::Character() {
   perception_disadvantage = false;
   skills.resize(kSkills_Num);
   skills_b.resize(kSkills_Num);
-  for (int i = 0; i < kSkills_Num; i++){
+  for (int i = 0; i < kSkills_Num; i++) {
     skills[i] = 0;
     skills_b[i] = false;
   }
@@ -48,11 +48,11 @@ Character::Character() {
   }
   Equipped.resize(kEquip_places);
   state[0] = true;
-  for(int i = 1; i < kCondition_NUM;i++){
+  for (int i = 1; i < kCondition_NUM; i++) {
     state[i] = false;
   }
   exhaustion = 0;
-  for(int i = 0; i < kCoordinates_NUM;i++){
+  for (int i = 0; i < kCoordinates_NUM; i++) {
     Coordinates[i] = 0;
   }
   character_name = "NoName";
@@ -62,7 +62,7 @@ Character::Character() {
 }
 
 Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int levl, int Stre, int Dext,
-                     int Cons, int Inte, int Wisd, int Charisma, int sex_, int rand_seed_change, Allowance * allowance) {
+                     int Cons, int Inte, int Wisd, int Charisma, int sex_, int rand_seed_change, Allowance *allowance) {
   party = 0;
   health = 0;
   maxhealth = 0;
@@ -105,7 +105,7 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   appearance = "Ordinary";
   Name_And_Appearance_Set();
   Race_Choosal(allowance);
-  if(allowance->Is_Character_Set()) Character_All_Set();
+  if (allowance->Is_Character_Set()) Character_All_Set();
   else StorySetsSkills(allowance);
   SetClass(allowance, Rand_gen);
   Starting_Health();
@@ -117,12 +117,12 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
   Skill_Proficiencies();
   Add_To_Inventory();
   state[0] = true;
-  for(int i = 1; i < kCondition_NUM;i++){
+  for (int i = 1; i < kCondition_NUM; i++) {
     state[i] = false;
   }
   exhaustion = 0;
   Equiping_Item();
-  for(int i = 0; i < kCoordinates_NUM;i++){
+  for (int i = 0; i < kCoordinates_NUM; i++) {
     Coordinates[i] = 0;
   }
   reaction = 1;
@@ -130,7 +130,7 @@ Character::Character(Random_Generator_ *Rand_gen, int storyline_, int exp, int l
 }
 
 void Character::Starting_Maxhealth() {
-  if(level > 1) {
+  if (level > 1) {
     cout << "insert maxhealth\n";
     int health_ = 0;
     health_ = IsNumber(health_, maxhealth, maxhealth - 1);
@@ -141,8 +141,8 @@ void Character::Starting_Maxhealth() {
 void Character::Character_All_Set() {
   cout << "How much money have you got? Type 4 values: copper, silver, gold, platinum\n";
   int monkey[kMoney_types] = {0};
-  for(int j = 0; j < kMoney_types; j++){
-    monkey[j] = IsNumber(monkey[j],0,-1);
+  for (int j = 0; j < kMoney_types; j++) {
+    monkey[j] = IsNumber(monkey[j], 0, -1);
     Add_Money(j, monkey[j]);
   }
 }
@@ -281,11 +281,11 @@ void Character::Skill_Proficiencies() {
   }
 }
 
-void Character::StorySetsSkills(Allowance * allowance) {
+void Character::StorySetsSkills(Allowance *allowance) {
   string name_;
   Add_Money(2, 30);//for mess/kits
   if (storyline_i == 0) {
-    if(!allowance->Is_Character_Set()) Add_Money(2, 15);
+    if (!allowance->Is_Character_Set()) Add_Money(2, 15);
     /*A holy symbol (a gift to you when you entered the priesthood), a prayer book or prayer wheel, 5 sticks of incense, vestments, a set of common clothes,*/
     name_ = "Amulet";
     inventory.push_back(Factory_Complex(name_, 1));
@@ -296,7 +296,7 @@ void Character::StorySetsSkills(Allowance * allowance) {
     skills_b[6] = true;
     skills_b[14] = true;
   } else if (storyline_i == 1) {
-    if(!allowance->Is_Character_Set()) Add_Money(2, 15);
+    if (!allowance->Is_Character_Set()) Add_Money(2, 15);
     /*A set of fine clothes, a disguise kit, tools of the con of your choice (ten stoppered bottles filled with colored liquid, a set of weighted dice, a deck of marked cards, or a signet ring of an imaginary duke),*/
     name_ = "Clothes_fine";
     inventory.push_back(Factory_Complex(name_, 1));
@@ -304,7 +304,7 @@ void Character::StorySetsSkills(Allowance * allowance) {
     skills_b[4] = true;
     skills_b[15] = true;
   } else if (storyline_i == 2) {
-    if(!allowance->Is_Character_Set()) Add_Money(2, 15);
+    if (!allowance->Is_Character_Set()) Add_Money(2, 15);
     /*A crowbar, a set of dark common clothes including a hood,*/
     name_ = "Clothes_common";
     inventory.push_back(Factory_Complex(name_, 1));
@@ -315,7 +315,7 @@ void Character::StorySetsSkills(Allowance * allowance) {
     skills_b[4] = true;
     skills_b[16] = true;
   } else if (storyline_i == 3) {
-    if(!allowance->Is_Character_Set()) Add_Money(2, 15);
+    if (!allowance->Is_Character_Set()) Add_Money(2, 15);
     /*A musical instrument (one of your choice), the favor of an admirer (love letter, lock of hair, or trinket), costume clothes,*/
     name_ = "Clothes_costume";
     inventory.push_back(Factory_Complex(name_, 1));
@@ -323,7 +323,7 @@ void Character::StorySetsSkills(Allowance * allowance) {
     skills_b[0] = true;
     skills_b[12] = true;
   } else if (storyline_i == 4) {
-    if(!allowance->Is_Character_Set()) Add_Money(2, 10);
+    if (!allowance->Is_Character_Set()) Add_Money(2, 10);
     /*A set of artisan's tools (one of your choice), a shovel, an iron pot, a set of common clothes, */
     name_ = "Shovel";
     inventory.push_back(Factory_Complex(name_, 1));
@@ -337,7 +337,7 @@ void Character::StorySetsSkills(Allowance * allowance) {
     skills_b[1] = true;
     skills_b[17] = true;
   } else if (storyline_i == 5) {
-    if(!allowance->Is_Character_Set()) Add_Money(2, 15);
+    if (!allowance->Is_Character_Set()) Add_Money(2, 15);
     /*A set of artisan's tools (one of your choice), a letter of introduction from your guild, a set of traveler's clothes,*/
     name_ = "Clothes_traveler`s";
     inventory.push_back(Factory_Complex(name_, 1));
@@ -346,7 +346,7 @@ void Character::StorySetsSkills(Allowance * allowance) {
     skills_b[6] = true;
     skills_b[13] = true;
   } else if (storyline_i == 6) {
-    if(!allowance->Is_Character_Set()) Add_Money(2, 5);
+    if (!allowance->Is_Character_Set()) Add_Money(2, 5);
     /*A scroll case stuffed full of notes from your studies or prayers, a winter blanket, a set of common clothes, an herbalism kit,*/
     name_ = "Blanket";
     inventory.push_back(Factory_Complex(name_, 1));
@@ -357,7 +357,7 @@ void Character::StorySetsSkills(Allowance * allowance) {
     skills_b[9] = true;
     skills_b[14] = true;
   } else if (storyline_i == 7) {
-    if(!allowance->Is_Character_Set()) Add_Money(2, 25);
+    if (!allowance->Is_Character_Set()) Add_Money(2, 25);
     /*A set of fine clothes, a signet ring, a scroll of pedigree*/
     name_ = "Signet_ring";
     inventory.push_back(Factory_Complex(name_, 1));
@@ -368,7 +368,7 @@ void Character::StorySetsSkills(Allowance * allowance) {
     skills_b[5] = true;
     skills_b[13] = true;
   } else if (storyline_i == 8) {
-    if(!allowance->Is_Character_Set()) Add_Money(2, 10);
+    if (!allowance->Is_Character_Set()) Add_Money(2, 10);
     /*A staff, a hunting trap, a trophy from an animal you killed, a set of traveler's clothes, */
     name_ = "Wooden_staff";
     inventory.push_back(Factory_Complex(name_, 1));
@@ -382,7 +382,7 @@ void Character::StorySetsSkills(Allowance * allowance) {
     skills_b[3] = true;
     skills_b[17] = true;
   } else if (storyline_i == 9) {
-    if(!allowance->Is_Character_Set()) Add_Money(2, 10);
+    if (!allowance->Is_Character_Set()) Add_Money(2, 10);
     /*A bottle of black ink, a quill, a small knife, a letter from a dead colleague posing a question you have not yet been able to answer, a set of common clothes*/
     name_ = "Ink";
     inventory.push_back(Factory_Complex(name_, 1));
@@ -393,7 +393,7 @@ void Character::StorySetsSkills(Allowance * allowance) {
     skills_b[2] = true;
     skills_b[5] = true;
   } else if (storyline_i == 10) {
-    if(!allowance->Is_Character_Set()) Add_Money(2, 10);
+    if (!allowance->Is_Character_Set()) Add_Money(2, 10);
     /*A belaying pin (club), silk rope (50 feet), a lucky charm such as a rabbit foot or a small stone with a hole in the center (or you may roll for a random trinket on the Trinkets table in chapter 5), a set of common clothes, */
     name_ = "Club";
     inventory.push_back(Factory_Complex(name_, 1));
@@ -407,7 +407,7 @@ void Character::StorySetsSkills(Allowance * allowance) {
     skills_b[3] = true;
     skills_b[11] = true;
   } else if (storyline_i == 11) {
-    if(!allowance->Is_Character_Set()) Add_Money(2, 10);
+    if (!allowance->Is_Character_Set()) Add_Money(2, 10);
     /*An insignia of rank, a trophy taken from a fallen enemy (a dagger, broken blade, or piece of a banner), a bone dice set or playing card set, a set of common clothes,*/
     name_ = "Clothes_common";
     inventory.push_back(Factory_Complex(name_, 1));
@@ -418,7 +418,7 @@ void Character::StorySetsSkills(Allowance * allowance) {
     skills_b[3] = true;
     skills_b[7] = true;
   } else if (storyline_i == 12) {
-    if(!allowance->Is_Character_Set()) Add_Money(2, 10);
+    if (!allowance->Is_Character_Set()) Add_Money(2, 10);
     /*A small knife, a map of the city you grew up in, a pet mouse, a token to remember your parents by, a set of common clothes,*/
     name_ = "Clothes_common";
     inventory.push_back(Factory_Complex(name_, 1));
@@ -443,7 +443,7 @@ void Character::Ability_improve() {
          " level, that means that you have to choose whether improve one ability +2(type 1) "
          "or two abilities +1(type 2).\n ~In future here might also be feats\n";
     cout << "Str(" << Str << "), Dex(" << Dex << "), Con("
-    << Con << "), Int(" << Int << "), Wis(" << Wis << "), Cha(" << Cha << ")\n";
+         << Con << "), Int(" << Int << "), Wis(" << Wis << "), Cha(" << Cha << ")\n";
     int one_or_two_abilities = -1;
     one_or_two_abilities = IsNumber<int>(one_or_two_abilities, 1, 2);
     if (one_or_two_abilities == 1) {
@@ -468,7 +468,7 @@ void Character::Ability_improve() {
   }
 }
 
-void Character::Race_Choosal(Allowance * allowance) {
+void Character::Race_Choosal(Allowance *allowance) {
   cout << "It is time to choose your race. What it will be?\n";
   Race_Factory Race_Factory_;
   cout << "1. Dragonborn (10 subraces)\n"
@@ -590,36 +590,78 @@ void Character::Race_Get_Abilities() {
 
 void Character::Set(int what, int value) {// what - what parameter will be changed, value - modifier(can be negative)
   switch (what) {
-    case 0: { sex = value; break; }
-    case 1: { experience = value; break; }
-    case 2: { health = value; break; }
-    case 3: { Str = value; break; }
-    case 4: { Dex = value; break; }
-    case 5: { Con = value; break; }
-    case 6: { Int = value; break; }
-    case 7: { Wis = value; break; }
-    case 8: { Cha = value; break; }
-    case 9: { armor_class = value; break; }
-    case 10: { if (value < 0)deathsaves_f++ ; else deathsaves_s++;  break;}
+    case 0: {
+      sex = value;
+      break;
+    }
+    case 1: {
+      experience = value;
+      break;
+    }
+    case 2: {
+      health = value;
+      break;
+    }
+    case 3: {
+      Str = value;
+      break;
+    }
+    case 4: {
+      Dex = value;
+      break;
+    }
+    case 5: {
+      Con = value;
+      break;
+    }
+    case 6: {
+      Int = value;
+      break;
+    }
+    case 7: {
+      Wis = value;
+      break;
+    }
+    case 8: {
+      Cha = value;
+      break;
+    }
+    case 9: {
+      armor_class = value;
+      break;
+    }
+    case 10: {
+      if (value < 0)deathsaves_f++; else deathsaves_s++;
+      break;
+    }
     case 11: {
-      if (value < 0) disadvantage = (bool)(1 - (int)advantage);
-      else advantage = (bool)(1 - (int)disadvantage);
+      if (value < 0) disadvantage = (bool) (1 - (int) advantage);
+      else advantage = (bool) (1 - (int) disadvantage);
       break;
     }
     case 12: {
-      if (value < 0) perception_disadvantage = (bool)(1 - (int)perception_advantage);
-      else perception_advantage = (bool)(1 - (int)perception_disadvantage);
+      if (value < 0) perception_disadvantage = (bool) (1 - (int) perception_advantage);
+      else perception_advantage = (bool) (1 - (int) perception_disadvantage);
       break;
     }
     case 13: {
-      value = Correctness_of_input(value,0,kSkills_Num - 1);
-      if(skills_b[value]) skills_b[value] = false;
+      value = Correctness_of_input(value, 0, kSkills_Num - 1);
+      if (skills_b[value]) skills_b[value] = false;
       else skills_b[value] = true;
       break;
     }
-    case 14: { Add_Money(0, value);  break;}
-    case 15: { Add_Money(1, value);  break;}
-    case 16: { Add_Money(2, value);  break;}
+    case 14: {
+      Add_Money(0, value);
+      break;
+    }
+    case 15: {
+      Add_Money(1, value);
+      break;
+    }
+    case 16: {
+      Add_Money(2, value);
+      break;
+    }
     case 17: {
       Race_Factory Race_Factor;
       race_of_character = Race_Factor.Load(value);
@@ -627,8 +669,8 @@ void Character::Set(int what, int value) {// what - what parameter will be chang
     }
     case 18: {
       auto allowance = new Allowance();
-      if(!allowance->Is_Tested())allowance->Tested();
-      if(!allowance->Is_Character_Set())allowance->Character_Set();
+      if (!allowance->Is_Tested())allowance->Tested();
+      if (!allowance->Is_Character_Set())allowance->Character_Set();
       classType.Create(allowance, value, skills_b);
       health_dice = classType.get(kGetHealth_dice);
       for (int i = 0; i < kSkills_Num; i++) {
@@ -639,12 +681,21 @@ void Character::Set(int what, int value) {// what - what parameter will be chang
       delete allowance;
       break;
     }
-    case 19: { party = value; break; }
-    case 20: { storyline_i = value; break; }
-    case 21: { maxhealth = value; break; }
+    case 19: {
+      party = value;
+      break;
+    }
+    case 20: {
+      storyline_i = value;
+      break;
+    }
+    case 21: {
+      maxhealth = value;
+      break;
+    }
     case 22: { break; }
     case 23: { break; }
-    /*case : { break; }*/
+      /*case : { break; }*/
     default: cout << "Method Set acted wrong\n";
   }
   ConcreteAbilityModifier();
@@ -703,7 +754,7 @@ int Character::Get(int what) {
   else if (what == 105) { return IntModifier; }
   else if (what == 106) { return WisModifier; }
   else if (what == 107) { return ChaModifier; }
-  else if (what > 107 && what < 108 +kSkills_Num) { return skills[what - kGet_Skills_shift];}
+  else if (what > 107 && what < 108 + kSkills_Num) { return skills[what - kGet_Skills_shift]; }
   return -1;
 }
 
@@ -715,20 +766,33 @@ bool Character::Get_bool(int what) {
   else if (what > 3 && what < 4 + kSkills_Num) { return skills_b[what - kSkills_b_shift]; }
   else if (what > 21 && what < 35) {
     Existing_Types E_T;
-  //cout << "\nCharacter: what = "<< what << E_T.params_b[what] << " = " << classType.get_bool(what - kClassType_get_bool_shift) << endl;
-  return classType.get_bool(what - kClassType_get_bool_shift); }//kClassType_get_bool_shift
-  else if (what > 34 && what < 51) { return state[what - kStates_shift];}
-  //temproary
-  else if (what > 50 && what < 57) { return classType.get_bool(what - 51);}
+    //cout << "\nCharacter: what = "<< what << E_T.params_b[what] << " = " << classType.get_bool(what - kClassType_get_bool_shift) << endl;
+    return classType.get_bool(what - kClassType_get_bool_shift);
+  }//kClassType_get_bool_shift
+  else if (what > 34 && what < 51) { return state[what - kStates_shift]; }
+    //temproary
+  else if (what > 50 && what < 57) { return classType.get_bool(what - 51); }
   return false;
 }
 
 string Character::Get_string(int what) {
-  switch (what){
-    case 0: { return character_name; break; }
-    case 1: { return player_name; break; }
-    case 2: { return character_type; break; }
-    case 3: { return appearance; break; }
+  switch (what) {
+    case 0: {
+      return character_name;
+      break;
+    }
+    case 1: {
+      return player_name;
+      break;
+    }
+    case 2: {
+      return character_type;
+      break;
+    }
+    case 3: {
+      return appearance;
+      break;
+    }
     default: return "";
   }
 }
@@ -866,7 +930,7 @@ int Character::Add_To_Inventory() {
       inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
       json ItemsJson = json::parse(inputJson);
       for (int i = limit[item_ - 1]; i < limit[item_]; i++) {
-        if(i < kItems_Without_JSON_NUM) cout << i + 1 << ". " << E_I.All_s[i];
+        if (i < kItems_Without_JSON_NUM) cout << i + 1 << ". " << E_I.All_s[i];
         else cout << i + 1 << ". " << E_I.names_of_merchants_items[i];
         cout << " price: ";
         if (item_ == 1) { cout << E_I.Weapon_i[i][0]; }
@@ -878,12 +942,12 @@ int Character::Add_To_Inventory() {
         else if (item_ == 7) { cout << E_I.Shield_i[i - limit[item_ - 1]][0]; }
         else if (item_ == 8) { cout << E_I.Ring_i[i - limit[item_ - 1]][0]; }
         else if (item_ == 9) { cout << E_I.Potion_i[i - limit[item_ - 1]][0]; }
-        // NewIndex = i + 1 ...
+          // NewIndex = i + 1 ...
         else if (item_ > 9 && item_ < 24) { cout << E_I.prices_of_merchants_items[NewIndex - limit[item_ - 1] - 1]; }
         cout << endl;
       }
       item_ = IsNumber<int>(item_, limit[item_ - 1], limit[item_]);
-      if(item_ - 1 < kItems_Without_JSON_NUM) name_ = E_I.All_s[item_ - 1];
+      if (item_ - 1 < kItems_Without_JSON_NUM) name_ = E_I.All_s[item_ - 1];
       else name_ = E_I.names_of_merchants_items[item_ - 1];
       int quantity = 1;
       cout << "How many " << name_ << "s do you want ?\n";
@@ -918,8 +982,8 @@ void Character::Equip_Item(int where, Item *what) {
   if (Equipped[where] != nullptr) {// ->get(2) != 0
     string name_ = Equipped[where]->get_name();
     cout << name_ << "To be unequipped\n";
-    for(auto it : items_map){
-      if(it.second->get_name() == name_){
+    for (auto it : items_map) {
+      if (it.second->get_name() == name_) {
         it.second->equip(-1);
         break;
       }
@@ -931,15 +995,15 @@ void Character::Equip_Item(int where, Item *what) {
     cout << "Equipped " << Equipped[where]->get_name() << endl;
     if (what->get_name() == "Shield") {
       armor_class += 2;
-      cout << "armor_class = "<< armor_class << endl;}
+      cout << "armor_class = " << armor_class << endl;
+    }
   } else if (where == 2) {
     cout << "equip armor, armor class before: " << armor_class << endl;
     armor_class = 0;
-    if (Equipped[0] != nullptr ) {
-      if(Equipped[0]->What_class() == "Armor") armor_class = Equipped[where]->get(4);
-    }
-    else if(Equipped[1] != nullptr ){
-      if(Equipped[1]->What_class() == "Armor") armor_class = Equipped[where]->get(4);
+    if (Equipped[0] != nullptr) {
+      if (Equipped[0]->What_class() == "Armor") armor_class = Equipped[where]->get(4);
+    } else if (Equipped[1] != nullptr) {
+      if (Equipped[1]->What_class() == "Armor") armor_class = Equipped[where]->get(4);
     }
     int armor_class_bonus[kArmor_types] = {DexModifier, min(DexModifier, 2), 0};
     armor_class += Equipped[where]->get(4) + armor_class_bonus[Equipped[where]->get(3)];
@@ -1039,8 +1103,8 @@ int Character::Healing_Injuring(int value) {
   } else {
     value *= (-1);
     health -= value;
-    if (health <= 0){
-      if((-1) * health < maxhealth) { state[5] = true; }// incapacitated
+    if (health <= 0) {
+      if ((-1) * health < maxhealth) { state[5] = true; }// incapacitated
       else { state[13] = true; }// instantly dead;
       health = 0;
     }
@@ -1078,7 +1142,7 @@ void Character::Class_Set_Wealth(Random_Generator_ *Rand_gen) {
   Add_Money(2, funds);
 }
 
-void Character::SetClass(Allowance * allowance, Random_Generator_ *Rand_gen) {
+void Character::SetClass(Allowance *allowance, Random_Generator_ *Rand_gen) {
   cout << "Choose your class: \n";
   int class_type_ = 0;
   cout << "1. Barbarian\n"
@@ -1098,7 +1162,7 @@ void Character::SetClass(Allowance * allowance, Random_Generator_ *Rand_gen) {
   health_dice = classType.get(kGetHealth_dice);
   proficiency = ProficiencySetter();
   //21-38 => skills[0] - skills[17]
-  if(!allowance->Is_Character_Set()) Class_Set_Wealth(Rand_gen);
+  if (!allowance->Is_Character_Set()) Class_Set_Wealth(Rand_gen);
   for (int i = 0; i < kSkills_Num; i++) {
     if (classType.get(i + kClassType_get_shift) == 1) {
       skills_b[i] = true;
@@ -1153,8 +1217,7 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<string> perso
     if (i == 0) {
       party = parameter_i[i];
       advantage = parameter_b[i];
-    }
-    else if (i == 1) {
+    } else if (i == 1) {
       storyline_i = parameter_i[i];
       disadvantage = parameter_b[i];
       cout << storyline_i << " is story of " << E.stories[storyline_i] << endl;
@@ -1190,11 +1253,10 @@ bool Character::Load(int parameter_i[], bool parameter_b[], vector<string> perso
       race_of_character = Race_Factory_.Load(parameter_i[i]);
       //race_of_character->Load(parameter_i);
       Race_Call_Load(parameter_i);
-    }
-    else if (i > 35 && i < 39) Coordinates[i - kCoordinates_shift] = parameter_i[i];
+    } else if (i > 35 && i < 39) Coordinates[i - kCoordinates_shift] = parameter_i[i];
 
-    if (i > 3 && i < 4 + kSkills_Num) {  skills_b[i - kSkills_b_shift] = parameter_b[i]; }
-    else if (i > 34 && i < 34 + kCondition_NUM) {  state[i - kStates_shift] = parameter_b[i];}//check kStates
+    if (i > 3 && i < 4 + kSkills_Num) { skills_b[i - kSkills_b_shift] = parameter_b[i]; }
+    else if (i > 34 && i < 34 + kCondition_NUM) { state[i - kStates_shift] = parameter_b[i]; }//check kStates
   }
   classType.Load(parameter_i[kClass_type_parameter], parameter_b, parameter_i[kClass_archetype_parameter]);
   proficiency = ProficiencySetter();
@@ -1222,8 +1284,8 @@ void Character::Name_And_Appearance_Set() {
   //cin >> player_name;
   getline(cin, player_name);
   cout << "Describe your character, does ";
-  if(sex == 0 || sex == 2) cout << "she ";
-  else if(sex == 1) cout << "he ";
+  if (sex == 0 || sex == 2) cout << "she ";
+  else if (sex == 1) cout << "he ";
   else cout << "it ";
   cout << "got red eyes? Or maybe long horns?\n";
   //cin >> appearance;
