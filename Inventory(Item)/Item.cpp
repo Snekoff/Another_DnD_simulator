@@ -134,67 +134,95 @@ std::vector<std::string> Item::Entries_Parse(const nlohmann::basic_json<> &j, in
   }
   return entries;
 }
-std::vector<std::string> Item::Entries_Parse_second_level(const nlohmann::basic_json<> &j, int i, int firstForIinedx) {
+std::vector<std::string> Item::Entries_Parse_second_level(const nlohmann::basic_json<> &j, int i, int firstForIindex) {
   std::cout << "Control reach Item::Entries_Parse 2\n";
-  std::cout <<  j["item"][i]["entries"][firstForIinedx].size() << std::endl;
-  for (int f = 0; f < j["item"][i]["entries"][firstForIinedx]["entries"].size(); f++) {
+  std::cout <<  j["item"][i]["entries"][firstForIindex].size() << std::endl;
+  for (int f = 0; f < j["item"][i]["entries"][firstForIindex]["entries"].size(); f++) {
     std::cout << "Control reach Item::Entries_Parse 3_0\n";
-    if (!j["item"][i]["entries"][firstForIinedx]["entries"][f].empty()) {//type
-      Entries_Parse_third_level(j, i, firstForIinedx, f);
+    if(j["item"][i]["entries"][firstForIindex]["entries"][f].size() == 1){
+      std::cout << "Control reach Item::Entries_Parse 3_0/string.\n";
+      auto entries_ = j["item"][i]["entries"][firstForIindex]["entries"][f];
+      entries.push_back(entries_);
+    } else if (!j["item"][i]["entries"][firstForIindex]["entries"][f].empty()) {//type
+      Entries_Parse_third_level(j, i, firstForIindex, f);
     } else {
       std::cout << "Control reach Item::Entries_Parse 3_2\n";
-      auto entries_ = j["item"][i]["entries"][firstForIinedx].get<std::string>();
+      //auto entries_ = j["item"][i]["entries"][firstForIindex].get<std::string>();
+      //entries.push_back(entries_);
+    }
+  }
+  std::cout << "Control reachItem::Entries_Parse_ 5\n";
+  if (!j["item"][i]["entries"][firstForIindex]["name"].empty()) {
+    std::string nameAddOn = j["item"][i]["entries"][firstForIindex]["name"];
+    entries.push_back(nameAddOn);
+    std::cout << "Control reach Item::Entries_Parse 4\n";
+    for (int a = 0; a < j["item"][i]["entries"][firstForIindex]["entries"].size(); a++) {
+      auto entries_ =
+          j["item"][i]["entries"][firstForIindex]["entries"][a].get<std::string>();
+      entries.push_back(entries_);
+    }
+    for (int a = 0; a < j["item"][i]["entries"][firstForIindex]["items"].size(); a++) {
+      auto
+          entries_ = j["item"][i]["entries"][firstForIindex]["items"][a].get<std::string>();
       entries.push_back(entries_);
     }
   }
   std::cout << "Control reach Item::Entries_Parse 6\n";
-  for (int f = 0; f < j["item"][i]["entries"][firstForIinedx]["items"].size(); f++) {
-    if (!j["item"][i]["entries"][firstForIinedx]["items"][f].empty()) {//type
-      Entries_Parse_forth_level(j, i, firstForIinedx, f);
+  for (int f = 0; f < j["item"][i]["entries"][firstForIindex]["items"].size(); f++) {
+    if(j["item"][i]["entries"][firstForIindex]["items"][f].size() == 1){
+      std::cout << "Control reach Item::Entries_Parse 3_0/string.\n";
+      auto entries_ = j["item"][i]["entries"][firstForIindex]["items"][f];
+      entries.push_back(entries_);
+    } else if (!j["item"][i]["entries"][firstForIindex]["items"][f].empty()) {//type
+      Entries_Parse_forth_level(j, i, firstForIindex, f);
     } else {
-      //auto entries_ = j["item"][i]["entries"][firstForIinedx].get<std::string>();
+      //auto entries_ = j["item"][i]["entries"][firstForIindex].get<std::string>();
       //entries.push_back(entries_);
     }
   }
 }
-std::vector<std::string> Item::Entries_Parse_third_level(const nlohmann::basic_json<> &j, int i, int firstForIinedx, int secondForIinedx) {
+std::vector<std::string> Item::Entries_Parse_third_level(const nlohmann::basic_json<> &j, int i, int firstForIindex, int secondForIindex) {
   std::cout << "Control reach Item::Entries_Parse 3_1\n";
-  auto entries_ = j["item"][i]["entries"][firstForIinedx]["entries"][secondForIinedx];
-  entries.push_back(entries_);
+  //auto entries_ = j["item"][i]["entries"][firstForIindex]["entries"][secondForIindex];
+  //entries.push_back(entries_);
   /*OH FUCK ME IF THAT JSON IS SO COMPLEX*/
-  if (!j["item"][i]["entries"][firstForIinedx]["name"].empty()) {
+  if (!j["item"][i]["entries"][firstForIindex]["entries"][secondForIindex]["name"].empty()) {
     std::cout << "Control reach Item::Entries_Parse 4\n";
-    for (int a = 0; a < j["item"][i]["entries"][firstForIinedx]["entries"][secondForIinedx]["entries"].size(); a++) {
+    std::string nameAddOn = j["item"][i]["entries"][firstForIindex]["entries"][secondForIindex]["name"];
+    entries.push_back(nameAddOn);
+    for (int a = 0; a < j["item"][i]["entries"][firstForIindex]["entries"][secondForIindex]["entries"].size(); a++) {
       auto entries_ =
-          j["item"][i]["entries"][firstForIinedx]["entries"][secondForIinedx]["entries"][a].get<std::string>();
+          j["item"][i]["entries"][firstForIindex]["entries"][secondForIindex]["entries"][a].get<std::string>();
       entries.push_back(entries_);
     }
-    for (int a = 0; a < j["item"][i]["entries"][firstForIinedx]["entries"][secondForIinedx]["items"].size(); a++) {
+    for (int a = 0; a < j["item"][i]["entries"][firstForIindex]["entries"][secondForIindex]["items"].size(); a++) {
       auto
-          entries_ = j["item"][i]["entries"][firstForIinedx]["entries"][secondForIinedx]["items"][a].get<std::string>();
+          entries_ = j["item"][i]["entries"][firstForIindex]["entries"][secondForIindex]["items"][a].get<std::string>();
       entries.push_back(entries_);
     }
   }
 }
-std::vector<std::string> Item::Entries_Parse_forth_level(const nlohmann::basic_json<> &j, int i, int firstForIinedx, int secondForIinedx) {
+std::vector<std::string> Item::Entries_Parse_forth_level(const nlohmann::basic_json<> &j, int i, int firstForIindex, int secondForIindex) {
   std::cout << "Control reach Item::Entries_Parse 7\n";
-  auto entries_ = j["item"][i]["entries"][firstForIinedx]["items"][secondForIinedx];
+  auto entries_ = j["item"][i]["entries"][firstForIindex]["items"][secondForIindex];
   entries.push_back(entries_);
-  if (!j["item"][i]["entries"][firstForIinedx]["items"][secondForIinedx]["name"].empty()) {
+  if (!j["item"][i]["entries"][firstForIindex]["items"][secondForIindex]["name"].empty()) {
     std::cout << "Control reach Item::Entries_Parse 8\n";
+    std::string nameAddOn = j["item"][i]["entries"][firstForIindex]["items"][secondForIindex]["name"];
+    entries.push_back(nameAddOn);
     //entries.emplace_back("Random Properties");
-    for (int a = 0; a < j["item"][i]["entries"][firstForIinedx]["items"][secondForIinedx]["entries"].size(); a++) {
+    for (int a = 0; a < j["item"][i]["entries"][firstForIindex]["items"][secondForIindex]["entries"].size(); a++) {
       auto
-          entries_ = j["item"][i]["entries"][firstForIinedx]["items"][secondForIinedx]["entries"][a].get<std::string>();
+          entries_ = j["item"][i]["entries"][firstForIindex]["items"][secondForIindex]["entries"][a].get<std::string>();
       entries.push_back(entries_);
     }
-    for (int a = 0; a < j["item"][i]["entries"][firstForIinedx]["items"][secondForIinedx]["items"].size(); a++) {
-      auto entries_ = j["item"][i]["entries"][firstForIinedx]["items"][secondForIinedx]["items"][a].get<std::string>();
+    for (int a = 0; a < j["item"][i]["entries"][firstForIindex]["items"][secondForIindex]["items"].size(); a++) {
+      auto entries_ = j["item"][i]["entries"][firstForIindex]["items"][secondForIindex]["items"][a].get<std::string>();
       entries.push_back(entries_);
     }
   }
 }
-std::vector<std::string> Item::Entries_Parse_fifth_level(const nlohmann::basic_json<> &j, int i, int firstForIinedx, int secondForIinedx, int thirdForIndex, int forthForIndex) {
+std::vector<std::string> Item::Entries_Parse_fifth_level(const nlohmann::basic_json<> &j, int i, int firstForIindex, int secondForIindex, int thirdForIndex, int forthForIndex) {
 
 }
 std::vector<std::string> Item::AttachedSpells_Parse(const nlohmann::basic_json<> &j, int i) {
