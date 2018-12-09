@@ -898,10 +898,12 @@ class Item {
   virtual bool is_equipped();
   int Price_Parse(const nlohmann::basic_json<> &j, int i);
   std::vector<std::string> Entries_Parse(const nlohmann::basic_json<> &j, int i);
-  std::vector<std::string> Entries_Parse_second_level(const nlohmann::basic_json<> &j, int i, int firstForIindex);
-  std::vector<std::string> Entries_Parse_third_level(const nlohmann::basic_json<> &j, int i, int firstForIindex, int secondForIindex);
-  std::vector<std::string> Entries_Parse_forth_level(const nlohmann::basic_json<> &j, int i, int firstForIindex, int secondForIindex);
-  std::vector<std::string> Entries_Parse_fifth_level(const nlohmann::basic_json<> &j, int i, int firstForIindex, int secondForIindex, int thirdForIndex, int forthForIndex);
+  void Entries_Parse_second_level(const nlohmann::basic_json<> &j, int i, int firstForIindex);
+  void Entries_Parse_second_level_entries_entries(const nlohmann::basic_json<> &j, int i, int firstForIindex);
+  void Entries_Parse_second_level_entries_items(const nlohmann::basic_json<> &j, int i, int firstForIindex);
+  void Entries_Parse_third_level(const nlohmann::basic_json<> &j, int i, int firstForIindex, int secondForIindex);
+  void Entries_Parse_forth_level(const nlohmann::basic_json<> &j, int i, int firstForIindex, int secondForIindex);
+  void Entries_Parse_fifth_level(const nlohmann::basic_json<> &j, int i, int firstForIindex, int secondForIindex, int thirdForIndex, int forthForIndex);
 
   std::vector<std::string> AttachedSpells_Parse(const nlohmann::basic_json<> &j, int i);
 
