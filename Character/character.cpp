@@ -968,18 +968,32 @@ int Character::Add_To_Inventory() {
       cout << "How many " << name_ << "s do you want ?\n";
       quantity = IsNumber<int>(quantity, 1, 0);
       //cout << "Control reach method Add_To_Inventory 3\n";
-      auto b = Factory_Complex(name_, quantity);
-      if (Paying_Money(b->get(0) * quantity)) {
+      std::ifstream inputJson;
+      inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+      json j = json::parse(inputJson);
+      Item * fakeItem = new Item();
+      int JsonIndexOfItemBeingBought = 0;
+      for(; !j["item"][JsonIndexOfItemBeingBought]["name"].empty();JsonIndexOfItemBeingBought++){
+        if(j["item"][JsonIndexOfItemBeingBought]["name"] == name_){
+          break;
+        }
+      }
+      //cout << "E_I.prices_of_merchants_items[item_ - kItems_Without_JSON_NUM - 1] = " << E_I.prices_of_merchants_items[item_ - kItems_Without_JSON_NUM - 1] << endl;
+      int b = 0;
+      b = fakeItem->Price_Parse(j, JsonIndexOfItemBeingBought);/*Factory_Complex(name_, quantity);*/
+      cout << "b = " << b << endl;
+      if (Paying_Money(b * quantity)) {
         inventory.push_back(Factory_Complex(name_, quantity));
         Add_To_Item_Map(name_);
       } else {
         cout << "You have not enough money for that. Your money(in copper equivalent) are:" <<
              money[kMoney_types - 1] <<
              " and price is " <<
-             b->get(0) * quantity
+             b * quantity
              << endl;
       }
-      delete b;
+      delete fakeItem;
+      //delete b;
       cout << "Do you want to add something? Yes(1)  No(2)\n";
       item_ = IsNumber<int>(item_, 1, 2);
       if (item_ == 2) {

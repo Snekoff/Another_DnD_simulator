@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
   //Game * starts = new Game(1,1);
   //delete starts;
   auto Char = new Character();
-  Char->Add_Money(3,90000);
+  Char->Add_Money(3,9000);
   Char->Add_To_Inventory();
   //cout << starts->is_Created() << endl;
   //auto Mobs = new Monster(1,0,0,1);

@@ -51,8 +51,9 @@ int Item::get(int a) {//armor class
   return -1;
 }
 int Item::Price_Parse(const nlohmann::basic_json<> &j, int i) {
-  if (!j["item"][i]["value"].empty()) {
-    cost = 0;
+  int cost_i = 0;
+  auto find_value = j["item"][i].find("value");
+  if (find_value != j["item"][i].end()) { /* */
     std::__cxx11::string value_ = j["item"][i]["value"];
     std::__cxx11::string cost_;
     int multiplier = 1;
@@ -74,10 +75,12 @@ int Item::Price_Parse(const nlohmann::basic_json<> &j, int i) {
       } else if (s < value_.length() - 1) s++;
       else break;
     }
-    cost = stoi(cost_) * multiplier;
-    return cost;
+    i = stoi(cost_); //cost_
+    i *= multiplier;
+    std::cout << "price = " << i << "\n";
+    return i;
   }
-  return -100;
+  return i;
 }
 void Item::equip(int a) {
   if (abs(a) > count) {
@@ -100,66 +103,22 @@ std::string Item::What_class() {
 std::vector<std::string> Item::Entries_Parse(const nlohmann::basic_json<> &j, int i) {
   //std::cout << "Control reach Item::Entries_Parse 0\n";
   try {
+    std::vector<std::string> arr = {"tu-","turu"};
     if (!j["item"][i]["entries"].empty()) {
-      //std::cout << "Entries not empty\n";
       std::cout << "Control reach Item::Entries_Parse 1\n";
-      //std::cout << j["item"][i]["entries"].size() << std::endl;
+      std::cout << "j[\"item\"][i][\"entries\"].size() =" << j["item"][i]["entries"].size() <<"\n";
       for (int k = 0; k < j["item"][i]["entries"].size(); k++) {
-        if (!j["item"][i]["entries"][k].empty()) {//entries
-          std::cout << "Control reach Item::Entries_Parse 2\n";
-          std::cout <<  j["item"][i]["entries"][k].size() << std::endl;// 048872304958273495823749523794587239458
-          for (int f = 0; f < j["item"][i]["entries"][k]["entries"].size(); f++) {
-            if (!j["item"][i]["entries"][k]["entries"][f].empty()) {//type
-              std::cout << "Control reach Item::Entries_Parse 3\n";
-              /*OH FUCK ME IF THAT JSON IS SO COMPLEX*/
-              if (!j["item"][i]["entries"][k]["name"].empty()) {
-                std::cout << "Control reach Item::Entries_Parse 4\n";
-                if (j["item"][i]["entries"][k]["name"] == "Random Properties") {
-                  std::cout << "Control reach Item::Entries_Parse 5\n";
-                  for (int a = 0; a < j["item"][i]["entries"][k]["entries"][f]["entries"].size(); a++) {
-                    std::string entries_ = j["item"][i]["entries"][k]["entries"][f]["entries"][a];
-                    entries.push_back(entries_);
-                  }
-                  for (int a = 0; a < j["item"][i]["entries"][k]["entries"][f]["items"].size(); a++) {
-                    std::string entries_ = j["item"][i]["entries"][k]["entries"][f]["items"][a];
-                    entries.push_back(entries_);
-                  }
-                }
-              }
-            } else {
-              std::string entries_ = j["item"][i]["entries"][k]["entries"][f];
-              entries.push_back(entries_);
-            }
-          }
-          std::cout << "Control reach Item::Entries_Parse 6\n";
-          for (int f = 0; f < j["item"][i]["entries"][k]["items"].size(); f++) {
-            if (!j["item"][i]["entries"][k]["entries"][f].empty()) {//type
-              std::cout << "Control reach Item::Entries_Parse 7\n";
-              if (!j["item"][i]["entries"][k]["name"].empty()) {
-                std::cout << "Control reach Item::Entries_Parse 8\n";
-                if (j["item"][i]["entries"][k]["name"] == "Random Properties") {
-                  std::cout << "Control reach Item::Entries_Parse 9\n";
-                  entries.emplace_back("Random Properties");
-                  for (int a = 0; a < j["item"][i]["entries"][k]["entries"][f]["entries"].size(); a++) {
-                    std::string entries_ = j["item"][i]["entries"][k]["entries"][f]["entries"][a];
-                    entries.push_back(entries_);
-                  }
-                  for (int a = 0; a < j["item"][i]["entries"][k]["entries"][f]["items"].size(); a++) {
-                    std::string entries_ = j["item"][i]["entries"][k]["entries"][f]["items"][a];
-                    entries.push_back(entries_);
-                  }
-                }
-              }
-            } else {
-              std::string entries_ = j["item"][i]["entries"][k]["items"][f];
-              entries.push_back(entries_);
-            }
-          }
+        if(j["item"][i]["entries"][k].size() == 1){
+          std::cout << "Control reach Item::Entries_Parse /string.\n";
+          auto entries_ = j["item"][i]["entries"][k];
+          entries.push_back(entries_);
+        } else if (!j["item"][i]["entries"][k].empty()) {
+          Entries_Parse_second_level(j, i, k);
         } else {
           std::cout << "Control reach Item::Entries_Parse 11\n";
-          std::string entries_ = j["item"][i]["entries"][k];
+          //auto entries_ = j["item"][i]["entries"][k].get<std::string>();
           //std::cout << "Not fine here ?\n";
-          entries.push_back(entries_);
+          //entries.push_back(entries_);
         }
       }
     }
@@ -169,8 +128,74 @@ std::vector<std::string> Item::Entries_Parse(const nlohmann::basic_json<> &j, in
     std::cout << "message: " << e.what() << '\n'
               << "exception id: " << e.id << std::endl;
   }
-  if(!entries.empty()) std::cout << entries[0];
+
+  for(int IndexOutput = 0; IndexOutput < entries.size();IndexOutput++){
+    std::cout << entries[IndexOutput] << "\n";
+  }
   return entries;
+}
+std::vector<std::string> Item::Entries_Parse_second_level(const nlohmann::basic_json<> &j, int i, int firstForIinedx) {
+  std::cout << "Control reach Item::Entries_Parse 2\n";
+  std::cout <<  j["item"][i]["entries"][firstForIinedx].size() << std::endl;
+  for (int f = 0; f < j["item"][i]["entries"][firstForIinedx]["entries"].size(); f++) {
+    std::cout << "Control reach Item::Entries_Parse 3_0\n";
+    if (!j["item"][i]["entries"][firstForIinedx]["entries"][f].empty()) {//type
+      Entries_Parse_third_level(j, i, firstForIinedx, f);
+    } else {
+      std::cout << "Control reach Item::Entries_Parse 3_2\n";
+      auto entries_ = j["item"][i]["entries"][firstForIinedx].get<std::string>();
+      entries.push_back(entries_);
+    }
+  }
+  std::cout << "Control reach Item::Entries_Parse 6\n";
+  for (int f = 0; f < j["item"][i]["entries"][firstForIinedx]["items"].size(); f++) {
+    if (!j["item"][i]["entries"][firstForIinedx]["items"][f].empty()) {//type
+      Entries_Parse_forth_level(j, i, firstForIinedx, f);
+    } else {
+      //auto entries_ = j["item"][i]["entries"][firstForIinedx].get<std::string>();
+      //entries.push_back(entries_);
+    }
+  }
+}
+std::vector<std::string> Item::Entries_Parse_third_level(const nlohmann::basic_json<> &j, int i, int firstForIinedx, int secondForIinedx) {
+  std::cout << "Control reach Item::Entries_Parse 3_1\n";
+  auto entries_ = j["item"][i]["entries"][firstForIinedx]["entries"][secondForIinedx];
+  entries.push_back(entries_);
+  /*OH FUCK ME IF THAT JSON IS SO COMPLEX*/
+  if (!j["item"][i]["entries"][firstForIinedx]["name"].empty()) {
+    std::cout << "Control reach Item::Entries_Parse 4\n";
+    for (int a = 0; a < j["item"][i]["entries"][firstForIinedx]["entries"][secondForIinedx]["entries"].size(); a++) {
+      auto entries_ =
+          j["item"][i]["entries"][firstForIinedx]["entries"][secondForIinedx]["entries"][a].get<std::string>();
+      entries.push_back(entries_);
+    }
+    for (int a = 0; a < j["item"][i]["entries"][firstForIinedx]["entries"][secondForIinedx]["items"].size(); a++) {
+      auto
+          entries_ = j["item"][i]["entries"][firstForIinedx]["entries"][secondForIinedx]["items"][a].get<std::string>();
+      entries.push_back(entries_);
+    }
+  }
+}
+std::vector<std::string> Item::Entries_Parse_forth_level(const nlohmann::basic_json<> &j, int i, int firstForIinedx, int secondForIinedx) {
+  std::cout << "Control reach Item::Entries_Parse 7\n";
+  auto entries_ = j["item"][i]["entries"][firstForIinedx]["items"][secondForIinedx];
+  entries.push_back(entries_);
+  if (!j["item"][i]["entries"][firstForIinedx]["items"][secondForIinedx]["name"].empty()) {
+    std::cout << "Control reach Item::Entries_Parse 8\n";
+    //entries.emplace_back("Random Properties");
+    for (int a = 0; a < j["item"][i]["entries"][firstForIinedx]["items"][secondForIinedx]["entries"].size(); a++) {
+      auto
+          entries_ = j["item"][i]["entries"][firstForIinedx]["items"][secondForIinedx]["entries"][a].get<std::string>();
+      entries.push_back(entries_);
+    }
+    for (int a = 0; a < j["item"][i]["entries"][firstForIinedx]["items"][secondForIinedx]["items"].size(); a++) {
+      auto entries_ = j["item"][i]["entries"][firstForIinedx]["items"][secondForIinedx]["items"][a].get<std::string>();
+      entries.push_back(entries_);
+    }
+  }
+}
+std::vector<std::string> Item::Entries_Parse_fifth_level(const nlohmann::basic_json<> &j, int i, int firstForIinedx, int secondForIinedx, int thirdForIndex, int forthForIndex) {
+
 }
 std::vector<std::string> Item::AttachedSpells_Parse(const nlohmann::basic_json<> &j, int i) {
   try {
@@ -1249,13 +1274,13 @@ void Mounties::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          if (j["item"][i].value("weight","no") != "no") {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
           if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
+          //entries = Entries_Parse(j, i);
           if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
           if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
           cost = Price_Parse(j, i);
