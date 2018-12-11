@@ -16,20 +16,27 @@ using namespace std;
 
 int main(int argc, char **argv) {
   printf("%s \n", "Dungeons and Dragons game (PC) starts here");
-  bool Test = false;
+  bool Test = true;
   if(Test) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
   }
   //Game * starts = new Game(1,1);
   //delete starts;
-  auto Char = new Character();
-  Char->Add_Money(3,9000);
-  Char->Add_To_Inventory();
-  //cout << starts->is_Created() << endl;
+  //auto Char = new Character();
+  /*Char->Add_Money(3,9000);
+  Char->Add_To_Inventory();*/
+/*  vector<Item *> itemsForCheckIn;
+  string name_ = "Spear of Backbiting"; // not working: Spear of Backbiting
+  int quantity = 1;
+  itemsForCheckIn.push_back(Char->Factory_Complex(name_, quantity));*/
+
+//cout << starts->is_Created() << endl;
+
   //auto Mobs = new Monster(1,0,0,1);
-  //auto FieldOfHonor = new Battleground(17,10,5);// X,Y,Z
-  //FieldOfHonor->Shape();
+
+  /*auto FieldOfHonor = new Battleground(17,10,5);// X,Y,Z
+  FieldOfHonor->Shape();*/
 
   return 0;
 }

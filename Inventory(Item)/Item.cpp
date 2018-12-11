@@ -101,7 +101,7 @@ std::string Item::What_class() {
   return what_class_is_it;
 }
 std::vector<std::string> Item::Entries_Parse(const nlohmann::basic_json<> &j, int i) {
-  //std::cout << "Control reach Item::Entries_Parse 0\n";
+  std::cout << "Control reach Item::Entries_Parse 0\n";
   try {
     if (j["item"][i].find("entries") != j["item"][i].end()) {
       std::cout << "Control reach Item::Entries_Parse 1\n";
@@ -275,6 +275,7 @@ Melee_Weapon::Melee_Weapon(std::string &name_, int count_) {
 }*/
 Melee_Weapon::~Melee_Weapon() = default;
 void Melee_Weapon::set(std::string &name_, int count_) {
+  std::cout << "Item::Melee_Weapon set 0\n";
   Existing_Items E_I;
   name = " ";
   equipped = false;
@@ -290,27 +291,30 @@ void Melee_Weapon::set(std::string &name_, int count_) {
       break;
     }
   }
+  std::cout << "Item::Melee_Weapon set 1\n";
   count = count_;
   if (name == " ") {
     source = "Default";
     std::ifstream inputJson;
     inputJson
-        .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.jsonjson ");
+        .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
     try {
+      std::cout << "Item::Melee_Weapon set 10\n";
       for (int i = 0; !j["item"][i]["name"].empty(); i++) {
-        if (!j["item"][i]["type"].empty()) {
+        if (!j["item"][i]["type"].empty()) {//if(..) to be deleted
           if (name_ == j["item"][i]["name"]) {
             name = name_;
-            rarity = j["item"][i]["rarity"];
-            if (!j["item"][i]["weight"].empty()) {
+            auto jsonEndPointer = j["item"][i].end();
+            if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+            if (j["item"][i].find("weight") != jsonEndPointer) {
               std::string weight_ = j["item"][i]["weight"];
               weight = std::stoi(weight_);
             }
             source = j["item"][i]["source"];
-            if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+            if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
             entries = Entries_Parse(j, i);
-            if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i].find("reqAttune") != jsonEndPointer) {
               if (j["item"][i]["reqAttune"] != true) {
 
               } else reqAttune = j["item"][i]["reqAttune"];
@@ -395,22 +399,23 @@ void Ranged_Weapon::set(std::string &name_, int count_) {
     source = "Default";
     std::ifstream inputJson;
     inputJson
-        .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.jsonjson ");
+        .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
     try {
       for (int i = 0; !j["item"][i]["name"].empty(); i++) {
         if (!j["item"][i]["type"].empty()) {
           if (name_ == j["item"][i]["name"]) {
             name = name_;
-            rarity = j["item"][i]["rarity"];
-            if (!j["item"][i]["weight"].empty()) {
+            auto jsonEndPointer = j["item"][i].end();
+            if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+            if (j["item"][i].find("weight") != jsonEndPointer) {
               std::string weight_ = j["item"][i]["weight"];
               weight = std::stoi(weight_);
             }
             source = j["item"][i]["source"];
-            if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+            if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
             entries = Entries_Parse(j, i);
-            if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i].find("reqAttune") != jsonEndPointer) {
               if (j["item"][i]["reqAttune"] != true) {
 
               } else reqAttune = j["item"][i]["reqAttune"];
@@ -491,22 +496,23 @@ void Armor::set(std::string &name_, int count_) {
     source = "Default";
     std::ifstream inputJson;
     inputJson
-        .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.jsonjson ");
+        .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
     try {
       for (int i = 0; !j["item"][i]["name"].empty(); i++) {
         if (!j["item"][i]["type"].empty()) {
           if (name_ == j["item"][i]["name"]) {
             name = name_;
-            rarity = j["item"][i]["rarity"];
-            if (!j["item"][i]["weight"].empty()) {
+            auto jsonEndPointer = j["item"][i].end();
+            if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+            if (j["item"][i].find("weight") != jsonEndPointer) {
               std::string weight_ = j["item"][i]["weight"];
               weight = std::stoi(weight_);
             }
             source = j["item"][i]["source"];
-            if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+            if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
             entries = Entries_Parse(j, i);
-            if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i].find("reqAttune") != jsonEndPointer) {
               if (j["item"][i]["reqAttune"] != true) {
 
               } else reqAttune = j["item"][i]["reqAttune"];
@@ -582,15 +588,16 @@ void Goods::set(std::string &name_, int count_) {
           if (name_ == j["item"][i]["name"]) {
             //std::cout << "Control reach Item::Goods::set 2\n";
             name = name_;
-            rarity = j["item"][i]["rarity"];
-            if (!j["item"][i]["weight"].empty()) {
+            auto jsonEndPointer = j["item"][i].end();
+            if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+            if (j["item"][i].find("weight") != jsonEndPointer) {
               std::string weight_ = j["item"][i]["weight"];
               //std::cout << "Control reach I}tem::Goods::set 3\n";
               weight = std::stoi(weight_);
             }
             source = j["item"][i]["source"];
             //std::cout << "Control reach Item::Goods::set 4\n";
-            if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+            if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
             //std::cout << "Control reach Item::Goods::set 5\n";
             entries = Entries_Parse(j, i);
             //std::cout << "Control reach Item::Goods::set 6\n";
@@ -664,15 +671,16 @@ void Ammo::set(std::string &name_, int count_) {
         if (!j["item"][i]["type"].empty()) {
           if (name_ == j["item"][i]["name"]) {
             name = name_;
-            rarity = j["item"][i]["rarity"];
-            if (!j["item"][i]["weight"].empty()) {
+            auto jsonEndPointer = j["item"][i].end();
+            if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+            if (j["item"][i].find("weight") != jsonEndPointer) {
               std::string weight_ = j["item"][i]["weight"];
               weight = std::stoi(weight_);
             }
             source = j["item"][i]["source"];
-            if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+            if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
             entries = Entries_Parse(j, i);
-            if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i].find("reqAttune") != jsonEndPointer) {
               if (j["item"][i]["reqAttune"] != true) {
 
               } else reqAttune = j["item"][i]["reqAttune"];
@@ -728,13 +736,14 @@ void ArtisanTools::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
           cost = Price_Parse(j, i);
           break;
@@ -776,13 +785,14 @@ void Ship::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
           if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
           if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
@@ -829,13 +839,14 @@ void Valuables::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
           cost = Price_Parse(j, i);
           break;
@@ -895,14 +906,15 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
             druidic_focus = false;
             holy_symbol = false;
             weight = E_I.SpellCastingFocus_i[4][1];// technology @Staff
-            rarity = j["item"][i]["rarity"];
-            if (!j["item"][i]["weight"].empty()) {
+            auto jsonEndPointer = j["item"][i].end();
+            if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+            if (j["item"][i].find("weight") != jsonEndPointer) {
               std::string weight_ = j["item"][i]["weight"];
               weight = std::stoi(weight_);
             }
-            if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+            if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
             entries = Entries_Parse(j, i);
-            if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i].find("reqAttune") != jsonEndPointer) {
               if (j["item"][i]["reqAttune"] != true) {
 
               } else reqAttune = j["item"][i]["reqAttune"];
@@ -913,13 +925,14 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
         } else if (!j["item"][i]["type"].empty()) {
           if (name_ == j["item"][i]["name"]) {
             name = name_;
-            rarity = j["item"][i]["rarity"];
-            if (!j["item"][i]["weight"].empty()) {
+            auto jsonEndPointer = j["item"][i].end();
+            if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+            if (j["item"][i].find("weight") != jsonEndPointer) {
               std::string weight_ = j["item"][i]["weight"];
               weight = std::stoi(weight_);
             }
             source = j["item"][i]["source"];
-            if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+            if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
             entries = Entries_Parse(j, i);
             if (!j["item"][i]["scfType"].empty()) {
               for (int m = 0; m < kSpellCastingFocus_Types; m++) {
@@ -930,7 +943,7 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
               }
             }
 
-            if (!j["item"][i]["reqAttune"].empty()) {
+            if (j["item"][i].find("reqAttune") != jsonEndPointer) {
               if (j["item"][i]["reqAttune"] != true) {
 
               } else reqAttune = j["item"][i]["reqAttune"];
@@ -975,16 +988,17 @@ void Shield::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
           if (!j["item"][i]["ac"].empty()) ac = j["item"][i]["ac"];
-          if (!j["item"][i]["reqAttune"].empty()) {
+          if (j["item"][i].find("reqAttune") != jsonEndPointer) {
             if (j["item"][i]["reqAttune"] != true) {
 
             } else reqAttune = j["item"][i]["reqAttune"];
@@ -1040,13 +1054,14 @@ void Instrument::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
           cost = Price_Parse(j, i);
           break;
@@ -1088,13 +1103,14 @@ void Ring::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
           if (!j["item"][i]["resist"].empty()) {
             for (int k = 1; k < kElements_Num; k++) {
@@ -1106,7 +1122,7 @@ void Ring::set(std::string &name_, int count_) {
           }
           attachedSpells = AttachedSpells_Parse(j, i);
           if (!j["item"][i]["charges"].empty()) charges = !j["item"][i]["charges"];
-          if (!j["item"][i]["reqAttune"].empty()) {
+          if (j["item"][i].find("reqAttune") != jsonEndPointer) {
             if (j["item"][i]["reqAttune"] != true) {
 
             } else reqAttune = j["item"][i]["reqAttune"];
@@ -1161,13 +1177,14 @@ void AnimalGear::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
           cost = Price_Parse(j, i);
           break;
@@ -1208,13 +1225,14 @@ void Explosive::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           age = j["item"][i]["age"];
           entries = Entries_Parse(j, i);
           cost = Price_Parse(j, i);
@@ -1256,13 +1274,14 @@ void Potion::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
           attachedSpells = AttachedSpells_Parse(j, i);
           cost = Price_Parse(j, i);
@@ -1318,13 +1337,14 @@ void Mounties::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].value("weight","no") != "no") {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           //entries = Entries_Parse(j, i);
           if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
           if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
@@ -1368,13 +1388,14 @@ void Vehicle::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
           if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
           if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
@@ -1418,12 +1439,13 @@ void TradeGoods::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             source = std::stoi(weight_);
           }
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           if (!j["item"][i]["entries"].empty()) entries = Entries_Parse(j, i);
           if (!j["item"][i]["cost"].empty()) cost = Price_Parse(j, i);
           break;
@@ -1464,10 +1486,11 @@ void GamingSet::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           weight = 0;
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           std::cout << "Control Reach Item::Gaming Set::set 0\n";
           //entries = Entries_Parse(j, i);
           std::cout << "Control Reach Item::Gaming Set::set 1\n";
@@ -1512,15 +1535,16 @@ void Device::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
-          if (!j["item"][i]["reqAttune"].empty()) {
+          if (j["item"][i].find("reqAttune") != jsonEndPointer) {
             if (j["item"][i]["reqAttune"] != true) {
 
             } else reqAttune = j["item"][i]["reqAttune"];
@@ -1565,13 +1589,14 @@ void Tools::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
           cost = Price_Parse(j, i);
           break;
@@ -1613,16 +1638,17 @@ void Rod::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
           attachedSpells = AttachedSpells_Parse(j, i);
-          if (!j["item"][i]["reqAttune"].empty()) {
+          if (j["item"][i].find("reqAttune") != jsonEndPointer) {
             if (j["item"][i]["reqAttune"] != true) {
 
             } else reqAttune = j["item"][i]["reqAttune"];
@@ -1668,13 +1694,14 @@ void Scroll::set(std::string &name_, int count_) {
       if (!j["item"][i]["type"].empty()) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
           attachedSpells = AttachedSpells_Parse(j, i);
           cost = Price_Parse(j, i);
@@ -1716,15 +1743,16 @@ void Wand::set(std::string &name_, int count_) {
       if (j["item"][i]["type"] != NULL) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
-          if (!j["item"][i]["reqAttune"].empty()) {
+          if (j["item"][i].find("reqAttune") != jsonEndPointer) {
             if (j["item"][i]["reqAttune"] != true) {
 
             } else reqAttune = j["item"][i]["reqAttune"];
@@ -1772,15 +1800,16 @@ void OTH::set(std::string &name_, int count_) {
       if (j["item"][i]["type"] != NULL) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
-          rarity = j["item"][i]["rarity"];
-          if (!j["item"][i]["weight"].empty()) {
+          auto jsonEndPointer = j["item"][i].end();
+          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
           source = j["item"][i]["source"];
-          if (!j["item"][i]["tier"].empty()) tier = j["item"][i]["tier"];
+          if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           entries = Entries_Parse(j, i);
-          if (!j["item"][i]["reqAttune"].empty()) {
+          if (j["item"][i].find("reqAttune") != jsonEndPointer) {
             if (j["item"][i]["reqAttune"] != true) {
 
             } else reqAttune = j["item"][i]["reqAttune"];
