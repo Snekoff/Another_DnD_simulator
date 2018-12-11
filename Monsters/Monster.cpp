@@ -4,14 +4,16 @@ using json = nlohmann::json;
 Monster::Monster(int name_, int challenge_rating_) {
   ifstream MonJson;
   Exsisting_Monsters E_M;
-  MonJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/monsters/bestiary-all.json");//TODO: check
+  MonJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/monsters/bestiary-all.json");
   if (MonJson.is_open()) {
     json MonsterJson = json::parse(MonJson);
-    for (auto it : MonsterJson) {
-      if (it["name"] == E_M.Challenge_rating[challenge_rating_][name_]) {
+    for (int i = 0; !MonsterJson["monster"][i]["name"].empty(); i++) {
+      // if Challenge raiting unknown - challenge raiting = 30
+      if (MonsterJson["monster"][i]["name"] == E_M.Challenge_rating[challenge_rating_][name_]) {
         monster_name = name_;
-        experience_if_killed = it[""];
-        size = it[""];
+        //experience_if_killed = it[""];
+        auto endPointer = MonsterJson["monster"][i].end();
+        if(MonsterJson["monster"][i].find("size") != endPointer) size = MonsterJson["monster"][i]["size"];
         challenge_rating = challenge_rating_;
         health_dice = it[""];//
         Health_dice_num = it[""];//

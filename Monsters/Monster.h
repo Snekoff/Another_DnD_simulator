@@ -283,18 +283,26 @@ struct Exsisting_Monsters {
   class Monster : public Creature {
    private:
     int monster_name;
-    int experience_if_killed;
+    //int experience_if_killed;
     int size;
     int challenge_rating;
     int Health_dice_num;
     string type_s;
     string subtype;
+    string tags;
+    string source;
     string alignment;
-    int Monster_Movement[kMovement_types];
+    string acFrom;
     int Ability_Save[kAbilities_Num];
     bool damage_vulnerabilities[kDamage_Types];
-    bool damage_resistances[kDamage_Types];
-    bool condition_immunities[kCondition_NUM];
+    vector <string> trait;
+    vector <string> action;
+    vector <string> spellcast;
+    vector <string> entries;
+    vector <string> spellcastDaily;
+    string spellcastingAbility;
+    vector <string> traitTags;
+    vector <string> actionTags;
    public:
     Monster(int name_, int challenge_rating_);
 

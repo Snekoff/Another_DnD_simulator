@@ -42,7 +42,7 @@ const int kWealth_Set_parameters = 3;
 const int kDice_Minimum_value = 1;
 const int kExhaustion_MAX_Level = 8;
 const int kCoordinates_NUM = 3;
-const int kMovement_types = 3;
+const int kSpeed_types_NUM = 4;
 
 class Creature {
  protected:
@@ -68,9 +68,18 @@ sleightOfHand 15,stealth 16,survival 17*/
   vector<Item *> inventory;
   map<std::string, Item *> items_map;
   vector<Item *> Equipped;
-  bool state[kCondition_NUM];
   /* 0.fine, 1.blinded, 2.charmed, 3.deafened, 4.frightened, 5.grappled, 6.incapacitated, 7.invisible, 8.petrified,
    * 9.poisoned, 10.prone, 11.restrained, 12.stunned, 13.unconscious, 14.dead, 15.disease 16. ??*/
+  bool state[kCondition_NUM];
+  // walk, swim, climb, fly
+  int speed[kSpeed_types_NUM];
+  bool resistance[kElements_Num];
+  bool immune[kElements_Num];
+  bool conditionImune[kCondition_NUM];
+  // int senses[kSenses_types_NUM] TODO: read about it
+  vector <string> languages;
+  vector <string> languageTags;
+  vector <string> senseTags;
   int party;
   int Coordinates[kCoordinates_NUM];
   string character_name;
