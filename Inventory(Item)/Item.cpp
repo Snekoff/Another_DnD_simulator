@@ -104,17 +104,17 @@ std::vector<std::string> Item::Entries_Parse(const nlohmann::basic_json<> &j, in
   std::cout << "Control reach Item::Entries_Parse 0\n";
   try {
     if (j["item"][i].find("entries") != j["item"][i].end()) {
-      std::cout << "Control reach Item::Entries_Parse 1\n";
-      std::cout << "j[\"item\"][i][\"entries\"].size() =" << j["item"][i]["entries"].size() <<"\n";
+      //std::cout << "Control reach Item::Entries_Parse 1\n";
+      //std::cout << "j[\"item\"][i][\"entries\"].size() =" << j["item"][i]["entries"].size() <<"\n";
       for (int k = 0; k < j["item"][i]["entries"].size(); k++) {
-        if(j["item"][i]["entries"][k].size() == 1){
-          std::cout << "Control reach Item::Entries_Parse /string.\n";
+        if (j["item"][i]["entries"][k].size() == 1) {
+          //std::cout << "Control reach Item::Entries_Parse /string.\n";
           auto entries_ = j["item"][i]["entries"][k];
           entries.push_back(entries_);
         } else if (!j["item"][i]["entries"][k].empty()) {
           Entries_Parse_second_level(j, i, k);
         } else {
-          std::cout << "Control reach Item::Entries_Parse 11\n";
+          //std::cout << "Control reach Item::Entries_Parse 11\n";
         }
       }
     }
@@ -125,38 +125,38 @@ std::vector<std::string> Item::Entries_Parse(const nlohmann::basic_json<> &j, in
               << "exception id: " << e.id << std::endl;
   }
 
-  for(int IndexOutput = 0; IndexOutput < entries.size();IndexOutput++){
+  /*for(int IndexOutput = 0; IndexOutput < entries.size();IndexOutput++){
     std::cout << entries[IndexOutput] << "\n";
-  }
+  }*/
   return entries;
 }
 void Item::Entries_Parse_second_level(const nlohmann::basic_json<> &j, int i, int firstForIndex) {
-  std::cout << "Control reach Item::Entries_Parse 2\n";
+  //std::cout << "Control reach Item::Entries_Parse 2\n";
   if (j["item"][i]["entries"][firstForIndex].find("name") != j["item"][i]["entries"][firstForIndex].end()) {
     std::string nameAddOn = j["item"][i]["entries"][firstForIndex]["name"];
     entries.push_back(nameAddOn);
   }
-  std::cout <<  j["item"][i]["entries"][firstForIndex].size() << std::endl;
+  std::cout << j["item"][i]["entries"][firstForIndex].size() << std::endl;
   Entries_Parse_second_level_entries_entries(j, i, firstForIndex);
   std::cout << "Control reachItem::Entries_Parse_ 5\n";
 
-  std::cout << "Control reach Item::Entries_Parse 6\n";
+  //
   Entries_Parse_second_level_entries_items(j, i, firstForIndex);
 }
 int Item::Entries_Parse_second_level_entries_entries(const nlohmann::basic_json<> &j, int i, int firstForIndex) {
-  if(j["item"][i]["entries"][firstForIndex].find("entries") == j["item"][i]["entries"][firstForIndex].end()) {
+  if (j["item"][i]["entries"][firstForIndex].find("entries") == j["item"][i]["entries"][firstForIndex].end()) {
     return 0;
   }
   for (int f = 0; f < j["item"][i]["entries"][firstForIndex]["entries"].size(); f++) {
     std::cout << "Control reach Item::Entries_Parse 3_0\n";
-    if(j["item"][i]["entries"][firstForIndex]["entries"][f].size() == 1){
+    if (j["item"][i]["entries"][firstForIndex]["entries"][f].size() == 1) {
       std::cout << "Control reach Item::Entries_Parse 3_0/string.\n";
       auto entries_ = j["item"][i]["entries"][firstForIndex]["entries"][f];
       entries.push_back(entries_);
     } else if (!j["item"][i]["entries"][firstForIndex]["entries"][f].empty()) {//type
       Entries_Parse_third_level(j, i, firstForIndex, f);
     } else {
-      std::cout << "Control reach Item::Entries_Parse 3_2\n";
+      //std::cout << "Control reach Item::Entries_Parse 3_2\n";
       //auto entries_ = j["item"][i]["entries"][firstForIndex].get<std::string>();
       //entries.push_back(entries_);
     }
@@ -164,11 +164,11 @@ int Item::Entries_Parse_second_level_entries_entries(const nlohmann::basic_json<
   return 0;
 }
 int Item::Entries_Parse_second_level_entries_items(const nlohmann::basic_json<> &j, int i, int firstForIndex) {
-  if(j["item"][i]["entries"][firstForIndex].find("items") == j["item"][i]["entries"][firstForIndex].end()) {
+  if (j["item"][i]["entries"][firstForIndex].find("items") == j["item"][i]["entries"][firstForIndex].end()) {
     return 0;
   }
   for (int f = 0; f < j["item"][i]["entries"][firstForIndex]["items"].size(); f++) {
-    if(j["item"][i]["entries"][firstForIndex]["items"][f].size() == 1){
+    if (j["item"][i]["entries"][firstForIndex]["items"][f].size() == 1) {
       std::cout << "Control reach Item::Entries_Parse 3_0/string.\n";
       auto entries_ = j["item"][i]["entries"][firstForIndex]["items"][f];
       entries.push_back(entries_);
@@ -187,7 +187,8 @@ int Item::Entries_Parse_third_level(const nlohmann::basic_json<> &j, int i, int 
       j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex].end()) {
     return 0;
   }
-  if (j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex].find("name") != j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex].end()) {
+  if (j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex].find("name")
+      != j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex].end()) {
     //std::cout << "Control reach Item::Entries_Parse 4\n";
     std::string nameAddOn = j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex]["name"];
     entries.push_back(nameAddOn);
@@ -211,18 +212,18 @@ int Item::Entries_Parse_third_level(const nlohmann::basic_json<> &j, int i, int 
 }
 int Item::Entries_Parse_forth_level(const nlohmann::basic_json<> &j, int i, int firstForIndex, int secondForIndex) {
   std::cout << "Control reach Item::Entries_Parse 7\n";
-  if(j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].size() == 1){
+  if (j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].size() == 1) {
     auto entries_ = j["item"][i]["entries"][firstForIndex]["items"][secondForIndex];
     entries.push_back(entries_);
   }
   if (j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].find("name") !=
       j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].end()) {
-    std::cout << "Control reach Item::Entries_Parse 8\n";
+    //std::cout << "Control reach Item::Entries_Parse 8\n";
     std::string nameAddOn = j["item"][i]["entries"][firstForIndex]["items"][secondForIndex]["name"];
     entries.push_back(nameAddOn);
   }
   if (j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].find("entries") !=
-  j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].end()) {
+      j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].end()) {
     for (int a = 0; a < j["item"][i]["entries"][firstForIndex]["items"][secondForIndex]["entries"].size(); a++) {
       auto
           entries_ = j["item"][i]["entries"][firstForIndex]["items"][secondForIndex]["entries"][a].get<std::string>();
@@ -230,7 +231,7 @@ int Item::Entries_Parse_forth_level(const nlohmann::basic_json<> &j, int i, int 
     }
   }
   if (j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].find("items") !=
-      j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].end()){
+      j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].end()) {
     for (int a = 0; a < j["item"][i]["entries"][firstForIndex]["items"][secondForIndex]["items"].size(); a++) {
       auto entries_ = j["item"][i]["entries"][firstForIndex]["items"][secondForIndex]["items"][a].get<std::string>();
       entries.push_back(entries_);
@@ -239,8 +240,10 @@ int Item::Entries_Parse_forth_level(const nlohmann::basic_json<> &j, int i, int 
   return 0;
 }
 
-void Item::Entries_Parse_fifth_level(const nlohmann::basic_json<> &j, int i, int firstForIndex, int secondForIndex, int thirdForIndex, int forthForIndex) {
-
+void Item::Get_Entries() {
+  for (int IndexOutput = 0; IndexOutput < entries.size(); IndexOutput++) {
+    std::cout << entries[IndexOutput] << "\n";
+  }
 }
 std::vector<std::string> Item::AttachedSpells_Parse(const nlohmann::basic_json<> &j, int i) {
   try {
@@ -306,7 +309,7 @@ void Melee_Weapon::set(std::string &name_, int count_) {
           if (name_ == j["item"][i]["name"]) {
             name = name_;
             auto jsonEndPointer = j["item"][i].end();
-            if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+            if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
             if (j["item"][i].find("weight") != jsonEndPointer) {
               std::string weight_ = j["item"][i]["weight"];
               weight = std::stoi(weight_);
@@ -407,7 +410,7 @@ void Ranged_Weapon::set(std::string &name_, int count_) {
           if (name_ == j["item"][i]["name"]) {
             name = name_;
             auto jsonEndPointer = j["item"][i].end();
-            if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+            if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
             if (j["item"][i].find("weight") != jsonEndPointer) {
               std::string weight_ = j["item"][i]["weight"];
               weight = std::stoi(weight_);
@@ -504,7 +507,7 @@ void Armor::set(std::string &name_, int count_) {
           if (name_ == j["item"][i]["name"]) {
             name = name_;
             auto jsonEndPointer = j["item"][i].end();
-            if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+            if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
             if (j["item"][i].find("weight") != jsonEndPointer) {
               std::string weight_ = j["item"][i]["weight"];
               weight = std::stoi(weight_);
@@ -589,7 +592,7 @@ void Goods::set(std::string &name_, int count_) {
             //std::cout << "Control reach Item::Goods::set 2\n";
             name = name_;
             auto jsonEndPointer = j["item"][i].end();
-            if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+            if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
             if (j["item"][i].find("weight") != jsonEndPointer) {
               std::string weight_ = j["item"][i]["weight"];
               //std::cout << "Control reach I}tem::Goods::set 3\n";
@@ -672,7 +675,7 @@ void Ammo::set(std::string &name_, int count_) {
           if (name_ == j["item"][i]["name"]) {
             name = name_;
             auto jsonEndPointer = j["item"][i].end();
-            if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+            if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
             if (j["item"][i].find("weight") != jsonEndPointer) {
               std::string weight_ = j["item"][i]["weight"];
               weight = std::stoi(weight_);
@@ -737,7 +740,7 @@ void ArtisanTools::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
@@ -786,7 +789,7 @@ void Ship::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
@@ -840,7 +843,7 @@ void Valuables::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
@@ -907,7 +910,7 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
             holy_symbol = false;
             weight = E_I.SpellCastingFocus_i[4][1];// technology @Staff
             auto jsonEndPointer = j["item"][i].end();
-            if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+            if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
             if (j["item"][i].find("weight") != jsonEndPointer) {
               std::string weight_ = j["item"][i]["weight"];
               weight = std::stoi(weight_);
@@ -926,7 +929,7 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
           if (name_ == j["item"][i]["name"]) {
             name = name_;
             auto jsonEndPointer = j["item"][i].end();
-            if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+            if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
             if (j["item"][i].find("weight") != jsonEndPointer) {
               std::string weight_ = j["item"][i]["weight"];
               weight = std::stoi(weight_);
@@ -989,7 +992,7 @@ void Shield::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
@@ -1055,7 +1058,7 @@ void Instrument::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
@@ -1104,7 +1107,7 @@ void Ring::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
@@ -1178,7 +1181,7 @@ void AnimalGear::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
@@ -1226,7 +1229,7 @@ void Explosive::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
@@ -1275,7 +1278,7 @@ void Potion::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
@@ -1338,8 +1341,8 @@ void Mounties::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
-          if (j["item"][i].value("weight","no") != "no") {
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].value("weight", "no") != "no") {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
           }
@@ -1389,7 +1392,7 @@ void Vehicle::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
@@ -1440,7 +1443,7 @@ void TradeGoods::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             source = std::stoi(weight_);
@@ -1487,7 +1490,7 @@ void GamingSet::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           weight = 0;
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
@@ -1536,7 +1539,7 @@ void Device::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
@@ -1590,7 +1593,7 @@ void Tools::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
@@ -1639,7 +1642,7 @@ void Rod::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
@@ -1695,7 +1698,7 @@ void Scroll::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
@@ -1744,7 +1747,7 @@ void Wand::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);
@@ -1801,7 +1804,7 @@ void OTH::set(std::string &name_, int count_) {
         if (name_ == j["item"][i]["name"]) {
           name = name_;
           auto jsonEndPointer = j["item"][i].end();
-          if(j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
+          if (j["item"][i].find("rarity") != jsonEndPointer) rarity = j["item"][i]["rarity"];
           if (j["item"][i].find("weight") != jsonEndPointer) {
             std::string weight_ = j["item"][i]["weight"];
             weight = std::stoi(weight_);

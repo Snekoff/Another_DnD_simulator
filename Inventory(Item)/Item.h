@@ -903,7 +903,7 @@ class Item {
   int Entries_Parse_second_level_entries_items(const nlohmann::basic_json<> &j, int i, int firstForIindex);
   int Entries_Parse_third_level(const nlohmann::basic_json<> &j, int i, int firstForIindex, int secondForIindex);
   int Entries_Parse_forth_level(const nlohmann::basic_json<> &j, int i, int firstForIindex, int secondForIindex);
-  void Entries_Parse_fifth_level(const nlohmann::basic_json<> &j, int i, int firstForIindex, int secondForIindex, int thirdForIndex, int forthForIndex);
+  void Get_Entries();
 
   std::vector<std::string> AttachedSpells_Parse(const nlohmann::basic_json<> &j, int i);
 
