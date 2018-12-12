@@ -50,6 +50,8 @@ class Creature {
   int experience, level;
   int health, maxhealth;
   int health_dice;
+  int health_dice_num;
+  int health_modifier;
   int Str, Dex, Con, Int, Wis, Cha;//13
   int StrModifier, DexModifier, ConModifier, IntModifier, WisModifier, ChaModifier;
   int armor_class;
@@ -88,6 +90,9 @@ sleightOfHand 15,stealth 16,survival 17*/
   string appearance;//appearance
   int reaction;// how many reactions
   int reach;//feets
+  string hpFormula;
+ public:
+  int Hp_Formula_Parse(string hpFormula, int returnHitDiceOrNumOfDices);
 };
 
 #endif //ANOTHER_DND_SIMULATOR_CREATURE_H

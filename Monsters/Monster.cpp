@@ -15,14 +15,26 @@ Monster::Monster(int name_, int challenge_rating_) {
         auto endPointer = MonsterJson["monster"][i].end();
         if (MonsterJson["monster"][i].find("size") != endPointer) size = MonsterJson["monster"][i]["size"];
         challenge_rating = challenge_rating_;
-        //health_dice = it[""];//
+        if (MonsterJson["monster"][i].find("hp") != endPointer){
+          if (MonsterJson["monster"][i]["hp"].find("average") != endPointer) health = MonsterJson["monster"][i]["hp"]["average"];
+          else cout << "Monster::hp_average not found!\n";
+          if (MonsterJson["monster"][i]["hp"].find("formula") != endPointer){
+            hpFormula = MonsterJson["monster"][i]["hp"]["formula"];
+            health_dice = Hp_Formula_Parse(hpFormula, 0);
+            health_dice_num = Hp_Formula_Parse(hpFormula, 1);
+            health_modifier = Hp_Formula_Parse(hpFormula, 2);
+          }
+          else cout << "Monster::hp_formula not found!\n";
+        }
+        //health_dice = it[""];
+        //health_dice = it["hit_dice"];
         //Health_dice_num = it[""];//
         //type_s = it["type"];
         //subtype = it["subtype"];
         //alignment = it["alignment"];
         //armor_class = it["armor_class"];
-        //health = it["hit_points"];
-        //health_dice = it["hit_dice"];
+        //
+        //
         //speed[0] = it["speed"];// check this
         /*Str = it["strength"];
         Dex = it["dexterity"];

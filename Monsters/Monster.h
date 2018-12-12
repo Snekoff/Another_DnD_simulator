@@ -286,7 +286,6 @@ class Monster : public Creature {
   //int experience_if_killed;
   int size;
   int challenge_rating;
-  int Health_dice_num;
   string type_s;
   string subtype;
   string tags;
