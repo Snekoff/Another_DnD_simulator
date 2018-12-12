@@ -75,10 +75,13 @@ sleightOfHand 15,stealth 16,survival 17*/
   bool state[kCondition_NUM];
   // walk, swim, climb, fly
   int speed[kSpeed_types_NUM];
-  bool resistance[kElements_Num];
-  bool immune[kElements_Num];
-  bool conditionImune[kCondition_NUM];
-  // int senses[kSenses_types_NUM] TODO: read about it
+  string fly_condition;
+  bool canHover;
+  vector <string> resistance;
+  vector <string> resistance_note;
+  vector <string>  immune;
+  vector <string>  conditionImune;
+  vector <string> senses;
   vector<string> languages;
   vector<string> languageTags;
   vector<string> senseTags;

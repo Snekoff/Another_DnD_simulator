@@ -288,10 +288,10 @@ class Monster : public Creature {
   int challenge_rating;
   string type_s;
   string subtype;
-  string tags;
+  vector <string> type_tags;
   string source;
-  string alignment;
-  string acFrom;
+  vector <string> alignment;
+  vector <string> acFrom;
   int Ability_Save[kAbilities_Num];
   bool damage_vulnerabilities[kDamage_Types];
   vector<string> trait;
