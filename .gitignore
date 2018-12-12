@@ -7,3 +7,4 @@ Notepad.txt
 codeStyleConfig.xml
 *.xml
 !CMakeLists.txt
+!Changelog.txt

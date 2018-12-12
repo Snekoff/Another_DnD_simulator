@@ -1,0 +1,9 @@
+Version 0.0.79
+It is not even beta build so don`t expect too much from my project.
+
+In this version You can make your character, choose its class race background and so on.
+You can buy yourself a gear, equip something on you. And save your party after that.
+You can Load your party and check all parameters. And thats all for now.
+Maybe I forgot about something, you can find it yourself :3
+Not everything needed is implemented, warlock still needs a pet, wizard and other spellcasters needs spells.
+But as I mentioned earlier I`m developing this game and I hope that I will add this in future versions.
