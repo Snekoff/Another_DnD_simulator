@@ -77,9 +77,9 @@ sleightOfHand 15,stealth 16,survival 17*/
   bool immune[kElements_Num];
   bool conditionImune[kCondition_NUM];
   // int senses[kSenses_types_NUM] TODO: read about it
-  vector <string> languages;
-  vector <string> languageTags;
-  vector <string> senseTags;
+  vector<string> languages;
+  vector<string> languageTags;
+  vector<string> senseTags;
   int party;
   int Coordinates[kCoordinates_NUM];
   string character_name;

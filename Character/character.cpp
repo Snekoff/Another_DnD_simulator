@@ -911,7 +911,7 @@ int Character::Add_To_Inventory() {
               "19. Trading Goods\n"
               "20. Gaming Set\n"
               "21. Tools\n";
-              //"(this list will be extended in future versions)\n";
+      //"(this list will be extended in future versions)\n";
       item_ = IsNumber<int>(item_, 1, kItem_For_Sale_Types);
       //cout << "Control reach method Add_To_Inventory 0\n";
       cout << "Your funds: " << money[kMoney_types - 1] << endl;
@@ -933,20 +933,47 @@ int Character::Add_To_Inventory() {
            (int) E_I.names_of_TG_merchants_items.size() + limit[18],
            (int) E_I.names_of_GS_merchants_items.size() + limit[19],
            (int) E_I.names_of_T_merchants_items.size() + limit[20]};
-      vector <int> pricesOfShown;
+      vector<int> pricesOfShown;
       for (int i = limit[item_ - 1]; i < limit[item_]; i++) {
         if (i < kItems_Without_JSON_NUM) cout << i + 1 << ". " << E_I.All_s[i];
         else cout << i + 1 << ". " << E_I.names_of_merchants_items[i - kItems_Without_JSON_NUM];
         cout << " price: ";
-        if (item_ == 1) { pricesOfShown.push_back(E_I.Weapon_i[i][0]); cout << E_I.Weapon_i[i][0]; }
-        else if (item_ == 2) {  pricesOfShown.push_back(E_I.Ranged_Weapon_i[i - limit[item_ - 1]][0]); cout << E_I.Ranged_Weapon_i[i - limit[item_ - 1]][0]; }
-        else if (item_ == 3) {  pricesOfShown.push_back(E_I.Ammo_i[i - limit[item_ - 1]][0]); cout << E_I.Ammo_i[i - limit[item_ - 1]][0]; }
-        else if (item_ == 4) {  pricesOfShown.push_back(E_I.Armor_i[i - limit[item_ - 1]][0]); cout << E_I.Armor_i[i - limit[item_ - 1]][0]; }
-        else if (item_ == 5) {  pricesOfShown.push_back(E_I.Goods_i[i - limit[item_ - 1]][0]); cout << E_I.Goods_i[i - limit[item_ - 1]][0]; }
-        else if (item_ == 6) {  pricesOfShown.push_back(E_I.SpellCastingFocus_i[i - limit[item_ - 1]][0]); cout << E_I.SpellCastingFocus_i[i - limit[item_ - 1]][0]; }
-        else if (item_ == 7) {  pricesOfShown.push_back(E_I.Shield_i[i - limit[item_ - 1]][0]); cout << E_I.Shield_i[i - limit[item_ - 1]][0]; }
-        else if (item_ == 8) {  pricesOfShown.push_back(E_I.Ring_i[i - limit[item_ - 1]][0]); cout << E_I.Ring_i[i - limit[item_ - 1]][0]; }
-        else if (item_ == 9) {  pricesOfShown.push_back(E_I.Potion_i[i - limit[item_ - 1]][0]); cout << E_I.Potion_i[i - limit[item_ - 1]][0]; }
+        if (item_ == 1) {
+          pricesOfShown.push_back(E_I.Weapon_i[i][0]);
+          cout << E_I.Weapon_i[i][0];
+        }
+        else if (item_ == 2) {
+          pricesOfShown.push_back(E_I.Ranged_Weapon_i[i - limit[item_ - 1]][0]);
+          cout << E_I.Ranged_Weapon_i[i - limit[item_ - 1]][0];
+        }
+        else if (item_ == 3) {
+          pricesOfShown.push_back(E_I.Ammo_i[i - limit[item_ - 1]][0]);
+          cout << E_I.Ammo_i[i - limit[item_ - 1]][0];
+        }
+        else if (item_ == 4) {
+          pricesOfShown.push_back(E_I.Armor_i[i - limit[item_ - 1]][0]);
+          cout << E_I.Armor_i[i - limit[item_ - 1]][0];
+        }
+        else if (item_ == 5) {
+          pricesOfShown.push_back(E_I.Goods_i[i - limit[item_ - 1]][0]);
+          cout << E_I.Goods_i[i - limit[item_ - 1]][0];
+        }
+        else if (item_ == 6) {
+          pricesOfShown.push_back(E_I.SpellCastingFocus_i[i - limit[item_ - 1]][0]);
+          cout << E_I.SpellCastingFocus_i[i - limit[item_ - 1]][0];
+        }
+        else if (item_ == 7) {
+          pricesOfShown.push_back(E_I.Shield_i[i - limit[item_ - 1]][0]);
+          cout << E_I.Shield_i[i - limit[item_ - 1]][0];
+        }
+        else if (item_ == 8) {
+          pricesOfShown.push_back(E_I.Ring_i[i - limit[item_ - 1]][0]);
+          cout << E_I.Ring_i[i - limit[item_ - 1]][0];
+        }
+        else if (item_ == 9) {
+          pricesOfShown.push_back(E_I.Potion_i[i - limit[item_ - 1]][0]);
+          cout << E_I.Potion_i[i - limit[item_ - 1]][0];
+        }
         else if (item_ == 10) { cout << E_I.prices_of_G_merchants_items[i - limit[item_ - 1]]; }
         else if (item_ == 11) { cout << E_I.prices_of_SHP_merchants_items[i - limit[item_ - 1]]; }
         else if (item_ == 12) { cout << E_I.prices_of_AT_merchants_items[i - limit[item_ - 1]]; }
@@ -972,16 +999,16 @@ int Character::Add_To_Inventory() {
       std::ifstream inputJson;
       inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
       json j = json::parse(inputJson);
-      Item * fakeItem = new Item();
+      Item *fakeItem = new Item();
       int JsonIndexOfItemBeingBought = 0;
-      for(; !j["item"][JsonIndexOfItemBeingBought]["name"].empty();JsonIndexOfItemBeingBought++){
-        if(j["item"][JsonIndexOfItemBeingBought]["name"] == name_){
+      for (; !j["item"][JsonIndexOfItemBeingBought]["name"].empty(); JsonIndexOfItemBeingBought++) {
+        if (j["item"][JsonIndexOfItemBeingBought]["name"] == name_) {
           break;
         }
       }
       //cout << "E_I.prices_of_merchants_items[itemChosen - kItems_Without_JSON_NUM - 1] = " << E_I.prices_of_merchants_items[itemChosen - kItems_Without_JSON_NUM - 1] << endl;
       int b = 0;
-      if(itemChosen - 1 >= kItems_Without_JSON_NUM) b = fakeItem->Price_Parse(j, JsonIndexOfItemBeingBought);
+      if (itemChosen - 1 >= kItems_Without_JSON_NUM) b = fakeItem->Price_Parse(j, JsonIndexOfItemBeingBought);
       else b = pricesOfShown[itemChosen - 1 - limit[item_ - 1]];
       pricesOfShown.clear();
       cout << "price = " << b << endl;

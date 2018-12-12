@@ -9,7 +9,7 @@ const int kMonster_NUM = 1104;
 const int kMonster_Parameter_NUM = 6;
 
 struct Exsisting_Monsters {
- //in challenge_rating groups order. (0, 1/8, 1/4, 1/2, 1, 2...., 30, Unknown)
+  //in challenge_rating groups order. (0, 1/8, 1/4, 1/2, 1, 2...., 30, Unknown)
   vector<vector<string>> Challenge_rating =
       {{"Giant Fly", "Larva", "Awakened Shrub", "Baboon", "Badger", "Bat", "Cat", "Commoner", "Crab", "Crawling Claw",
         "Deer", "Eagle", "Frog", "Giant Fire Beetle", "Goat", "Hawk", "Homunculus", "Hyena", "Jackal", "Lemure",
@@ -278,43 +278,43 @@ struct Exsisting_Monsters {
       {"MTF", "MTF", "MM", "MM", "OotA", "OotA",}, {"MTF", "SKT", "SKT",}, {"MTF", "MTF", "MTF", "OotA", "OotA",}, {},
       {}, {}, {"MM", "PSX", "PSX", "PSX", "PSX", "PSX", "PSX", "PSX", "RoT",},
       {"MTF", "DMG", "PHB", "PHB", "PHB", "PHB", "PHB", "XGE",}};
-  };
+};
 
-  class Monster : public Creature {
-   private:
-    int monster_name;
-    //int experience_if_killed;
-    int size;
-    int challenge_rating;
-    int Health_dice_num;
-    string type_s;
-    string subtype;
-    string tags;
-    string source;
-    string alignment;
-    string acFrom;
-    int Ability_Save[kAbilities_Num];
-    bool damage_vulnerabilities[kDamage_Types];
-    vector <string> trait;
-    vector <string> action;
-    vector <string> spellcast;
-    vector <string> entries;
-    vector <string> spellcastDaily;
-    string spellcastingAbility;
-    vector <string> traitTags;
-    vector <string> actionTags;
-   public:
-    Monster(int name_, int challenge_rating_);
+class Monster : public Creature {
+ private:
+  int monster_name;
+  //int experience_if_killed;
+  int size;
+  int challenge_rating;
+  int Health_dice_num;
+  string type_s;
+  string subtype;
+  string tags;
+  string source;
+  string alignment;
+  string acFrom;
+  int Ability_Save[kAbilities_Num];
+  bool damage_vulnerabilities[kDamage_Types];
+  vector<string> trait;
+  vector<string> action;
+  vector<string> spellcast;
+  vector<string> entries;
+  vector<string> spellcastDaily;
+  string spellcastingAbility;
+  vector<string> traitTags;
+  vector<string> actionTags;
+ public:
+  Monster(int name_, int challenge_rating_);
 
-    Monster(const Monster &another);
+  Monster(const Monster &another);
 
-    Monster(int type_, int level_, int hp, int armor_class_);
+  Monster(int type_, int level_, int hp, int armor_class_);
 
-    int Get(int w);
+  int Get(int w);
 
-    ~Monster();
+  ~Monster();
 
-    bool Load(int a[]);
-  };
+  bool Load(int a[]);
+};
 
 #endif //ANOTHER_DND_SIMULATOR_MONSTER_H
