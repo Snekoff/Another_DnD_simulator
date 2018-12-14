@@ -294,14 +294,8 @@ class Monster : public Creature {
   vector <string> acFrom;
   int Ability_Save[kAbilities_Num];
   bool damage_vulnerabilities[kDamage_Types];
-  vector<string> trait;
-  vector<string> action;
-  vector<string> spellcast;
-  vector<string> entries;
-  vector<string> spellcastDaily;
-  string spellcastingAbility;
-  vector<string> traitTags;
-  vector<string> actionTags;
+  //vector<string> entries;
+
  public:
   Monster(int name_, int challenge_rating_);
 

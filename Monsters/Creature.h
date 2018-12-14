@@ -44,6 +44,12 @@ const int kExhaustion_MAX_Level = 8;
 const int kCoordinates_NUM = 3;
 const int kSpeed_types_NUM = 4;
 
+struct SpellAndUsageTimes {
+  string spellName;
+  int maxCharges;
+  int Charges;
+};
+
 class Creature {
  protected:
   int sex; //0 - female,1 - male, 2 - Futanari, 3 - creature
@@ -93,9 +99,32 @@ sleightOfHand 15,stealth 16,survival 17*/
   string appearance;//appearance
   int reaction;// how many reactions
   int reach;//feets
+  bool isNPC;
   string hpFormula;
+  vector<string> trait;
+  vector<string> action;
+  vector<string> spellcast;
+  vector<SpellAndUsageTimes> spellcastDaily;
+  string spellcastingAbility;
+  vector <string> spellcasting_will;
+  vector<string> traitTags;
+  vector<string> actionTags;
+  vector<string> legendary;
+  string legendaryGroup;
+  int legendaryActions;
+  bool isNamedCreature;
  public:
   int Hp_Formula_Parse(string hpFormula, int returnHitDiceOrNumOfDices);
+
+  vector <string> traitParse (const nlohmann::basic_json<> &j, int i);
+  vector <string> actionParse (const nlohmann::basic_json<> &j, int i);
+  vector <string> spellcastingNameAndHeaderEntriesParse (const nlohmann::basic_json<> &j, int i);
+  vector <string> spellcastingWillParse (const nlohmann::basic_json<> &j, int i);
+  vector <SpellAndUsageTimes> spellcastingDailyParse (const nlohmann::basic_json<> &j, int i);
+  vector <string> spellcastingSpellsParse (const nlohmann::basic_json<> &j, int i);
+
+  vector <string> legendaryParse (const nlohmann::basic_json<> &j, int i);
+  vector <string> commonEverythingParse (const nlohmann::basic_json<> &j); // check
 };
 
 #endif //ANOTHER_DND_SIMULATOR_CREATURE_H
