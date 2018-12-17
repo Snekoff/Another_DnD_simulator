@@ -125,8 +125,8 @@ int Battleground::Distance_In_Moves(int from_X, int from_Y, int to_X, int to_Y) 
       if(i%2 == 0) distance_i++;
       else distance_i +=2;
     }*/
-    int iter_A = max(abs(from_X - to_X),abs(from_Y - to_Y));
-    int iter_B = min(abs(from_X - to_X),abs(from_Y - to_Y));
+    int iter_A = max(abs(abs(from_X) - abs(to_X)),abs(abs(from_Y) - abs(to_Y)));
+    int iter_B = min(abs(abs(from_X) - abs(to_X)),abs(abs(from_Y) - abs(to_Y)));
     int it_B = 1;
     int direction_X = 1,direction_Y = 1;
     if(from_X - to_X > 0) direction_X = -1;

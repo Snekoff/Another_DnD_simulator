@@ -27,153 +27,46 @@ int Creature::Hp_Formula_Parse(string hpFormula_, int returnHitDiceOrNumOfDices)
   else return health_modifier_;
 }
 
-vector <string> Creature::traitParse(const nlohmann::basic_json<> &j, int i) {
-  vector <string> traits;
-  if(j["monster"][i].find("trait") == j["monster"][i].end()) return traits;
-  for(int m = 0; m < j["monster"][i]["trait"].size(); m++){
-    if(j["monster"][i]["trait"][m].find("name") != j["monster"][i]["trait"][m].end()) {
-      string traitName = "name";
-      traits.push_back(traitName);
-      traits.push_back(j["monster"][i]["trait"][m]["name"]);
-    }
-    if(j["monster"][i]["trait"][m].find("entries") != j["monster"][i]["trait"][m].end()){
-      string traitEntries = "entries:";
-      traits.push_back(traitEntries);
-      for(int r = 0; r < j["monster"][i]["trait"][m]["entries"].size(); r++){
-        traits.push_back(j["monster"][i]["trait"][m]["entries"][r]);
-      }
-    }
-  }
-  return traits;
-}
-
-vector <string> Creature::actionParse(const nlohmann::basic_json<> &j, int i) {
-  vector <string> actions;
-  if(j["monster"][i].find("action") == j["monster"][i].end()) return actions;
-  for(int m = 0; m < j["monster"][i]["action"].size(); m++){
-    if(j["monster"][i]["action"][m].find("name") != j["monster"][i]["action"][m].end()) {
-      string actionName = "name";
-      actions.push_back(actionName);
-      actions.push_back(j["monster"][i]["action"][m]["name"]);
-    }
-    if(j["monster"][i]["action"][m].find("entries") != j["monster"][i]["action"][m].end()){
-      string actionEntries = "entries:";
-      actions.push_back(actionEntries);
-      for(int r = 0; r < j["monster"][i]["action"][m]["entries"].size(); r++){
-        actions.push_back(j["monster"][i]["action"][m]["entries"][r]);
-      }
-    }
-  }
-  return actions;
-}
-
-vector <string> Creature::spellcastingNameAndHeaderEntriesParse(const nlohmann::basic_json<> &j, int i) {
+vector <string> Creature::spellcastingWillParse(const nlohmann::basic_json<> &j) {
   vector <string> Spellcastings;
-  if(j["monster"][i].find("Spellcasting") == j["monster"][i].end()) return Spellcastings;
-  for(int m = 0; m < j["monster"][i]["Spellcasting"].size(); m++){
-    if(j["monster"][i]["Spellcasting"][m].find("name") != j["monster"][i]["Spellcasting"][m].end()) {
-      string SpellcastingName = "name";
-      Spellcastings.push_back(SpellcastingName);
-      Spellcastings.push_back(j["monster"][i]["Spellcasting"][m]["name"]);
-    }
-    if(j["monster"][i]["Spellcasting"][m].find("headerEntries") != j["monster"][i]["Spellcasting"][m].end()){
-      string SpellcastingEntries = "headerEntries:";
-      Spellcastings.push_back(SpellcastingEntries);
-      for(int r = 0; r < j["monster"][i]["Spellcasting"][m]["headerEntries"].size(); r++){
-        Spellcastings.push_back(j["monster"][i]["Spellcasting"][m]["headerEntries"][r]);
-      }
-    }
+  if(j.find("will") == j.end()) return Spellcastings;
+  for(int k = 0; k < j["will"].size(); k++){
+    Spellcastings.push_back(j["will"][k]);
   }
   return Spellcastings;
 }
 
-vector <string> Creature::spellcastingWillParse(const nlohmann::basic_json<> &j, int i) {
-  vector <string> Spellcastings;
-  if(j["monster"][i]["Spellcasting"].find("will") == j["monster"][i]["Spellcasting"].end()) return Spellcastings;
-  for(int k = 0; k < j["monster"][i]["Spellcasting"]["will"].size(); k++){
-    Spellcastings.push_back(j["monster"][i]["Spellcasting"]["will"][k]);
-  }
-  return Spellcastings;
-}
-
-vector <SpellAndUsageTimes> Creature::spellcastingDailyParse(const nlohmann::basic_json<> &j, int i) {
+vector <SpellAndUsageTimes> Creature::spellcastingDailyParse(const nlohmann::basic_json<> &j) {
   vector <SpellAndUsageTimes> Spellcastings;
-  if(j["monster"][i]["Spellcasting"].find("daily") == j["monster"][i]["Spellcasting"].end()) return Spellcastings;
-  auto endPointer = j["monster"][i]["Spellcasting"]["daily"].end();
-  vector <string> TimesPerDay = {"1", "1e", "2", "2e", "3", "3e", ""};
+  if(j.find("daily") == j.end()) return Spellcastings;
+  auto endPointer = j["daily"].end();
+  vector <string> TimesPerDay = {"1", "1e", "2", "2e", "3", "3e"};
   for(int l = 0; l < TimesPerDay.size();l++){
-    if(j["monster"][i]["Spellcasting"]["daily"].find(TimesPerDay[l]) != endPointer){
-      for(int k = 0; k < j["monster"][i]["Spellcasting"]["daily"][TimesPerDay[l]].size(); k++){
+    if(j["daily"].find(TimesPerDay[l]) != endPointer){
+      for(int k = 0; k < j["daily"][TimesPerDay[l]].size(); k++){
         SpellAndUsageTimes spellAndUsageTimes;
-        spellAndUsageTimes.spellName = j["monster"][i]["Spellcasting"]["daily"][TimesPerDay[l]][k];
+        spellAndUsageTimes.spellName = j["daily"][TimesPerDay[l]][k];
         spellAndUsageTimes.maxCharges = 1;
         spellAndUsageTimes.Charges = spellAndUsageTimes.maxCharges;
         Spellcastings.push_back(spellAndUsageTimes);
       }
     }
   }
-  /*if(j["monster"][i]["Spellcasting"]["daily"].find("1") != endPointer){
-    for(int k = 0; k < j["monster"][i]["Spellcasting"]["daily"]["1"].size(); k++){
-      SpellAndUsageTimes spellAndUsageTimes;
-      spellAndUsageTimes.spellName = j["monster"][i]["Spellcasting"]["daily"]["1"][k];
-      spellAndUsageTimes.maxCharges = 1;
-      spellAndUsageTimes.Charges = spellAndUsageTimes.maxCharges;
-      Spellcastings.push_back(spellAndUsageTimes);
-    }
-  }
-  if(j["monster"][i]["Spellcasting"]["daily"].find("1e") != endPointer){
-
-  }
-  if(j["monster"][i]["Spellcasting"]["daily"].find("2") != endPointer){
-
-  }
-  if(j["monster"][i]["Spellcasting"]["daily"].find("2e") != endPointer){
-
-  }
-  if(j["monster"][i]["Spellcasting"]["daily"].find("3") != endPointer){
-
-  }
-  if(j["monster"][i]["Spellcasting"]["daily"].find("3e") != endPointer){
-
-  }*/
-
 }
 
-vector <string> Creature::legendaryParse(const nlohmann::basic_json<> &j, int i) {
-  vector <string> legendarys;
-  if(j["monster"][i].find("legendary") == j["monster"][i].end()) return legendarys;
-  for(int m = 0; m < j["monster"][i]["legendary"].size(); m++){
-    if(j["monster"][i]["legendary"][m].find("name") != j["monster"][i]["legendary"][m].end()) {
-      string legendaryName = "name";
-      legendarys.push_back(legendaryName);
-      legendarys.push_back(j["monster"][i]["legendary"][m]["name"]);
-    }
-    if(j["monster"][i]["legendary"][m].find("entries") != j["monster"][i]["legendary"][m].end()){
-      string legendaryEntries = "entries:";
-      legendarys.push_back(legendaryEntries);
-      for(int r = 0; r < j["monster"][i]["legendary"][m]["entries"].size(); r++){
-        legendarys.push_back(j["monster"][i]["legendary"][m]["entries"][r]);
-      }
-    }
-  }
-  return legendarys;
-}
-
-vector <string> Creature::commonEverythingParse(const nlohmann::basic_json<> &j) {
-  vector <string> TraitActSpell;
+vector <string> Creature::commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(const nlohmann::basic_json<> &j, string howEntriesNamed) {
+  vector <string> outVectorString;
   for(int m = 0; m < j.size(); m++){
     if(j[m].find("name") != j[m].end()) {
-      string actionName = "name";
-      TraitActSpell.push_back(actionName);
-      TraitActSpell.push_back(j[m]["name"]);
+      string actionName = "name: ";
+      actionName += j[m]["name"];
+      outVectorString.push_back(actionName);
     }
-    if(j[m].find("entries") != j[m].end()){
-      string actionEntries = "entries:";
-      TraitActSpell.push_back(actionEntries);
-      for(int r = 0; r < j[m]["entries"].size(); r++){
-        TraitActSpell.push_back(j[m]["entries"][r]);
+    if(j[m].find(howEntriesNamed) != j[m].end()){
+      for(int r = 0; r < j[m][howEntriesNamed].size(); r++){
+        outVectorString.push_back(j[m][howEntriesNamed][r]);
       }
     }
   }
-  return TraitActSpell;
+  return outVectorString;
 }

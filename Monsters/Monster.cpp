@@ -4,7 +4,7 @@ using json = nlohmann::json;
 Monster::Monster(int name_, int challenge_rating_) {
   ifstream MonJson;
   Exsisting_Monsters E_M;
-  MonJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/monsters/bestiary-all.json");
+  MonJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/monsters/bestiary-all.json");
   if (MonJson.is_open()) {
     json MonsterJson = json::parse(MonJson);
     for (int i = 0; !MonsterJson["monster"][i]["name"].empty(); i++) {
@@ -135,13 +135,19 @@ Monster::Monster(int name_, int challenge_rating_) {
             languages.push_back(MonsterJson["monster"][i]["languages"][j]);
           }
         }
-        //"trait"
-
+        trait = commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(MonsterJson["monster"][i]["trait"], "entries");
+        action = commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(MonsterJson["monster"][i]["action"], "entries");
+        legendary = commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(MonsterJson["monster"][i]["legendary"], "entries");
+        spellcastingNameAndEntries = commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(MonsterJson["monster"][i]["spellcasting"], "headerEntries");
+        spellcasting_will = spellcastingWillParse();
+        spellcastDaily = spellcastingDailyParse();
         break;
       }
     }
   } else cout << "error in load MonJson" << endl;
 }
+
+Monster::Monster() = default;
 
 Monster::Monster(const Monster &another) {
   monster_name = another.monster_name;

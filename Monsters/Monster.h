@@ -297,6 +297,9 @@ class Monster : public Creature {
   //vector<string> entries;
 
  public:
+
+  Monster();
+
   Monster(int name_, int challenge_rating_);
 
   Monster(const Monster &another);
