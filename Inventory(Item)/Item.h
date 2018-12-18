@@ -897,15 +897,16 @@ class Item {
   bool Is_Attuned();
   virtual bool is_equipped();
   int Price_Parse(const nlohmann::basic_json<> &j, int i);
-  std::vector<std::string> Entries_Parse(const nlohmann::basic_json<> &j, int i);
-  void Entries_Parse_second_level(const nlohmann::basic_json<> &j, int i, int firstForIindex);
-  int Entries_Parse_second_level_entries_entries(const nlohmann::basic_json<> &j, int i, int firstForIindex);
-  int Entries_Parse_second_level_entries_items(const nlohmann::basic_json<> &j, int i, int firstForIindex);
-  int Entries_Parse_third_level(const nlohmann::basic_json<> &j, int i, int firstForIindex, int secondForIindex);
-  int Entries_Parse_forth_level(const nlohmann::basic_json<> &j, int i, int firstForIindex, int secondForIindex);
-  void Get_Entries();
+  std::vector<std::string> Entries_Parse(const nlohmann::basic_json<> &j);
+  void Entries_Parse_second_level(const nlohmann::basic_json<> &j);
+  int Entries_Parse_second_level_entries_entries(const nlohmann::basic_json<> &j);
+  int Entries_Parse_second_level_entries_items(const nlohmann::basic_json<> &j);
+  int Entries_Parse_third_level(const nlohmann::basic_json<> &j);
+  int Entries_Parse_forth_level(const nlohmann::basic_json<> &j);
+  void Show_Entries();
+  std::vector <std::string> Get_Entries();
 
-  std::vector<std::string> AttachedSpells_Parse(const nlohmann::basic_json<> &j, int i);
+  std::vector<std::string> AttachedSpells_Parse(const nlohmann::basic_json<> &j);
 
   //TODO: Who can Attune
   virtual std::string What_class();

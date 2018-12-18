@@ -100,19 +100,19 @@ bool Item::is_equipped() { return equipped; }
 std::string Item::What_class() {
   return what_class_is_it;
 }
-std::vector<std::string> Item::Entries_Parse(const nlohmann::basic_json<> &j, int i) {
+std::vector<std::string> Item::Entries_Parse(const nlohmann::basic_json<> &j) {
   std::cout << "Control reach Item::Entries_Parse 0\n";
   try {
-    if (j["item"][i].find("entries") != j["item"][i].end()) {
+    if (j.find("entries") != j.end()) {
       //std::cout << "Control reach Item::Entries_Parse 1\n";
-      //std::cout << "j[\"item\"][i][\"entries\"].size() =" << j["item"][i]["entries"].size() <<"\n";
-      for (int k = 0; k < j["item"][i]["entries"].size(); k++) {
-        if (j["item"][i]["entries"][k].size() == 1) {
+      //std::cout << "j[\"item\"][i][\"entries\"].size() =" << j["entries"].size() <<"\n";
+      for (int k = 0; k < j["entries"].size(); k++) {
+        if (j["entries"][k].size() == 1) {
           //std::cout << "Control reach Item::Entries_Parse /string.\n";
-          auto entries_ = j["item"][i]["entries"][k];
+          auto entries_ = j["entries"][k];
           entries.push_back(entries_);
-        } else if (!j["item"][i]["entries"][k].empty()) {
-          Entries_Parse_second_level(j, i, k);
+        } else if (!j["entries"][k].empty()) {
+          Entries_Parse_second_level(j["entries"][k]);
         } else {
           //std::cout << "Control reach Item::Entries_Parse 11\n";
         }
@@ -124,132 +124,101 @@ std::vector<std::string> Item::Entries_Parse(const nlohmann::basic_json<> &j, in
     std::cout << "message: " << e.what() << '\n'
               << "exception id: " << e.id << std::endl;
   }
-
-  /*for(int IndexOutput = 0; IndexOutput < entries.size();IndexOutput++){
-    std::cout << entries[IndexOutput] << "\n";
-  }*/
   return entries;
 }
-void Item::Entries_Parse_second_level(const nlohmann::basic_json<> &j, int i, int firstForIndex) {
-  //std::cout << "Control reach Item::Entries_Parse 2\n";
-  if (j["item"][i]["entries"][firstForIndex].find("name") != j["item"][i]["entries"][firstForIndex].end()) {
-    std::string nameAddOn = j["item"][i]["entries"][firstForIndex]["name"];
+void Item::Entries_Parse_second_level(const nlohmann::basic_json<> &j) {
+  if (j.find("name") != j.end()) {
+    std::string nameAddOn = j["name"];
     entries.push_back(nameAddOn);
   }
-  std::cout << j["item"][i]["entries"][firstForIndex].size() << std::endl;
-  Entries_Parse_second_level_entries_entries(j, i, firstForIndex);
+  std::cout << j.size() << std::endl;
+  Entries_Parse_second_level_entries_entries(j);
   std::cout << "Control reachItem::Entries_Parse_ 5\n";
-
-  //
-  Entries_Parse_second_level_entries_items(j, i, firstForIndex);
+  Entries_Parse_second_level_entries_items(j);
 }
-int Item::Entries_Parse_second_level_entries_entries(const nlohmann::basic_json<> &j, int i, int firstForIndex) {
-  if (j["item"][i]["entries"][firstForIndex].find("entries") == j["item"][i]["entries"][firstForIndex].end()) {
-    return 0;
-  }
-  for (int f = 0; f < j["item"][i]["entries"][firstForIndex]["entries"].size(); f++) {
+int Item::Entries_Parse_second_level_entries_entries(const nlohmann::basic_json<> &j) {
+  if (j.find("entries") == j.end()) { return 0; }
+  for (int f = 0; f < j["entries"].size(); f++) {
     std::cout << "Control reach Item::Entries_Parse 3_0\n";
-    if (j["item"][i]["entries"][firstForIndex]["entries"][f].size() == 1) {
+    if (j["entries"][f].size() == 1) {
       std::cout << "Control reach Item::Entries_Parse 3_0/string.\n";
-      auto entries_ = j["item"][i]["entries"][firstForIndex]["entries"][f];
+      auto entries_ = j["entries"][f];
       entries.push_back(entries_);
-    } else if (!j["item"][i]["entries"][firstForIndex]["entries"][f].empty()) {//type
-      Entries_Parse_third_level(j, i, firstForIndex, f);
-    } else {
-      //std::cout << "Control reach Item::Entries_Parse 3_2\n";
-      //auto entries_ = j["item"][i]["entries"][firstForIndex].get<std::string>();
-      //entries.push_back(entries_);
+    } else if (!j["entries"][f].empty()) {//type
+      Entries_Parse_third_level(j["entries"][f]);
     }
   }
   return 0;
 }
-int Item::Entries_Parse_second_level_entries_items(const nlohmann::basic_json<> &j, int i, int firstForIndex) {
-  if (j["item"][i]["entries"][firstForIndex].find("items") == j["item"][i]["entries"][firstForIndex].end()) {
-    return 0;
-  }
-  for (int f = 0; f < j["item"][i]["entries"][firstForIndex]["items"].size(); f++) {
-    if (j["item"][i]["entries"][firstForIndex]["items"][f].size() == 1) {
+int Item::Entries_Parse_second_level_entries_items(const nlohmann::basic_json<> &j) {
+  if (j.find("items") == j.end()) { return 0; }
+  for (int f = 0; f < j["items"].size(); f++) {
+    if (j["items"][f].size() == 1) {
       std::cout << "Control reach Item::Entries_Parse 3_0/string.\n";
-      auto entries_ = j["item"][i]["entries"][firstForIndex]["items"][f];
+      auto entries_ = j["items"][f];
       entries.push_back(entries_);
-    } else if (!j["item"][i]["entries"][firstForIndex]["items"][f].empty()) {//type
-      Entries_Parse_forth_level(j, i, firstForIndex, f);
-    } else {
-      //auto entries_ = j["item"][i]["entries"][firstForIndex].get<std::string>();
-      //entries.push_back(entries_);
+    } else if (!j["items"][f].empty()) {//type
+      Entries_Parse_forth_level(j["items"][f]);
     }
   }
   return 0;
 }
-int Item::Entries_Parse_third_level(const nlohmann::basic_json<> &j, int i, int firstForIndex, int secondForIndex) {
+int Item::Entries_Parse_third_level(const nlohmann::basic_json<> &j) {
   std::cout << "Control reach Item::Entries_Parse 3_1\n";
-  if (j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex].find("entries") ==
-      j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex].end()) {
-    return 0;
-  }
-  if (j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex].find("name")
-      != j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex].end()) {
+  if (j.find("entries") == j.end()) { return 0; }
+  if (j.find("name") != j.end()) {
     //std::cout << "Control reach Item::Entries_Parse 4\n";
-    std::string nameAddOn = j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex]["name"];
+    std::string nameAddOn = j["name"];
     entries.push_back(nameAddOn);
   }
-  for (int a = 0; a < j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex]["entries"].size(); a++) {
-    auto entries_ =
-        j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex]["entries"][a].get<std::string>();
+  for (int a = 0; a < j["entries"].size(); a++) {
+    auto entries_ = j["entries"][a].get<std::string>();
     entries.push_back(entries_);
   }
-  if (j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex].find("items") ==
-      j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex].end()) {
-    return 0;
-  }
-  for (int a = 0; a < j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex]["items"].size(); a++) {
-    auto
-        entries_ = j["item"][i]["entries"][firstForIndex]["entries"][secondForIndex]["items"][a].get<std::string>();
+  if (j.find("items") == j.end()) { return 0; }
+  for (int a = 0; a < j["items"].size(); a++) {
+    auto entries_ = j["items"][a].get<std::string>();
     entries.push_back(entries_);
   }
-
   return 0;
 }
-int Item::Entries_Parse_forth_level(const nlohmann::basic_json<> &j, int i, int firstForIndex, int secondForIndex) {
+int Item::Entries_Parse_forth_level(const nlohmann::basic_json<> &j) {
   std::cout << "Control reach Item::Entries_Parse 7\n";
-  if (j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].size() == 1) {
-    auto entries_ = j["item"][i]["entries"][firstForIndex]["items"][secondForIndex];
+  if (j.size() == 1) {
+    auto entries_ = j;
     entries.push_back(entries_);
   }
-  if (j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].find("name") !=
-      j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].end()) {
-    //std::cout << "Control reach Item::Entries_Parse 8\n";
-    std::string nameAddOn = j["item"][i]["entries"][firstForIndex]["items"][secondForIndex]["name"];
+  if (j.find("name") != j.end()) {
+    std::string nameAddOn = j["name"];
     entries.push_back(nameAddOn);
   }
-  if (j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].find("entries") !=
-      j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].end()) {
-    for (int a = 0; a < j["item"][i]["entries"][firstForIndex]["items"][secondForIndex]["entries"].size(); a++) {
-      auto
-          entries_ = j["item"][i]["entries"][firstForIndex]["items"][secondForIndex]["entries"][a].get<std::string>();
+  if (j.find("entries") != j.end()) {
+    for (int a = 0; a < j["entries"].size(); a++) {
+      auto entries_ = j["entries"][a].get<std::string>();
       entries.push_back(entries_);
     }
   }
-  if (j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].find("items") !=
-      j["item"][i]["entries"][firstForIndex]["items"][secondForIndex].end()) {
-    for (int a = 0; a < j["item"][i]["entries"][firstForIndex]["items"][secondForIndex]["items"].size(); a++) {
-      auto entries_ = j["item"][i]["entries"][firstForIndex]["items"][secondForIndex]["items"][a].get<std::string>();
+  if (j.find("items") != j.end()) {
+    for (int a = 0; a < j["items"].size(); a++) {
+      auto entries_ = j["items"][a].get<std::string>();
       entries.push_back(entries_);
     }
   }
   return 0;
 }
-
-void Item::Get_Entries() {
+void Item::Show_Entries() {
   for (int IndexOutput = 0; IndexOutput < entries.size(); IndexOutput++) {
     std::cout << entries[IndexOutput] << "\n";
   }
 }
-std::vector<std::string> Item::AttachedSpells_Parse(const nlohmann::basic_json<> &j, int i) {
+std::vector<std::string> Item::Get_Entries() {
+  return entries;
+}
+std::vector<std::string> Item::AttachedSpells_Parse(const nlohmann::basic_json<> &j) {
   try {
-    if (!j["item"][i]["attachedSpells"].empty()) {
-      for (int k = 0; j["item"][i]["attachedSpells"][k].empty(); k++) {
-        attachedSpells.push_back(j["item"][i]["attachedSpells"][k]);
+    if (!j["attachedSpells"].empty()) {
+      for (int k = 0; j["attachedSpells"][k].empty(); k++) {
+        attachedSpells.push_back(j["attachedSpells"][k]);
       }
     }
   }
@@ -316,7 +285,7 @@ void Melee_Weapon::set(std::string &name_, int count_) {
             }
             source = j["item"][i]["source"];
             if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-            entries = Entries_Parse(j, i);
+            entries = Entries_Parse(j["item"][i]);
             if (j["item"][i].find("reqAttune") != jsonEndPointer) {
               if (j["item"][i]["reqAttune"] != true) {
 
@@ -417,7 +386,7 @@ void Ranged_Weapon::set(std::string &name_, int count_) {
             }
             source = j["item"][i]["source"];
             if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-            entries = Entries_Parse(j, i);
+            entries = Entries_Parse(j["item"][i]);
             if (j["item"][i].find("reqAttune") != jsonEndPointer) {
               if (j["item"][i]["reqAttune"] != true) {
 
@@ -514,7 +483,7 @@ void Armor::set(std::string &name_, int count_) {
             }
             source = j["item"][i]["source"];
             if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-            entries = Entries_Parse(j, i);
+            entries = Entries_Parse(j["item"][i]);
             if (j["item"][i].find("reqAttune") != jsonEndPointer) {
               if (j["item"][i]["reqAttune"] != true) {
 
@@ -602,7 +571,7 @@ void Goods::set(std::string &name_, int count_) {
             //std::cout << "Control reach Item::Goods::set 4\n";
             if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
             //std::cout << "Control reach Item::Goods::set 5\n";
-            entries = Entries_Parse(j, i);
+            entries = Entries_Parse(j["item"][i]);
             //std::cout << "Control reach Item::Goods::set 6\n";
             cost = Price_Parse(j, i);
             break;
@@ -682,7 +651,7 @@ void Ammo::set(std::string &name_, int count_) {
             }
             source = j["item"][i]["source"];
             if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-            entries = Entries_Parse(j, i);
+            entries = Entries_Parse(j["item"][i]);
             if (j["item"][i].find("reqAttune") != jsonEndPointer) {
               if (j["item"][i]["reqAttune"] != true) {
 
@@ -747,7 +716,7 @@ void ArtisanTools::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
           cost = Price_Parse(j, i);
           break;
         }
@@ -796,7 +765,7 @@ void Ship::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
           if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
           if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
           if (!j["item"][i]["crew"].empty()) crew = j["item"][i]["crew"];
@@ -850,7 +819,7 @@ void Valuables::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
           cost = Price_Parse(j, i);
           break;
         }
@@ -916,7 +885,7 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
               weight = std::stoi(weight_);
             }
             if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-            entries = Entries_Parse(j, i);
+            entries = Entries_Parse(j["item"][i]);
             if (j["item"][i].find("reqAttune") != jsonEndPointer) {
               if (j["item"][i]["reqAttune"] != true) {
 
@@ -936,7 +905,7 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
             }
             source = j["item"][i]["source"];
             if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-            entries = Entries_Parse(j, i);
+            entries = Entries_Parse(j["item"][i]);
             if (!j["item"][i]["scfType"].empty()) {
               for (int m = 0; m < kSpellCastingFocus_Types; m++) {
                 if (E_I.SpellCastingFocus_types[m] == j["item"][i]["scfType"]) {
@@ -999,7 +968,7 @@ void Shield::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
           if (!j["item"][i]["ac"].empty()) ac = j["item"][i]["ac"];
           if (j["item"][i].find("reqAttune") != jsonEndPointer) {
             if (j["item"][i]["reqAttune"] != true) {
@@ -1065,7 +1034,7 @@ void Instrument::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
           cost = Price_Parse(j, i);
           break;
         }
@@ -1114,7 +1083,7 @@ void Ring::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
           if (!j["item"][i]["resist"].empty()) {
             for (int k = 1; k < kElements_Num; k++) {
               if (E_I.elements[k] == j["item"][i]["resist"]) {
@@ -1123,7 +1092,7 @@ void Ring::set(std::string &name_, int count_) {
               }
             }
           }
-          attachedSpells = AttachedSpells_Parse(j, i);
+          attachedSpells = AttachedSpells_Parse(j["item"][i]);
           if (!j["item"][i]["charges"].empty()) charges = !j["item"][i]["charges"];
           if (j["item"][i].find("reqAttune") != jsonEndPointer) {
             if (j["item"][i]["reqAttune"] != true) {
@@ -1188,7 +1157,7 @@ void AnimalGear::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
           cost = Price_Parse(j, i);
           break;
         }
@@ -1237,7 +1206,7 @@ void Explosive::set(std::string &name_, int count_) {
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           age = j["item"][i]["age"];
-          entries = Entries_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
           cost = Price_Parse(j, i);
           break;
         }
@@ -1285,8 +1254,8 @@ void Potion::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
-          attachedSpells = AttachedSpells_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
+          attachedSpells = AttachedSpells_Parse(j["item"][i]);
           cost = Price_Parse(j, i);
           break;
         }
@@ -1348,7 +1317,7 @@ void Mounties::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          //entries = Entries_Parse(j, i);
+          //entries = Entries_Parse(j["item"][i]);
           if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
           if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
           cost = Price_Parse(j, i);
@@ -1399,7 +1368,7 @@ void Vehicle::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
           if (!j["item"][i]["speed"].empty()) speed = j["item"][i]["speed"];
           if (!j["item"][i]["carryingcapacity"].empty()) carryingcapacity = j["item"][i]["carryingcapacity"];
           cost = Price_Parse(j, i);
@@ -1449,7 +1418,7 @@ void TradeGoods::set(std::string &name_, int count_) {
             source = std::stoi(weight_);
           }
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          if (!j["item"][i]["entries"].empty()) entries = Entries_Parse(j, i);
+          if (!j["item"][i]["entries"].empty()) entries = Entries_Parse(j["item"][i]);
           if (!j["item"][i]["cost"].empty()) cost = Price_Parse(j, i);
           break;
         }
@@ -1495,7 +1464,7 @@ void GamingSet::set(std::string &name_, int count_) {
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
           std::cout << "Control Reach Item::Gaming Set::set 0\n";
-          //entries = Entries_Parse(j, i);
+          //entries = Entries_Parse(j["item"][i]);
           std::cout << "Control Reach Item::Gaming Set::set 1\n";
           cost = Price_Parse(j, i);
           std::cout << "Control Reach Item::Gaming Set::set 2\n";
@@ -1546,7 +1515,7 @@ void Device::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
           if (j["item"][i].find("reqAttune") != jsonEndPointer) {
             if (j["item"][i]["reqAttune"] != true) {
 
@@ -1600,7 +1569,7 @@ void Tools::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
           cost = Price_Parse(j, i);
           break;
         }
@@ -1649,8 +1618,8 @@ void Rod::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
-          attachedSpells = AttachedSpells_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
+          attachedSpells = AttachedSpells_Parse(j["item"][i]);
           if (j["item"][i].find("reqAttune") != jsonEndPointer) {
             if (j["item"][i]["reqAttune"] != true) {
 
@@ -1705,8 +1674,8 @@ void Scroll::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
-          attachedSpells = AttachedSpells_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
+          attachedSpells = AttachedSpells_Parse(j["item"][i]);
           cost = Price_Parse(j, i);
           break;
         }
@@ -1754,13 +1723,13 @@ void Wand::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
           if (j["item"][i].find("reqAttune") != jsonEndPointer) {
             if (j["item"][i]["reqAttune"] != true) {
 
             } else reqAttune = j["item"][i]["reqAttune"];
           }
-          attachedSpells = AttachedSpells_Parse(j, i);
+          attachedSpells = AttachedSpells_Parse(j["item"][i]);
           if (!j["item"][i]["charges"].empty()) charges = !j["item"][i]["charges"];
           cost = Price_Parse(j, i);
           break;
@@ -1811,13 +1780,13 @@ void OTH::set(std::string &name_, int count_) {
           }
           source = j["item"][i]["source"];
           if (j["item"][i].find("tier") != jsonEndPointer) tier = j["item"][i]["tier"];
-          entries = Entries_Parse(j, i);
+          entries = Entries_Parse(j["item"][i]);
           if (j["item"][i].find("reqAttune") != jsonEndPointer) {
             if (j["item"][i]["reqAttune"] != true) {
 
             } else reqAttune = j["item"][i]["reqAttune"];
           }
-          attachedSpells = AttachedSpells_Parse(j, i);
+          attachedSpells = AttachedSpells_Parse(j["item"][i]);
           if (!j["item"][i]["charges"].empty()) charges = !j["item"][i]["charges"];
           cost = Price_Parse(j, i);
           break;

@@ -110,6 +110,7 @@ sleightOfHand 15,stealth 16,survival 17*/
   vector<string> traitTags;
   vector<string> actionTags;
   vector<string> legendary;
+  vector<string> variant;
   string legendaryGroup;
   int legendaryActions;
   bool isNamedCreature;
@@ -119,7 +120,8 @@ sleightOfHand 15,stealth 16,survival 17*/
   vector <string> spellcastingWillParse (const nlohmann::basic_json<> &j);
   vector <SpellAndUsageTimes> spellcastingDailyParse (const nlohmann::basic_json<> &j);
   vector <string> commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse (const nlohmann::basic_json<> &j, string howEntriesNamed);
-  vector <string> spellcastingSpellsParse (const nlohmann::basic_json<> &j, int i);
+  vector<string> commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
+  vector<string> commonVariantParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
 
 };
 

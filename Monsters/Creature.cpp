@@ -52,6 +52,7 @@ vector <SpellAndUsageTimes> Creature::spellcastingDailyParse(const nlohmann::bas
       }
     }
   }
+  return Spellcastings;
 }
 
 vector <string> Creature::commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(const nlohmann::basic_json<> &j, string howEntriesNamed) {
@@ -69,4 +70,41 @@ vector <string> Creature::commonForTraitAndActionAndSpellNameAndSpellHeaderEntri
     }
   }
   return outVectorString;
+}
+
+vector<string> Creature::commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor) {
+  vector<string> whatAreLookedForOutput;
+  if (MonsterJson.find(whatAreLookedFor) != MonsterJson.end()) {
+    for (int j = 0; j < MonsterJson[whatAreLookedFor].size(); j++) {
+      whatAreLookedForOutput.push_back(MonsterJson[whatAreLookedFor][j]);
+    }
+  }
+  return whatAreLookedForOutput;
+}
+
+vector<string> Creature::commonVariantParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor) {
+  vector <string> outVector;
+  if(MonsterJson.find("variant") == MonsterJson.end()) return outVector;
+  for(int i = 0; i < MonsterJson["variant"].size(); i++){
+    if(MonsterJson["variant"].find("type") != MonsterJson["variant"].end()){
+      string outType = "type: ";
+      outType += MonsterJson["variant"]["type"];
+      outVector.push_back(outType);
+    }
+    if(MonsterJson["variant"].find("name") != MonsterJson["variant"].end()){
+      string outType = "name: ";
+      outType += MonsterJson["variant"]["name"];
+      outVector.push_back(outType);
+    }
+    if(MonsterJson["variant"].find("entries") != MonsterJson["variant"].end()){
+      vector <string> entries;
+      auto fakeItem = new Item();
+      entries = fakeItem->Entries_Parse(MonsterJson["variant"]);
+      for(int j = 0; j < entries.size(); j++){
+        outVector.push_back(entries[j]);
+      }
+      delete fakeItem;
+    }
+  }
+  return outVector;
 }
