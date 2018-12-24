@@ -123,6 +123,11 @@ sleightOfHand 15,stealth 16,survival 17*/
   vector<string> commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
   vector<string> commonVariantParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
 
+  vector<string> commonVectorStringParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
+  string commonStringParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
+  int commonIntParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
+  bool commonBoolParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
+
 };
 
 #endif //ANOTHER_DND_SIMULATOR_CREATURE_H

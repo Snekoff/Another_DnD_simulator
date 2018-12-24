@@ -284,13 +284,15 @@ class Monster : public Creature {
  private:
   int monster_name;
   //int experience_if_killed;
-  int size;
-  int challenge_rating;
+  string size;
+  string challenge_rating;
   string type_s;
   string subtype;
   vector <string> type_tags;
   string source;
   vector <string> alignment;
+  vector <string> skillString;
+  vector <string> saving_throws;
   vector <string> acFrom;
   int Ability_Save[kAbilities_Num];
   bool damage_vulnerabilities[kDamage_Types];

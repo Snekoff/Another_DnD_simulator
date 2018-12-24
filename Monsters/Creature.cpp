@@ -108,3 +108,33 @@ vector<string> Creature::commonVariantParse(const nlohmann::basic_json<> &Monste
   }
   return outVector;
 }
+
+vector<string> Creature::commonVectorStringParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor) {
+  vector<string> Output;
+  if(MonsterJson.find(whatAreLookedFor) == MonsterJson.end()) return Output;
+  for(int i = 0; i < MonsterJson[whatAreLookedFor].size(); i++){
+    Output.push_back(MonsterJson[whatAreLookedFor][i]);
+  }
+  return Output;
+}
+
+string Creature::commonStringParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor) {
+  string Output;
+  if(MonsterJson.find(whatAreLookedFor) == MonsterJson.end()) return Output;
+  Output = MonsterJson[whatAreLookedFor];
+  return Output;
+}
+
+int Creature::commonIntParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor) {
+  int Output;
+  if(MonsterJson.find(whatAreLookedFor) == MonsterJson.end()) return Output;
+  Output = MonsterJson[whatAreLookedFor];
+  return Output;
+}
+
+bool Creature::commonBoolParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor) {
+  bool Output;
+  if(MonsterJson.find(whatAreLookedFor) == MonsterJson.end()) return Output;
+  Output = MonsterJson[whatAreLookedFor];
+  return Output;
+}
