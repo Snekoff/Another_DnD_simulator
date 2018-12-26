@@ -1,7 +1,7 @@
 //
 #include "Monster.h"
 using json = nlohmann::json;
-Monster::Monster(int name_, int challenge_rating_) {
+Monster::Monster(Random_Generator_ *Rand_gen, int name_, int challenge_rating_) {
   ifstream MonJson;
   Exsisting_Monsters E_M;
   MonJson
@@ -140,6 +140,13 @@ Monster::Monster(int name_, int challenge_rating_) {
         legendaryActions = commonIntParse(MonsterJson["monster"][i], "legendaryActions");
         // "" - not needed
         variant = commonVariantParse(MonsterJson["monster"][i], "");
+        health = health_modifier + HealthRoll(Rand_gen, health_dice, health_dice_num);
+        StrModifier = AbilityModifier(Str);
+        DexModifier = AbilityModifier(Dex);
+        ConModifier = AbilityModifier(Con);
+        IntModifier = AbilityModifier(Int);
+        WisModifier = AbilityModifier(Wis);
+        ChaModifier = AbilityModifier(Cha);
         break;
       }
     }
@@ -148,7 +155,7 @@ Monster::Monster(int name_, int challenge_rating_) {
 
 Monster::Monster() = default;
 
-Monster::Monster(const Monster &another) {
+Monster::Monster(Random_Generator_ *Rand_gen, const Monster &another) {
   saving_throws.resize(kAbilities_Num);
   skillString.resize(kSkills_Num);
   monster_name = another.monster_name;
@@ -202,6 +209,13 @@ Monster::Monster(const Monster &another) {
   legendaryGroup = another.legendaryGroup;
   legendaryActions = another.legendaryActions;
   variant = another.variant;
+  health = health_modifier + HealthRoll(Rand_gen, health_dice, health_dice_num);
+  StrModifier = AbilityModifier(Str);
+  DexModifier = AbilityModifier(Dex);
+  ConModifier = AbilityModifier(Con);
+  IntModifier = AbilityModifier(Int);
+  WisModifier = AbilityModifier(Wis);
+  ChaModifier = AbilityModifier(Cha);
 }
 
 /*Monster::Monster(int type_, int level_, int hp, int armor_class_) {

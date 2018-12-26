@@ -302,9 +302,9 @@ class Monster : public Creature {
 
   Monster();
 
-  Monster(int name_, int challenge_rating_);
+  Monster(Random_Generator_ *Rand_gen, int name_, int challenge_rating_);
 
-  Monster(const Monster &another);
+  Monster(Random_Generator_ *Rand_gen, const Monster &another);
 
   Monster(int type_, int level_, int hp, int armor_class_);
 

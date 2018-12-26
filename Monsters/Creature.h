@@ -116,6 +116,9 @@ sleightOfHand 15,stealth 16,survival 17*/
   bool isNamedCreature;
  public:
   int Hp_Formula_Parse(string hpFormula, int returnHitDiceOrNumOfDices);
+  int HealthRoll(Random_Generator_ *Rand_gen, int hitDice, int numOfDices);
+
+  int AbilityModifier(int ability);
 
   vector <string> spellcastingWillParse (const nlohmann::basic_json<> &j);
   vector <SpellAndUsageTimes> spellcastingDailyParse (const nlohmann::basic_json<> &j);

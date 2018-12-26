@@ -27,6 +27,18 @@ int Creature::Hp_Formula_Parse(string hpFormula_, int returnHitDiceOrNumOfDices)
   else return health_modifier_;
 }
 
+int Creature::HealthRoll(Random_Generator_ *Rand_gen, int hitDice, int numOfDices) {
+  int health_ = 0;
+  for(int i = 0; i < numOfDices; i++){
+    health_ += Rand_gen->Rand(1, hitDice);
+  }
+  return health_;
+}
+
+int Creature::AbilityModifier(int ability_) {
+  return (ability_ - 10) / 2;
+}
+
 vector <string> Creature::spellcastingWillParse(const nlohmann::basic_json<> &j) {
   vector <string> Spellcastings;
   if(j.find("will") == j.end()) return Spellcastings;
