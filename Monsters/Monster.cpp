@@ -10,7 +10,12 @@ Monster::Monster(int name_, int challenge_rating_) {
     json MonsterJson = json::parse(MonJson);
     saving_throws.resize(kAbilities_Num);
     skillString.resize(kSkills_Num);
-    Str = 0; Dex = 0; Con = 0; Int = 0; Wis = 0; Cha = 0;
+    Str = 0;
+    Dex = 0;
+    Con = 0;
+    Int = 0;
+    Wis = 0;
+    Cha = 0;
     for (int i = 0; !MonsterJson["monster"][i]["name"].empty(); i++) {
       // if Challenge raiting unknown - challenge raiting = 30
       if (MonsterJson["monster"][i]["name"] == E_M.Challenge_rating[challenge_rating_][name_]) {
@@ -22,7 +27,7 @@ Monster::Monster(int name_, int challenge_rating_) {
         // health && formula
         if (MonsterJson["monster"][i].find("hp") != endPointer) {
           health = commonIntParse(MonsterJson["monster"][i]["hp"], "average");
-          if(health == 0) cout << "Monster::hp_average not found!\n";
+          if (health == 0) cout << "Monster::hp_average not found!\n";
           if (MonsterJson["monster"][i]["hp"].find("formula") != MonsterJson["monster"][i]["hp"].end()) {
             hpFormula = MonsterJson["monster"][i]["hp"]["formula"];
             health_dice = Hp_Formula_Parse(hpFormula, 0);
@@ -48,9 +53,9 @@ Monster::Monster(int name_, int challenge_rating_) {
         // movement speed
         // walk, swim, climb, fly
         if (MonsterJson["monster"][i].find("speed") != endPointer) {
-            speed[0] = commonIntParse(MonsterJson["monster"][i]["speed"], "walk");
-            speed[1] = commonIntParse(MonsterJson["monster"][i]["speed"], "swim");;
-            speed[2] = commonIntParse(MonsterJson["monster"][i]["speed"], "climb");;
+          speed[0] = commonIntParse(MonsterJson["monster"][i]["speed"], "walk");
+          speed[1] = commonIntParse(MonsterJson["monster"][i]["speed"], "swim");;
+          speed[2] = commonIntParse(MonsterJson["monster"][i]["speed"], "climb");;
           if (MonsterJson["monster"][i]["speed"].find("fly") != MonsterJson["monster"][i]["speed"].end()) {
             speed[3] = commonIntParse(MonsterJson["monster"][i]["speed"]["fly"], "fly");
             if (speed[3] == 0) { speed[3] = MonsterJson["monster"][i]["speed"]["fly"]; }
@@ -69,7 +74,7 @@ Monster::Monster(int name_, int challenge_rating_) {
           Cha = MonsterJson["monster"][i]["cha"];
         }
         //saving throws
-        if(MonsterJson["monster"][i].find("save") != endPointer){
+        if (MonsterJson["monster"][i].find("save") != endPointer) {
           saving_throws[0] = commonStringParse(MonsterJson["monster"][i]["save"], "str");
           saving_throws[1] = commonStringParse(MonsterJson["monster"][i]["save"], "dex");
           saving_throws[2] = commonStringParse(MonsterJson["monster"][i]["save"], "con");
@@ -78,7 +83,7 @@ Monster::Monster(int name_, int challenge_rating_) {
           saving_throws[5] = commonStringParse(MonsterJson["monster"][i]["save"], "cha");
         }
         //skill
-        if(MonsterJson["monster"][i].find("skill") != endPointer){
+        if (MonsterJson["monster"][i].find("skill") != endPointer) {
           Existing_classes E_C;
           for (int l = 0; l < kSkills_Num; l++) {
             //skill_s = skill name
@@ -106,19 +111,30 @@ Monster::Monster(int name_, int challenge_rating_) {
         //others
         passive_perception = commonIntParse(MonsterJson["monster"][i], "passive");
         immune = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "immune");
-        conditionImune = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "conditionImmune");
+        conditionImune =
+            commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "conditionImmune");
         senses = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "senses");
         languages = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "language");
-        trait = commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(MonsterJson["monster"][i]["trait"],"entries");
-        action = commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(MonsterJson["monster"][i]["action"],"entries");
-        legendary = commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(MonsterJson["monster"][i]["legendary"],"entries");
-        spellcastingNameAndEntries = commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(MonsterJson["monster"][i]["spellcasting"],"headerEntries");
+        trait =
+            commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(MonsterJson["monster"][i]["trait"],
+                                                                                      "entries");
+        action =
+            commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(MonsterJson["monster"][i]["action"],
+                                                                                      "entries");
+        legendary =
+            commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(MonsterJson["monster"][i]["legendary"],
+                                                                                      "entries");
+        spellcastingNameAndEntries = commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(
+            MonsterJson["monster"][i]["spellcasting"],
+            "headerEntries");
         spellcasting_will = spellcastingWillParse(MonsterJson["monster"][i]["spellcasting"]);
         spellcastDaily = spellcastingDailyParse(MonsterJson["monster"][i]["spellcasting"]);
         isNamedCreature = commonBoolParse(MonsterJson["monster"][i], "isNamedCreature");
         traitTags = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "traitTags");
-        actionTags = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "actionTags");
-        languageTags = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "languageTags");
+        actionTags =
+            commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "actionTags");
+        languageTags =
+            commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "languageTags");
         senseTags = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "senseTags");
         legendaryGroup = commonStringParse(MonsterJson["monster"][i], "legendaryGroup");
         legendaryActions = commonIntParse(MonsterJson["monster"][i], "legendaryActions");
@@ -129,7 +145,6 @@ Monster::Monster(int name_, int challenge_rating_) {
     }
   } else cout << "error in load MonJson" << endl;
 }
-
 
 Monster::Monster() = default;
 
@@ -149,7 +164,7 @@ Monster::Monster(const Monster &another) {
   alignment = another.alignment;
   armor_class = another.armor_class;
   acFrom = another.acFrom;
-  for(int i = 0; i < kSpeed_types_NUM; i++){
+  for (int i = 0; i < kSpeed_types_NUM; i++) {
     speed[i] = another.speed[i];
   }
   fly_condition = another.fly_condition;
@@ -160,7 +175,7 @@ Monster::Monster(const Monster &another) {
   Int = another.Int;
   Wis = another.Wis;
   Cha = another.Cha;
-  for(int i = 0; i < kAbilities_Num; i++){
+  for (int i = 0; i < kAbilities_Num; i++) {
     saving_throws[i] = another.saving_throws[i];
   }
   for (int i = 0; i < kSkills_Num; i++) {
@@ -195,8 +210,83 @@ Monster::Monster(const Monster &another) {
 
 Monster::~Monster() = default;
 
-int Monster::Get(int w) {
+int Monster::GetInt(int whatToShow) {
+  if (whatToShow == 0) return health;
+  else if (whatToShow == 1) return health_dice;
+  else if (whatToShow == 2) return health_dice_num;
+  else if (whatToShow == 3) return health_modifier;
+  else if (whatToShow == 4) return armor_class;
+  else if (whatToShow == 5) return speed[kSpeed_types_NUM - 4]; // walk
+  else if (whatToShow == 6) return speed[kSpeed_types_NUM - 3];
+  else if (whatToShow == 7) return speed[kSpeed_types_NUM - 2];
+  else if (whatToShow == 8) return speed[kSpeed_types_NUM - 1]; // fly
+  else if (whatToShow == 9) return Str;
+  else if (whatToShow == 10) return Dex;
+  else if (whatToShow == 11) return Con;
+  else if (whatToShow == 12) return Int;
+  else if (whatToShow == 13) return Wis;
+  else if (whatToShow == 14) return Cha;
+  else if (whatToShow == 15) return passive_perception;
+  else if (whatToShow == 16) return legendaryActions;
+  //else if (whatToShow == 17) return;
   return -1;
+}
+
+string Monster::GetString(int whatToShow) {
+  if (whatToShow == 0) return monster_name;
+  else if (whatToShow == 1) return size;
+  else if (whatToShow == 2) return challenge_rating;
+  else if (whatToShow == 3) return hpFormula;
+  else if (whatToShow == 4) return type_s;
+  else if (whatToShow == 5) return fly_condition;
+  else if (whatToShow >= 6 && whatToShow < 7 + kAbilities_Num) return saving_throws[whatToShow - 6];
+  else if (whatToShow >= 13 && whatToShow < 14 + kSkills_Num) return skillString[whatToShow - 14];
+  else if (whatToShow == 32) return legendaryGroup;
+  return "";
+}
+
+vector<string> Monster::GetVectorString(int whatToShow) {
+  vector<string> Output;
+  if (whatToShow == 0) return type_tags;
+  else if (whatToShow == 1) return alignment;
+  else if (whatToShow == 2) return acFrom;
+  else if (whatToShow == 3) return resistance;
+  else if (whatToShow == 4) return resistance_note;
+  else if (whatToShow == 5) return immune;
+  else if (whatToShow == 6) return conditionImune;
+  else if (whatToShow == 7) return senses;
+  else if (whatToShow == 8) return languages;
+  else if (whatToShow == 9) return trait;
+  else if (whatToShow == 10) return action;
+  else if (whatToShow == 11) return legendary;
+  else if (whatToShow == 12) return spellcastingNameAndEntries;
+  else if (whatToShow == 13) return spellcasting_will;
+  else if (whatToShow == 14) return traitTags;
+  else if (whatToShow == 15) return actionTags;
+  else if (whatToShow == 16) return languageTags;
+  else if (whatToShow == 17) return senseTags;
+  else if (whatToShow == 18) return variant;
+  return Output;
+}
+
+bool Monster::GetBool(int whatToShow) {
+  if (whatToShow == 0) return canHover;
+  else if (whatToShow == 1) return isNamedCreature;
+  /*else if (whatToShow == 2) return;
+  else if (whatToShow == 3) return;
+  else if (whatToShow == 4) return;
+  else if (whatToShow == 5) return;
+  else if (whatToShow == 6) return;
+  else if (whatToShow == 7) return;
+  else if (whatToShow == 8) return;
+  else if (whatToShow == 9) return;*/
+  return false;
+}
+
+vector<SpellAndUsageTimes> Monster::GetSpellAndUsageTimes(int whatToShow) {
+  vector<SpellAndUsageTimes> Output;
+  if(whatToShow == 0) return  spellcastDaily;
+  return Output;
 }
 
 bool Monster::Load(int *a) {

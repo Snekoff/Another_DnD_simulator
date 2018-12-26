@@ -282,7 +282,7 @@ struct Exsisting_Monsters {
 
 class Monster : public Creature {
  private:
-  int monster_name;
+  string monster_name;
   //int experience_if_killed;
   string size;
   string challenge_rating;
@@ -308,7 +308,15 @@ class Monster : public Creature {
 
   Monster(int type_, int level_, int hp, int armor_class_);
 
-  int Get(int w);
+  int GetInt(int whatToShow);
+
+  string GetString(int whatToShow);
+
+  vector<string> GetVectorString(int whatToShow);
+
+  vector<SpellAndUsageTimes> GetSpellAndUsageTimes(int whatToShow);
+
+  bool GetBool(int whatToShow);
 
   ~Monster();
 
