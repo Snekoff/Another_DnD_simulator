@@ -1,7 +1,7 @@
 //
 #include "Monster.h"
 using json = nlohmann::json;
-Monster::Monster(Random_Generator_ *Rand_gen, int name_, int challenge_rating_) {
+Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rating_) {
   ifstream MonJson;
   Exsisting_Monsters E_M;
   MonJson
@@ -18,16 +18,16 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_, int challenge_rating_) 
     Cha = 0;
     for (int i = 0; !MonsterJson["monster"][i]["name"].empty(); i++) {
       // if Challenge raiting unknown - challenge raiting = 30
-      if (MonsterJson["monster"][i]["name"] == E_M.Challenge_rating[challenge_rating_][name_]) {
-        monster_name = name_;
+      if (MonsterJson["monster"][i]["name"] == E_M.Challenge_rating[challenge_rating_][name_index]) {
+        monster_name = MonsterJson["monster"][i]["name"];
         auto endPointer = MonsterJson["monster"][i].end();
 
         size = commonStringParse(MonsterJson["monster"][i], "size");
         challenge_rating = commonStringParse(MonsterJson["monster"][i], "cr");
-        // health && formula
+        // maxhealth && formula
         if (MonsterJson["monster"][i].find("hp") != endPointer) {
-          health = commonIntParse(MonsterJson["monster"][i]["hp"], "average");
-          if (health == 0) cout << "Monster::hp_average not found!\n";
+          maxhealth = commonIntParse(MonsterJson["monster"][i]["hp"], "average");
+          if (maxhealth == 0) cout << "Monster::hp_average not found!\n";
           if (MonsterJson["monster"][i]["hp"].find("formula") != MonsterJson["monster"][i]["hp"].end()) {
             hpFormula = MonsterJson["monster"][i]["hp"]["formula"];
             health_dice = Hp_Formula_Parse(hpFormula, 0);
@@ -140,7 +140,8 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_, int challenge_rating_) 
         legendaryActions = commonIntParse(MonsterJson["monster"][i], "legendaryActions");
         // "" - not needed
         variant = commonVariantParse(MonsterJson["monster"][i], "");
-        health = health_modifier + HealthRoll(Rand_gen, health_dice, health_dice_num);
+        maxhealth = health_modifier + HealthRoll(Rand_gen, health_dice, health_dice_num);
+        health = maxhealth;
         StrModifier = AbilityModifier(Str);
         DexModifier = AbilityModifier(Dex);
         ConModifier = AbilityModifier(Con);
@@ -161,6 +162,7 @@ Monster::Monster(Random_Generator_ *Rand_gen, const Monster &another) {
   monster_name = another.monster_name;
   size = another.size;
   challenge_rating = another.challenge_rating;
+  maxhealth = another.maxhealth;
   health = another.health;
   hpFormula = another.hpFormula;
   health_dice = another.health_dice;
@@ -209,7 +211,8 @@ Monster::Monster(Random_Generator_ *Rand_gen, const Monster &another) {
   legendaryGroup = another.legendaryGroup;
   legendaryActions = another.legendaryActions;
   variant = another.variant;
-  health = health_modifier + HealthRoll(Rand_gen, health_dice, health_dice_num);
+  maxhealth = health_modifier + HealthRoll(Rand_gen, health_dice, health_dice_num);
+  health = maxhealth;
   StrModifier = AbilityModifier(Str);
   DexModifier = AbilityModifier(Dex);
   ConModifier = AbilityModifier(Con);
@@ -225,23 +228,24 @@ Monster::Monster(Random_Generator_ *Rand_gen, const Monster &another) {
 Monster::~Monster() = default;
 
 int Monster::GetInt(int whatToShow) {
-  if (whatToShow == 0) return health;
-  else if (whatToShow == 1) return health_dice;
-  else if (whatToShow == 2) return health_dice_num;
-  else if (whatToShow == 3) return health_modifier;
-  else if (whatToShow == 4) return armor_class;
-  else if (whatToShow == 5) return speed[kSpeed_types_NUM - 4]; // walk
-  else if (whatToShow == 6) return speed[kSpeed_types_NUM - 3];
-  else if (whatToShow == 7) return speed[kSpeed_types_NUM - 2];
-  else if (whatToShow == 8) return speed[kSpeed_types_NUM - 1]; // fly
-  else if (whatToShow == 9) return Str;
-  else if (whatToShow == 10) return Dex;
-  else if (whatToShow == 11) return Con;
-  else if (whatToShow == 12) return Int;
-  else if (whatToShow == 13) return Wis;
-  else if (whatToShow == 14) return Cha;
-  else if (whatToShow == 15) return passive_perception;
-  else if (whatToShow == 16) return legendaryActions;
+  if (whatToShow == 0) return maxhealth;
+  else if (whatToShow == 1) return health;
+  else if (whatToShow == 2) return health_dice;
+  else if (whatToShow == 3) return health_dice_num;
+  else if (whatToShow == 4) return health_modifier;
+  else if (whatToShow == 5) return armor_class;
+  else if (whatToShow == 6) return speed[kSpeed_types_NUM - 4]; // walk
+  else if (whatToShow == 7) return speed[kSpeed_types_NUM - 3];
+  else if (whatToShow == 8) return speed[kSpeed_types_NUM - 2];
+  else if (whatToShow == 9) return speed[kSpeed_types_NUM - 1]; // fly
+  else if (whatToShow == 10) return Str;
+  else if (whatToShow == 11) return Dex;
+  else if (whatToShow == 12) return Con;
+  else if (whatToShow == 13) return Int;
+  else if (whatToShow == 14) return Wis;
+  else if (whatToShow == 15) return Cha;
+  else if (whatToShow == 16) return passive_perception;
+  else if (whatToShow == 17) return legendaryActions;
   //else if (whatToShow == 17) return;
   return -1;
 }
@@ -299,10 +303,123 @@ bool Monster::GetBool(int whatToShow) {
 
 vector<SpellAndUsageTimes> Monster::GetSpellAndUsageTimes(int whatToShow) {
   vector<SpellAndUsageTimes> Output;
-  if(whatToShow == 0) return  spellcastDaily;
+  if (whatToShow == 0) return spellcastDaily;
   return Output;
 }
 
-bool Monster::Load(int *a) {
-  return false;
+void Monster::SetInt(int whatToSet, int value) {
+  if (whatToSet == 0) maxhealth = value;
+  else if (whatToSet == 1) health = value;
+  else if (whatToSet == 2) health_dice = value;
+  else if (whatToSet == 3) health_dice_num = value;
+  else if (whatToSet == 4) health_modifier = value;
+  else if (whatToSet == 5) armor_class = value;
+  else if (whatToSet == 6) speed[kSpeed_types_NUM - 4] = value; // walk
+  else if (whatToSet == 7) speed[kSpeed_types_NUM - 3] = value;
+  else if (whatToSet == 8) speed[kSpeed_types_NUM - 2] = value;
+  else if (whatToSet == 9) speed[kSpeed_types_NUM - 1] = value; // fly
+  else if (whatToSet == 10) Str = value;
+  else if (whatToSet == 11) Dex = value;
+  else if (whatToSet == 12) Con = value;
+  else if (whatToSet == 13) Int = value;
+  else if (whatToSet == 14) Wis = value;
+  else if (whatToSet == 15) Cha = value;
+  else if (whatToSet == 16) passive_perception = value;
+  else if (whatToSet == 17) legendaryActions = value;
+}
+
+void Monster::SetString(int whatToSet, string value) {
+  if (whatToSet == 0) monster_name = value;
+  else if (whatToSet == 1) size = value;
+  else if (whatToSet == 2) challenge_rating = value;
+  else if (whatToSet == 3) hpFormula = value;
+  else if (whatToSet == 4) type_s = value;
+  else if (whatToSet == 5) fly_condition = value;
+  else if (whatToSet >= 6 && whatToSet < 7 + kAbilities_Num) saving_throws[whatToSet - 6] = value;
+  else if (whatToSet >= 13 && whatToSet < 14 + kSkills_Num) skillString[whatToSet - 14] = value;
+  else if (whatToSet == 32) legendaryGroup = value;
+}
+
+void Monster::SetVectorString(int whatToSet, vector<string> value) {
+  if (whatToSet == 0) type_tags = value;
+  else if (whatToSet == 1) alignment = value;
+  else if (whatToSet == 2) acFrom = value;
+  else if (whatToSet == 3) resistance = value;
+  else if (whatToSet == 4) resistance_note = value;
+  else if (whatToSet == 5) immune = value;
+  else if (whatToSet == 6) conditionImune = value;
+  else if (whatToSet == 7) senses = value;
+  else if (whatToSet == 8) languages = value;
+  else if (whatToSet == 9) trait = value;
+  else if (whatToSet == 10) action = value;
+  else if (whatToSet == 11) legendary = value;
+  else if (whatToSet == 12) spellcastingNameAndEntries = value;
+  else if (whatToSet == 13) spellcasting_will = value;
+  else if (whatToSet == 14) traitTags = value;
+  else if (whatToSet == 15) actionTags = value;
+  else if (whatToSet == 16) languageTags = value;
+  else if (whatToSet == 17) senseTags = value;
+  else if (whatToSet == 18) variant = value;
+}
+
+void Monster::SetBool(int whatToSet, bool value) {
+  if (whatToSet == 0) canHover = value;
+  else if (whatToSet == 1) isNamedCreature = value;
+}
+
+void Monster::SetSpellAndUsageTimes(int whatToSet, vector<SpellAndUsageTimes> &value) {
+  if (whatToSet == 0) spellcastDaily = value;
+}
+
+const nlohmann::basic_json<> Monster::Save() {
+  json Output;
+  Monster_Parameters_Names M_P_N;
+  for (int i = 0; i < M_P_N.intVar.size(); i++) {
+    Output["monster"] += json::object_t::value_type(M_P_N.intVar[i], this->GetInt(i));
+  }
+  for (int i = 0; i < M_P_N.boolVar.size(); i++) {
+    Output["monster"] += json::object_t::value_type(M_P_N.boolVar[i], this->GetBool(i));
+  }
+  for (int i = 0; i < M_P_N.stringVar.size(); i++) {
+    Output["monster"] += json::object_t::value_type(M_P_N.stringVar[i], this->GetString(i));
+  }
+  for (int i = 0; i < M_P_N.vectorStringVar.size(); i++) {
+    Output["monster"] += json::object_t::value_type(M_P_N.vectorStringVar[i], this->GetVectorString(i));
+  }
+  for (int i = 0; i < spellcastDaily.size(); i++) {
+    Output["monster"]["dailySpells"][i] += json::object_t::value_type("name", spellcastDaily[i].spellName);
+    Output["monster"]["dailySpells"][i] +=
+        json::object_t::value_type("maxCharges", to_string(spellcastDaily[i].maxCharges));
+    Output["monster"]["dailySpells"][i] += json::object_t::value_type("Charges", to_string(spellcastDaily[i].Charges));
+  }
+  return Output;
+}
+
+//j["monster"] must be given as a parameter
+bool Monster::Load(const nlohmann::basic_json<> &j) {
+  Monster_Parameters_Names M_P_N;
+  if(j.find("monster_name") == j.end()) return false;
+  for (int i = 0; i < M_P_N.intVar.size(); i++) {
+    SetInt(i, j[M_P_N.intVar[i]]);
+  }
+  for (int i = 0; i < M_P_N.boolVar.size(); i++) {
+    SetInt(i, j[M_P_N.boolVar[i]]);
+  }
+  for (int i = 0; i < M_P_N.stringVar.size(); i++) {
+    SetInt(i, j[M_P_N.stringVar[i]]);
+  }
+  for (int i = 0; i < M_P_N.vectorStringVar.size(); i++) {
+    SetInt(i, j[M_P_N.vectorStringVar[i]]);
+  }
+  if(j.find("dailySpells") == j.end()) return true;
+  vector <SpellAndUsageTimes> spellAndUsage_;
+  for(int i = 0; i < j["dailySpells"].size(); i++){
+    SpellAndUsageTimes daily;
+    daily.spellName = j["dailySpells"]["name"];
+    daily.maxCharges = j["dailySpells"]["maxCharges"];
+    daily.Charges = j["dailySpells"]["Charges"];
+    spellAndUsage_.push_back(daily);
+  }
+  SetSpellAndUsageTimes(0, spellAndUsage_);
+  return true;
 }

@@ -280,6 +280,13 @@ struct Exsisting_Monsters {
       {"MTF", "DMG", "PHB", "PHB", "PHB", "PHB", "PHB", "XGE",}};
 };
 
+struct Monster_Parameters_Names{
+  vector <string> intVar = {"maxhealth", "health", "health_dice", "health_dice_num", "health_modifier", "armor_class", "speed[]", "speed[]", "speed[]", "speed[]", "Str", "Dex", "Con", "Int", "Wis", "Cha", "passive_perception", "legendaryActions"};
+  vector <string> boolVar = {"canHover", "isNamedCreature"};
+  vector <string> stringVar = {"monster_name", "size", "challenge_rating", "hpFormula", "type_s", "fly_condition", "saving_throws[]", "saving_throws[]", "saving_throws[]", "saving_throws[]", "saving_throws[]", "saving_throws[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "legendaryGroup"};
+  vector <string> vectorStringVar = {"type_tags", "alignment", "acFrom", "resistance", "resistance_note", "immune", "conditionImune", "senses", "languages", "trait", "action", "legendary", "spellcastingNameAndEntries", "spellcasting_will", "traitTags", "actionTags", "languageTags", "senseTags", "variant"};
+};
+
 class Monster : public Creature {
  private:
   string monster_name;
@@ -318,9 +325,21 @@ class Monster : public Creature {
 
   bool GetBool(int whatToShow);
 
+  void SetInt(int whatToSet, int value);
+
+  void SetString(int whatToSet, string value);
+
+  void SetVectorString(int whatToSet, vector<string> value);
+
+  void SetSpellAndUsageTimes(int whatToSet, vector<SpellAndUsageTimes> &value);
+
+  void SetBool(int whatToSet, bool value);
+
+  const nlohmann::basic_json<> Save();
+
   ~Monster();
 
-  bool Load(int a[]);
+  bool Load(const nlohmann::basic_json<> &j);
 };
 
 #endif //ANOTHER_DND_SIMULATOR_MONSTER_H

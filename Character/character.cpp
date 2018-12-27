@@ -246,10 +246,6 @@ int Character::Less_than_zero(int a) {
   return a < 0 ? 0 : a;
 }
 
-/*int Character::AbilityModifier(int ability_) {
-  return (ability_ - 10) / 2;
-}*/
-
 void Character::ConcreteAbilityModifier() {
   StrModifier = AbilityModifier(Str);
   DexModifier = AbilityModifier(Dex);
