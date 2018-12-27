@@ -124,6 +124,7 @@ sleightOfHand 15,stealth 16,survival 17*/
   vector <SpellAndUsageTimes> spellcastingDailyParse (const nlohmann::basic_json<> &j);
   vector <string> commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse (const nlohmann::basic_json<> &j, string howEntriesNamed);
   vector<string> commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
+  vector<string> ImmuneParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
   vector<string> commonVariantParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
 
   vector<string> commonVectorStringParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);

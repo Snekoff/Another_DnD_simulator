@@ -41,7 +41,7 @@ class Character : public Creature {
 
   void Minimum_Parameter_Value();
 
-  int AbilityModifier(int ability);
+  //int AbilityModifier(int ability);
 
   void ConcreteAbilityModifier();
 

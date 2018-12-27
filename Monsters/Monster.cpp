@@ -1,12 +1,14 @@
 //
 #include "Monster.h"
 using json = nlohmann::json;
-Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rating_) {
+Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rating_index) {
   ifstream MonJson;
   Exsisting_Monsters E_M;
+  cout << "Control reach Monster::Constructor 0\n";
   MonJson
       .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/monsters/bestiary-all.json");
   if (MonJson.is_open()) {
+    cout << "Control reach Monster::Constructor 1\n";
     json MonsterJson = json::parse(MonJson);
     saving_throws.resize(kAbilities_Num);
     skillString.resize(kSkills_Num);
@@ -17,13 +19,15 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
     Wis = 0;
     Cha = 0;
     for (int i = 0; !MonsterJson["monster"][i]["name"].empty(); i++) {
-      // if Challenge raiting unknown - challenge raiting = 30
-      if (MonsterJson["monster"][i]["name"] == E_M.Challenge_rating[challenge_rating_][name_index]) {
+      // if Challenge rating unknown - challenge rating = 30
+      if (MonsterJson["monster"][i]["name"] == E_M.Challenge_rating[challenge_rating_index][name_index]) {
+        cout << "Control reach Monster::Constructor 2\n";
         monster_name = MonsterJson["monster"][i]["name"];
         auto endPointer = MonsterJson["monster"][i].end();
 
         size = commonStringParse(MonsterJson["monster"][i], "size");
         challenge_rating = commonStringParse(MonsterJson["monster"][i], "cr");
+        cout << "Control reach Monster::Constructor 3\n";
         // maxhealth && formula
         if (MonsterJson["monster"][i].find("hp") != endPointer) {
           maxhealth = commonIntParse(MonsterJson["monster"][i]["hp"], "average");
@@ -35,6 +39,7 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
             health_modifier = Hp_Formula_Parse(hpFormula, 2);
           } else cout << "Monster::hp_formula not found!\n";
         }
+        cout << "Control reach Monster::Constructor 4\n";
         //type
         if (MonsterJson["monster"][i].find("type") != endPointer) {
           type_s = commonStringParse(MonsterJson["monster"][i]["type"], "type");
@@ -42,7 +47,7 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
             type_tags = commonVectorStringParse(MonsterJson["monster"][i]["type"], "tags");
           } else type_s = MonsterJson["monster"][i]["type"];
         }
-
+        cout << "Control reach Monster::Constructor 5\n";
         alignment = commonVectorStringParse(MonsterJson["monster"][i], "alignment");
         //ac
         if (MonsterJson["monster"][i].find("ac") != endPointer) {
@@ -50,6 +55,7 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
           if (armor_class == 0) { armor_class = MonsterJson["monster"][i]["ac"]; }
           else acFrom = commonVectorStringParse(MonsterJson["monster"][i]["ac"], "from");
         }
+        cout << "Control reach Monster::Constructor 6\n";
         // movement speed
         // walk, swim, climb, fly
         if (MonsterJson["monster"][i].find("speed") != endPointer) {
@@ -63,6 +69,7 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
             canHover = commonBoolParse(MonsterJson["monster"][i]["speed"], "canHover");
           }
         }
+        cout << "Control reach Monster::Constructor 7\n";
         //abilities
         // TODO: check whether it enough to say that all abilities are present
         if (MonsterJson["monster"][i].find("str") != endPointer) {
@@ -73,6 +80,7 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
           Wis = MonsterJson["monster"][i]["wis"];
           Cha = MonsterJson["monster"][i]["cha"];
         }
+        cout << "Control reach Monster::Constructor 7\n";
         //saving throws
         if (MonsterJson["monster"][i].find("save") != endPointer) {
           saving_throws[0] = commonStringParse(MonsterJson["monster"][i]["save"], "str");
@@ -82,6 +90,7 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
           saving_throws[4] = commonStringParse(MonsterJson["monster"][i]["save"], "wis");
           saving_throws[5] = commonStringParse(MonsterJson["monster"][i]["save"], "cha");
         }
+        cout << "Control reach Monster::Constructor 8\n";
         //skill
         if (MonsterJson["monster"][i].find("skill") != endPointer) {
           Existing_classes E_C;
@@ -90,6 +99,7 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
             skillString[l] = commonStringParse(MonsterJson["monster"][i]["skill"], E_C.skills_s[l]);
           }
         }
+        cout << "Control reach Monster::Constructor 9\n";
         //resistances
         if (MonsterJson["monster"][i].find("resist") != endPointer) {
           for (int j = 0; j < MonsterJson["monster"][i]["resist"].size(); j++) {
@@ -108,25 +118,33 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
             }
           }
         }
+        cout << "Control reach Monster::Constructor 11\n";
         //others
         passive_perception = commonIntParse(MonsterJson["monster"][i], "passive");
-        immune = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "immune");
+        cout << "Control reach Monster::Constructor 11_1\n";
+        immune = ImmuneParse(MonsterJson["monster"][i], "immune");
+        cout << "Control reach Monster::Constructor 11_1_1\n";
         conditionImune =
             commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "conditionImmune");
+        cout << "Control reach Monster::Constructor 11_1_2\n";
         senses = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "senses");
+        cout << "Control reach Monster::Constructor 11_2\n";
         languages = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "language");
         trait =
             commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(MonsterJson["monster"][i]["trait"],
                                                                                       "entries");
+        cout << "Control reach Monster::Constructor 11_3\n";
         action =
             commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(MonsterJson["monster"][i]["action"],
                                                                                       "entries");
+        cout << "Control reach Monster::Constructor 11_4\n";
         legendary =
             commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(MonsterJson["monster"][i]["legendary"],
                                                                                       "entries");
+        cout << "Control reach Monster::Constructor 11_5\n";
         spellcastingNameAndEntries = commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(
-            MonsterJson["monster"][i]["spellcasting"],
-            "headerEntries");
+            MonsterJson["monster"][i]["spellcasting"], "headerEntries");
+        cout << "Control reach Monster::Constructor 12\n";
         spellcasting_will = spellcastingWillParse(MonsterJson["monster"][i]["spellcasting"]);
         spellcastDaily = spellcastingDailyParse(MonsterJson["monster"][i]["spellcasting"]);
         isNamedCreature = commonBoolParse(MonsterJson["monster"][i], "isNamedCreature");
@@ -149,9 +167,10 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
         WisModifier = AbilityModifier(Wis);
         ChaModifier = AbilityModifier(Cha);
         break;
-      }
+      } /*else cout << "monster not found in json\n";*/
     }
-  } else cout << "error in load MonJson" << endl;
+  } else cout << "error loading MonJson" << endl;
+  cout << "Control reach Monster::Constructor 9\n";
 }
 
 Monster::Monster() = default;
@@ -374,6 +393,7 @@ void Monster::SetSpellAndUsageTimes(int whatToSet, vector<SpellAndUsageTimes> &v
 const nlohmann::basic_json<> Monster::Save() {
   json Output;
   Monster_Parameters_Names M_P_N;
+  cout << "Control reach Monster::Save 1\n";
   for (int i = 0; i < M_P_N.intVar.size(); i++) {
     Output["monster"] += json::object_t::value_type(M_P_N.intVar[i], this->GetInt(i));
   }
@@ -392,9 +412,9 @@ const nlohmann::basic_json<> Monster::Save() {
         json::object_t::value_type("maxCharges", to_string(spellcastDaily[i].maxCharges));
     Output["monster"]["dailySpells"][i] += json::object_t::value_type("Charges", to_string(spellcastDaily[i].Charges));
   }
+  cout << "Control reach Monster::Save 10\n";
   return Output;
 }
-
 //j["monster"] must be given as a parameter
 bool Monster::Load(const nlohmann::basic_json<> &j) {
   Monster_Parameters_Names M_P_N;

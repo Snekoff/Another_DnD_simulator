@@ -68,16 +68,22 @@ int main(int argc, char **argv) {
     cout << trait_parse[i] << endl;
   }*/
 
+//&&&&&&&& how monster parse works #########
+  auto Rand_gen = new Random_Generator_();
+  auto monster = new Monster(Rand_gen, 3, 27);
+  json j;
+  j = monster->Save();
+  std::cout << std::setw(4) << j << '\n';
   return 0;
 }
 /*
- * 1. characters, weapons, spells etc.
- * 2. mobs, animals , all races.
- * 3. battle field, turn
- * 4. world map
- * 5. NPC
- * 6. World Random generation
- * 7. AI
- * 8. coming
- * 9. coming...
- */
+* 1. characters, weapons, spells etc.
+* 2. mobs, animals , all races.
+* 3. battle field, turn
+* 4. world map
+* 5. NPC
+* 6. World Random generation
+* 7. AI
+* 8. coming
+* 9. coming...
+*/

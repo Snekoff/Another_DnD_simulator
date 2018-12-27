@@ -85,13 +85,49 @@ vector <string> Creature::commonForTraitAndActionAndSpellNameAndSpellHeaderEntri
 }
 
 vector<string> Creature::commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor) {
-  vector<string> whatAreLookedForOutput;
+  vector<string> Output;
+  vector<string> Output_Second_Level;
   if (MonsterJson.find(whatAreLookedFor) != MonsterJson.end()) {
+    if(MonsterJson[whatAreLookedFor].size() == 1){
+      Output.push_back(MonsterJson[whatAreLookedFor]);
+      return Output;
+    }
     for (int j = 0; j < MonsterJson[whatAreLookedFor].size(); j++) {
-      whatAreLookedForOutput.push_back(MonsterJson[whatAreLookedFor][j]);
+      if(MonsterJson[whatAreLookedFor][j].size() == 1){
+        Output.push_back(MonsterJson[whatAreLookedFor][j]);
+      } else {
+        Output_Second_Level = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson[j], whatAreLookedFor);
+        if(MonsterJson[whatAreLookedFor][j].find("note") != MonsterJson[whatAreLookedFor][j].end()) Output_Second_Level.push_back(MonsterJson[whatAreLookedFor][j]["note"]);
+        for(int l = 0; l < Output_Second_Level.size(); l++){
+          Output.push_back(Output_Second_Level[l]);
+        }
+      }
+      //Output.push_back(MonsterJson[whatAreLookedFor][j]);
     }
   }
-  return whatAreLookedForOutput;
+  return Output;
+}
+
+vector<string> Creature::ImmuneParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor) {
+  vector<string> Output;
+  if (MonsterJson.find(whatAreLookedFor) != MonsterJson.end()) {
+    if(MonsterJson[whatAreLookedFor].size() == 1){
+      Output.push_back(MonsterJson[whatAreLookedFor]);
+      return Output;
+    }
+    for (int j = 0; j < MonsterJson[whatAreLookedFor].size(); j++) {
+      if(MonsterJson[whatAreLookedFor][j].size() == 1) Output.push_back(MonsterJson[whatAreLookedFor][j]);
+      else {
+        if(MonsterJson[whatAreLookedFor][j].find(whatAreLookedFor) != MonsterJson[whatAreLookedFor][j].end()){
+          for(int l = 0; l < MonsterJson[whatAreLookedFor][j][whatAreLookedFor].size(); l++){
+            if(MonsterJson[whatAreLookedFor][j][whatAreLookedFor].size() == 1) Output.push_back(MonsterJson[whatAreLookedFor][j][whatAreLookedFor]);
+            else Output.push_back(MonsterJson[whatAreLookedFor][j][whatAreLookedFor][l]);
+          }
+        }
+      }
+    }
+  }
+  return Output;
 }
 
 vector<string> Creature::commonVariantParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor) {

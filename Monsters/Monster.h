@@ -309,7 +309,7 @@ class Monster : public Creature {
 
   Monster();
 
-  Monster(Random_Generator_ *Rand_gen, int name_, int challenge_rating_);
+  Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rating_index);
 
   Monster(Random_Generator_ *Rand_gen, const Monster &another);
 
