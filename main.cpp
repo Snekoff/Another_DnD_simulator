@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
 
 //&&&&&&&& how monster parse works #########
   auto Rand_gen = new Random_Generator_();
-  auto monster = new Monster(Rand_gen, 3, 27);
+  auto monster = new Monster(Rand_gen, 3, 26);
   json j;
   j = monster->Save();
   std::cout << std::setw(4) << j << '\n';

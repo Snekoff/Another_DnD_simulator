@@ -148,12 +148,15 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
         spellcasting_will = spellcastingWillParse(MonsterJson["monster"][i]["spellcasting"]);
         spellcastDaily = spellcastingDailyParse(MonsterJson["monster"][i]["spellcasting"]);
         isNamedCreature = commonBoolParse(MonsterJson["monster"][i], "isNamedCreature");
-        traitTags = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "traitTags");
-        actionTags =
-            commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "actionTags");
-        languageTags =
-            commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "languageTags");
-        senseTags = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "senseTags");
+        cout << "Control reach Monster::Constructor b_13\n";
+        traitTags = commonVectorStringParse(MonsterJson["monster"][i], "traitTags");
+        cout << "Control reach Monster::Constructor 13\n";
+        actionTags = commonVectorStringParse(MonsterJson["monster"][i], "actionTags");
+        cout << "Control reach Monster::Constructor 14\n";
+        languageTags = commonVectorStringParse(MonsterJson["monster"][i], "languageTags");
+        cout << "Control reach Monster::Constructor 15\n";
+        senseTags = commonVectorStringParse(MonsterJson["monster"][i], "senseTags");
+        cout << "Control reach Monster::Constructor 16\n";
         legendaryGroup = commonStringParse(MonsterJson["monster"][i], "legendaryGroup");
         legendaryActions = commonIntParse(MonsterJson["monster"][i], "legendaryActions");
         // "" - not needed
@@ -276,9 +279,9 @@ string Monster::GetString(int whatToShow) {
   else if (whatToShow == 3) return hpFormula;
   else if (whatToShow == 4) return type_s;
   else if (whatToShow == 5) return fly_condition;
-  else if (whatToShow >= 6 && whatToShow < 7 + kAbilities_Num) return saving_throws[whatToShow - 6];
-  else if (whatToShow >= 13 && whatToShow < 14 + kSkills_Num) return skillString[whatToShow - 14];
-  else if (whatToShow == 32) return legendaryGroup;
+  else if (whatToShow >= 6 && whatToShow < 6 + kAbilities_Num) return saving_throws[whatToShow - 6];
+  else if (whatToShow >= 12 && whatToShow < 12 + kSkills_Num) return skillString[whatToShow - 14];
+  else if (whatToShow == 30) return legendaryGroup;
   return "";
 }
 
@@ -354,9 +357,9 @@ void Monster::SetString(int whatToSet, string value) {
   else if (whatToSet == 3) hpFormula = value;
   else if (whatToSet == 4) type_s = value;
   else if (whatToSet == 5) fly_condition = value;
-  else if (whatToSet >= 6 && whatToSet < 7 + kAbilities_Num) saving_throws[whatToSet - 6] = value;
-  else if (whatToSet >= 13 && whatToSet < 14 + kSkills_Num) skillString[whatToSet - 14] = value;
-  else if (whatToSet == 32) legendaryGroup = value;
+  else if (whatToSet >= 6 && whatToSet < 6 + kAbilities_Num) saving_throws[whatToSet - 6] = value;
+  else if (whatToSet >= 12 && whatToSet < 12 + kSkills_Num) skillString[whatToSet - 14] = value;
+  else if (whatToSet == 30) legendaryGroup = value;
 }
 
 void Monster::SetVectorString(int whatToSet, vector<string> value) {
@@ -400,12 +403,15 @@ const nlohmann::basic_json<> Monster::Save() {
   for (int i = 0; i < M_P_N.boolVar.size(); i++) {
     Output["monster"] += json::object_t::value_type(M_P_N.boolVar[i], this->GetBool(i));
   }
+  cout << "Control reach Monster::Save 3\n";
   for (int i = 0; i < M_P_N.stringVar.size(); i++) {
     Output["monster"] += json::object_t::value_type(M_P_N.stringVar[i], this->GetString(i));
   }
+  cout << "Control reach Monster::Save 4\n";
   for (int i = 0; i < M_P_N.vectorStringVar.size(); i++) {
     Output["monster"] += json::object_t::value_type(M_P_N.vectorStringVar[i], this->GetVectorString(i));
   }
+  cout << "Control reach Monster::Save 5\n";
   for (int i = 0; i < spellcastDaily.size(); i++) {
     Output["monster"]["dailySpells"][i] += json::object_t::value_type("name", spellcastDaily[i].spellName);
     Output["monster"]["dailySpells"][i] +=

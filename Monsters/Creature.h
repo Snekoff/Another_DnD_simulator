@@ -126,6 +126,7 @@ sleightOfHand 15,stealth 16,survival 17*/
   vector<string> commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
   vector<string> ImmuneParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
   vector<string> commonVariantParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
+  vector<string> commonForAllTagsParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
 
   vector<string> commonVectorStringParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);
   string commonStringParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor);

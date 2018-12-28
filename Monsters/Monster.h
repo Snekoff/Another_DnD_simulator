@@ -281,9 +281,9 @@ struct Exsisting_Monsters {
 };
 
 struct Monster_Parameters_Names{
-  vector <string> intVar = {"maxhealth", "health", "health_dice", "health_dice_num", "health_modifier", "armor_class", "speed[]", "speed[]", "speed[]", "speed[]", "Str", "Dex", "Con", "Int", "Wis", "Cha", "passive_perception", "legendaryActions"};
+  vector <string> intVar = {"maxhealth", "health", "health_dice", "health_dice_num", "health_modifier", "armor_class", "speed[0]", "speed[1]", "speed[2]", "speed[3]", "Str", "Dex", "Con", "Int", "Wis", "Cha", "passive_perception", "legendaryActions"};
   vector <string> boolVar = {"canHover", "isNamedCreature"};
-  vector <string> stringVar = {"monster_name", "size", "challenge_rating", "hpFormula", "type_s", "fly_condition", "saving_throws[]", "saving_throws[]", "saving_throws[]", "saving_throws[]", "saving_throws[]", "saving_throws[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "skillString[]", "legendaryGroup"};
+  vector <string> stringVar = {"monster_name", "size", "challenge_rating", "hpFormula", "type_s", "fly_condition", "saving_throws[0]", "saving_throws[1]", "saving_throws[2]", "saving_throws[3]", "saving_throws[4]", "saving_throws[5]", "skillString[0]", "skillString[1]", "skillString[2]", "skillString[3]", "skillString[4]", "skillString[5]", "skillString[6]", "skillString[7]", "skillString[8]", "skillString[9]", "skillString[10]", "skillString[11]", "skillString[12]", "skillString[13]", "skillString[14]", "skillString[15]", "skillString[16]", "skillString[17]", "legendaryGroup"};
   vector <string> vectorStringVar = {"type_tags", "alignment", "acFrom", "resistance", "resistance_note", "immune", "conditionImune", "senses", "languages", "trait", "action", "legendary", "spellcastingNameAndEntries", "spellcasting_will", "traitTags", "actionTags", "languageTags", "senseTags", "variant"};
 };
 
