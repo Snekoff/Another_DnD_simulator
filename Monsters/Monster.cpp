@@ -18,6 +18,7 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
     Int = 0;
     Wis = 0;
     Cha = 0;
+    armor_class = 0;
     for (int i = 0; !MonsterJson["monster"][i]["name"].empty(); i++) {
       // if Challenge rating unknown - challenge rating = 30
       if (MonsterJson["monster"][i]["name"] == E_M.Challenge_rating[challenge_rating_index][name_index]) {
@@ -51,9 +52,9 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
         alignment = commonVectorStringParse(MonsterJson["monster"][i], "alignment");
         //ac
         if (MonsterJson["monster"][i].find("ac") != endPointer) {
-          armor_class = commonIntParse(MonsterJson["monster"][i]["ac"], "ac");
-          if (armor_class == 0) { armor_class = MonsterJson["monster"][i]["ac"]; }
-          else acFrom = commonVectorStringParse(MonsterJson["monster"][i]["ac"], "from");
+          armor_class = commonIntParse(MonsterJson["monster"][i]["ac"][0], "ac");
+          if (armor_class < 0 || armor_class > 100) { armor_class = MonsterJson["monster"][i]["ac"]; }
+          else acFrom = commonVectorStringParse(MonsterJson["monster"][i]["ac"][0], "from");
         }
         cout << "Control reach Monster::Constructor 6\n";
         // movement speed
@@ -129,7 +130,7 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
         cout << "Control reach Monster::Constructor 11_1_2\n";
         senses = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "senses");
         cout << "Control reach Monster::Constructor 11_2\n";
-        languages = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "language");
+        languages = commonForImmuneAndConditionImmuneAndSensesAndLanguageParse(MonsterJson["monster"][i], "languages");
         trait =
             commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(MonsterJson["monster"][i]["trait"],
                                                                                       "entries");
@@ -145,7 +146,7 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
         spellcastingNameAndEntries = commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse(
             MonsterJson["monster"][i]["spellcasting"], "headerEntries");
         cout << "Control reach Monster::Constructor 12\n";
-        spellcasting_will = spellcastingWillParse(MonsterJson["monster"][i]["spellcasting"]);
+        spellcasting_will = commonVectorStringParse(MonsterJson["monster"][i]["spellcasting"], "will");
         spellcastDaily = spellcastingDailyParse(MonsterJson["monster"][i]["spellcasting"]);
         isNamedCreature = commonBoolParse(MonsterJson["monster"][i], "isNamedCreature");
         cout << "Control reach Monster::Constructor b_13\n";
@@ -395,21 +396,21 @@ void Monster::SetSpellAndUsageTimes(int whatToSet, vector<SpellAndUsageTimes> &v
 
 const nlohmann::basic_json<> Monster::Save() {
   json Output;
-  Monster_Parameters_Names M_P_N;
+  Monster_Parameters_Names M_P;
   cout << "Control reach Monster::Save 1\n";
-  for (int i = 0; i < M_P_N.intVar.size(); i++) {
-    Output["monster"] += json::object_t::value_type(M_P_N.intVar[i], this->GetInt(i));
+  for (int i = 0; i < M_P.intVar.size(); i++) {
+    Output["monster"] += json::object_t::value_type(M_P.intVar[i], this->GetInt(i));
   }
-  for (int i = 0; i < M_P_N.boolVar.size(); i++) {
-    Output["monster"] += json::object_t::value_type(M_P_N.boolVar[i], this->GetBool(i));
+  for (int i = 0; i < M_P.boolVar.size(); i++) {
+    Output["monster"] += json::object_t::value_type(M_P.boolVar[i], this->GetBool(i));
   }
   cout << "Control reach Monster::Save 3\n";
-  for (int i = 0; i < M_P_N.stringVar.size(); i++) {
-    Output["monster"] += json::object_t::value_type(M_P_N.stringVar[i], this->GetString(i));
+  for (int i = 0; i < M_P.stringVar.size(); i++) {
+    Output["monster"] += json::object_t::value_type(M_P.stringVar[i], this->GetString(i));
   }
   cout << "Control reach Monster::Save 4\n";
-  for (int i = 0; i < M_P_N.vectorStringVar.size(); i++) {
-    Output["monster"] += json::object_t::value_type(M_P_N.vectorStringVar[i], this->GetVectorString(i));
+  for (int i = 0; i < M_P.vectorStringVar.size(); i++) {
+    Output["monster"] += json::object_t::value_type(M_P.vectorStringVar[i], this->GetVectorString(i));
   }
   cout << "Control reach Monster::Save 5\n";
   for (int i = 0; i < spellcastDaily.size(); i++) {
@@ -423,19 +424,19 @@ const nlohmann::basic_json<> Monster::Save() {
 }
 //j["monster"] must be given as a parameter
 bool Monster::Load(const nlohmann::basic_json<> &j) {
-  Monster_Parameters_Names M_P_N;
+  Monster_Parameters_Names M_P;
   if(j.find("monster_name") == j.end()) return false;
-  for (int i = 0; i < M_P_N.intVar.size(); i++) {
-    SetInt(i, j[M_P_N.intVar[i]]);
+  for (int i = 0; i < M_P.intVar.size(); i++) {
+    SetInt(i, j[M_P.intVar[i]]);
   }
-  for (int i = 0; i < M_P_N.boolVar.size(); i++) {
-    SetInt(i, j[M_P_N.boolVar[i]]);
+  for (int i = 0; i < M_P.boolVar.size(); i++) {
+    SetInt(i, j[M_P.boolVar[i]]);
   }
-  for (int i = 0; i < M_P_N.stringVar.size(); i++) {
-    SetInt(i, j[M_P_N.stringVar[i]]);
+  for (int i = 0; i < M_P.stringVar.size(); i++) {
+    SetInt(i, j[M_P.stringVar[i]]);
   }
-  for (int i = 0; i < M_P_N.vectorStringVar.size(); i++) {
-    SetInt(i, j[M_P_N.vectorStringVar[i]]);
+  for (int i = 0; i < M_P.vectorStringVar.size(); i++) {
+    SetInt(i, j[M_P.vectorStringVar[i]]);
   }
   if(j.find("dailySpells") == j.end()) return true;
   vector <SpellAndUsageTimes> spellAndUsage_;

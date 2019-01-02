@@ -183,14 +183,14 @@ string Creature::commonStringParse(const nlohmann::basic_json<> &MonsterJson, st
 }
 
 int Creature::commonIntParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor) {
-  int Output;
+  int Output = 0;
   if(MonsterJson.find(whatAreLookedFor) == MonsterJson.end()) return Output;
   Output = MonsterJson[whatAreLookedFor];
   return Output;
 }
 
 bool Creature::commonBoolParse(const nlohmann::basic_json<> &MonsterJson, string whatAreLookedFor) {
-  bool Output;
+  bool Output = false;
   if(MonsterJson.find(whatAreLookedFor) == MonsterJson.end()) return Output;
   Output = MonsterJson[whatAreLookedFor];
   return Output;
