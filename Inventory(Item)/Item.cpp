@@ -268,8 +268,7 @@ void Melee_Weapon::set(std::string &name_, int count_) {
   if (name == " ") {
     source = "Default";
     std::ifstream inputJson;
-    inputJson
-        .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+    inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
     try {
       std::cout << "Item::Melee_Weapon set 10\n";
@@ -370,8 +369,7 @@ void Ranged_Weapon::set(std::string &name_, int count_) {
   if (name == " ") {
     source = "Default";
     std::ifstream inputJson;
-    inputJson
-        .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+    inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
     try {
       for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -467,8 +465,7 @@ void Armor::set(std::string &name_, int count_) {
   if (name == " ") {
     source = "Default";
     std::ifstream inputJson;
-    inputJson
-        .open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+    inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
     try {
       for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -552,7 +549,7 @@ void Goods::set(std::string &name_, int count_) {
   if (name == " ") {
     source = "Default";
     std::ifstream inputJson;
-    inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+    inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
     try {
       for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -636,7 +633,7 @@ void Ammo::set(std::string &name_, int count_) {
   if (name == " ") {
     source = "Default";
     std::ifstream inputJson;
-    inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+    inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
     try {
       for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -701,7 +698,7 @@ void ArtisanTools::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -750,7 +747,7 @@ void Ship::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -804,7 +801,7 @@ void Valuables::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -868,7 +865,7 @@ void SpellCastingFocus::set(std::string &name_, int count_) {
   source = "Default";
   if (name == " ") {
     std::ifstream inputJson;
-    inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+    inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
     json j = json::parse(inputJson);
     try {
       for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -953,7 +950,7 @@ void Shield::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -1019,7 +1016,7 @@ void Instrument::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -1068,7 +1065,7 @@ void Ring::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -1142,7 +1139,7 @@ void AnimalGear::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -1190,7 +1187,7 @@ void Explosive::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -1239,7 +1236,7 @@ void Potion::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -1302,7 +1299,7 @@ void Mounties::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -1353,7 +1350,7 @@ void Vehicle::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -1404,7 +1401,7 @@ void TradeGoods::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -1451,7 +1448,7 @@ void GamingSet::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -1500,7 +1497,7 @@ void Device::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -1554,7 +1551,7 @@ void Tools::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -1603,7 +1600,7 @@ void Rod::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -1659,7 +1656,7 @@ void Scroll::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -1708,7 +1705,7 @@ void Wand::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {
@@ -1765,7 +1762,7 @@ void OTH::set(std::string &name_, int count_) {
   count = count_;
   source = "Default";
   std::ifstream inputJson;
-  inputJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
+  inputJson.open("../Another_DnD_simulator/AditionalTools/5etools json/items/items.json");
   json j = json::parse(inputJson);
   try {
     for (int i = 0; !j["item"][i]["name"].empty(); i++) {

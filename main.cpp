@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
   auto monster = new Monster();
   string name = "Juiblex";
   ifstream MonJson;
-  Exsisting_Monsters E_M;
+  Existing_Monsters E_M;
   MonJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/monsters/bestiary-all.json");
   if (!MonJson.is_open()) return -2;
   json MonsterJson = json::parse(MonJson);
@@ -70,7 +70,21 @@ int main(int argc, char **argv) {
 
 //&&&&&&&& how monster parse works #########
   auto Rand_gen = new Random_Generator_();
-  auto monster = new Monster(Rand_gen, 3, 26);
+  Existing_Monsters E_M;
+  string monster_name = "Geist";
+  int name_index = -1, cr_index = 0;
+  for(int i = 0; i < E_M.Challenge_rating.size(); i++){
+    for(int j = 0; j < E_M.Challenge_rating[i].size(); j++){
+      if(monster_name == E_M.Challenge_rating[i][j]){
+        cout << "challenge rating = " << i - 3 << endl;
+        if(name_index == -1){
+          name_index = j;
+          cr_index = i;
+        }
+      }
+    }
+  }
+  auto monster = new Monster(Rand_gen, name_index, cr_index);
   json j;
   j = monster->Save();
   std::cout << std::setw(4) << j << '\n';

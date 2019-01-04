@@ -8,7 +8,7 @@
 const int kMonster_NUM = 1104;
 const int kMonster_Parameter_NUM = 6;
 
-struct Exsisting_Monsters {
+struct Existing_Monsters {
   //in challenge_rating groups order. (0, 1/8, 1/4, 1/2, 1, 2...., 30, Unknown)
   vector<vector<string>> Challenge_rating =
       {{"Giant Fly", "Larva", "Awakened Shrub", "Baboon", "Badger", "Bat", "Cat", "Commoner", "Crab", "Crawling Claw",
@@ -278,6 +278,7 @@ struct Exsisting_Monsters {
       {"MTF", "MTF", "MM", "MM", "OotA", "OotA",}, {"MTF", "SKT", "SKT",}, {"MTF", "MTF", "MTF", "OotA", "OotA",}, {},
       {}, {}, {"MM", "PSX", "PSX", "PSX", "PSX", "PSX", "PSX", "PSX", "RoT",},
       {"MTF", "DMG", "PHB", "PHB", "PHB", "PHB", "PHB", "XGE",}};
+  int fakeParameter;
 };
 
 struct Monster_Parameters_Names{
@@ -289,6 +290,7 @@ struct Monster_Parameters_Names{
                                "perception", "performance", "persuasion", "religion", "sleightOfHand",
                                "stealth", "survival", "legendaryGroup"};
   vector <string> vectorStringVar = {"type_tags", "alignment", "acFrom", "resistance", "resistance_note", "immune", "conditionImune", "senses", "languages", "trait", "action", "legendary", "spellcastingNameAndEntries", "spellcasting_will", "traitTags", "actionTags", "languageTags", "senseTags", "variant"};
+  int fakeParameter;
 };
 
 class Monster : public Creature {
