@@ -6,7 +6,7 @@ Versions shows how many things I have done yet in comparison with what I planed.
 (Version 1.0 - fully implemented all what I wanted in very begining)
 
 Thanks to my friends who helped me a lot improving my programming skills and still giving me some advices.
-(Finder, Alex. S, Naynoklem Yidakra, Sergey G.)
+(Finder, Alex. S, Naynoklem Yidakra, Sergey G., Mark K.)
 
 Special thanks to:
   nlohmann for his json lib (https://github.com/nlohmann/json)

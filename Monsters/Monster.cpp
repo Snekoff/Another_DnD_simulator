@@ -113,11 +113,12 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
             if (MonsterJson["monster"][i]["resist"][j].size() == 1) {
               resistance.push_back(MonsterJson["monster"][i]["resist"][j]);
             } else if (MonsterJson["monster"][i]["resist"][j].find("resist") != MonsterJson["monster"][i]["resist"][j].end()) {
-              for (int m = 0; m < MonsterJson["monster"][i]["resist"][j].size(); m++) {
-                resistance.push_back(MonsterJson["monster"][i]["resist"][j][m]);
+              for (int m = 0; m < MonsterJson["monster"][i]["resist"][j]["resist"].size(); m++) {
+                resistance.push_back(MonsterJson["monster"][i]["resist"][j]["resist"][m]);
               }
               if (MonsterJson["monster"][i]["resist"][j].find("note") != MonsterJson["monster"][i]["resist"][j].end()) {
-                for (int m = 0; m < MonsterJson["monster"][i]["resist"][j]["note"].size(); m++) {
+                if(MonsterJson["monster"][i]["resist"][j]["note"].is_string()) resistance_note.push_back(MonsterJson["monster"][i]["resist"][j]["note"]);
+                else for (int m = 0; m < MonsterJson["monster"][i]["resist"][j]["note"].size(); m++) {
                   resistance_note.push_back(MonsterJson["monster"][i]["resist"][j]["note"][m]);
                 }
               }
@@ -153,6 +154,8 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
         cout << "Control reach Monster::Constructor 12\n";
         spellcasting_will = commonVectorStringParse(MonsterJson["monster"][i]["spellcasting"], "will");
         spellcastDaily = spellcastingDailyParse(MonsterJson["monster"][i]["spellcasting"]);
+        spells = spellsParse(MonsterJson["monster"][i], "spells");
+        spellSlots = ;
         isNamedCreature = commonBoolParse(MonsterJson["monster"][i], "isNamedCreature");
         cout << "Control reach Monster::Constructor b_13\n";
         traitTags = commonVectorStringParse(MonsterJson["monster"][i], "traitTags");

@@ -16,7 +16,7 @@ Here is the quick guide for using Google Test in your Xcode project.
 
 The following sections further explain each of the steps listed above in depth, describing in more detail how to complete it including some variations.
 
-# Get the Source #
+# GetInt the Source #
 
 Currently, the gtest.framework discussed here isn't available in a tagged release of Google Test, it is only available in the trunk. As explained at the Google Test [site](https://github.com/google/googletest), you can get the code from anonymous SVN with this command:
 

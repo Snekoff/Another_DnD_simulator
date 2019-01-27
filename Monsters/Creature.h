@@ -41,6 +41,7 @@ const int kBarbarian_Unarmored_Defence = 10;
 const int kWealth_Set_parameters = 3;
 const int kDice_Minimum_value = 1;
 const int kExhaustion_MAX_Level = 8;
+const int kSpellMaxLevel = 10;
 const int kCoordinates_NUM = 3;
 const int kSpeed_types_NUM = 4;
 
@@ -63,6 +64,7 @@ class Creature {
   int armor_class;
   int deathsaves_s, deathsaves_f;//success/failure
   int passive_perception, proficiency;
+  vector<int> spellSlots;
   bool advantage, disadvantage;
   bool perception_advantage;
   bool perception_disadvantage;//20
@@ -107,6 +109,7 @@ sleightOfHand 15,stealth 16,survival 17*/
   vector<SpellAndUsageTimes> spellcastDaily;
   string spellcastingAbility;
   vector <string> spellcasting_will;
+  vector <vector <string>> spells;
   vector<string> traitTags;
   vector<string> actionTags;
   vector<string> legendary;
@@ -120,6 +123,8 @@ sleightOfHand 15,stealth 16,survival 17*/
 
   int AbilityModifier(int ability);
 
+  vector <vector <string>> spellsParse (const nlohmann::basic_json<> &j, string whatAreLookedFor);
+  vector <int> spellSlotsParse (const nlohmann::basic_json<> &j, string whatAreLookedFor);
   vector <string> spellcastingWillParse (const nlohmann::basic_json<> &j);
   vector <SpellAndUsageTimes> spellcastingDailyParse (const nlohmann::basic_json<> &j);
   vector <string> commonForTraitAndActionAndSpellNameAndSpellHeaderEntriesAndLegendaryParse (const nlohmann::basic_json<> &j, string howEntriesNamed);

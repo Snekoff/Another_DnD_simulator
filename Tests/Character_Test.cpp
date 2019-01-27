@@ -1,7 +1,7 @@
 #include "Character_Test.h"
 
 // Test_Subject->Set(what, value)
-// Test_Subject->Get(what)
+// Test_Subject->GetInt(what)
 
 TEST_F(CharacterTest, PartySimpleTest){
   EXPECT_EQ(Test_Subject->Get(0), 0) ;//party
@@ -110,7 +110,7 @@ TEST_F(CharacterTest, SkillsProficienciesTest){
   EXPECT_EQ(Test_Subject->Get(125),2);//skill[17] = Wis Mod(2)  (without proficiency because skill_b[17] = false)
   EXPECT_EQ(Test_Subject->Get(124),0);// skill[16] = Dex Mod(0)
   /*Test_Subject->Set(,);
-  EXPECT_EQ(Test_Subject->Get(),);*/
+  EXPECT_EQ(Test_Subject->GetInt(),);*/
 }
 
 TEST_F(CharacterTest, DeathsaveValuesTest){
@@ -118,7 +118,7 @@ TEST_F(CharacterTest, DeathsaveValuesTest){
   EXPECT_EQ(Test_Subject->Get(15),1);//deathsave_s
   EXPECT_EQ(Test_Subject->Get(16),0);//deathsave_f
   /*Test_Subject->Set(,);
-  EXPECT_EQ(Test_Subject->Get(),);*/
+  EXPECT_EQ(Test_Subject->GetInt(),);*/
 }
 
 TEST_F(CharacterTest, PerceptionCalculationTest) {
@@ -220,10 +220,10 @@ TEST_F(CharacterTest, CharacterClassTest){
   EXPECT_EQ(Test_Subject->Get_bool(24),false);//saving_throw_proficiencies[2] (Con) = false
 
 /*  Test_Subject->Set(,);
-  EXPECT_EQ(Test_Subject->Get(),);*/
+  EXPECT_EQ(Test_Subject->GetInt(),);*/
 }
 
 /*TEST_F(CharacterTest, ){
 Test_Subject->Set(,);
-  EXPECT_EQ(Test_Subject->Get(),);
+  EXPECT_EQ(Test_Subject->GetInt(),);
 }*/

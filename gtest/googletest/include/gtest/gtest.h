@@ -872,7 +872,7 @@ class GTEST_API_ TestCase {
   // Gets the number of tests to be printed in the XML report.
   int reportable_test_count() const;
 
-  // Get the number of tests in this test case that should run.
+  // GetInt the number of tests in this test case that should run.
   int test_to_run_count() const;
 
   // Gets the number of all tests in this test case.

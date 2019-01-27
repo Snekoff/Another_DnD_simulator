@@ -41,6 +41,40 @@ int Creature::AbilityModifier(int ability_) {
   return (ability_ - 10) / 2;
 }
 
+vector <vector <string>> Creature::spellsParse(const nlohmann::basic_json<> &j, string whatAreLookedFor) {
+  vector <vector <string>> Spellcasting;
+  // Maximum spell level is 10
+  Spellcasting.resize(kSpellMaxLevel);
+  if(j.find(whatAreLookedFor) == j.end()) return Spellcasting;
+  auto endPointer = j[whatAreLookedFor].end();
+  //Kantrip is zero level spell
+  vector <string> SpellLevel = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+  for(int l = 0; l < SpellLevel.size();l++){
+    if(j[whatAreLookedFor].find(SpellLevel[l]) != endPointer){
+      for(int k = 0; k < j[whatAreLookedFor][SpellLevel[l]][whatAreLookedFor].size(); k++){
+        Spellcasting[l].push_back(j[whatAreLookedFor][SpellLevel[l]][whatAreLookedFor][k]);
+      }
+    }
+  }
+  return Spellcasting;
+}
+
+vector <int> Creature::spellSlotsParse(const nlohmann::basic_json<> &j, string whatAreLookedFor) {
+  vector <int> SpellSlots;
+  // Maximum spell level is 10
+  SpellSlots.resize(kSpellMaxLevel);
+  if(j.find(whatAreLookedFor) == j.end()) return SpellSlots;
+  auto endPointer = j[whatAreLookedFor].end();
+  //Kantrip is zero level spell
+  vector <string> SpellLevel = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+  for(int l = 0; l < SpellLevel.size();l++){
+    if (j[whatAreLookedFor].find(SpellLevel[l]) != endPointer) {
+      SpellSlots[l] = j[whatAreLookedFor][SpellLevel[l]]["slots"];
+    }
+  }
+  return SpellSlots;
+}
+
 vector <string> Creature::spellcastingWillParse(const nlohmann::basic_json<> &j) {
   vector <string> Spellcastings;
   if(j.find("will") == j.end()) return Spellcastings;

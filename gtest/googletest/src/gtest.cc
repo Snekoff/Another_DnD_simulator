@@ -2753,7 +2753,7 @@ int TestCase::reportable_test_count() const {
   return CountIf(test_info_list_, TestReportable);
 }
 
-// Get the number of tests in this test case that should run.
+// GetInt the number of tests in this test case that should run.
 int TestCase::test_to_run_count() const {
   return CountIf(test_info_list_, ShouldRunTest);
 }

@@ -40,7 +40,9 @@ class Battleground {
 
   Battleground(int x, int y, int z);
 
-  int Get(int what);
+  int GetInt(int what);
+
+  vector<vector<int>> GetField();
 
   int Shape();
 

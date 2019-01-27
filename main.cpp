@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
 //&&&&&&&& how monster parse works #########
   auto Rand_gen = new Random_Generator_();
   Existing_Monsters E_M;
-  string monster_name = "Geist";
+  string monster_name = "Tarul Var";
   int name_index = -1, cr_index = 0;
   for(int i = 0; i < E_M.Challenge_rating.size(); i++){
     for(int j = 0; j < E_M.Challenge_rating[i].size(); j++){

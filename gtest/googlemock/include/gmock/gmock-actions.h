@@ -68,9 +68,9 @@ namespace internal {
 template <typename F1, typename F2>
 class ActionAdaptor;
 
-// BuiltInDefaultValueGetter<T, true>::Get() returns a
+// BuiltInDefaultValueGetter<T, true>::GetInt() returns a
 // default-constructed T value.  BuiltInDefaultValueGetter<T,
-// false>::Get() crashes with an error.
+// false>::GetInt() crashes with an error.
 //
 // This primary template is used when kDefaultConstructible is true.
 template <typename T, bool kDefaultConstructible>
@@ -88,7 +88,7 @@ struct BuiltInDefaultValueGetter<T, false> {
   }
 };
 
-// BuiltInDefaultValue<T>::Get() returns the "built-in" default value
+// BuiltInDefaultValue<T>::GetInt() returns the "built-in" default value
 // for type T, which is NULL when T is a raw pointer type, 0 when T is
 // a numeric type, false when T is bool, or "" when T is string or
 // std::string.  In addition, in C++11 and above, it turns a
@@ -116,7 +116,7 @@ class BuiltInDefaultValue {
   }
 
   static T Get() {
-    return BuiltInDefaultValueGetter<T, false>::Get();
+    return BuiltInDefaultValueGetter<T, false>::GetInt();
   }
 
 #endif  // GTEST_LANG_CXX11
@@ -305,7 +305,7 @@ class DefaultValue<T&> {
   static T* address_;
 };
 
-// This specialization allows DefaultValue<void>::Get() to
+// This specialization allows DefaultValue<void>::GetInt() to
 // compile.
 template <>
 class DefaultValue<void> {

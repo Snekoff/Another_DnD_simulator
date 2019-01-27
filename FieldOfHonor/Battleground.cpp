@@ -27,11 +27,15 @@ Battleground::Battleground(int x_, int y_, int z_) {
 
 Battleground::~Battleground() = default;
 
-int Battleground::Get(int what) {
+int Battleground::GetInt(int what) {
   if (what == 0) return X;
   else if (what == 1) return Y;
   else if (what == 2) return Z;
   return -1;
+}
+
+vector<vector<int>> Battleground::GetField() {
+  return square;
 }
 
 int Battleground::Shape() {
