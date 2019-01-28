@@ -24,6 +24,10 @@ class MazeGenerator {
  // with few rules: The most important is that it couldn't cross exidting corridors, and "impassable" walls
  // if mole crosses the Entrance #2 then all region(Entrance #2) is blocked(marked as corridor) and cant be passed again
  MazeGenerator(Random_Generator_ *Rand_gen, vector<vector<int>> square_);
+ // room region is two points (start end edge)
+ vector<vector<int>> RoomsPlacement(vector<pair<int, int>> roomsRegions, vector<pair<int, int>> roomsEntrances, vector<vector<int>> square_);
+ // if you have some rooms, but it doesn`t matter where are they in labirinth and where are their entrances
+ vector<vector<int>> RoomRandomPlacement(vector<int> roomSizeAndShape, vector<int> numOfEntrances, vector<int> entransesLength vector<vector<int>> square_);
  // true if in current position there is no wall that can be passed through without crossing other corridors
  bool Deadend(int x, int y, vector<vector<int>> square_);
  // returns new position
