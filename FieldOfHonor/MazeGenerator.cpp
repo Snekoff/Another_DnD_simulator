@@ -63,12 +63,34 @@ vector<vector<int>> MazeGenerator::RoomsPlacement(vector<pair<int, int>> roomsRe
   }
 }
 
-bool MazeGenerator::CouldMakeCorridor(int x, int y, vector<vector<int>> square_) {
+bool MazeGenerator::CouldMakeCorridor(int from_x, int from_y, int to_x, int to_y, vector<vector<int>> square_) {
+  if(to_x < 1 || to_x > square_.size() - 2) return false;
+  if(to_y < 1 || to_y > square_[to_x].size() - 2)  return false;
 
+  // Check whole way whether it passable
+  int dif_x = abs(from_x - to_x), dif_y = abs(from_y - to_y);
+  for(int i = 0; i < max(dif_x, dif_y); i++){
+    if(dif_x > dif_y){
+      int one_square = square_[from_x + (i+1) * dif_x/(to_x - from_x)][to_y];
+      if(one_square != 0 && one_square != 3) return false;
+    } else {
+      int one_square = square_[to_x][from_y + (i+1) * dif_y/(to_y - from_y)];
+      if(one_square != 0 && one_square != 3) return false;
+    }
+  }
+  // Check surrounding
+  // There have to be only walls or Entrances
+  // u, u-r, r, d-r, d, d-l, l, u-l
+  int dirMod[8][2] = {{-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}};
+  for(int i = 0; i < 8; i++){
+    int one_square = square_[to_x + dirMod[i][0]][to_y + dirMod[i][1]];
+    if(one_square != 0 && one_square != 3) return false;
+  }
+  return true;
 }
 
 int MazeGenerator::Direction(Random_Generator_ *Rand_gen) {
-
+  return Rand_gen->Rand(0,3);
 }
 
 bool MazeGenerator::IsRightDirection(int x, int y, int direction_, vector<vector<int>> square_) {
@@ -100,7 +122,11 @@ int MazeGenerator::RightDirection(Random_Generator_ *Rand_gen, int x, int y, int
 }
 
 int MazeGenerator::PaceLength(int difficulty_, Random_Generator_ *Rand_gen) {
-
+  if (difficulty_ > 10) difficulty_ = 10;
+  if (difficulty_ < 0) difficulty_ = 0;
+  int maxPace = 12, minPace = 2;
+  int pace = Rand_gen->Rand(minPace, maxPace - difficulty_);
+  return pace;
 }
 
 pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, vector<vector<int>> square_) {
@@ -109,7 +135,6 @@ pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, ve
   int direction = Direction(Rand_gen);
   int minPaceLength = 2;
   char dirDescription[4] = {'u', 'r', 'd', 'l'};
-  bool deadend = false;
   int dirMod[4][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
   direction = RightDirection(Rand_gen, x, y, direction, square_);
   if (direction == -1) return pos;
@@ -119,7 +144,7 @@ pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, ve
     int paceLength = PaceLength(difficulty, Rand_gen);
     x_mod = x + paceLength * dirMod[direction][0];
     y_mod = y + paceLength * dirMod[direction][1];
-    while (!(square_[x_mod][y_mod] == 0 && CouldMakeCorridor(x_mod, y_mod, square_))) {
+    while (!(square_[x_mod][y_mod] == 0 && CouldMakeCorridor(x, y, x_mod, y_mod, square_))) {
       cout << "New paceLength = " << paceLength - 1 << "\n";
       paceLength--;
       x_mod = x + paceLength * dirMod[direction][0];

@@ -48,7 +48,7 @@ class MazeGenerator {
  //else return current position
  pair<int, int> MakeRoom(int x, int y, char whichWay, vector<vector<int>> square_);
 
- bool CouldMakeCorridor(int x, int y, vector<vector<int>> square_);
+ bool CouldMakeCorridor(int from_x, int from_y, int to_x, int to_y, vector<vector<int>> square_);
 
  int Direction(Random_Generator_ *Rand_gen);
 
