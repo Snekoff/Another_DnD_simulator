@@ -36,7 +36,24 @@ class MazeGenerator {
  MazeGenerator(Random_Generator_ *Rand_gen, vector<vector<int>> square_);
  // room region is two points (start end edge)
  vector<vector<int>> RoomsPlacement(vector<pair<int, int>> roomsRegions, vector<pair<int, int>> roomsEntrances, vector<vector<int>> square_);
- // if you have some rooms, but it doesn`t matter where are they in labirinth and where are their entrances
+
+  vector<vector<int>> RoomsPlacement_BuidingWalls(pair<int, int> start_of_the_region,
+                                                  pair<int, int> end_of_the_region,
+                                                  vector<vector<int>> square_,
+                                                  bool up,
+                                                  bool right,
+                                                  bool bottom,
+                                                  bool left);
+
+ vector<vector<int>> RoomsPlacement_MakingRoomInside(pair<int, int> start_of_the_region,
+                                                     pair<int, int> end_of_the_region,
+                                                     vector<vector<int>> square_,
+                                                     bool up,
+                                                     bool right,
+                                                     bool bottom,
+                                                     bool left);
+
+  // if you have some rooms, but it doesn`t matter where are they in labirinth and where are their entrances
  vector<vector<int>> RoomRandomPlacement(vector<int> roomSizeAndShape, vector<int> numOfEntrances, vector<int> entransesLength, vector<vector<int>> square_);
  // true if in current position there is no wall that can be passed through without crossing other corridors
  bool Deadend(int x, int y, vector<vector<int>> square_);

@@ -35,8 +35,6 @@ bool MazeGenerator::IsNegative(int x, int y, int index) {
 // 3 - Exit/Entrance
 // 4 - Nonbreakable wall
 // 5 - Reached Entrance
-// 6
-// 7
 vector<vector<int>> MazeGenerator::RoomsPlacement(vector<pair<int, int>> roomsRegions,
                                                   vector<pair<int, int>> roomsEntrances,
                                                   vector<vector<int>> square_) {
@@ -49,6 +47,8 @@ vector<vector<int>> MazeGenerator::RoomsPlacement(vector<pair<int, int>> roomsRe
     }
     int begSt = min(begin.first, begin.second), begEn = max(begin.first, begin.second);
     int endSt = min(ending.first, ending.second), endEn = max(ending.first, ending.second);
+    bool upper_room_wall_reached_end_of_the_region, right_room_wall_reached_end_of_the_region;
+    bool bottom_room_wall_reached_end_of_the_region, left_room_wall_reached_end_of_the_region;
     for (int j = begSt; j <= begEn; j++) {
       for (int p = endSt; j <= endEn; j++) {
         square_[j][p] = 1;
@@ -61,6 +61,26 @@ vector<vector<int>> MazeGenerator::RoomsPlacement(vector<pair<int, int>> roomsRe
       square_[roomsEntrances[i].first][roomsEntrances[i].second] = 3;
     } else std::cout << "Entrance #" << i + 1 << " is placed not on room wall\n";
   }
+}
+
+vector<vector<int>> MazeGenerator::RoomsPlacement_BuidingWalls(pair<int, int> start_of_the_region,
+                                                               pair<int, int> end_of_the_region,
+                                                               vector<vector<int>> square_,
+                                                               bool up,
+                                                               bool right,
+                                                               bool bottom,
+                                                               bool left) {
+
+}
+
+vector<vector<int>> MazeGenerator::RoomsPlacement_MakingRoomInside(pair<int, int> start_of_the_region,
+                                                                   pair<int, int> end_of_the_region,
+                                                                   vector<vector<int>> square_,
+                                                                   bool up,
+                                                                   bool right,
+                                                                   bool bottom,
+                                                                   bool left) {
+
 }
 
 bool MazeGenerator::CouldMakeCorridor(int from_x, int from_y, int to_x, int to_y, vector<vector<int>> square_) {
@@ -80,11 +100,17 @@ bool MazeGenerator::CouldMakeCorridor(int from_x, int from_y, int to_x, int to_y
   }
   // Check surrounding
   // There have to be only walls or Entrances
-  // u, u-r, r, d-r, d, d-l, l, u-l
+  //(No corridors/Reached entrances)
+  // up, up-right, r, down-right, d, d-left, l, up-left
   int dirMod[8][2] = {{-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}};
-  for(int i = 0; i < 8; i++){
-    int one_square = square_[to_x + dirMod[i][0]][to_y + dirMod[i][1]];
-    if(one_square != 0 && one_square != 3) return false;
+  int x_t = from_x, y_t = from_y;
+  for(int j = 0; j < max(dif_x, dif_y); j++){
+    for(int i = 0; i < 8; i++){
+      int one_square = square_[x_t + dirMod[i][0]][y_t + dirMod[i][1]];
+      if(one_square == 1 || one_square == 5) return false;
+    }
+    if(x_t != to_x) x_t += (from_x - to_x)/dif_x;
+    if(y_t != to_y) y_t += (from_y - to_y)/dif_y;
   }
   return true;
 }
