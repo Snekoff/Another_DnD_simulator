@@ -37,13 +37,11 @@ class MazeGenerator {
  // room region is two points (start end edge)
  vector<vector<int>> RoomsPlacement(vector<pair<int, int>> roomsRegions, vector<pair<int, int>> roomsEntrances, vector<vector<int>> square_);
 
-  vector<vector<int>> RoomsPlacement_BuidingWalls(pair<int, int> start_of_the_region,
+  vector<pair<int, int>> RoomsPlacement_BuidingWalls(pair<int, int> start_of_the_region,
                                                   pair<int, int> end_of_the_region,
-                                                  vector<vector<int>> square_,
-                                                  bool up,
-                                                  bool right,
-                                                  bool bottom,
-                                                  bool left);
+                                                  vector<vector<int>> &square_
+                                                  );
+  /*bool up,bool right,bool bottom,bool left*/
 
  vector<vector<int>> RoomsPlacement_MakingRoomInside(pair<int, int> start_of_the_region,
                                                      pair<int, int> end_of_the_region,

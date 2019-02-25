@@ -47,13 +47,19 @@ vector<vector<int>> MazeGenerator::RoomsPlacement(vector<pair<int, int>> roomsRe
     }
     int begSt = min(begin.first, begin.second), begEn = max(begin.first, begin.second);
     int endSt = min(ending.first, ending.second), endEn = max(ending.first, ending.second);
-    bool upper_room_wall_reached_end_of_the_region, right_room_wall_reached_end_of_the_region;
-    bool bottom_room_wall_reached_end_of_the_region, left_room_wall_reached_end_of_the_region;
-    for (int j = begSt; j <= begEn; j++) {
+    /*bool upper_room_wall_reached_end_of_the_region, right_room_wall_reached_end_of_the_region;
+    bool bottom_room_wall_reached_end_of_the_region, left_room_wall_reached_end_of_the_region;*/
+    // square_ here is an adress
+    /// TEST
+    RoomsPlacement_BuidingWalls(begin, ending, square_);
+    RoomsPlacement_MakingRoomInside();
+    /// ???
+    /*for (int j = begSt; j <= begEn; j++) {
       for (int p = endSt; j <= endEn; j++) {
         square_[j][p] = 1;
       }
-    }
+    }*/
+    /// ???
   }
   for (int i = 0; i < roomsEntrances.size(); i++) {
     if (!IsNegative(roomsEntrances[i].first, roomsEntrances[i].second, i + 1)
@@ -63,14 +69,29 @@ vector<vector<int>> MazeGenerator::RoomsPlacement(vector<pair<int, int>> roomsRe
   }
 }
 
-vector<vector<int>> MazeGenerator::RoomsPlacement_BuidingWalls(pair<int, int> start_of_the_region,
+vector<pair<int, int>> MazeGenerator::RoomsPlacement_BuidingWalls(pair<int, int> start_of_the_region,
                                                                pair<int, int> end_of_the_region,
-                                                               vector<vector<int>> square_,
-                                                               bool up,
-                                                               bool right,
-                                                               bool bottom,
-                                                               bool left) {
-
+                                                               vector<vector<int>> &square_
+                                                               ) {
+  vector<pair<int, int>> output;
+  pair<int, int> st_new_region, end_new_region;
+  pair<int, int> st_new_room_region = start_of_the_region, end_new_room_region = end_of_the_region;
+  if(start_of_the_region.first >= end_of_the_region.first){
+    if(start_of_the_region.second >= end_of_the_region.second){
+      if(start_of_the_region.second > 0 && start_of_the_region.first < square_.size()){
+        st_new_region.first = start_of_the_region.first + 1;
+        st_new_region.second = start_of_the_region.second + 1;
+      } else if(start_of_the_region.second > 0){
+        st_new_region.first = start_of_the_region.first;
+        st_new_region.second = start_of_the_region.second + 1;
+        st_new_region.first--;
+      }
+    }
+  }
+  //....
+  output.push_back(st_new_room_region);
+  output.push_back(end_new_room_region);
+  return output;
 }
 
 vector<vector<int>> MazeGenerator::RoomsPlacement_MakingRoomInside(pair<int, int> start_of_the_region,
