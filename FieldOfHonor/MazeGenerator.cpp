@@ -8,6 +8,10 @@ MazeGenerator::MazeGenerator(Random_Generator_ *Rand_gen, vector <vector<int>> s
     for (int i = 0; i < deadend.size(); i++) {
         deadend[i].resize(square_[i].size());
     }
+    entrances.resize(square_.size());
+    for (int i = 0; i < entrances.size(); i++) {
+        entrances[i].resize(square_[i].size());
+    }
 }
 
 MazeGenerator::~MazeGenerator() {
@@ -54,14 +58,11 @@ vector <vector<int>> MazeGenerator::RoomsPlacement(vector <pair<int, int>> rooms
         /// TEST
         vector <pair<int, int>> new_room_region = RoomsPlacement_BuildingWalls(begin, ending, square_);
         RoomsPlacement_MakingRoomInside(new_room_region[0], new_room_region[1], square_);
-        /// ???
-        /*for (int j = begSt; j <= begEn; j++) {
-          for (int p = endSt; j <= endEn; j++) {
-            square_[j][p] = 1;
-          }
-        }*/
-        /// ???
+
     }
+    //
+    /*Написать структуру для входов, (дверь есть/нет, какая, прочность(урон для разрушения),
+     * замок(сложность, 0 - нет замка))*/
     for (int i = 0; i < roomsEntrances.size(); i++) {
         if (!IsNegative(roomsEntrances[i].first, roomsEntrances[i].second, i + 1)
             && square_[roomsEntrances[i].first][roomsEntrances[i].second] == 2) {
@@ -89,6 +90,7 @@ vector <pair<int, int>> MazeGenerator::RoomsPlacement_BuildingWalls(pair<int, in
          i < max(st_new_region.first, end_new_region.first); i++) {
         for (int j = min(st_new_region.second, end_new_region.second);
              j < max(st_new_region.second, end_new_region.second); j++) {
+            if(square_[i][j] > 0) continue;
             square_[i][j] = 2;
         }
     }
@@ -254,7 +256,7 @@ int MazeGenerator::RightDirection(Random_Generator_ *Rand_gen, int x, int y, int
     return dir;
 }
 
-int MazeGenerator::PaceLength(int difficulty_, Random_Generator_ *Rand_gen) {
+int MazeGenerator::PaceLength(Random_Generator_ *Rand_gen, int difficulty_) {
     if (difficulty_ > 10) difficulty_ = 10;
     if (difficulty_ < 0) difficulty_ = 0;
     int maxPace = 12, minPace = 2;
@@ -277,7 +279,7 @@ pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, ve
     int x_mod = x + minPaceLength * dirMod[direction][0];
     int y_mod = y + minPaceLength * dirMod[direction][1];
     if (square_[x_mod][y_mod] == 0) {
-        int paceLength = PaceLength(difficulty, Rand_gen);
+        int paceLength = PaceLength(Rand_gen, difficulty);
         x_mod = x + paceLength * dirMod[direction][0];
         y_mod = y + paceLength * dirMod[direction][1];
         while (!(square_[x_mod][y_mod] == 0 && CouldMakeCorridor(x, y, x_mod, y_mod, square_))) {
@@ -292,6 +294,26 @@ pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, ve
     return pos;
 }
 
+void MazeGenerator::Set() {
+
+}
+
+void MazeGenerator::Set_Difficulty() {
+    cout << "Set Dungeon(labirinth) difficulty \n";
+    difficulty = IsNumber(difficulty, kDifficulty_Min, kDifficulty_Max);
+}
+
+void MazeGenerator::Set_Entrance(pair<int, int> start_of_the_region, pair<int, int> end_of_the_region) {
+
+}
+
+void MazeGenerator::Set_FieldType(pair<int, int> start_of_the_region, pair<int, int> end_of_the_region) {
+
+}
+
+int MazeGenerator::Dig(Random_Generator_ *Rand_gen) {
+    pair<int, int> pos;
+}
 /* Dig(){
  * pair<int, int> pos;
  * **pos = entrance[0]**;
@@ -299,3 +321,4 @@ pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, ve
  * if(pos == entrance[0]){**pos = rand(entrance[i])**}
 
 }*/
+

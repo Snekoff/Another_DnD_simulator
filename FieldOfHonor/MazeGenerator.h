@@ -4,6 +4,22 @@
 #include "../Character/UsefulFunctions.h"
 #include "../Character/character.h"
 
+const int kDifficulty_Max = 10;
+const int kDifficulty_Min = 0;
+
+
+struct Entrances_info{
+    int ID;
+    int order;
+    string name;
+    // If Entrance is not blockable than it is possible that few corridors will lead to this entrance
+    // else only one corridor could reach
+    bool is_blockable;
+    // is reached already?
+    bool blocked;
+    // I'm going to add some triggers, may be like text appearing, and may be all dungeon changes... who knows :3
+    string trigger_name;
+};
 
 // id descriptions:
 // 0 - wall
@@ -20,8 +36,9 @@ class MazeGenerator {
   int roomProbability;
   // entrances and exits are just places which algorithm will cross only once
   // odd pair is begin of a region and next one is the end of the region
-  vector<vector<pair<int, int>>> entrances;
+  vector<vector<int>> entrances;
   vector<vector<int>> deadend;
+  vector<Entrances_info> entrances_info;
  public:
   MazeGenerator();
 
@@ -72,9 +89,28 @@ class MazeGenerator {
 
  bool IsRightDirection(int x, int y, int direction_, vector<vector<int>> square_);
 
- int PaceLength(int difficulty_, Random_Generator_ *Rand_gen);
+ int PaceLength(Random_Generator_ *Rand_gen, int difficulty_);
+
+ int Dig(Random_Generator_ *Rand_gen);
 
  vector<vector<int>> GetField();
+
+ void Set();
+ // wall, empty, room wall etc.
+ vector<vector<int>> Set_FieldType(pair<int, int> start_of_the_region,
+                    pair<int, int> end_of_the_region);
+
+ int Set_Difficulty();
+ // later
+ /// what to return?
+ vector<vector<int>> Set_Trap(pair<int, int> start_of_the_region,
+                pair<int, int> end_of_the_region);
+ //Entrance or Exit, it does not matter
+ vector<vector<int>> Set_Entrance(pair<int, int> start_of_the_region,
+                   pair<int, int> end_of_the_region);
+ // later
+ void Set_Trigger(pair<int, int> start_of_the_region,
+                  pair<int, int> end_of_the_region);
 
 };
 
