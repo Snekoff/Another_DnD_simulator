@@ -37,19 +37,20 @@ class MazeGenerator {
  // room region is two points (start end edge)
  vector<vector<int>> RoomsPlacement(vector<pair<int, int>> roomsRegions, vector<pair<int, int>> roomsEntrances, vector<vector<int>> square_);
 
-  vector<pair<int, int>> RoomsPlacement_BuidingWalls(pair<int, int> start_of_the_region,
+  vector<pair<int, int>> RoomsPlacement_BuildingWalls(pair<int, int> start_of_the_region,
                                                   pair<int, int> end_of_the_region,
                                                   vector<vector<int>> &square_
                                                   );
-  /*bool up,bool right,bool bottom,bool left*/
+
+    vector<pair<int, int>> RoomsPlacement_CheckEdgeReach(pair<int, int> start_of_the_region,
+                                                        pair<int, int> end_of_the_region,
+                                                         unsigned long x_max,
+                                                         unsigned long y_max);
+
 
  vector<vector<int>> RoomsPlacement_MakingRoomInside(pair<int, int> start_of_the_region,
                                                      pair<int, int> end_of_the_region,
-                                                     vector<vector<int>> square_,
-                                                     bool up,
-                                                     bool right,
-                                                     bool bottom,
-                                                     bool left);
+                                                     vector<vector<int>> square_);
 
   // if you have some rooms, but it doesn`t matter where are they in labirinth and where are their entrances
  vector<vector<int>> RoomRandomPlacement(vector<int> roomSizeAndShape, vector<int> numOfEntrances, vector<int> entransesLength, vector<vector<int>> square_);
