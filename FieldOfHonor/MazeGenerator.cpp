@@ -298,16 +298,52 @@ void MazeGenerator::Set() {
 
 }
 
-void MazeGenerator::Set_Difficulty() {
+int MazeGenerator::Set_Difficulty() {
     cout << "Set Dungeon(labirinth) difficulty \n";
     difficulty = IsNumber(difficulty, kDifficulty_Min, kDifficulty_Max);
 }
 
-void MazeGenerator::Set_Entrance(pair<int, int> start_of_the_region, pair<int, int> end_of_the_region) {
-
+vector<pair<pair<int, int>, int>>
+MazeGenerator::Set_Entrance(pair<int, int> start_of_the_region, pair<int, int> end_of_the_region) {
+    int space;
+    space = abs(start_of_the_region.first - end_of_the_region.first) *
+            abs(start_of_the_region.second - end_of_the_region.second);
+    vector<pair<pair<int, int>, int>> output;
+    output.resize((unsigned)space);
+    bool isIdentifierTheSame = true;
+    cout << "Is identifier the same for whole region? (it means that whole entrance got same name, settings,"
+            " triggers, so on)\n";
+    cout << "0/1 (Yes/No)\n";
+    string input;
+    cin >> input;
+    if(input[0] == '1' || input[0] == 'N') isIdentifierTheSame = false;
+    pair<int, int> coords;
+    coords.first = min(start_of_the_region.first, end_of_the_region.first);
+    coords.second = min(start_of_the_region.second, end_of_the_region.second);
+    int max_d = max(abs(start_of_the_region.first - end_of_the_region.first), abs(start_of_the_region.second - end_of_the_region.second));
+    int min_d = min(abs(start_of_the_region.first - end_of_the_region.first), abs(start_of_the_region.second - end_of_the_region.second));
+    for(int i = 0; i < max_d; i++){
+        if(max_d == abs(start_of_the_region.first - end_of_the_region.first) && i > 0) coords.first++;
+        else if(i > 0) coords.second++;
+        for(int j = 0; j < min_d; j++) {
+            if(min_d == abs(start_of_the_region.second - end_of_the_region.second) && j > 0) coords.second++;
+            else if (j > 0) coords.first++;
+            if(!isIdentifierTheSame){
+                cout << "for ("<< coords.first  << ", " << coords.second  << ") choose identifier. "
+                                                                             "If you use same identifier few times "
+                                                                             "regions just will counts as one. \n";
+                output[i+j].first.first = coords.first;
+                output[i+j].first.second = coords.second;
+                output[i+j].second = IsNumber(output[i+j].second, 0, INT_MAX - 1);
+            }
+            //Entrance struct
+            //
+        }
+    }
+    return output;
 }
 
-void MazeGenerator::Set_FieldType(pair<int, int> start_of_the_region, pair<int, int> end_of_the_region) {
+vector<vector<int>> MazeGenerator::Set_FieldType(pair<int, int> start_of_the_region, pair<int, int> end_of_the_region) {
 
 }
 

@@ -103,10 +103,11 @@ class MazeGenerator {
  int Set_Difficulty();
  // later
  /// what to return?
- vector<vector<int>> Set_Trap(pair<int, int> start_of_the_region,
+ vector<pair<int, int>> Set_Trap(pair<int, int> start_of_the_region,
                 pair<int, int> end_of_the_region);
  //Entrance or Exit, it does not matter
- vector<vector<int>> Set_Entrance(pair<int, int> start_of_the_region,
+ //output: x, y, identifier
+ vector<pair<pair<int, int>, int>> Set_Entrance(pair<int, int> start_of_the_region,
                    pair<int, int> end_of_the_region);
  // later
  void Set_Trigger(pair<int, int> start_of_the_region,
