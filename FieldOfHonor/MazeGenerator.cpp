@@ -12,6 +12,7 @@ MazeGenerator::MazeGenerator(Random_Generator_ *Rand_gen, vector <vector<int>> s
     for (int i = 0; i < entrances.size(); i++) {
         entrances[i].resize(square_[i].size());
     }
+    square = square_;
 }
 
 MazeGenerator::~MazeGenerator() {
@@ -23,6 +24,10 @@ MazeGenerator::~MazeGenerator() {
         entrances[i].clear();
     }
     entrances.clear();
+    for (int i = 0; i < square.size(); i++) {
+        square[i].clear();
+    }
+    square.clear();
 }
 
 bool MazeGenerator::IsNegative(int x, int y, int index) {
@@ -312,12 +317,16 @@ vector<vector<int>> MazeGenerator::LabyrinthMenu(vector<vector<int>> square_) {
         option_ = IsNumber(option_, 0, 3);
         if (option_ == 1) difficulty = Set_Difficulty();
         else if (option_ == 2){
-            /*region selection function here*/
-            //Set_Entrance();
+            //region selection function here
+            pair<pair<int, int>, pair<int, int>> input = RegionSelect(square_);
+            vector<pair<pair<int, int>, int>> entr = Set_Entrance(input.first, input.second);
+            for(int i = 0; i < entr.size(); i++){
+                entrances[entr[i].first.first][entr[i].first.second] = entr[i].second;
+            }
         }
         else if (option_ == 3){
-            /*region selection function here*/
-            //Set_FieldType();
+            pair<pair<int, int>, pair<int, int>> input = RegionSelect(square_);
+            square_ = Set_FieldType(input.first, input.second, square_);
         }
     }
     return square_;
@@ -332,8 +341,8 @@ int MazeGenerator::Set_Difficulty() {
     difficulty = IsNumber(difficulty, kDifficulty_Min, kDifficulty_Max);
 }
 
-vector<pair<pair<int, int>, int>>
-MazeGenerator::Set_Entrance(pair<int, int> start_of_the_region, pair<int, int> end_of_the_region) {
+vector<pair<pair<int, int>, int>> MazeGenerator::Set_Entrance(pair<int, int> start_of_the_region,
+        pair<int, int> end_of_the_region) {
     int space;
     space = abs(start_of_the_region.first - end_of_the_region.first) *
             abs(start_of_the_region.second - end_of_the_region.second);
@@ -351,11 +360,18 @@ MazeGenerator::Set_Entrance(pair<int, int> start_of_the_region, pair<int, int> e
     coords.second = min(start_of_the_region.second, end_of_the_region.second);
     int max_d = max(abs(start_of_the_region.first - end_of_the_region.first), abs(start_of_the_region.second - end_of_the_region.second));
     int min_d = min(abs(start_of_the_region.first - end_of_the_region.first), abs(start_of_the_region.second - end_of_the_region.second));
+    //Default Entrance info
+    if(entrance_info.empty()) {
+        entrance_info.push_back(ZeroIdEntranceInfo());
+    }
     //ask identifiers for each field
     for(int i = 0; i < max_d; i++){
         for(int j = 0; j < min_d; j++) {
             if(!isIdentifierTheSame || j == 0){
+                //default id
                 if(entrance_info.empty()) output[i+j].second = 1;
+                else output[i+j].second = entrance_info.size();
+                // ask for id
                 cout << "for ("<< coords.first  << ", " << coords.second  << ") choose identifier. "
                                                                              "If you use same identifier few times "
                                                                              "regions just will counts as one. \n";
@@ -364,6 +380,7 @@ MazeGenerator::Set_Entrance(pair<int, int> start_of_the_region, pair<int, int> e
                 output[i+j].first.second = coords.second;
                 int inp = IsNumber(output[i+j].second, -1, INT_MAX - 1);
                 if(inp != -1)  output[i+j].second = inp;
+                /// CHECK whether this ID already exists!!
             } else {
                 output[i+j].first.first = coords.first;
                 output[i+j].first.second = coords.second;
@@ -398,6 +415,16 @@ MazeGenerator::Set_Entrance(pair<int, int> start_of_the_region, pair<int, int> e
     return output;
 }
 
+Entrance_info MazeGenerator::ZeroIdEntranceInfo() const {
+    Entrance_info ZeroId;
+    ZeroId.trigger_name = "";
+    ZeroId.order = -1;
+    ZeroId.name = "default";
+    ZeroId.is_blockable = false;
+    ZeroId.blocked = false;
+    ZeroId.id = 0;
+}
+
 vector<vector<int>> MazeGenerator::Set_FieldType(pair<int, int> start_of_the_region, pair<int, int> end_of_the_region, vector<vector<int>> square_) {
     //ask identifiers for each field
     cout << "For the region (" << start_of_the_region.first << ", " << start_of_the_region.second << ") - (" << end_of_the_region.first << ", " << end_of_the_region.second << ")\n";
@@ -426,6 +453,42 @@ vector<vector<int>> MazeGenerator::Set_FieldType(pair<int, int> start_of_the_reg
     return square_;
 }
 
+
+pair<pair<int, int>, pair<int, int>> MazeGenerator::RegionSelect(vector<vector<int>> square_) {
+    pair<pair<int, int>, pair<int, int>> output;
+    int input;
+    cout << "For first point.\n";
+    cout << "Type x\n";
+    input = IsNumber(input, 0, (int)square_[0].size() - 1);
+    output.first.first = input;
+    cout << "Type y\n";
+    input = IsNumber(input, 0, (int)square_.size() - 1);
+    output.first.second = input;
+    cout << "For second point.\n";
+    cout << "Type x\n";
+    input = IsNumber(input, 0, (int)square_[0].size() - 1);
+    output.second.first = input;
+    cout << "Type y\n";
+    input = IsNumber(input, 0, (int)square_.size() - 1);
+    output.second.second = input;
+    return output;
+}
+
+vector<vector<int>> MazeGenerator::GetLabirinth() {
+    return square;
+}
+
+int MazeGenerator::Get(int what) {
+    if(what == 0) return difficulty;
+    if(what == 1) return roomProbability;
+}
+
+Entrance_info MazeGenerator::GetEntranceInfo(int id) {
+    if(id < 0 || id > entrance_info.size() - 1) {
+        cout << "Incorrect id\n";
+        return entrance_info[0];
+    }
+}
 
 int MazeGenerator::Dig(Random_Generator_ *Rand_gen) {
     pair<int, int> pos;

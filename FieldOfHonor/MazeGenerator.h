@@ -33,6 +33,7 @@ struct Entrance_info {
 // 7
 class MazeGenerator {
 private:
+    vector<vector<int>> square;
     int difficulty;
     int roomProbability;
     // entrances and exits are just places which algorithm will cross only once
@@ -115,6 +116,8 @@ public:
 
     int Set_Difficulty();
 
+    pair<pair<int, int>, pair<int, int>> RegionSelect(vector<vector<int>> square_);
+
     // later
     /// what to return?
     vector <pair<int, int>> Set_Trap(pair<int, int> start_of_the_region,
@@ -129,7 +132,15 @@ public:
     void Set_Trigger(pair<int, int> start_of_the_region,
                      pair<int, int> end_of_the_region);
 
+    vector<vector<int>> GetLabirinth();
 
+    int Get(int what);
+
+    Entrance_info GetEntranceInfo(int id);
+
+    vector<vector<int>> GetEntrances();
+
+    Entrance_info ZeroIdEntranceInfo() const;
 };
 
 #endif //ANOTHER_DND_SIMULATOR_MAZEGENERATOR_H
