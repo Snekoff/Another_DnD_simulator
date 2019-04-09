@@ -15,4 +15,4 @@ add_executable(
         AditionalTools/Allowance.cpp AditionalTools/Allowance.h FieldOfHonor/Effect.cpp FieldOfHonor/Effect.h
         Tests/TEST.h Tests/Classes_TEST.h Tests/Classes_TEST.cpp Tests/Race_TEST.h Tests/Race_TEST.cpp
         Tests/Allowance_TEST.h Tests/Allowance_TEST.cpp Tests/Item_TEST.h Tests/Item_TEST.cpp
-        Monsters/Creature.cpp FieldOfHonor/MazeGenerator.cpp FieldOfHonor/MazeGenerator.h)
+        Monsters/Creature.cpp FieldOfHonor/MazeGenerator.cpp FieldOfHonor/MazeGenerator.h FieldOfHonor/FieldStuff.cpp FieldOfHonor/FieldStuff.h)
