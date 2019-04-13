@@ -7,39 +7,58 @@
 using namespace std;
 
 class FieldStuff {
-private:
+protected:
+    // fast search
     int id;
     string name;
-    bool isActive;
+    // exists/active
+    bool isactive;
     vector<Item> inventory_;
 public:
     FieldStuff() = default;
     ~FieldStuff() = default;
 
-    int GetInt(int what);
+    virtual int GetInt(int what);
 
-    string GetString(int which);
+    virtual string GetString(int what);
 
-    bool GetBool(bool what);
+    virtual bool GetBool(int what);
 
-    Item GetInventory();
+    virtual vector<Item> GetInventory();
 
-    void SetInt(int what, int value);
+    virtual void SetInt(int what, int value);
 
-    void SetString(int what, string value);
+    virtual void SetString(int what, string &value);
 
-    void SetBool(int what, bool value);
+    virtual void SetBool(int what, bool value);
 
-    void SetInventory(vector<Item> items_);
+    virtual void SetInventory(vector<Item> &items_);
+
+    virtual void RemoveFromInventory(vector<Item> &items_);
 };
 
 class Furniture : public FieldStuff{
 private:
     int hp;
-    int type;
-    int lock_id;
+    int type;  // High, medium or low
+    int lock_id; // Each lock got its key only key with same id will fit
     int lock_hp;
     bool islocked;
+public:
+    Furniture();
+    Furniture(int id_, string name_, bool isactive_, int hp_, int type_, int lock_id_, int lock_hp_, bool islocked_);
+    ~Furniture();
+
+    bool IsLockLocked(bool islocked_, int lock_hp_);
+
+    int GetInt(int what) override;
+
+    bool GetBool(int what) override;
+
+    void SetInt(int what, int value) override;
+
+    void SetBool(int what, bool value) override;
+
 };
 
 
