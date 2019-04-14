@@ -59,10 +59,10 @@ vector <vector<int>> MazeGenerator::RoomsPlacement(vector <pair<int, int>> rooms
         int endSt = min(ending.first, ending.second), endEn = max(ending.first, ending.second);
         /*bool upper_room_wall_reached_end_of_the_region, right_room_wall_reached_end_of_the_region;
         bool bottom_room_wall_reached_end_of_the_region, left_room_wall_reached_end_of_the_region;*/
-        // square_ here is an adress
+        // square_ here is an address
         /// TEST
         vector <pair<int, int>> new_room_region = RoomsPlacement_BuildingWalls(begin, ending, square_);
-        RoomsPlacement_MakingRoomInside(new_room_region[0], new_room_region[1], square_);
+        square = RoomsPlacement_MakingRoomInside(new_room_region[0], new_room_region[1], square_);
 
     }
     //
@@ -88,13 +88,11 @@ vector <pair<int, int>> MazeGenerator::RoomsPlacement_BuildingWalls(pair<int, in
     // if it is possible region expands by 1 in all directions
     // and build there walls
     output = RoomsPlacement_CheckEdgeReach(start_of_the_region, end_of_the_region, square_[0].size(), square_.size());
-    //
-
-    //
-    for (int i = min(st_new_region.first, end_new_region.first);
-         i < max(st_new_region.first, end_new_region.first); i++) {
-        for (int j = min(st_new_region.second, end_new_region.second);
-             j < max(st_new_region.second, end_new_region.second); j++) {
+    if(output.empty()) return output;
+    for (int i = min(output[0].first, output[1].first);
+         i < max(output[0].first, output[1].first); i++) {
+        for (int j = min(output[0].second, output[1].second);
+             j < max(output[0].second, output[1].second); j++) {
             if(square_[i][j] > 0) continue;
             square_[i][j] = 2;
         }
@@ -247,7 +245,7 @@ int MazeGenerator::RightDirection(Random_Generator_ *Rand_gen, int x, int y, int
                                   vector <vector<int>> square_) {
     bool canMove[4] = {true, true, true, true};
     bool deadend = false;
-    int dir = -1;// means deadend reached
+    int dir = -1;  // Means deadend reached
     while (!IsRightDirection(x, y, direction, square_)) {
         canMove[direction] = false;
         for (int j = 0; j < 4; j++) {
@@ -308,16 +306,10 @@ vector<vector<int>> MazeGenerator::LabyrinthMenu(vector<vector<int>> square_) {
         cout << "1 - Set labyrinth difficulty. The higher difficulty means higher chance to get another turn/fork on next field.\n";
         cout << "2 - Set entrances and exits. Set their options and (in later builds) triggers.\n";
         cout << "3 - Set field type. (to delete any complex object like entrance or trap just place '0' on it)\n";
-        /*cout << "\n";
-        cout << "\n";
-        cout << "\n";
-        cout << "\n";
-        cout << "\n";
-        cout << "\n";*/
+
         option_ = IsNumber(option_, 0, 3);
         if (option_ == 1) difficulty = Set_Difficulty();
         else if (option_ == 2){
-            //region selection function here
             pair<pair<int, int>, pair<int, int>> input = RegionSelect(square_);
             vector<pair<pair<int, int>, int>> entr = Set_Entrance(input.first, input.second);
             for(int i = 0; i < entr.size(); i++){
@@ -426,7 +418,7 @@ Entrance_info MazeGenerator::ZeroIdEntranceInfo() const {
 }
 
 vector<vector<int>> MazeGenerator::Set_FieldType(pair<int, int> start_of_the_region, pair<int, int> end_of_the_region, vector<vector<int>> square_) {
-    //ask identifiers for each field
+    // Asking identifiers for each field
     cout << "For the region (" << start_of_the_region.first << ", " << start_of_the_region.second << ") - (" << end_of_the_region.first << ", " << end_of_the_region.second << ")\n";
     cout << "Set field type.\n";
     cout << "id descriptions:/n"
@@ -453,22 +445,21 @@ vector<vector<int>> MazeGenerator::Set_FieldType(pair<int, int> start_of_the_reg
     return square_;
 }
 
-
 pair<pair<int, int>, pair<int, int>> MazeGenerator::RegionSelect(vector<vector<int>> square_) {
     pair<pair<int, int>, pair<int, int>> output;
     int input;
     cout << "For first point.\n";
-    cout << "Type x\n";
+    cout << "Type x:\n";
     input = IsNumber(input, 0, (int)square_[0].size() - 1);
     output.first.first = input;
-    cout << "Type y\n";
+    cout << "Type y:\n";
     input = IsNumber(input, 0, (int)square_.size() - 1);
     output.first.second = input;
     cout << "For second point.\n";
-    cout << "Type x\n";
+    cout << "Type x:\n";
     input = IsNumber(input, 0, (int)square_[0].size() - 1);
     output.second.first = input;
-    cout << "Type y\n";
+    cout << "Type y:\n";
     input = IsNumber(input, 0, (int)square_.size() - 1);
     output.second.second = input;
     return output;
@@ -488,14 +479,10 @@ Entrance_info MazeGenerator::GetEntranceInfo(int id) {
         cout << "Incorrect id\n";
         return entrance_info[0];
     }
+    return entrance_info[id];
 }
 
 int MazeGenerator::Dig(Random_Generator_ *Rand_gen) {
     pair<int, int> pos;
 }
-/* Dig(){
- * pair<int, int> pos;
- * **pos = entrance[0]**;
- * pos = Move(Rand_gen, pos.first, post.second, square_);
- * if(pos == entrance[0]){**pos = rand(entrance[i])**}
-}*/
+
