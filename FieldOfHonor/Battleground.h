@@ -5,6 +5,7 @@
 #include <iostream>
 #include "../Character/UsefulFunctions.h"
 #include "../Character/character.h"
+#include "FieldStuff.h"
 #include "Effect.h"
 
 const int kShapes_NUM = 2;
@@ -28,6 +29,8 @@ class Battleground {
   vector<vector<int>> square;
   vector<vector<Character *>> in_square;
   //vector<Effect *> effects;
+  // What things/stuff are in this square.
+  vector<vector<vector<FieldStuff *>>> fieldstuff;
   int shape;
   int radius;
   int X_Limit;

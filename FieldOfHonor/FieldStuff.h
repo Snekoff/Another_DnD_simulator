@@ -4,6 +4,12 @@
 #include "../Inventory(Item)/Items_Factory.h"
 #ifndef ANOTHER_DND_SIMULATOR_FIELDSTUFF_H
 #define ANOTHER_DND_SIMULATOR_FIELDSTUFF_H
+
+/*
+ * Here are classes that are stored in each field/square.
+ * Like what is in that position torch, trap, furniture.
+ * Example: wooden shelf with books.(Books could be taken.)
+ * */
 using namespace std;
 
 class FieldStuff {

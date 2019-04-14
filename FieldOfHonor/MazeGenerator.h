@@ -5,6 +5,15 @@
 #include "../Character/UsefulFunctions.h"
 #include "../Character/character.h"
 
+/*
+ * Bit harsh labyrinth algorithm.
+ * Input: Empty field (n * m)
+ * You can set field properties before algorithm will start.
+ * Like making indestructible walls, place rooms, place entrances.
+ * Then in free space(walls) mole will dig corridors.
+ * Output: Labyrinth with rooms(even if you didn't place them), traps and so on.
+ * */
+
 const int kDifficulty_Max = 10;
 const int kDifficulty_Min = 0;
 
