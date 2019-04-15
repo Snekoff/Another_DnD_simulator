@@ -65,15 +65,14 @@ public:
     MazeGenerator(Random_Generator_ *Rand_gen, vector<vector<int>> square_);
 
     // room region is two points (start end edge)
-    vector<vector<int>> RoomsPlacement(vector<pair<int, int>> roomsRegions, vector<pair<int, int>> roomsEntrances,
-                                       vector<vector<int>> square_);
+    vector<vector<int>> RoomsPlacement(vector<vector<int>> square_);
 
-    vector<pair<int, int>> RoomsPlacement_BuildingWalls(pair<int, int> start_of_the_region,
+    pair<pair<int, int>, pair<int, int>> RoomsPlacement_BuildingWalls(pair<int, int> start_of_the_region,
                                                         pair<int, int> end_of_the_region,
                                                         vector<vector<int>> &square_
     );
 
-    vector<pair<int, int>> RoomsPlacement_CheckEdgeReach(pair<int, int> start_of_the_region,
+    pair<pair<int, int>, pair<int, int>> RoomsPlacement_CheckEdgeReach(pair<int, int> start_of_the_region,
                                                          pair<int, int> end_of_the_region,
                                                          unsigned long x_max,
                                                          unsigned long y_max);

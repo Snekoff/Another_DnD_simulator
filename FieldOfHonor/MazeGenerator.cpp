@@ -45,54 +45,29 @@ bool MazeGenerator::IsNegative(int x, int y, int index) {
 // 3 - Exit/Entrance
 // 4 - Nonbreakable wall
 // 5 - Reached Entrance
-vector <vector<int>> MazeGenerator::RoomsPlacement(vector <pair<int, int>> roomsRegions,
-                                                   vector <pair<int, int>> roomsEntrances,
-                                                   vector <vector<int>> square_) {
-    for (int i = 0; i < roomsRegions.size(); i += 2) {
-        pair<int, int> begin, ending;
-        begin = roomsRegions[i];
-        ending = roomsRegions[i + 1];
-        if (IsNegative(begin.first, begin.second, i / 2 + 1) || IsNegative(ending.first, ending.second, i / 2 + 1)) {
-            continue;
-        }
-        int begSt = min(begin.first, begin.second), begEn = max(begin.first, begin.second);
-        int endSt = min(ending.first, ending.second), endEn = max(ending.first, ending.second);
-        /*bool upper_room_wall_reached_end_of_the_region, right_room_wall_reached_end_of_the_region;
-        bool bottom_room_wall_reached_end_of_the_region, left_room_wall_reached_end_of_the_region;*/
-        // square_ here is an address
-        /// TEST
-        vector <pair<int, int>> new_room_region = RoomsPlacement_BuildingWalls(begin, ending, square_);
-        square = RoomsPlacement_MakingRoomInside(new_room_region[0], new_room_region[1], square_);
-
-    }
-    //
-    /*Написать структуру для входов, (дверь есть/нет, какая, прочность(урон для разрушения),
-     * замок(сложность, 0 - нет замка))*/
-    for (int i = 0; i < roomsEntrances.size(); i++) {
-        if (!IsNegative(roomsEntrances[i].first, roomsEntrances[i].second, i + 1)
-            && square_[roomsEntrances[i].first][roomsEntrances[i].second] == 2) {
-            square_[roomsEntrances[i].first][roomsEntrances[i].second] = 3;
-        } else std::cout << "Entrance #" << i + 1 << " is placed not on room wall\n";
-    }
+vector <vector<int>> MazeGenerator::RoomsPlacement(vector <vector<int>> square_) {
+    pair<pair<int, int>, pair<int, int>> region;
+    region = RegionSelect(square_);
+    region = RoomsPlacement_BuildingWalls(region.first, region.second, square_);
+    return RoomsPlacement_MakingRoomInside(region.first, region.second, square_);
 }
 
-vector <pair<int, int>> MazeGenerator::RoomsPlacement_BuildingWalls(pair<int, int> start_of_the_region,
+pair<pair<int, int>, pair<int, int>> MazeGenerator::RoomsPlacement_BuildingWalls(pair<int, int> start_of_the_region,
                                                                     pair<int, int> end_of_the_region,
                                                                     vector <vector<int>> &square_
 ) {
-    vector <pair<int, int>> output;
+    pair<pair<int, int>, pair<int, int>> output;
     pair<int, int> st_new_region, end_new_region;
     pair<int, int> st_new_room_region = start_of_the_region, end_new_room_region = end_of_the_region;
     //User choose size and placement, but if it is too close to the edge of the world
-    //walls will be automaticaly builded to prevent reach nonexisting array member
+    //walls will be automatically built to prevent reach nonexisting array member
     // if it is possible region expands by 1 in all directions
     // and build there walls
     output = RoomsPlacement_CheckEdgeReach(start_of_the_region, end_of_the_region, square_[0].size(), square_.size());
-    if(output.empty()) return output;
-    for (int i = min(output[0].first, output[1].first);
-         i < max(output[0].first, output[1].first); i++) {
-        for (int j = min(output[0].second, output[1].second);
-             j < max(output[0].second, output[1].second); j++) {
+    for (int i = min(output.first.first, output.second.first);
+         i < max(output.first.first, output.second.first); i++) {
+        for (int j = min(output.first.second, output.second.second);
+             j < max(output.first.second, output.second.second); j++) {
             if(square_[i][j] > 0) continue;
             square_[i][j] = 2;
         }
@@ -100,12 +75,12 @@ vector <pair<int, int>> MazeGenerator::RoomsPlacement_BuildingWalls(pair<int, in
     return output;
 }
 
-vector<pair<int, int>> MazeGenerator::RoomsPlacement_CheckEdgeReach(pair<int, int> start_of_the_region,
+pair<pair<int, int>, pair<int, int>> MazeGenerator::RoomsPlacement_CheckEdgeReach(pair<int, int> start_of_the_region,
                                                                     pair<int, int> end_of_the_region, unsigned long x_max,
                                                                     unsigned long y_max) {
     pair<int, int> st_new_region, end_new_region;
     pair<int, int> st_new_room_region = start_of_the_region, end_new_room_region = end_of_the_region;
-    vector<pair<int, int>> output;
+    pair<pair<int, int>, pair<int, int>> output;
     if (start_of_the_region.first >= end_of_the_region.first) {
         if (start_of_the_region.second >= end_of_the_region.second) { // x++ y++
             // start of the region
@@ -165,8 +140,8 @@ vector<pair<int, int>> MazeGenerator::RoomsPlacement_CheckEdgeReach(pair<int, in
             } else end_new_room_region.second--;
         }
     }
-    output.push_back(st_new_room_region);
-    output.push_back(end_new_room_region);
+    output.first = st_new_room_region;
+    output.second = end_new_room_region;
     return output;
 
 }
@@ -304,17 +279,13 @@ vector<vector<int>> MazeGenerator::LabyrinthMenu(vector<vector<int>> square_) {
         cout << "Choose what to do:\n";
         cout << "0 - If you are already satisfied with its form.\n";
         cout << "1 - Set labyrinth difficulty. The higher difficulty means higher chance to get another turn/fork on next field.\n";
-        cout << "2 - Set entrances and exits. Set their options and (in later builds) triggers.\n";
-        cout << "3 - Set field type. (to delete any complex object like entrance or trap just place '0' on it)\n";
+        cout << "2 - Set rooms(If you need regular door or hole in it you will have to place entrance later).\n";
+        cout << "3 - Set field type. (To delete any complex object like entrance or trap just place '0' on it)\n";
 
         option_ = IsNumber(option_, 0, 3);
         if (option_ == 1) difficulty = Set_Difficulty();
         else if (option_ == 2){
-            pair<pair<int, int>, pair<int, int>> input = RegionSelect(square_);
-            vector<pair<pair<int, int>, int>> entr = Set_Entrance(input.first, input.second);
-            for(int i = 0; i < entr.size(); i++){
-                entrances[entr[i].first.first][entr[i].first.second] = entr[i].second;
-            }
+            square_ = RoomsPlacement(square_);
         }
         else if (option_ == 3){
             pair<pair<int, int>, pair<int, int>> input = RegionSelect(square_);
@@ -417,28 +388,37 @@ Entrance_info MazeGenerator::ZeroIdEntranceInfo() const {
     ZeroId.id = 0;
 }
 
-vector<vector<int>> MazeGenerator::Set_FieldType(pair<int, int> start_of_the_region, pair<int, int> end_of_the_region, vector<vector<int>> square_) {
+vector<vector<int>> MazeGenerator::Set_FieldType(pair<int, int> start_of_the_region, pair<int, int> end_of_the_region,
+                                                 vector<vector<int>> square_) {
     // Asking identifiers for each field
-    cout << "For the region (" << start_of_the_region.first << ", " << start_of_the_region.second << ") - (" << end_of_the_region.first << ", " << end_of_the_region.second << ")\n";
+    cout << "For the region (" << start_of_the_region.first << ", " << start_of_the_region.second << ") - ("
+         << end_of_the_region.first << ", " << end_of_the_region.second << ")\n";
     cout << "Set field type.\n";
-    cout << "id descriptions:/n"
-         << "0 - wall/n"
-         << "1 - corridor/empty/n"
-         << "2 - room wall/n"
-         << "3 - Exit/Entrance/n"
-         << "4 - Nonbreakable wall/n"
-         << "5 - Reached(Blocked) Entrance/n";
+    cout << "id descriptions:\n"
+         << "0 - wall.\n"
+         << "1 - corridor/empty.\n"
+         << "2 - room wall.\n"
+         << "3 - Nonbreakable wall.\n"
+         << "-1 - Go back.\n";
     int field_type;
-    field_type = IsNumber(field_type, 0, 5);
-    int max_d = max(abs(start_of_the_region.first - end_of_the_region.first), abs(start_of_the_region.second - end_of_the_region.second));
-    int min_d = min(abs(start_of_the_region.first - end_of_the_region.first), abs(start_of_the_region.second - end_of_the_region.second));
+    field_type = IsNumber(field_type, -1, 3);
+    if(field_type == -1) return square_;
+    // I have to do this, because entrance got id 3 and I want to set them later
+    // sorry
+    if(field_type == 3) field_type++;
+    int max_d = max(abs(start_of_the_region.first - end_of_the_region.first),
+                    abs(start_of_the_region.second - end_of_the_region.second));
+    int min_d = min(abs(start_of_the_region.first - end_of_the_region.first),
+                    abs(start_of_the_region.second - end_of_the_region.second));
 
-    for(int i = 0; i < max_d; i++){
-        for(int j = 0; j < min_d; j++) {
-            if(min_d == abs(start_of_the_region.second - end_of_the_region.second)){
-                square_[min(start_of_the_region.first, start_of_the_region.first) + i][min(start_of_the_region.second, start_of_the_region.second) + j] = field_type;
+    for (int i = 0; i < max_d; i++) {
+        for (int j = 0; j < min_d; j++) {
+            if (min_d == abs(start_of_the_region.second - end_of_the_region.second)) {
+                square_[min(start_of_the_region.first, start_of_the_region.first) + i][
+                        min(start_of_the_region.second, start_of_the_region.second) + j] = field_type;
             } else {
-                square_[min(start_of_the_region.first, start_of_the_region.first) + j][min(start_of_the_region.second, start_of_the_region.second) + i] = field_type;
+                square_[min(start_of_the_region.first, start_of_the_region.first) + j][
+                        min(start_of_the_region.second, start_of_the_region.second) + i] = field_type;
             }
         }
     }
