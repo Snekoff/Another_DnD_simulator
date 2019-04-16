@@ -3,7 +3,6 @@
 using namespace std;
 
 MazeGenerator::MazeGenerator(Random_Generator_ *Rand_gen, vector <vector<int>> square_) {
-// smth here
     deadend.resize(square_.size());
     for (int i = 0; i < deadend.size(); i++) {
         deadend[i].resize(square_[i].size());
@@ -45,11 +44,12 @@ bool MazeGenerator::IsNegative(int x, int y, int index) {
 // 3 - Exit/Entrance
 // 4 - Nonbreakable wall
 // 5 - Reached Entrance
-vector <vector<int>> MazeGenerator::RoomsPlacement(vector <vector<int>> square_) {
+vector<vector<int>> MazeGenerator::RoomsPlacement(vector <vector<int>> square_) {
     pair<pair<int, int>, pair<int, int>> region;
     region = RegionSelect(square_);
     region = RoomsPlacement_BuildingWalls(region.first, region.second, square_);
-    return RoomsPlacement_MakingRoomInside(region.first, region.second, square_);
+    square = RoomsPlacement_MakingRoomInside(region.first, region.second, square_);
+    return square;
 }
 
 pair<pair<int, int>, pair<int, int>> MazeGenerator::RoomsPlacement_BuildingWalls(pair<int, int> start_of_the_region,
@@ -153,6 +153,7 @@ vector <vector<int>> MazeGenerator::RoomsPlacement_MakingRoomInside(pair<int, in
         for (int j = min(start_of_the_region.second, end_of_the_region.second);
              j < max(start_of_the_region.second, end_of_the_region.second); j++) {
             square_[i][j] = 1;
+            num_of_free_fields++;
         }
     }
 }
@@ -304,77 +305,30 @@ int MazeGenerator::Set_Difficulty() {
     difficulty = IsNumber(difficulty, kDifficulty_Min, kDifficulty_Max);
 }
 
-vector<pair<pair<int, int>, int>> MazeGenerator::Set_Entrance(pair<int, int> start_of_the_region,
-        pair<int, int> end_of_the_region) {
-    int space;
-    space = abs(start_of_the_region.first - end_of_the_region.first) *
-            abs(start_of_the_region.second - end_of_the_region.second);
-    vector<pair<pair<int, int>, int>> output;
-    output.resize((unsigned)space);
-    bool isIdentifierTheSame = true;
-    cout << "Is identifier the same for whole region? (it means that whole entrance got same name, settings,"
-            " triggers, so on)\n";
-    cout << "0/1 (Yes/No)\n";
-    string input;
-    cin >> input;
-    if(input[0] == '1' || input[0] == 'N') isIdentifierTheSame = false;
-    pair<int, int> coords;
-    coords.first = min(start_of_the_region.first, end_of_the_region.first);
-    coords.second = min(start_of_the_region.second, end_of_the_region.second);
-    int max_d = max(abs(start_of_the_region.first - end_of_the_region.first), abs(start_of_the_region.second - end_of_the_region.second));
-    int min_d = min(abs(start_of_the_region.first - end_of_the_region.first), abs(start_of_the_region.second - end_of_the_region.second));
+Entrance_info MazeGenerator::Set_Entrance() {
+    Entrance_info output;
     //Default Entrance info
-    if(entrance_info.empty()) {
+    if (entrance_info.empty()) {
         entrance_info.push_back(ZeroIdEntranceInfo());
     }
-    //ask identifiers for each field
-    for(int i = 0; i < max_d; i++){
-        for(int j = 0; j < min_d; j++) {
-            if(!isIdentifierTheSame || j == 0){
-                //default id
-                if(entrance_info.empty()) output[i+j].second = 1;
-                else output[i+j].second = entrance_info.size();
-                // ask for id
-                cout << "for ("<< coords.first  << ", " << coords.second  << ") choose identifier. "
-                                                                             "If you use same identifier few times "
-                                                                             "regions just will counts as one. \n";
-                cout << "(Your ID now is " << output[i+j].second << ".) Print -1 to leave it as is.\n";
-                output[i+j].first.first = coords.first;
-                output[i+j].first.second = coords.second;
-                int inp = IsNumber(output[i+j].second, -1, INT_MAX - 1);
-                if(inp != -1)  output[i+j].second = inp;
-                /// CHECK whether this ID already exists!!
-            } else {
-                output[i+j].first.first = coords.first;
-                output[i+j].first.second = coords.second;
-                output[i+j].second = output[0].second;
-            }
-            //Entrance struct
-            if(!isIdentifierTheSame || j == 0){
-                Entrance_info entr_info;
-                entr_info.id = output[i+j].second;
-                entr_info.order = output[i+j].second;
-                cout << "for entrance with ID " << output[i+j].second << " set settings. :P\n";
-                cout << "Set order. Entrance with order 0 will be starting point of the labyrinth. Or you can set it same as ID.\n";
-                entr_info.order = IsNumber(entr_info.order, 0, INT_MAX - 1);
-                cout << "Set whether this entrance is blockable. Blockable Entrance could be reached once and only once. 0/1 (Yes/No)\n";
-                entr_info.is_blockable = IsNumber(entr_info.is_blockable, false, true);
-                cout << "Set name. (Just for you.)\n";
-                cin >> entr_info.name;
-                cout << "Set trigger name. (not implemented yet... But you can set it.)\n";
-                cin >> entr_info.trigger_name;
-                cout << "That's all.\n";
-                ///Must first entrance be blocked? I think no.
-                entr_info.blocked = false;
-                entrance_info.push_back(entr_info);
-            }
-            //
-            if(min_d == abs(start_of_the_region.second - end_of_the_region.second)) {coords.second++; }
-            else {coords.first++; }
-        }
-        if(max_d == abs(start_of_the_region.first - end_of_the_region.first)) {coords.first++; coords.second = min(start_of_the_region.second, end_of_the_region.second);}
-        else {coords.second++; coords.first = min(start_of_the_region.first, end_of_the_region.first);}
-    }
+    //Default id
+    output.id = entrance_info.size();
+    cout << "(Your ID now is " << output.id << ".)\n";
+    //Entrance struct
+    output.order = output.id;
+    cout << "For entrance with ID " << output.id << " set settings. :P\n";
+    cout << "Set order. Entrance with order 0 will be starting point of the labyrinth. Or you can set it same as ID.\n";
+    output.order = IsNumber(output.order, 0, INT_MAX - 1);
+    cout
+    << "Set whether this entrance is blockable. Blockable Entrance could be reached once and only once. 0/1 (Yes/No)\n";
+    output.is_blockable = IsNumber(output.is_blockable, false, true);  // Check
+    cout << "Is it blocked now?\n";
+    output.blocked = IsNumber(output.blocked, false, true);  // Check
+    cout << "Set name. (Just for you.)\n";
+    cin >> output.name;
+    cout << "Set trigger name. (not implemented yet... But you can set it.)\n";
+    cin >> output.trigger_name;
+    cout << "That's all.\n";
     return output;
 }
 
@@ -398,14 +352,14 @@ vector<vector<int>> MazeGenerator::Set_FieldType(pair<int, int> start_of_the_reg
          << "0 - wall.\n"
          << "1 - corridor/empty.\n"
          << "2 - room wall.\n"
-         << "3 - Nonbreakable wall.\n"
+         << "3 - Entrance/Exit.\n"
+         << "4 - Nonbreakable wall.\n"
          << "-1 - Go back.\n";
     int field_type;
-    field_type = IsNumber(field_type, -1, 3);
-    if(field_type == -1) return square_;
-    // I have to do this, because entrance got id 3 and I want to set them later
-    // sorry
-    if(field_type == 3) field_type++;
+    field_type = IsNumber(field_type, -1, 4);
+    if (field_type == -1) return square_;
+    if (field_type == 3) entrance_info.push_back(Set_Entrance());
+
     int max_d = max(abs(start_of_the_region.first - end_of_the_region.first),
                     abs(start_of_the_region.second - end_of_the_region.second));
     int min_d = min(abs(start_of_the_region.first - end_of_the_region.first),
@@ -414,11 +368,11 @@ vector<vector<int>> MazeGenerator::Set_FieldType(pair<int, int> start_of_the_reg
     for (int i = 0; i < max_d; i++) {
         for (int j = 0; j < min_d; j++) {
             if (min_d == abs(start_of_the_region.second - end_of_the_region.second)) {
-                square_[min(start_of_the_region.first, start_of_the_region.first) + i][
-                        min(start_of_the_region.second, start_of_the_region.second) + j] = field_type;
+                square_[min(start_of_the_region.first, start_of_the_region.first) + i][min(start_of_the_region.second, start_of_the_region.second) + j] = field_type;
+                if(field_type == 3) entrances[min(start_of_the_region.first, start_of_the_region.first) + i][min(start_of_the_region.second, start_of_the_region.second) + j] = entrance_info[entrance_info.size() - 1].id;
             } else {
-                square_[min(start_of_the_region.first, start_of_the_region.first) + j][
-                        min(start_of_the_region.second, start_of_the_region.second) + i] = field_type;
+                square_[min(start_of_the_region.first, start_of_the_region.first) + j][min(start_of_the_region.second, start_of_the_region.second) + i] = field_type;
+                if(field_type == 3) entrances[min(start_of_the_region.first, start_of_the_region.first) + j][min(start_of_the_region.second, start_of_the_region.second) + i] = entrance_info[entrance_info.size() - 1].id;
             }
         }
     }
@@ -462,7 +416,29 @@ Entrance_info MazeGenerator::GetEntranceInfo(int id) {
     return entrance_info[id];
 }
 
-int MazeGenerator::Dig(Random_Generator_ *Rand_gen) {
-    pair<int, int> pos;
+pair<int, int> MazeGenerator::GetZeroOrderEntrancePos() {
+
+}
+
+/*Method which uses all the others and return field filled with corridors and walls :D*/
+vector<vector<int>> MazeGenerator::Build_Labirinth(Random_Generator_ *Rand_gen, vector<vector<int>> square_) {
+    square_ = LabyrinthMenu(square_);
+    square = square_;
+    bool issatisfying = false;
+    while(!issatisfying){
+        square_ = square;
+        pair<int, int> pos;
+        while(true){
+            if(num_of_deadends == num_of_free_fields) break;
+
+        }
+        cout << "Do you satisfied with labirinth? 0/1 (Yes/No)\n";
+        int issatisfying_i = IsNumber(issatisfying_i, 0, 1);
+        if(issatisfying_i == 0) issatisfying = true;
+    }
+
+    num_of_deadends = 0;
+    num_of_free_fields = 0;
+    return square_;
 }
 

@@ -45,6 +45,8 @@ private:
     vector<vector<int>> square;
     int difficulty;
     int roomProbability;
+    int num_of_free_fields;
+    int num_of_deadends;
     // entrances and exits are just places which algorithm will cross only once
     // odd pair is begin of a region and next one is the end of the region
     vector<vector<int>> entrances;
@@ -110,7 +112,7 @@ public:
 
     int PaceLength(Random_Generator_ *Rand_gen, int difficulty_);
 
-    int Dig(Random_Generator_ *Rand_gen);
+    vector<vector<int>> Build_Labirinth(Random_Generator_ *Rand_gen, vector<vector<int>> square_);
 
     vector<vector<int>> GetField();
 
@@ -127,14 +129,12 @@ public:
     pair<pair<int, int>, pair<int, int>> RegionSelect(vector<vector<int>> square_);
 
     // later
-    /// what to return?
+    // what to return?
     vector <pair<int, int>> Set_Trap(pair<int, int> start_of_the_region,
                                      pair<int, int> end_of_the_region);
 
     //Entrance or Exit, it does not matter
-    //output: x, y, identifier
-    vector <pair<pair<int, int>, int>> Set_Entrance(pair<int, int> start_of_the_region,
-                                                    pair<int, int> end_of_the_region);
+    Entrance_info Set_Entrance();
 
     // later
     void Set_Trigger(pair<int, int> start_of_the_region,
@@ -143,6 +143,8 @@ public:
     vector<vector<int>> GetLabirinth();
 
     int Get(int what);
+
+    pair<int, int> GetZeroOrderEntrancePos();
 
     Entrance_info GetEntranceInfo(int id);
 
