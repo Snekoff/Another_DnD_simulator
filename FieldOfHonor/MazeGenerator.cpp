@@ -416,8 +416,38 @@ Entrance_info MazeGenerator::GetEntranceInfo(int id) {
     return entrance_info[id];
 }
 
-pair<int, int> MazeGenerator::GetZeroOrderEntrancePos() {
+pair<int, int> MazeGenerator::GetZeroOrderEntrancePos(vector<Entrance_info> entrance_info_, vector<vector<int>> entrances) {
+    int zeroorderid;
+    pair<int, int> result;
+    for(int i = 0; i < entrance_info_.size(); i++){
+        if(entrance_info_[i].order == 0) {
+            zeroorderid = entrance_info_[i].id;
+            break;
+        }
+    }
+    for (int j = 0; j < entrances[0].size(); ++j) {
+        for (int i = 0; i < entrances.size(); ++i) {
+            if(entrances[j][i] == zeroorderid) {
+                result = make_pair(j, i);
+                break;
+            }
+        }
+    }
+    return result;
+}
 
+pair<int, int> MazeGenerator::GetNewRandPos(Random_Generator_ *Rand_gen, pair<int, int> starting_pos, vector<vector<int>> square_,
+                                            vector<vector<int>> deadend_) {
+    pair<int, int> result = starting_pos;
+    int count;
+    while(true){
+        count++;
+        result.first = Rand_gen->Rand(1, square_[0].size() - 2);
+        result.second = Rand_gen->Rand(1, square_.size() - 2);
+        if(square_[result.first][result.second] == 1 && deadend_[result.first][result.second] != 1) break;
+        if(count >= square_[0].size() * square_.size() * 2) break;
+    }
+    return result;
 }
 
 /*Method which uses all the others and return field filled with corridors and walls :D*/
@@ -427,11 +457,21 @@ vector<vector<int>> MazeGenerator::Build_Labirinth(Random_Generator_ *Rand_gen, 
     bool issatisfying = false;
     while(!issatisfying){
         square_ = square;
-        pair<int, int> pos;
+        pair<int, int> pos = GetZeroOrderEntrancePos(entrance_info, entrances);
+        pair<int, int> prev_pos;
         while(true){
             if(num_of_deadends == num_of_free_fields) break;
-
+            prev_pos = pos;
+            pos = Move(Rand_gen, pos.first, pos.second, square_);
+            num_of_free_fields += max(abs(prev_pos.first - pos.first), abs(prev_pos.second - pos.second));
+            if(pos == prev_pos){
+                num_of_deadends++;
+                deadend[pos.first][pos.second] = 1;
+                if(num_of_deadends == num_of_free_fields) break;
+                pos = GetNewRandPos(Rand_gen, pos, square_, deadend);
+            }
         }
+        /*Output function*/
         cout << "Do you satisfied with labirinth? 0/1 (Yes/No)\n";
         int issatisfying_i = IsNumber(issatisfying_i, 0, 1);
         if(issatisfying_i == 0) issatisfying = true;

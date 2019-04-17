@@ -144,13 +144,15 @@ public:
 
     int Get(int what);
 
-    pair<int, int> GetZeroOrderEntrancePos();
+    pair<int, int> GetZeroOrderEntrancePos(vector<Entrance_info> entrance_info_, vector<vector<int>> entrances);
 
     Entrance_info GetEntranceInfo(int id);
 
     vector<vector<int>> GetEntrances();
 
     Entrance_info ZeroIdEntranceInfo() const;
+
+    pair<int, int> GetNewRandPos(Random_Generator_ *Rand_gen, pair<int, int> starting_pos, vector<vector<int>> square_, vector<vector<int>> deadend_);
 };
 
 #endif //ANOTHER_DND_SIMULATOR_MAZEGENERATOR_H
