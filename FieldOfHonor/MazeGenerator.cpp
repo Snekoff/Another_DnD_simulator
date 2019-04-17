@@ -379,6 +379,41 @@ vector<vector<int>> MazeGenerator::Set_FieldType(pair<int, int> start_of_the_reg
     return square_;
 }
 
+void MazeGenerator::Visualizer(vector<vector<int>> square_) {
+    // I found stuff that looks fine to my opinion
+    // 0x02500 +=
+    // 2, 3, 5, 7, 15, 19, 23, 27, 32, 40, 48, 56, 66, 81  - 108, 136, 137, 167, 169, 178, 179
+    // Example:
+    // printwc(0x02502);
+    vector<wchar_t> uni_symbols = VisualizerGetReadySymbols(VisualizerGetReadyIds());
+    /*read square and print stuff*/
+}
+
+vector <wchar_t > MazeGenerator::VisualizerGetReadySymbols(vector<int> ids_) {
+    vector<wchar_t> uni_symbols;
+    //starting point of interesting stuff
+    wchar_t uni_symbol = 0x02500;
+    for (int j = 0; j < ids_.size(); ++j) {
+        uni_symbols.push_back(uni_symbol + j);
+    }
+    return  uni_symbols;
+}
+
+vector<int> MazeGenerator::VisualizerGetReadyIds() {
+    vector<int> uni_symbols_id = {2, 3, 5, 7, 15, 19, 23, 27, 32, 40, 48, 56, 66};// 136, 137, 167, 169, 178, 179};
+    for (int i = 81; i < 109; ++i) {
+        uni_symbols_id.push_back(i);
+    }
+    /*sorting vector*/
+    uni_symbols_id.push_back(136); // after sorting delete
+    uni_symbols_id.push_back(137);
+    uni_symbols_id.push_back(167);
+    uni_symbols_id.push_back(169);
+    uni_symbols_id.push_back(178);
+    uni_symbols_id.push_back(179);
+    return uni_symbols_id;
+}
+
 pair<pair<int, int>, pair<int, int>> MazeGenerator::RegionSelect(vector<vector<int>> square_) {
     pair<pair<int, int>, pair<int, int>> output;
     int input;
@@ -472,6 +507,7 @@ vector<vector<int>> MazeGenerator::Build_Labirinth(Random_Generator_ *Rand_gen, 
             }
         }
         /*Output function*/
+        //Visualizer(square_);
         cout << "Do you satisfied with labirinth? 0/1 (Yes/No)\n";
         int issatisfying_i = IsNumber(issatisfying_i, 0, 1);
         if(issatisfying_i == 0) issatisfying = true;

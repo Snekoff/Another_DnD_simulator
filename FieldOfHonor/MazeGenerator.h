@@ -141,6 +141,12 @@ public:
     void Set_Trigger(pair<int, int> start_of_the_region,
                      pair<int, int> end_of_the_region);
 
+    void Visualizer(vector<vector<int>> square_);
+
+    vector <wchar_t > VisualizerGetReadySymbols(vector<int> ids_);
+
+    vector<int> VisualizerGetReadyIds();
+
     vector<vector<int>> GetLabirinth();
 
     int Get(int what);

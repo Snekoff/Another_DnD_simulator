@@ -10,6 +10,9 @@
      * different stuff
      * 0x02500  -  0x025ef
      * */
+/* Fine stuff: 0x02500 +=
+ * 2, 3, 5, 7, 15, 19, 23, 27, 32, 40, 48, 56, 66, 81  - 108, 136, 137, 167, 169, 178, 179.
+ * */
 void printwc(wchar_t wc)
 {
     char buf[2 * MB_CUR_MAX];
