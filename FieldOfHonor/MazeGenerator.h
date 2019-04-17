@@ -4,6 +4,7 @@
 
 #include "../Character/UsefulFunctions.h"
 #include "../Character/character.h"
+#include "Unicode_Console_Output.h"
 
 /*
  * Bit harsh labyrinth algorithm.

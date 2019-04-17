@@ -476,7 +476,6 @@ vector<vector<int>> MazeGenerator::Build_Labirinth(Random_Generator_ *Rand_gen, 
         int issatisfying_i = IsNumber(issatisfying_i, 0, 1);
         if(issatisfying_i == 0) issatisfying = true;
     }
-
     num_of_deadends = 0;
     num_of_free_fields = 0;
     return square_;

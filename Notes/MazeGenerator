@@ -19,3 +19,60 @@ Problem 1.
   Пока выбор остановлю на первом варианте.
 
 !!! НЕ забыть !!! после генерации лабиринта спросить норм ли. Потом дать инструмент добавления предметов интерьера.
+/* char in circles
+     * 0x024b6	-  0x024ff
+     * different stuff
+     * 0x02500  -  0x025ef
+     * */
+
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <wchar.h>
+#include <locale.h>
+#include <string.h>
+
+void printwc(wchar_t wc)
+{
+    char buf[2 * MB_CUR_MAX];
+
+    mbstate_t state;
+    memset(&state,0,sizeof(state));
+
+    size_t offset1 = wcrtomb(buf, wc, &state);
+
+    if(offset1 == size_t(-1))
+    {
+        std::cerr << "wcrtomb failed (1)" << std::endl;
+        return;
+    }
+
+    size_t offset2 = wcrtomb(buf + offset1, L'\0', &state);
+
+    if(offset2 == size_t(-1))
+    {
+        std::cerr << "wcrtomb failed (2)" << std::endl;
+        return;
+    }
+
+    std::cout << buf << std::endl;
+}
+
+int main()
+{
+    setlocale(LC_ALL, "");
+
+    printwc(0x1f0a1);
+    for(auto i = 0x024b6; i <= 0x024ff; i++){
+        printwc(i);
+    }
+    for(auto i = 0x02500; i <= 0x025ef; i++){
+        printwc(i);
+    }
+    /* char in circles
+     * 0x024b6	-  0x024ff
+     * different stuff
+     * 0x02500  -  0x025ef
+     * */
+    return 0;
+}
