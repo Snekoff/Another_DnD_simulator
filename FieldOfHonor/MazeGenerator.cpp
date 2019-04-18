@@ -404,7 +404,6 @@ vector<vector<char>> MazeGenerator::VisualizerTakeIndexesReturnGraphics(vector<v
 
     map<int, wchar_t > uni_sym;
     /*
-
      * 1 = ─  5 = │  25 = ┌   33 = ┐  41 = └   49 = ┘
 57 = ├ 73 = ┤ 89 = ┬  105 = ┴  121 = ┼
 161 = ═ 163 = ║
