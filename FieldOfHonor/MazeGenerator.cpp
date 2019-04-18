@@ -399,6 +399,116 @@ vector <wchar_t > MazeGenerator::VisualizerGetReadySymbols(vector<int> ids_) {
     return  uni_symbols;
 }
 
+vector<vector<char>> MazeGenerator::VisualizerTakeIndexesReturnGraphics(vector<vector<int>> square_){
+    vector<vector<char>> buf;
+
+    map<int, wchar_t > uni_sym;
+    /*
+     * 1 = ─  5 = │  25 = ┌   33 = ┐  41 = └   49 = ┘
+57 = ├ 73 = ┤ 89 = ┬  105 = ┴  121 = ┼
+161 = ═ 163 = ║
+165 = ╒ 167 = ╓
+169 = ╔ 171 = ╕ 173 = ╖ 175 = ╗ 177 = ╘
+179 = ╙ 181 = ╚ 183 = ╛ 185 = ╜ 187 = ╝
+189 = ╞ 191 = ╟ 193 = ╠ 195 = ╡ 197 = ╢
+199 = ╣ 201 = ╤ 203 = ╥ 205 = ╦ 207 = ╧
+209 = ╨ 211 = ╩ 213 = ╪ 215 = ╫ 217 = ╬
+     *
+     * uni_sym.insert(0, 0x02500 + );
+    uni_sym.insert(1, 0x02500 + );
+    uni_sym.insert(4, 0x02500 + );
+    uni_sym.insert(10, 0x02500 + );
+    uni_sym.insert(11, 0x02500 + );
+    uni_sym.insert(14, 0x02500 + );
+    uni_sym.insert(40, 0x02500 + );
+    uni_sym.insert(41, 0x02500 + );
+    uni_sym.insert(44, 0x02500 + );
+    uni_sym.insert(100, 0x02500 + );
+    uni_sym.insert(101, 0x02500 + );
+    uni_sym.insert(104, 0x02500 + );
+    uni_sym.insert(110, 0x02500 + );
+    uni_sym.insert(111, 0x02500 + );
+    uni_sym.insert(114, 0x02500 + );
+    uni_sym.insert(140, 0x02500 + );
+    uni_sym.insert(141, 0x02500 + );
+    uni_sym.insert(144, 0x02500 + );
+    uni_sym.insert(400, 0x02500 + );
+    uni_sym.insert(401, 0x02500 + );
+    uni_sym.insert(404, 0x02500 + );
+    uni_sym.insert(410, 0x02500 + );
+    uni_sym.insert(411, 0x02500 + );
+    uni_sym.insert(414, 0x02500 + );
+    uni_sym.insert(440, 0x02500 + );
+    uni_sym.insert(441, 0x02500 + );
+    uni_sym.insert(444, 0x02500 + );
+    uni_sym.insert(1000, 0x02500 + );
+    uni_sym.insert(1001, 0x02500 + );
+    uni_sym.insert(1004, 0x02500 + );
+    uni_sym.insert(1010, 0x02500 + );
+    uni_sym.insert(1011, 0x02500 + );
+    uni_sym.insert(1014, 0x02500 + );
+    uni_sym.insert(1040, 0x02500 + );
+    uni_sym.insert(1041, 0x02500 + );
+    uni_sym.insert(1044, 0x02500 + );
+    uni_sym.insert(1100, 0x02500 + );
+    uni_sym.insert(1101, 0x02500 + );
+    uni_sym.insert(1104, 0x02500 + );
+    uni_sym.insert(1110, 0x02500 + );
+    uni_sym.insert(1111, 0x02500 + );
+    uni_sym.insert(1114, 0x02500 + );
+    uni_sym.insert(1140, 0x02500 + );
+    uni_sym.insert(1141, 0x02500 + );
+    uni_sym.insert(1144, 0x02500 + );
+    uni_sym.insert(1400, 0x02500 + );
+    uni_sym.insert(1401, 0x02500 + );
+    uni_sym.insert(1404, 0x02500 + );
+    uni_sym.insert(1410, 0x02500 + );
+    uni_sym.insert(1411, 0x02500 + );
+    uni_sym.insert(1414, 0x02500 + );
+    uni_sym.insert(1440, 0x02500 + );
+    uni_sym.insert(1441, 0x02500 + );
+    uni_sym.insert(1444, 0x02500 + );
+    uni_sym.insert(4000, 0x02500 + );
+    uni_sym.insert(4001, 0x02500 + );
+    uni_sym.insert(4004, 0x02500 + );
+    uni_sym.insert(4010, 0x02500 + );
+    uni_sym.insert(4011, 0x02500 + );
+    uni_sym.insert(4014, 0x02500 + );
+    uni_sym.insert(4040, 0x02500 + );
+    uni_sym.insert(4041, 0x02500 + );
+    uni_sym.insert(4044, 0x02500 + );
+    uni_sym.insert(4100, 0x02500 + );
+    uni_sym.insert(4101, 0x02500 + );
+    uni_sym.insert(4104, 0x02500 + );
+    uni_sym.insert(4110, 0x02500 + );
+    uni_sym.insert(4111, 0x02500 + );
+    uni_sym.insert(4114, 0x02500 + );
+    uni_sym.insert(4140, 0x02500 + );
+    uni_sym.insert(4141, 0x02500 + );
+    uni_sym.insert(4144, 0x02500 + );
+    uni_sym.insert(4400, 0x02500 + );
+    uni_sym.insert(4401, 0x02500 + );
+    uni_sym.insert(4404, 0x02500 + );
+    uni_sym.insert(4410, 0x02500 + );
+    uni_sym.insert(4411, 0x02500 + );
+    uni_sym.insert(4414, 0x02500 + );
+    uni_sym.insert(4440, 0x02500 + );
+    uni_sym.insert(4441, 0x02500 + );
+    uni_sym.insert(4444, 0x02500 + );*/
+
+    for(int i = 0; i < square_[0].size(); i++){
+        for(int j = 0; j < square_.size(); j++){
+            if(square_[i][j] == 0){  // wall
+
+            } else if(square_[i][j] == 4) {  // unbreakable wall
+
+            } else if(square_[i][j] == 0) {  // empty
+
+            }
+        }
+    }
+}
+
 vector<int> MazeGenerator::VisualizerGetReadyIds() {
     vector<int> uni_symbols_id = {2, 3, 5, 7, 15, 19, 23, 27, 32, 40, 48, 56, 66};// 136, 137, 167, 169, 178, 179};
     for (int i = 81; i < 109; ++i) {
