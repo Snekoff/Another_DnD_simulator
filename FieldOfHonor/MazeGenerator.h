@@ -147,6 +147,8 @@ public:
 
     vector<int> VisualizerGetReadyIds();
 
+    vector<vector<char>> VisualizerTakeIndexesReturnGraphics(vector<vector<int>> square_);
+
     vector<vector<int>> GetLabirinth();
 
     int Get(int what);
