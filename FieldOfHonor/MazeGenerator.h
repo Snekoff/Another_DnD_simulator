@@ -144,6 +144,8 @@ public:
     void Visualizer(vector<vector<int>> square_);
 
     vector <wchar_t > VisualizerGetReadySymbols(vector<int> ids_);
+    
+    vector<vector<char>> VisualizerTakeIndexesReturnGraphics(vector<vector<int>> square_);
 
     vector<vector<char>> VisualizerTakeIndexesReturnGraphics(vector<vector<int>> square_);
 
