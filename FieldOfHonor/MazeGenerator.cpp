@@ -515,7 +515,6 @@ vector<int> MazeGenerator::VisualizerGetReadyIds() {
         uni_symbols_id.push_back(i);
     }
     /*sorting vector*/
-
     uni_symbols_id.push_back(136); // after sorting delete
     uni_symbols_id.push_back(137);
     uni_symbols_id.push_back(167);
