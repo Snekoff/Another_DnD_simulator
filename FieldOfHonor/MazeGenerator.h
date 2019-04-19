@@ -145,9 +145,9 @@ public:
 
     vector <wchar_t > VisualizerGetReadySymbols(vector<int> ids_);
 
-    vector<int> VisualizerGetReadyIds();
-
     vector<vector<char>> VisualizerTakeIndexesReturnGraphics(vector<vector<int>> square_);
+
+    vector<int> VisualizerGetReadyIds();
 
     vector<vector<int>> GetLabirinth();
 
