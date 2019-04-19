@@ -414,14 +414,14 @@ vector<vector<char>> MazeGenerator::VisualizerTakeIndexesReturnGraphics(vector<v
 199 = ╣ 201 = ╤ 203 = ╥ 205 = ╦ 207 = ╧
 209 = ╨ 211 = ╩ 213 = ╪ 215 = ╫ 217 = ╬
      *
-     * uni_sym.insert(0, 0x02500 + );
-    uni_sym.insert(1, 0x02500 + );
-    uni_sym.insert(4, 0x02500 + );
-    uni_sym.insert(10, 0x02500 + );
-    uni_sym.insert(11, 0x02500 + );
-    uni_sym.insert(14, 0x02500 + );
-    uni_sym.insert(40, 0x02500 + );
-    uni_sym.insert(41, 0x02500 + );
+    uni_sym.insert(0, 0x00020); // empty space
+    uni_sym.insert(1, 0x02575);
+    uni_sym.insert(4, 0x02500 + 209);
+    uni_sym.insert(10, 0x02576);
+    uni_sym.insert(11, 0x02500 + 41);
+    uni_sym.insert(14, 0x02500 + 179);
+    uni_sym.insert(40, 0x0257a);
+    uni_sym.insert(41, 0x02500 + 177);
     uni_sym.insert(44, 0x02500 + );
     uni_sym.insert(100, 0x02500 + );
     uni_sym.insert(101, 0x02500 + );
