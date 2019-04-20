@@ -142,14 +142,8 @@ public:
                      pair<int, int> end_of_the_region);
 
     void Visualizer(vector<vector<int>> square_);
-
-    vector <wchar_t > VisualizerGetReadySymbols(vector<int> ids_);
     
-    vector<vector<char>> VisualizerTakeIndexesReturnGraphics(vector<vector<int>> square_);
-
-    vector<vector<char>> VisualizerTakeIndexesReturnGraphics(vector<vector<int>> square_);
-
-    vector<int> VisualizerGetReadyIds();
+    vector<vector<wchar_t>> VisualizerTakeBattlefieldReturnGraphics(vector<vector<int>> square_);
 
     vector<vector<int>> GetLabirinth();
 
