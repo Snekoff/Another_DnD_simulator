@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
   }*/
 
 //&&&&&&&& how monster parse works #########
-  auto Rand_gen = new Random_Generator_();
+  /*auto Rand_gen = new Random_Generator_();
   Existing_Monsters E_M;
   string monster_name = "Tarul Var";
   int name_index = -1, cr_index = 0;
@@ -87,7 +87,26 @@ int main(int argc, char **argv) {
   auto monster = new Monster(Rand_gen, name_index, cr_index);
   json j;
   j = monster->Save();
-  std::cout << std::setw(4) << j << '\n';
+  std::cout << std::setw(4) << j << '\n';*/
+  
+  //FieldOfHonor::MazeGeneratror::Visualiser
+  vector<vector<int>> square_;
+  square_.resize(4);
+    for (int i = 0; i < square_.size(); ++i) {
+        square_[i].resize(5);
+    }
+    for (int j = 0; j < square_.size(); ++j) {
+        for (int i = 0; i < square_[0].size(); ++i) {
+            cout << square_[i][j];
+        }
+        cout << "\n";
+    }
+    for (int j = 0; j < square_[0].size(); ++j) {
+        for (int i = 0; i < square_.size(); ++i) {
+            cout << square_[i][j];
+        }
+        cout << "\n";
+    }
   return 0;
 }
 /*

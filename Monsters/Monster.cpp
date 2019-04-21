@@ -155,7 +155,7 @@ Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rati
         spellcasting_will = commonVectorStringParse(MonsterJson["monster"][i]["spellcasting"], "will");
         spellcastDaily = spellcastingDailyParse(MonsterJson["monster"][i]["spellcasting"]);
         spells = spellsParse(MonsterJson["monster"][i], "spells");
-        spellSlots = ;
+        spellSlots = spellSlotsParse(MonsterJson["monster"][i], "spells");  //TEST
         isNamedCreature = commonBoolParse(MonsterJson["monster"][i], "isNamedCreature");
         cout << "Control reach Monster::Constructor b_13\n";
         traitTags = commonVectorStringParse(MonsterJson["monster"][i], "traitTags");

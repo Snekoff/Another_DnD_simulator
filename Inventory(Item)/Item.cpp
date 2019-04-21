@@ -54,8 +54,8 @@ int Item::Price_Parse(const nlohmann::basic_json<> &j, int i) {
   int cost_i = 0;
   auto find_value = j["item"][i].find("value");
   if (find_value != j["item"][i].end()) { /* */
-    std::__cxx11::string value_ = j["item"][i]["value"];
-    std::__cxx11::string cost_;
+    std::string value_ = j["item"][i]["value"];
+    std::string cost_;
     int multiplier = 1;
     int s = 0;
     while (((int) value_[s] < (int) 'A' || (int) value_[s] > (int) 'z') && s < value_.length()) {
