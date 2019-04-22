@@ -323,9 +323,11 @@ Entrance_info MazeGenerator::Set_Entrance() {
     output.order = IsNumber(output.order, 0, INT_MAX - 1);
     cout
     << "Set whether this entrance is blockable. Blockable Entrance could be reached once and only once. 0/1 (Yes/No)\n";
-    output.is_blockable = IsNumber(output.is_blockable, false, true);  // Check
-    cout << "Is it blocked now?\n";
-    output.blocked = IsNumber(output.blocked, false, true);  // Check
+    int isblockable_ = IsNumber(isblockable_, 0, 1);
+    output.is_blockable = isblockable_ == 0;
+    cout << "Is it blocked now? 0/1 (Yes/No)\n";
+    int isblocked_ = IsNumber(isblocked_, 0, 1);
+    output.blocked = isblocked_ == 0;
     cout << "Set name. (Just for you.)\n";
     cin >> output.name;
     cout << "Set trigger name. (not implemented yet... But you can set it.)\n";
@@ -402,7 +404,7 @@ vector<vector<wchar_t>> MazeGenerator::VisualizerTakeBattlefieldReturnGraphics(v
     for(int i = 0; i < buf.size(); i++){
         buf[i].resize(square_[i].size());
     }
-    map<int, wchar_t > uni_sym;
+    map<int, wchar_t> uni_sym;
     /*
      * Here I'm using formula to draw an appropriate field.
      * Imagine that we have one square which is not empty space
@@ -424,39 +426,39 @@ vector<vector<wchar_t>> MazeGenerator::VisualizerTakeBattlefieldReturnGraphics(v
      * 199 = ╣ 201 = ╤ 203 = ╥ 205 = ╦ 207 = ╧
      * 209 = ╨ 211 = ╩ 217 = ╬
      */
-    uni_sym.insert(0, 0x00020);  //empty space
-    uni_sym.insert(1, 0x02575);  //upper half-edge
-    uni_sym.insert(4, 0x02500 + 209);
-    uni_sym.insert(10, 0x02576);
-    uni_sym.insert(11, 0x02500 + 41);
-    uni_sym.insert(40, 0x0257a);  //rigth bold half-edge
-    uni_sym.insert(44, 0x02500 + 181);
-    uni_sym.insert(100, 0x02577);  //bottom half_edge
-    uni_sym.insert(101, 0x02500 + 5);
-    uni_sym.insert(110, 0x02500 + 25);
-    uni_sym.insert(111, 0x02500 + 57);
-    uni_sym.insert(400, 0x02500 + 203);
-    uni_sym.insert(404, 0x02500 + 163);
-    uni_sym.insert(440, 0x02500 + 169);
-    uni_sym.insert(444, 0x02500 + 193);
-    uni_sym.insert(1000, 0x02574);  //left half-edge
-    uni_sym.insert(1001, 0x02500 + 49);
-    uni_sym.insert(1010, 0x02500 + 1);
-    uni_sym.insert(1011, 0x02500 + 105);
-    uni_sym.insert(1100, 0x02500 + 33);
-    uni_sym.insert(1101, 0x02500 + 73);
-    uni_sym.insert(1110, 0x02500 + 89);
-    uni_sym.insert(1111, 0x02500 + 121);
-    uni_sym.insert(4000, 0x02578);   //left bold half-edge
-    uni_sym.insert(4004, 0x02500 + 187);
-    uni_sym.insert(4040, 0x02500 + 161);
-    uni_sym.insert(4044, 0x02500 + 211);
-    uni_sym.insert(4400, 0x02500 + 175);
-    uni_sym.insert(4404, 0x02500 + 199);
-    uni_sym.insert(4440, 0x02500 + 205);
-    uni_sym.insert(4444, 0x02500 + 217);
-    uni_sym.insert(-1, 0x1f790);  //empty square 00 01 F7 90
-    uni_sym.insert(-4, 0x02588);  //filled square
+    uni_sym.insert(make_pair(0, 0x00020)); //empty space
+    uni_sym.insert(make_pair(1, 0x02575)); //upper half-edge
+    uni_sym.insert(make_pair(4, 0x02500 + 209));
+    uni_sym.insert(make_pair(10, 0x02576));
+    uni_sym.insert(make_pair(11, 0x02500 + 41));
+    uni_sym.insert(make_pair(40, 0x0257a));  //right bold half-edge
+    uni_sym.insert(make_pair(44, 0x02500 + 181));
+    uni_sym.insert(make_pair(100, 0x02577));  //bottom half_edge
+    uni_sym.insert(make_pair(101, 0x02500 + 5));
+    uni_sym.insert(make_pair(110, 0x02500 + 25));
+    uni_sym.insert(make_pair(111, 0x02500 + 57));
+    uni_sym.insert(make_pair(400, 0x02500 + 203));
+    uni_sym.insert(make_pair(404, 0x02500 + 163));
+    uni_sym.insert(make_pair(440, 0x02500 + 169));
+    uni_sym.insert(make_pair(444, 0x02500 + 193));
+    uni_sym.insert(make_pair(1000, 0x02574));  //left half-edge
+    uni_sym.insert(make_pair(1001, 0x02500 + 49));
+    uni_sym.insert(make_pair(1010, 0x02500 + 1));
+    uni_sym.insert(make_pair(1011, 0x02500 + 105));
+    uni_sym.insert(make_pair(1100, 0x02500 + 33));
+    uni_sym.insert(make_pair(1101, 0x02500 + 73));
+    uni_sym.insert(make_pair(1110, 0x02500 + 89));
+    uni_sym.insert(make_pair(1111, 0x02500 + 121));
+    uni_sym.insert(make_pair(4000, 0x02578));   //left bold half-edge
+    uni_sym.insert(make_pair(4004, 0x02500 + 187));
+    uni_sym.insert(make_pair(4040, 0x02500 + 161));
+    uni_sym.insert(make_pair(4044, 0x02500 + 211));
+    uni_sym.insert(make_pair(4400, 0x02500 + 175));
+    uni_sym.insert(make_pair(4404, 0x02500 + 199));
+    uni_sym.insert(make_pair(4440, 0x02500 + 205));
+    uni_sym.insert(make_pair(4444, 0x02500 + 217));
+    uni_sym.insert(make_pair(-1, 0x1f790));  //empty square 00 01 F7 90
+    uni_sym.insert(make_pair(-4, 0x02588));  //filled square
 
     for(int i = 0; i < square_[0].size(); i++){
         for(int j = 0; j < square_.size(); j++){

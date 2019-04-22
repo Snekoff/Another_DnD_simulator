@@ -90,11 +90,7 @@ int main(int argc, char **argv) {
   std::cout << std::setw(4) << j << '\n';*/
   
   //FieldOfHonor::MazeGeneratror::Visualiser
-  vector<vector<int>> square_;
-  square_.resize(4);
-    for (int i = 0; i < square_.size(); ++i) {
-        square_[i].resize(5);
-    }
+  vector<vector<int>> square_(4, vector<int> (5, 0));
     for (int j = 0; j < square_.size(); ++j) {
         for (int i = 0; i < square_[0].size(); ++i) {
             cout << square_[i][j];
