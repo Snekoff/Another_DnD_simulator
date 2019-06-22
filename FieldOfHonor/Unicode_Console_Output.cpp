@@ -47,15 +47,27 @@ void printwc(wchar_t wc)
 
     printwc(0x1f0a1);
     cout << endl;
-
-    for(auto i = 0x024b6; i <= 0x024ff; i++){
-        printwc(i);
-        cout << endl;
+    cout << "  ";
+    for(int i = 0; i < 10; i++){
+        cout << "  ";
+        cout << i;
     }
+    int j = 0, p = 0;
+    cout <<"\n" << p << "   ";
     for(auto i = 0x02500; i <= 0x025ef; i++){
+        //cout << "i = " << i;
+        if(j == 10) {
+            j = 0;
+            cout << "\n";
+            p++;
+            if(p < 10) cout << p << "   ";
+            else cout << p << "  ";
+        }
         printwc(i);
-        cout << endl;
+        cout << "  ";
+        j++;
     }
+    cout << "\n";
 
 return 0;
 }

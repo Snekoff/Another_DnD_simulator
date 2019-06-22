@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.14)
 project(Another_DnD_simulator)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -10,9 +10,5 @@ add_executable(
         Skills_Spells_and_Feats_/Skills_and_Spells.h Character/Race.h Character/character.h Character/Classes.cpp
         Character/Classes.h GameOfImagination.cpp GameOfImagination.h json_parse_by_nlohmann/json.hpp
         FieldOfHonor/Battleground.cpp FieldOfHonor/Battleground.h Monsters/Monster.cpp Monsters/Monster.h
-        Monsters/Creature.h gtest/googletest/src/gtest-all.cc gtest/googlemock/src/gmock-all.cc
-        Tests/Character_Test.cpp Tests/Character_Test.h Tests/Battleground_TEST.cpp Tests/Battleground_TEST.h
         AditionalTools/Allowance.cpp AditionalTools/Allowance.h FieldOfHonor/Effect.cpp FieldOfHonor/Effect.h
-        Tests/TEST.h Tests/Classes_TEST.h Tests/Classes_TEST.cpp Tests/Race_TEST.h Tests/Race_TEST.cpp
-        Tests/Allowance_TEST.h Tests/Allowance_TEST.cpp Tests/Item_TEST.h Tests/Item_TEST.cpp
         Monsters/Creature.cpp FieldOfHonor/MazeGenerator.cpp FieldOfHonor/MazeGenerator.h FieldOfHonor/FieldStuff.cpp FieldOfHonor/FieldStuff.h FieldOfHonor/Unicode_Console_Output.cpp FieldOfHonor/Unicode_Console_Output.h)

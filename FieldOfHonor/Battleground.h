@@ -7,6 +7,7 @@
 #include "../Character/character.h"
 #include "FieldStuff.h"
 #include "Effect.h"
+#include "MazeGenerator.h"
 
 const int kShapes_NUM = 2;
 const int kState_of_Field_NUM = 18;

@@ -399,11 +399,9 @@ void MazeGenerator::Visualizer(vector<vector<int>> square_) {
 }
 
 vector<vector<wchar_t>> MazeGenerator::VisualizerTakeBattlefieldReturnGraphics(vector<vector<int>> square_){
-    vector<vector<wchar_t>> buf;
-    buf.resize(square_.size());
-    for(int i = 0; i < buf.size(); i++){
-        buf[i].resize(square_[i].size());
-    }
+    //cout << "MazeGenerator::VisualizerTakeBattlefieldReturnGraphics reach 0\n";
+    //cout << "MazeGenerator::VisualizerTakeBattlefieldReturnGraphics reach \n";
+    vector<vector<wchar_t>> buf(square_.size(), vector<wchar_t> (square_[0].size()));
     map<int, wchar_t> uni_sym;
     /*
      * Here I'm using formula to draw an appropriate field.
@@ -418,85 +416,124 @@ vector<vector<wchar_t>> MazeGenerator::VisualizerTakeBattlefieldReturnGraphics(v
      * Right: 404 44 4444 1111 1110
      *
      * There are most of shown symbols
-     *0x02500 +
-     * 1 = ─  5 = │  25 = ┌   33 = ┐  41 = └   49 = ┘
-     * 57 = ├ 73 = ┤ 89 = ┬  105 = ┴  121 = ┼
-     * 161 = ═ 163 = ║ 169 = ╔ 175 = ╗
-     * 181 = ╚ 187 = ╝ 193 = ╠
-     * 199 = ╣ 201 = ╤ 203 = ╥ 205 = ╦ 207 = ╧
-     * 209 = ╨ 211 = ╩ 217 = ╬
-     */
-    uni_sym.insert(make_pair(0, 0x00020)); //empty space
-    uni_sym.insert(make_pair(1, 0x02575)); //upper half-edge
-    uni_sym.insert(make_pair(4, 0x02500 + 209));
-    uni_sym.insert(make_pair(10, 0x02576));
-    uni_sym.insert(make_pair(11, 0x02500 + 41));
-    uni_sym.insert(make_pair(40, 0x0257a));  //right bold half-edge
-    uni_sym.insert(make_pair(44, 0x02500 + 181));
-    uni_sym.insert(make_pair(100, 0x02577));  //bottom half_edge
-    uni_sym.insert(make_pair(101, 0x02500 + 5));
-    uni_sym.insert(make_pair(110, 0x02500 + 25));
-    uni_sym.insert(make_pair(111, 0x02500 + 57));
-    uni_sym.insert(make_pair(400, 0x02500 + 203));
-    uni_sym.insert(make_pair(404, 0x02500 + 163));
-    uni_sym.insert(make_pair(440, 0x02500 + 169));
-    uni_sym.insert(make_pair(444, 0x02500 + 193));
-    uni_sym.insert(make_pair(1000, 0x02574));  //left half-edge
-    uni_sym.insert(make_pair(1001, 0x02500 + 49));
-    uni_sym.insert(make_pair(1010, 0x02500 + 1));
-    uni_sym.insert(make_pair(1011, 0x02500 + 105));
-    uni_sym.insert(make_pair(1100, 0x02500 + 33));
-    uni_sym.insert(make_pair(1101, 0x02500 + 73));
-    uni_sym.insert(make_pair(1110, 0x02500 + 89));
-    uni_sym.insert(make_pair(1111, 0x02500 + 121));
-    uni_sym.insert(make_pair(4000, 0x02578));   //left bold half-edge
-    uni_sym.insert(make_pair(4004, 0x02500 + 187));
-    uni_sym.insert(make_pair(4040, 0x02500 + 161));
-    uni_sym.insert(make_pair(4044, 0x02500 + 211));
-    uni_sym.insert(make_pair(4400, 0x02500 + 175));
-    uni_sym.insert(make_pair(4404, 0x02500 + 199));
-    uni_sym.insert(make_pair(4440, 0x02500 + 205));
-    uni_sym.insert(make_pair(4444, 0x02500 + 217));
-    uni_sym.insert(make_pair(-1, 0x1f790));  //empty square 00 01 F7 90
-    uni_sym.insert(make_pair(-4, 0x02588));  //filled square
+        0  1  2  3  4  5  6  7  8  9
+    0   ─  ━  │  ┃  ┄  ┅  ┆  ┇  ┈  ┉
+    1   ┊  ┋  ┌  ┍  ┎  ┏  ┐  ┑  ┒  ┓
+    2   └  ┕  ┖  ┗  ┘  ┙  ┚  ┛  ├  ┝
+    3   ┞  ┟  ┠  ┡  ┢  ┣  ┤  ┥  ┦  ┧
+    4   ┨  ┩  ┪  ┫  ┬  ┭  ┮  ┯  ┰  ┱
+    5   ┲  ┳  ┴  ┵  ┶  ┷  ┸  ┹  ┺  ┻
+    6   ┼  ┽  ┾  ┿  ╀  ╁  ╂  ╃  ╄  ╅
+    7   ╆  ╇  ╈  ╉  ╊  ╋  ╌  ╍  ╎  ╏
+    8   ═  ║  ╒  ╓  ╔  ╕  ╖  ╗  ╘  ╙
+    9   ╚  ╛  ╜  ╝  ╞  ╟  ╠  ╡  ╢  ╣
+    10  ╤  ╥  ╦  ╧  ╨  ╩  ╪  ╫  ╬  ╭
+    11  ╮  ╯  ╰  ╱  ╲  ╳  ╴  ╵  ╶  ╷
+    12  ╸  ╹  ╺  ╻  ╼  ╽  ╾  ╿  ▀  ▁
+    13  ▂  ▃  ▄  ▅  ▆  ▇  █  ▉  ▊  ▋
+    14  ▌  ▍  ▎  ▏  ▐  ░  ▒  ▓  ▔  ▕
+    15  ▖  ▗  ▘  ▙  ▚  ▛  ▜  ▝  ▞  ▟
+    16  ■  □  ▢  ▣  ▤  ▥  ▦  ▧  ▨  ▩
+    17  ▪  ▫  ▬  ▭  ▮  ▯  ▰  ▱  ▲  △
+    18  ▴  ▵  ▶  ▷  ▸  ▹  ►  ▻  ▼  ▽
+    19  ▾  ▿  ◀  ◁  ◂  ◃  ◄  ◅  ◆  ◇
+    20  ◈  ◉  ◊  ○  ◌  ◍  ◎  ●  ◐  ◑
+    21  ◒  ◓  ◔  ◕  ◖  ◗  ◘  ◙  ◚  ◛
+    22  ◜  ◝  ◞  ◟  ◠  ◡  ◢  ◣  ◤  ◥
+    23  ◦  ◧  ◨  ◩  ◪  ◫  ◬  ◭  ◮  ◯
 
-    for(int i = 0; i < square_[0].size(); i++){
-        for(int j = 0; j < square_.size(); j++){
-            if(square_[i][j] == 0){  // wall
-                buf[i][j] = uni_sym.at(-1);
-                int id_, n = 0, m = 0, p = 0, q = 0;
-                if(j != 0) n = square_[i][j-1];
-                if(i != square_[j].size() - 1) m = square_[i+1][j];
-                if(j != square_.size() - 1) p = square_[i][j+1];
-                if(i != 0) m = square_[i-1][j];
-                // simplify
-                if(n != 0 && n != 1) n = 1;
-                if(m != 0 && m != 1) m = 1;
-                if(p != 0 && p != 1) p = 1;
-                if(q != 0 && q != 1) q = 1;
-                //formula
-                id_ = n + m*10 + p*100 + q*1000;
-                buf[i][j] = uni_sym.at(id_);
-            } else if(square_[i][j] == 4) {  // unbreakable wall
-                buf[i][j] = uni_sym.at(-4);
-                int id_, n = 0, m = 0, p = 0, q = 0;
-                if(j != 0) n = square_[i][j-1];
-                if(i != square_[j].size() - 1) m = square_[i+1][j];
-                if(j != square_.size() - 1) p = square_[i][j+1];
-                if(i != 0) m = square_[i-1][j];
-                // simplify
-                if(n != 0 && n != 1) n = 1;
-                if(m != 0 && m != 1) m = 1;
-                if(p != 0 && p != 1) p = 1;
-                if(q != 0 && q != 1) q = 1;
-                //formula
-                id_ = n + m*10 + p*100 + q*1000;
-                buf[i][j] = uni_sym.at(id_);
-            } else if(square_[i][j] == 0) {  // empty
-                buf[i][j] = uni_sym.at(0);
-            }
+     */
+    //cout << "MazeGenerator::VisualizerTakeBattlefieldReturnGraphics reach 1\n";
+    uni_sym.insert(make_pair(0, 0x02500 + 146)); // wall block
+    uni_sym.insert(make_pair(1, 0x02500 + 117)); // upper half-edge
+    uni_sym.insert(make_pair(4, 0x02500 + 121));
+    uni_sym.insert(make_pair(10, 0x02500 + 118));
+    uni_sym.insert(make_pair(11, 0x02500 + 20));
+    uni_sym.insert(make_pair(40, 0x02500 + 122));  // right bold half-edge
+    uni_sym.insert(make_pair(44, 0x02500 + 23));
+    uni_sym.insert(make_pair(100, 0x02500 + 119));  // bottom half_edge
+    uni_sym.insert(make_pair(101, 0x02500 + 2));
+    uni_sym.insert(make_pair(110, 0x02500 + 12));
+    uni_sym.insert(make_pair(111, 0x02500 + 28));
+    uni_sym.insert(make_pair(400, 0x02500 + 123));
+    uni_sym.insert(make_pair(404, 0x02500 + 3));
+    uni_sym.insert(make_pair(440, 0x02500 + 15));
+    uni_sym.insert(make_pair(444, 0x02500 + 35));
+    uni_sym.insert(make_pair(1000, 0x02500 + 116));  // left half-edge
+    uni_sym.insert(make_pair(1001, 0x02500 + 24));
+    uni_sym.insert(make_pair(1010, 0x02500 + 0));
+    uni_sym.insert(make_pair(1011, 0x02500 + 52));
+    uni_sym.insert(make_pair(1100, 0x02500 + 16));
+    uni_sym.insert(make_pair(1101, 0x02500 + 36));
+    uni_sym.insert(make_pair(1110, 0x02500 + 44));
+    uni_sym.insert(make_pair(1111, 0x02500 + 146));// 0x02500 + 60
+    uni_sym.insert(make_pair(4000, 0x02500 + 120));   // left bold half-edge
+    uni_sym.insert(make_pair(4004, 0x02500 + 27));
+    uni_sym.insert(make_pair(4040, 0x02500 + 1));
+    uni_sym.insert(make_pair(4044, 0x02500 + 59));
+    uni_sym.insert(make_pair(4400, 0x02500 + 19));
+    uni_sym.insert(make_pair(4404, 0x02500 + 43));
+    uni_sym.insert(make_pair(4440, 0x02500 + 51));
+    uni_sym.insert(make_pair(4444, 0x02500 + 136));// 0x02500 + 75
+    uni_sym.insert(make_pair(-1, 0x02500 + 146));  // wall block
+    uni_sym.insert(make_pair(-4, 0x02500 + 136));  // filled square
+    uni_sym.insert(make_pair(-2, 0x02000));
+
+    for(int j = 0; j < square_[0].size(); j++){
+        for(int i = 0; i < square_.size(); i++) {
+            if(square_[i][j] == 0) square_[i][j] = -1;
         }
     }
+
+    //cout << "MazeGenerator::VisualizerTakeBattlefieldReturnGraphics reach 2\n";
+    for(int j = 0; j < square_[0].size(); j++){
+        //cout << "MazeGenerator::VisualizerTakeBattlefieldReturnGraphics reach 2_1 j =" << j << "\n";
+        for(int i = 0; i < square_.size(); i++){
+            //cout << "MazeGenerator::VisualizerTakeBattlefieldReturnGraphics reach 2_2 i =" << i << "\n";
+            if(square_[i][j] == -1){  // wall
+                //cout << "MazeGenerator::VisualizerTakeBattlefieldReturnGraphics reach 2_3\n";
+                buf[i][j] = uni_sym.at(-1);
+                int id_, n = 0, m = 0, p = 0, q = 0;
+                if(i != 0) q = square_[i-1][j];
+                if(j != square_[j].size() - 1) p = square_[i][j+1];
+                if(i != square_.size() - 1) m = square_[i+1][j];
+                if(j != 0) n = square_[i][j-1];
+                // simplify
+                if(n != 0 && n != -1) n = -1;
+                if(m != 0 && m != -1) m = -1;
+                if(p != 0 && p != -1) p = -1;
+                if(q != 0 && q != -1) q = -1;
+                //formula
+                // (-1)* because walls are zeros, so I had to replace them with -1
+                id_ = (-1)*(n + m*10 + p*100 + q*1000);
+                buf[i][j] = uni_sym.at(id_);
+                //cout << "MazeGenerator::VisualizerTakeBattlefieldReturnGraphics reach 2_4\n";
+            } else if(square_[i][j] == 4) {  // unbreakable wall
+                //cout << "MazeGenerator::VisualizerTakeBattlefieldReturnGraphics reach 2_5\n";
+                buf[i][j] = uni_sym.at(-4);
+                int id_, n = 0, m = 0, p = 0, q = 0;
+                if(i != 0) q = square_[i-1][j];
+                if(j != square_[j].size() - 1) p = square_[i][j+1];
+                if(i != square_.size() - 1) m = square_[i+1][j];
+                if(j != 0) n = square_[i][j-1];
+                // simplify
+                if(n != 0 && n != 1) n = 1;
+                if(m != 0 && m != 1) m = 1;
+                if(p != 0 && p != 1) p = 1;
+                if(q != 0 && q != 1) q = 1;
+                //formula
+                id_ = n + m*10 + p*100 + q*1000;
+                buf[i][j] = uni_sym.at(id_);
+                //cout << "MazeGenerator::VisualizerTakeBattlefieldReturnGraphics reach 2_6\n";
+            } else if(square_[i][j] == 1) {  // empty
+                //cout << "MazeGenerator::VisualizerTakeBattlefieldReturnGraphics reach 2_7\n";
+                buf[i][j] = uni_sym.at(-2);
+                //cout << "MazeGenerator::VisualizerTakeBattlefieldReturnGraphics reach 2_8\n";
+            }
+            //printwc(buf[i][j]);
+        }
+    }
+    //cout << "MazeGenerator::VisualizerTakeBattlefieldReturnGraphics reach 3\n";
     return buf;
 }
 
