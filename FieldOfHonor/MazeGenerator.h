@@ -30,6 +30,7 @@ struct Entrance_info {
     bool blocked;
     // I'm going to add some triggers, may be like text appearing, and may be all dungeon changes... who knows :3
     string trigger_name;
+    vector<pair<int, int>> linkedsquares;
 };
 
 // id descriptions:
@@ -149,7 +150,7 @@ public:
 
     int Get(int what);
 
-    pair<int, int> GetZeroOrderEntrancePos(vector<Entrance_info> entrance_info_, vector<vector<int>> entrances);
+    pair<int, int> GetZeroOrderEntrancePos(Random_Generator_ * Rand_gen, vector<Entrance_info> entrance_info_, vector<vector<int>> entrances);
 
     Entrance_info GetEntranceInfo(int id);
 

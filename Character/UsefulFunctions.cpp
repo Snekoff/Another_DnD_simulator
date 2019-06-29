@@ -27,7 +27,7 @@ T Correctness_of_input(T a, T lower_limit, T higher_limit) {
 Random_Generator_::Random_Generator_() = default;
 Random_Generator_::~Random_Generator_() = default;
 int Random_Generator_::Rand(int lower_limit, int higher_limit) {
-  std::mt19937 mt(rd());
+  std::mt19937_64 mt(std::random_device{}());  //rd()
   std::uniform_int_distribution<int> dist(lower_limit, higher_limit);
   return dist(mt);
 }

@@ -3,6 +3,15 @@
 using namespace std;
 
 MazeGenerator::MazeGenerator(Random_Generator_ *Rand_gen, vector <vector<int>> square_) {
+    num_of_deadends = 0;
+    num_of_free_fields = 0;
+    difficulty = 0;
+    for (int j = 0; j < square_[0].size(); ++j) {
+        for (int i = 0; i < square_.size(); ++i) {
+            if(square_[i][j] == 1) num_of_free_fields++;
+        }
+        cout << "\n";
+    }
     deadend.resize(square_.size());
     for (int i = 0; i < deadend.size(); i++) {
         deadend[i].resize(square_[i].size());
@@ -11,6 +20,7 @@ MazeGenerator::MazeGenerator(Random_Generator_ *Rand_gen, vector <vector<int>> s
     for (int i = 0; i < entrances.size(); i++) {
         entrances[i].resize(square_[i].size());
     }
+    entrance_info.push_back(ZeroIdEntranceInfo());
     square = square_;
 }
 
@@ -295,6 +305,7 @@ vector<vector<int>> MazeGenerator::LabyrinthMenu(vector<vector<int>> square_) {
             square_ = Set_FieldType(input.first, input.second, square_);
         }
     }
+    cout <<"Reach MazeGenerator::LabyrinthMenu 1\n";
     return square_;
 }
 
@@ -310,9 +321,9 @@ int MazeGenerator::Set_Difficulty() {
 Entrance_info MazeGenerator::Set_Entrance() {
     Entrance_info output;
     //Default Entrance info
-    if (entrance_info.empty()) {
+   /* if (entrance_info.empty()) {
         entrance_info.push_back(ZeroIdEntranceInfo());
-    }
+    }*/
     //Default id
     output.id = entrance_info.size();
     cout << "(Your ID now is " << output.id << ".)\n";
@@ -344,6 +355,7 @@ Entrance_info MazeGenerator::ZeroIdEntranceInfo() const {
     ZeroId.is_blockable = false;
     ZeroId.blocked = false;
     ZeroId.id = 0;
+    return ZeroId;
 }
 
 vector<vector<int>> MazeGenerator::Set_FieldType(pair<int, int> start_of_the_region, pair<int, int> end_of_the_region,
@@ -373,10 +385,20 @@ vector<vector<int>> MazeGenerator::Set_FieldType(pair<int, int> start_of_the_reg
         for (int j = 0; j < min_d; j++) {
             if (min_d == abs(start_of_the_region.second - end_of_the_region.second)) {
                 square_[min(start_of_the_region.first, start_of_the_region.first) + i][min(start_of_the_region.second, start_of_the_region.second) + j] = field_type;
-                if(field_type == 3) entrances[min(start_of_the_region.first, start_of_the_region.first) + i][min(start_of_the_region.second, start_of_the_region.second) + j] = entrance_info[entrance_info.size() - 1].id;
+                if(field_type == 3){
+                    entrances[min(start_of_the_region.first, start_of_the_region.first) + i][min(start_of_the_region.second, start_of_the_region.second) + j] = entrance_info[entrance_info.size() - 1].id;
+                    int temp_0 = min(start_of_the_region.first, start_of_the_region.first) + i;
+                    int temp_1 = min(start_of_the_region.second, start_of_the_region.second) + j;
+                    entrance_info[entrance_info.size() - 1].linkedsquares.push_back(make_pair(temp_0,temp_1));
+                }
             } else {
                 square_[min(start_of_the_region.first, start_of_the_region.first) + j][min(start_of_the_region.second, start_of_the_region.second) + i] = field_type;
-                if(field_type == 3) entrances[min(start_of_the_region.first, start_of_the_region.first) + j][min(start_of_the_region.second, start_of_the_region.second) + i] = entrance_info[entrance_info.size() - 1].id;
+                if(field_type == 3) {
+                    entrances[min(start_of_the_region.first, start_of_the_region.first) + j][min(start_of_the_region.second, start_of_the_region.second) + i] = entrance_info[entrance_info.size() - 1].id;
+                    int temp_0 = min(start_of_the_region.first, start_of_the_region.first) + j;
+                    int temp_1 = min(start_of_the_region.second, start_of_the_region.second) + i;
+                    entrance_info[entrance_info.size() - 1].linkedsquares.push_back(make_pair(temp_0,temp_1));
+                }
             }
         }
     }
@@ -390,8 +412,8 @@ void MazeGenerator::Visualizer(vector<vector<int>> square_) {
     // Example:
     // printwc(0x02502);
     vector<vector<wchar_t>> uni_symbols = VisualizerTakeBattlefieldReturnGraphics(square_);
-    for (int i = 0; i < uni_symbols[0].size(); ++i) {
-        for (int j = 0; j < uni_symbols.size(); ++j) {
+    for (int j = 0; j < uni_symbols[0].size(); ++j) {
+        for (int i = 0; i < uni_symbols.size(); ++i) {
             printwc(uni_symbols[i][j]);
         }
         cout << "\n";
@@ -478,6 +500,7 @@ vector<vector<wchar_t>> MazeGenerator::VisualizerTakeBattlefieldReturnGraphics(v
     uni_sym.insert(make_pair(-1, 0x02500 + 146));  // wall block
     uni_sym.insert(make_pair(-4, 0x02500 + 136));  // filled square
     uni_sym.insert(make_pair(-2, 0x02000));
+    uni_sym.insert(make_pair(3, 0x02000 + 200)); // entrance
 
     for(int j = 0; j < square_[0].size(); j++){
         for(int i = 0; i < square_.size(); i++) {
@@ -517,10 +540,10 @@ vector<vector<wchar_t>> MazeGenerator::VisualizerTakeBattlefieldReturnGraphics(v
                 if(i != square_.size() - 1) m = square_[i+1][j];
                 if(j != 0) n = square_[i][j-1];
                 // simplify
-                if(n != 0 && n != 1) n = 1;
-                if(m != 0 && m != 1) m = 1;
-                if(p != 0 && p != 1) p = 1;
-                if(q != 0 && q != 1) q = 1;
+                if(n != 0 && n != 4) n = 4;
+                if(m != 0 && m != 4) m = 4;
+                if(p != 0 && p != 4) p = 4;
+                if(q != 0 && q != 4) q = 4;
                 //formula
                 id_ = n + m*10 + p*100 + q*1000;
                 buf[i][j] = uni_sym.at(id_);
@@ -529,6 +552,8 @@ vector<vector<wchar_t>> MazeGenerator::VisualizerTakeBattlefieldReturnGraphics(v
                 //cout << "MazeGenerator::VisualizerTakeBattlefieldReturnGraphics reach 2_7\n";
                 buf[i][j] = uni_sym.at(-2);
                 //cout << "MazeGenerator::VisualizerTakeBattlefieldReturnGraphics reach 2_8\n";
+            } else {
+                buf[i][j] = uni_sym.at(3);
             }
             //printwc(buf[i][j]);
         }
@@ -575,23 +600,26 @@ Entrance_info MazeGenerator::GetEntranceInfo(int id) {
     return entrance_info[id];
 }
 
-pair<int, int> MazeGenerator::GetZeroOrderEntrancePos(vector<Entrance_info> entrance_info_, vector<vector<int>> entrances) {
-    int zeroorderid;
-    pair<int, int> result;
+pair<int, int> MazeGenerator::GetZeroOrderEntrancePos(Random_Generator_ * Rand_gen, vector<Entrance_info> entrance_info_, vector<vector<int>> entrances_) {
+    int zeroorderid = 0, minorder = INT32_MAX;
+    pair<int, int> result = make_pair(1, 1);
+    cout <<"Reach MazeGenerator::GetZeroOrderEntrancePos 0\n";
     for(int i = 0; i < entrance_info_.size(); i++){
-        if(entrance_info_[i].order == 0) {
+        if(entrance_info_[i].order < minorder) {
             zeroorderid = entrance_info_[i].id;
-            break;
         }
     }
-    for (int j = 0; j < entrances[0].size(); ++j) {
-        for (int i = 0; i < entrances.size(); ++i) {
-            if(entrances[j][i] == zeroorderid) {
-                result = make_pair(j, i);
-                break;
-            }
+    cout <<"Reach MazeGenerator::GetZeroOrderEntrancePos 1\n";
+    //Random starting point
+    vector<pair<int, int>> entranceswithminimalorder;
+    for (int j = 0; j < entrance_info_.size(); ++j) {
+        if(entrance_info_[j].id == zeroorderid){
+            result = entrance_info_[j].linkedsquares[Rand_gen->Rand(0,entrance_info_[j].linkedsquares.size() - 1)];
         }
     }
+    cout <<"Reach MazeGenerator::GetZeroOrderEntrancePos 1_2\n";
+    result = entranceswithminimalorder[Rand_gen->Rand(0, entranceswithminimalorder.size() - 1)];
+    cout <<"Reach MazeGenerator::GetZeroOrderEntrancePos 2\n";
     return result;
 }
 
@@ -612,24 +640,35 @@ pair<int, int> MazeGenerator::GetNewRandPos(Random_Generator_ *Rand_gen, pair<in
 /*Method which uses all the others and return field filled with corridors and walls :D*/
 vector<vector<int>> MazeGenerator::Build_Labirinth(Random_Generator_ *Rand_gen, vector<vector<int>> square_) {
     square_ = LabyrinthMenu(square_);
+    cout <<"Reach MazeGenerator::Build_Labirinth 0\n";
     square = square_;
     bool issatisfying = false;
+    cout <<"Reach MazeGenerator::Build_Labirinth 1\n";
     while(!issatisfying){
         square_ = square;
-        pair<int, int> pos = GetZeroOrderEntrancePos(entrance_info, entrances);
+        cout <<"Reach MazeGenerator::Build_Labirinth 1_2\n";
+        cout << "entrance_info[0].id = " <<entrance_info[0].id << "\n";
+        cout << "entrance_info[1].id = " <<entrance_info[1].id << "\n";
+        cout << "entrances[1][1] = " << entrances[1][1] << "\n";
+        cout << "entrances[8][15] = " << entrances[8][15] << "\n";
+        pair<int, int> pos = GetZeroOrderEntrancePos(Rand_gen, entrance_info, entrances);
         pair<int, int> prev_pos;
+        cout <<"Reach MazeGenerator::Build_Labirinth 2\n";
         while(true){
             if(num_of_deadends == num_of_free_fields) break;
+            cout <<"Reach MazeGenerator::Build_Labirinth 3\n";
             prev_pos = pos;
             pos = Move(Rand_gen, pos.first, pos.second, square_);
             num_of_free_fields += max(abs(prev_pos.first - pos.first), abs(prev_pos.second - pos.second));
             if(pos == prev_pos){
+                cout <<"Reach MazeGenerator::Build_Labirinth 4\n";
                 num_of_deadends++;
                 deadend[pos.first][pos.second] = 1;
                 if(num_of_deadends == num_of_free_fields) break;
                 pos = GetNewRandPos(Rand_gen, pos, square_, deadend);
             }
         }
+        cout <<"Reach MazeGenerator::Build_Labirinth 5\n";
         Visualizer(square_);
         cout << "Do you satisfied with labirinth? 0/1 (Yes/No)\n";
         int issatisfying_i = IsNumber(issatisfying_i, 0, 1);

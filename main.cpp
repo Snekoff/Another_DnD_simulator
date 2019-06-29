@@ -95,10 +95,34 @@ int main(int argc, char **argv) {
     std::cout << std::setw(4) << j << '\n';*/
 
     //&&&&&&&& how graphics drawing works #########
-    Random_Generator_ * randomGenerator;
+    /*Random_Generator_ * randomGenerator;
     setlocale(LC_ALL, "");
-    vector<vector<int>> square_(4, vector<int> (5, 0));
+    // vector<vector<int>> square_(4, vector<int> (5, 0));
+    // an example of maze
+    vector<vector<int>> square_(10, vector<int> (20, 0));
+    // 0 - wall
+    // 1 - corridor
+    // 4 - unbreakable wall (just in case)
+
     square_[2][1] = 1;
+    square_[2][2] = 1;
+    square_[2][3] = 1;
+    square_[3][3] = 1;
+    square_[4][3] = 1;
+    square_[5][3] = 1;
+    square_[5][4] = 1;
+    square_[6][4] = 1;
+    square_[7][4] = 1;
+    square_[7][3] = 1;
+    square_[7][2] = 1;
+    square_[5][5] = 1;
+    square_[4][5] = 1;
+    square_[4][4] = 4;
+    square_[4][5] = 4;
+    square_[9][9] = 1;
+    square_[9][8] = 1;
+    square_[8][9] = 1;
+    square_[8][8] = 1;
     // correct output
     // much better to look at
     // in that order:
@@ -122,6 +146,34 @@ int main(int argc, char **argv) {
     for (int j = 0; j < square_[0].size(); ++j) {
         for (int i = 0; i < square_.size(); ++i) {
            printwc(buf[i][j]);
+        }
+        cout << "\n";
+    }*/
+
+    //&&&&&&&& how maze algorithm works #########
+    Random_Generator_ * randomGenerator;
+    setlocale(LC_ALL, "");
+    // an example of maze
+    vector<vector<int>> square_(10, vector<int> (20, 0));
+    cout << "\n";
+    MazeGenerator mazeGenerator(randomGenerator, square_);
+    pair<int, int> entrance_0 = make_pair(1, 1);
+    pair<int, int> entrance_1 = make_pair(square_.size() - 2, square_[0].size() - 5);
+    mazeGenerator.Set_FieldType(entrance_0, entrance_0, square_);  //First entrance
+    mazeGenerator.Set_FieldType(entrance_1, entrance_1, square_);  //Second(exit)
+    //Before alg starts you can
+    //Set difficulty and others params
+    //After it ends you can decide whether it has appropriate form
+    mazeGenerator.Build_Labirinth(randomGenerator, square_);
+    // I use wide chars to extend possible output symbols dictionary
+    vector<vector<wchar_t>> buf;
+    buf = mazeGenerator.VisualizerTakeBattlefieldReturnGraphics(square_);
+    // function to print wide chars
+    //printwc(0x1f790);
+    cout << "Final form:\n";
+    for (int j = 0; j < square_[0].size(); ++j) {
+        for (int i = 0; i < square_.size(); ++i) {
+            printwc(buf[i][j]);
         }
         cout << "\n";
     }
