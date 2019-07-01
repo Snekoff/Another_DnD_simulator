@@ -159,6 +159,8 @@ public:
     Entrance_info ZeroIdEntranceInfo() const;
 
     pair<int, int> GetNewRandPos(Random_Generator_ *Rand_gen, pair<int, int> starting_pos, vector<vector<int>> square_, vector<vector<int>> deadend_);
+
+    void DeleteOldInfoInSquare(const vector<vector<int>> &square_, int j, int i);
 };
 
 #endif //ANOTHER_DND_SIMULATOR_MAZEGENERATOR_H
