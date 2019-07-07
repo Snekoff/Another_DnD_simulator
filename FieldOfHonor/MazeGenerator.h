@@ -114,11 +114,11 @@ public:
 
     int PaceLength(Random_Generator_ *Rand_gen, int difficulty_);
 
-    vector<vector<int>> Build_Labirinth(Random_Generator_ *Rand_gen, vector<vector<int>> square_);
+    vector<vector<int>> Build_Labirinth(Random_Generator_ *Rand_gen, vector<vector<int>> square_, int num_of_deadends_, int num_of_free_fields_, vector<vector<int>> deadend_);
 
     vector<vector<int>> GetField();
 
-    void Set();
+    void Set(int valuetobechanged, int value1, int value2, int value3, int value4, bool boolvalue1, bool boolvalue2);
 
     // wall, empty, room wall etc.
     vector<vector<int>> Set_FieldType(pair<int, int> start_of_the_region,
@@ -149,6 +149,8 @@ public:
     vector<vector<int>> GetLabirinth();
 
     int Get(int what);
+
+    vector<vector<int>> GetVectorVectorInt(int what);
 
     pair<int, int> GetZeroOrderEntrancePos(Random_Generator_ * Rand_gen, vector<Entrance_info> entrance_info_, vector<vector<int>> entrances);
 
