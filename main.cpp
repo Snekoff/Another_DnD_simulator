@@ -166,6 +166,15 @@ int main(int argc, char **argv) {
     mazeGenerator.Set(1, 1, 1, entrance_0.first, entrance_0.second, false, false);
     //Second(exit) coords (square_.size() - 2, square_[0].size() - 5)
     mazeGenerator.Set(1, 2, 2, entrance_1.first, entrance_1.second, true, false);
+    square_ = mazeGenerator.GetVectorVectorInt(2);
+    cout.width(5);
+    for (int j = 0; j < square_[0].size(); ++j) {
+        for (int i = 0; i < square_.size(); ++i) {
+            cout << square_[i][j];
+        }
+        cout << "\n";
+    }
+    mazeGenerator.Visualizer(square_);
     //Before alg starts you can
     //Set difficulty and others params
     //After it ends you can decide whether it has appropriate form

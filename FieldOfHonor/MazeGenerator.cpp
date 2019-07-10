@@ -1,5 +1,6 @@
 #include "MazeGenerator.h"
 
+static const double Kpercentage_of_filled_space_in_the_end = 1.3;
 using namespace std;
 
 MazeGenerator::MazeGenerator(Random_Generator_ *Rand_gen, vector<vector<int>> square_) {
@@ -228,25 +229,25 @@ int MazeGenerator::Direction(Random_Generator_ *Rand_gen) {
 bool MazeGenerator::IsRightDirection(int x, int y, int direction_, vector<vector<int>> square_) {
     if (IsNegative(x, y, -1)) return false;
     if (y > square_[x].size() - 1 || x > square_.size() - 1) return false;
-    if (x < 2 && direction_ == 0) return false;
-    if (y < 2 && direction_ == 3) return false;
-    if (x > square_.size() - 3 && direction_ == 2) return false;
-    if (y > square_[x].size() - 3 && direction_ == 1) return false;
+    if (y < 2 && direction_ == 0) return false;
+    if (x < 2 && direction_ == 3) return false;
+    if (x > square_.size() - 3 && direction_ == 1) return false;
+    if (y > square_[x].size() - 3 && direction_ == 2) return false;
     return true;
 }
 
 int MazeGenerator::RightDirection(Random_Generator_ *Rand_gen, int x, int y, int direction,
                                   vector<vector<int>> square_) {
     bool canMove[4] = {true, true, true, true};
-    bool deadend = false;
+    bool deadend_ = false;
     int dir = -1;  // Means deadend reached
     while (!IsRightDirection(x, y, direction, square_)) {
         canMove[direction] = false;
         for (int j = 0; j < 4; j++) {
             if (canMove[j]) break;
-            else if (j == 3) deadend = true;
+            else if (j == 3) deadend_ = true;
         }
-        if (!deadend) direction = Direction(Rand_gen);
+        if (!deadend_) direction = Direction(Rand_gen);
         else return dir;
     }
     dir = direction;
@@ -277,6 +278,7 @@ pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, ve
     if (direction == -1) return pos;
     int x_mod = x + minPaceLength * dirMod[direction][0];
     int y_mod = y + minPaceLength * dirMod[direction][1];
+    cout << "Reach MazeGenerator::Move 1_2\n";
     if (square_[x_mod][y_mod] == 0) {
         cout << "Reach MazeGenerator::Move 2\n";
         int paceLength = PaceLength(Rand_gen, difficulty);
@@ -287,7 +289,7 @@ pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, ve
             paceLength--;
             x_mod = x + paceLength * dirMod[direction][0];
             y_mod = y + paceLength * dirMod[direction][1];
-            if (paceLength == 0) {
+            if (paceLength == 1) {
                 x_mod = x;
                 y_mod = y;
                 break;
@@ -297,6 +299,7 @@ pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, ve
         pos = make_pair(x_mod, y_mod);
         return pos;
     }
+    cout << "Reach MazeGenerator::Move 4\n";
     return pos;
 }
 
@@ -345,6 +348,7 @@ void MazeGenerator::Set(int valuetobechanged, int value1, int value2, int value3
         entranceInfo.linkedsquares.push_back(make_pair(value3, value4));
         entrance_info.push_back(entranceInfo);
         entrances[value3][value4] = value1;
+        square[value3][value4] = 3;
     } else if (valuetobechanged == 2) {
         //remove entrance info found by id
         if (!entrance_info.empty()) {
@@ -703,6 +707,7 @@ int MazeGenerator::Get(int what) {
 vector<vector<int>> MazeGenerator::GetVectorVectorInt(int what) {
     if(what == 0) return entrances;
     if(what == 1) return deadend;
+    if(what == 2) return square;
 }
 
 Entrance_info MazeGenerator::GetEntranceInfo(int id) {
@@ -743,15 +748,18 @@ pair<int, int> MazeGenerator::GetZeroOrderEntrancePos(Random_Generator_ *Rand_ge
 pair<int, int>
 MazeGenerator::GetNewRandPos(Random_Generator_ *Rand_gen, pair<int, int> starting_pos, vector<vector<int>> square_,
                              vector<vector<int>> deadend_) {
+    cout << "Reach MazeGenerator::GetNewRandPos 0\n";
     pair<int, int> result = starting_pos;
-    int count;
+    int count = 0;
     while (true) {
+        cout << "Reach MazeGenerator::GetNewRandPos 1\n";
         count++;
-        result.first = Rand_gen->Rand(1, square_[0].size() - 2);
-        result.second = Rand_gen->Rand(1, square_.size() - 2);
+        result.first = Rand_gen->Rand(1, square_.size() - 2);
+        result.second = Rand_gen->Rand(1, square_[0].size() - 2);
         if (square_[result.first][result.second] == 1 && deadend_[result.first][result.second] != 1) break;
         if (count >= square_[0].size() * square_.size() * 2) break;
     }
+    cout << "Reach MazeGenerator::GetNewRandPos 3\n";
     return result;
 }
 
@@ -772,20 +780,32 @@ MazeGenerator::Build_Labirinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
         cout << "entrance_info[2].id = " << entrance_info[2].id << "\n";
         cout << "entrances[1][1] = " << entrances[1][1] << "\n";
         cout << "entrances[8][15] = " << entrances[8][15] << "\n";
+        cout << "entrance_info[1].order = " << entrance_info[1].order << "\n";
+        cout << "entrance_info[2].order = " << entrance_info[2].order << "\n";
         pair<int, int> pos = GetZeroOrderEntrancePos(Rand_gen, entrance_info, entrances);
+        cout << "starting pos = (" << pos.first << ", " << pos.second << ")\n";
         pair<int, int> prev_pos;
         cout << "Reach MazeGenerator::Build_Labirinth 2\n";
+        double num_of_deadends_d = num_of_deadends_, num_of_free_fields_d = num_of_free_fields_;
         while (true) {
             cout << "Reach MazeGenerator::Build_Labirinth 3\n";
             prev_pos = pos;
             pos = Move(Rand_gen, pos.first, pos.second, square_);
             num_of_free_fields_ += max(abs(prev_pos.first - pos.first), abs(prev_pos.second - pos.second));
+            for (int j = min(pos.second ,prev_pos.second); j < max(pos.second ,prev_pos.second); ++j) {
+                for (int i = min(pos.first ,prev_pos.first); i < max(pos.first ,prev_pos.first); ++i) {
+                    square_[i][j] = 1;
+                }
+            }
             if (pos == prev_pos) {
                 cout << "Reach MazeGenerator::Build_Labirinth 4\n";
                 num_of_deadends_++;
                 deadend_[pos.first][pos.second] = 1;
-                if (num_of_deadends_ == num_of_free_fields_) break;
+                num_of_deadends_d = num_of_deadends_;
+                num_of_free_fields_d = num_of_free_fields_d;
+                if (num_of_deadends_ == num_of_free_fields_ || num_of_free_fields_d/num_of_deadends_d > Kpercentage_of_filled_space_in_the_end) break;
                 pos = GetNewRandPos(Rand_gen, pos, square_, deadend_);
+                if(pos == prev_pos) break;
             }
             if ((num_of_deadends_ == num_of_free_fields_ && num_of_free_fields_ != 0) || num_of_deadends_ < 0 || num_of_free_fields_ < 0) break;
         }
