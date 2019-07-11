@@ -104,7 +104,7 @@ public:
     //else return current position
     pair<int, int> MakeRoom(int x, int y, char whichWay, vector<vector<int>> square_);
 
-    bool CouldMakeCorridor(int from_x, int from_y, int to_x, int to_y, vector<vector<int>> square_);
+    bool CouldMakeCorridor(int direction, int from_x, int from_y, int to_x, int to_y, vector<vector<int>> square_);
 
     int Direction(Random_Generator_ *Rand_gen);
 
@@ -163,6 +163,8 @@ public:
     pair<int, int> GetNewRandPos(Random_Generator_ *Rand_gen, pair<int, int> starting_pos, vector<vector<int>> square_, vector<vector<int>> deadend_);
 
     void DeleteOldInfoInSquare(const vector<vector<int>> &square_, int j, int i);
+
+    vector<vector<int>> FreeSpaceAfterDigging(vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to);
 };
 
 #endif //ANOTHER_DND_SIMULATOR_MAZEGENERATOR_H
