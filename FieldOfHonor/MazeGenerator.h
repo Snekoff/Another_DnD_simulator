@@ -69,7 +69,7 @@ public:
     MazeGenerator(Random_Generator_ *Rand_gen, vector<vector<int>> square_);
 
     // room region is two points (start end edge)
-    vector<vector<int>> RoomsPlacement(vector<vector<int>> square_);
+    vector<vector<int>> RoomsPlacement(vector<vector<int>> &square_);
 
     pair<pair<int, int>, pair<int, int>> RoomsPlacement_BuildingWalls(pair<int, int> start_of_the_region,
                                                         pair<int, int> end_of_the_region,
@@ -84,12 +84,12 @@ public:
 
     vector<vector<int>> RoomsPlacement_MakingRoomInside(pair<int, int> start_of_the_region,
                                                         pair<int, int> end_of_the_region,
-                                                        vector<vector<int>> square_);
+                                                        vector<vector<int>> &square_);
 
     // if you have some rooms, but it doesn`t matter where are they in labyrinth and where are their entrances
     vector<vector<int>>
     RoomRandomPlacement(vector<int> roomSizeAndShape, vector<int> numOfEntrances, vector<int> entransesLength,
-                        vector<vector<int>> square_);
+                        vector<vector<int>> &square_);
 
     // true if in current position there is no wall that can be passed through without crossing other corridors
     bool Deadend(int x, int y, vector<vector<int>> square_);
@@ -114,7 +114,7 @@ public:
 
     int PaceLength(Random_Generator_ *Rand_gen, int difficulty_);
 
-    vector<vector<int>> Build_Labirinth(Random_Generator_ *Rand_gen, vector<vector<int>> square_, int num_of_deadends_, int num_of_free_fields_, vector<vector<int>> deadend_);
+    vector<vector<int>> Build_Labirinth(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, int num_of_deadends_, int num_of_free_fields_, vector<vector<int>> deadend_);
 
     vector<vector<int>> GetField();
 
@@ -122,9 +122,9 @@ public:
 
     // wall, empty, room wall etc.
     vector<vector<int>> Set_FieldType(pair<int, int> start_of_the_region,
-                                      pair<int, int> end_of_the_region, vector<vector<int>> square_);
+                                      pair<int, int> end_of_the_region, vector<vector<int>> &square_);
 
-    vector<vector<int>>  LabyrinthMenu(vector<vector<int>> square_);
+    vector<vector<int>>  LabyrinthMenu(vector<vector<int>> &square_);
 
     int Set_Difficulty();
 
@@ -165,6 +165,8 @@ public:
     void DeleteOldInfoInSquare(const vector<vector<int>> &square_, int j, int i);
 
     vector<vector<int>> FreeSpaceAfterDigging(vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to);
+
+    void ShowField(vector<vector<int>> &square_);
 };
 
 #endif //ANOTHER_DND_SIMULATOR_MAZEGENERATOR_H
