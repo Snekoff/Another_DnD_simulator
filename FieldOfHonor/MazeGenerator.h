@@ -152,7 +152,7 @@ public:
 
     vector<vector<int>> GetVectorVectorInt(int what);
 
-    pair<int, int> GetZeroOrderEntrancePos(Random_Generator_ * Rand_gen, vector<Entrance_info> entrance_info_, vector<vector<int>> entrances);
+    pair<int, int> GetZeroOrderEntrancePos(Random_Generator_ * Rand_gen, vector<Entrance_info> entrance_info_);
 
     Entrance_info GetEntranceInfo(int id);
 
