@@ -1,6 +1,6 @@
 #include "MazeGenerator.h"
 
-static const double Kpercentage_of_filled_space_in_the_end = 1.3;
+static const double Kpercentage_of_filled_space_in_the_end = 1.1;
 using namespace std;
 
 MazeGenerator::MazeGenerator(Random_Generator_ *Rand_gen, vector<vector<int>> square_) {
@@ -219,18 +219,38 @@ bool MazeGenerator::CouldMakeCorridor(int direction, int from_x, int from_y, int
                         {-1, 0},
                         {-1, -1},
     };
+    pair<int, int> mod = make_pair(0, 0);
+    if(dif_x > dif_y) {
+        if(to_x - from_x > 0) mod.first = 1;
+        else mod.first = -1;
+    } else {
+        if(to_y - from_y > 0) mod.second = 1;
+        else mod.second = -1;
+    }
+
     int x_t = from_x, y_t = from_y;
-    for (int j = 0; j < max(dif_x, dif_y); j++) {
+    for (int j = 1; j <= max(dif_x, dif_y); j++) {
+        from_x += mod.first;
+        from_y += mod.second;
         for (int i = 0; i < 8; i++) {
+            // exclude backward surrounding check
             if (direction == 0) { if (i == 3 || i == 4 || i == 5) continue; }
             else if (direction == 1) { if (i == 5 || i == 6 || i == 7) continue; }
             else if (direction == 2) { if (i == 0 || i == 1 || i == 7) continue; }
             else { if (i == 1 || i == 2 || i == 3) continue; }
-            int one_square = square_[x_t + dirMod[i][0]][y_t + dirMod[i][1]];
-            if (one_square == 1 || one_square == 5) return false;
+            x_t = from_x + dirMod[i][0];
+            y_t = from_y + dirMod[i][1];
+            int one_square = square_[x_t][y_t];
+            if (one_square == 1 || one_square == 5) {
+                cout << "Reach MazeGenerator::CouldMakeCorridor 2_1\n";
+                cout << "i = " << i << "\n";
+                cout << "square_[" << x_t << "][" << y_t << "] = " << square_[x_t][y_t] << "\n";
+                return false;
+            }
         }
-        if (x_t != to_x) x_t += (to_x - from_x) / dif_x;
-        if (y_t != to_y) y_t += (to_y - from_y) / dif_y;
+        //whats that ?
+        /*if (x_t != to_x) x_t += (to_x - from_x) / dif_x;
+        if (y_t != to_y) y_t += (to_y - from_y) / dif_y;*/
     }
     cout << "Reach MazeGenerator::CouldMakeCorridor 3\n";
     return true;
@@ -248,6 +268,10 @@ bool MazeGenerator::IsRightDirection(int x, int y, int direction_, vector<vector
     if (x < 2 && direction_ == 3) return false;
     if (x > square_.size() - 3 && direction_ == 1) return false;
     if (y > square_[x].size() - 3 && direction_ == 2) return false;
+    if (direction_ == 0 && square_[x][y - 2] == 1) return false;
+    if (direction_ == 1 && square_[x + 2][y] == 1) return false;
+    if (direction_ == 2 && square_[x][y + 2] == 1) return false;
+    if (direction_ == 3 && square_[x - 2][y] == 1) return false;
     return true;
 }
 
@@ -443,7 +467,8 @@ void MazeGenerator::Set(int valuetobechanged, int value1, int value2, int value3
 
 int MazeGenerator::Set_Difficulty() {
     cout << "Set Dungeon(labyrinth) difficulty.\n";
-    difficulty = IsNumber(difficulty, kDifficulty_Min, kDifficulty_Max);
+    int difficulty_ = IsNumber(difficulty, kDifficulty_Min, kDifficulty_Max);
+    return difficulty_;
 }
 
 Entrance_info MazeGenerator::Set_Entrance() {
@@ -808,7 +833,7 @@ MazeGenerator::GetNewRandPos(Random_Generator_ *Rand_gen, pair<int, int> startin
 }
 
 vector<vector<int>> MazeGenerator::FreeSpaceAfterDigging(vector<vector<int>> &square_, pair<int, int> from,
-                                                         pair<int, int> to) {
+                                                         pair<int, int> to, int &num_of_free_fields_) {
     bool did_x_changed;
     if (from.first != to.first) did_x_changed = true;
     else if (from.second != to.second) did_x_changed = false;
@@ -817,7 +842,7 @@ vector<vector<int>> MazeGenerator::FreeSpaceAfterDigging(vector<vector<int>> &sq
     int mod;
     if (did_x_changed) mod = (to.first - from.first) / abs(to.first - from.first);
     else mod = (to.second - from.second) / abs(to.second - from.second);
-    for (int i = 1; i < range_end; ++i) {
+    for (int i = 1; i <= range_end; ++i) {
         if (did_x_changed) {
             // -1 / +1
             if (from.first + (i * mod) < 0 || from.first + (i * mod) > square_.size() - 1) {
@@ -825,7 +850,10 @@ vector<vector<int>> MazeGenerator::FreeSpaceAfterDigging(vector<vector<int>> &sq
                 cout << "X = " << from.first << "";
                 cout << "X + i * mod = " << from.first + (i * mod) << "\n";
             }
-            if(square_[from.first + (i * mod)][from.second] != 3 && square_[from.first + (i * mod)][from.second] != 4) square_[from.first + (i * mod)][from.second] = 1;
+            if(square_[from.first + (i * mod)][from.second] != 3 && square_[from.first + (i * mod)][from.second] != 4) {
+                square_[from.first + (i * mod)][from.second] = 1;
+                num_of_free_fields_++;
+            }
         } else {
             // -1 / +1
             if (from.second + (i * mod) < 0 || from.second + (i * mod) > square_[0].size() - 1) {
@@ -833,7 +861,10 @@ vector<vector<int>> MazeGenerator::FreeSpaceAfterDigging(vector<vector<int>> &sq
                 cout << "Y = " << from.second << "";
                 cout << "Y + i * mod = " << from.second + (i * mod) << "\n";
             }
-            if(square_[from.first][from.second + (i * mod)] != 3 && square_[from.first][from.second + (i * mod)] != 4) square_[from.first][from.second + (i * mod)] = 1;
+            if(square_[from.first][from.second + (i * mod)] != 3 && square_[from.first][from.second + (i * mod)] != 4){
+                square_[from.first][from.second + (i * mod)] = 1;
+                num_of_free_fields_++;
+            }
         }
     }
     return square_;
@@ -868,22 +899,30 @@ MazeGenerator::Build_Labirinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
             cout << "prev pos = (" << pos.first << ", " << pos.second << ")\n";
             pos = Move(Rand_gen, pos.first, pos.second, square_);
             cout << "new pos = (" << pos.first << ", " << pos.second << ")\n";
-            num_of_free_fields_ += max(abs(prev_pos.first - pos.first), abs(prev_pos.second - pos.second));
-            square_ = FreeSpaceAfterDigging(square_, prev_pos, pos);
+            //num_of_free_fields_ += max(abs(prev_pos.first - pos.first), abs(prev_pos.second - pos.second));
+            cout << "prev. num_of_free_fields_ = " << num_of_free_fields_ << "\n";
+            square_ = FreeSpaceAfterDigging(square_, prev_pos, pos, num_of_free_fields_);
+            cout << "new. num_of_free_fields_ = " << num_of_free_fields_ << "\n";
             if (pos == prev_pos) {
                 cout << "Reach MazeGenerator::Build_Labirinth 4\n";
                 num_of_deadends_++;
                 deadend_[pos.first][pos.second] = 1;
                 num_of_deadends_d = num_of_deadends_;
-                num_of_free_fields_d = num_of_free_fields_d;
+                num_of_free_fields_d = num_of_free_fields_;
                 if (num_of_deadends_ == num_of_free_fields_ ||
-                    num_of_free_fields_d / num_of_deadends_d > Kpercentage_of_filled_space_in_the_end)
+                    num_of_free_fields_d / num_of_deadends_d < Kpercentage_of_filled_space_in_the_end){
+                    cout << "num_of_free_fields_d / num_of_deadends_d < Kpercentage_of_filled_space_in_the_end\n";
+                    cout << num_of_free_fields_d << " / " <<  num_of_deadends_d << " < " << Kpercentage_of_filled_space_in_the_end << "\n";
                     break;
+                }
+
                 pos = GetNewRandPos(Rand_gen, pos, square_, deadend_);
                 if (pos == prev_pos) {
+                    cout << "Reach MazeGenerator::Build_Labirinth 4_1\n";
                     //Just to be sure that nearly all free fields are deadends
                     pos = GetNewRandPos(Rand_gen, pos, square_, deadend_);
                     if (pos == prev_pos) break;
+                    cout << "Reach MazeGenerator::Build_Labirinth 4_2\n";
                 }
             }
             if ((num_of_deadends_ == num_of_free_fields_ && num_of_free_fields_ != 0) || num_of_deadends_ < 0 ||

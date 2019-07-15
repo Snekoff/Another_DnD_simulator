@@ -164,7 +164,7 @@ public:
 
     void DeleteOldInfoInSquare(const vector<vector<int>> &square_, int j, int i);
 
-    vector<vector<int>> FreeSpaceAfterDigging(vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to);
+    vector<vector<int>> FreeSpaceAfterDigging(vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to, int &num_of_free_fields_);
 
     void ShowField(vector<vector<int>> &square_);
 };

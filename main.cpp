@@ -154,7 +154,7 @@ int main(int argc, char **argv) {
     Random_Generator_ * randomGenerator;
     setlocale(LC_ALL, "");
     // an example of maze
-    vector<vector<int>> square_(10, vector<int> (20, 0));
+    vector<vector<int>> square_(50, vector<int> (30, 0));
     cout << "\n";
     MazeGenerator mazeGenerator(randomGenerator, square_);
     pair<int, int> entrance_0 = make_pair(1, 1);
@@ -167,7 +167,6 @@ int main(int argc, char **argv) {
     //Second(exit) coords (square_.size() - 2, square_[0].size() - 5)
     mazeGenerator.Set(1, 2, 2, entrance_1.first, entrance_1.second, true, false);
     square_ = mazeGenerator.GetVectorVectorInt(2);
-    cout.width(5);
     mazeGenerator.Visualizer(square_);
     //Before alg starts you can
     //Set difficulty and others params
