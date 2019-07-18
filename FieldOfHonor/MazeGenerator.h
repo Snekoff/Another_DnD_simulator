@@ -17,6 +17,12 @@
 
 const int kDifficulty_Max = 10;
 const int kDifficulty_Min = 0;
+const int kRoomProbabilityMax = 5;
+const int kRoomProbabilityMin = 0;
+const int kRoomHeightMax = 6;
+const int kRoomHeightMin = 2;
+const int kRoomWidthMax = 6;
+const int kRoomWidthMin = 2;
 
 
 struct Entrance_info {
@@ -98,7 +104,7 @@ public:
     bool IsNegative(int x, int y, int index);
 
     // returns new position
-    pair<int, int> Move(Random_Generator_ *Rand_gen, int x, int y, vector<vector<int>> square_);
+    pair<int, int> Move(Random_Generator_ *Rand_gen, int x, int y, vector<vector<int>> &square_);
 
     //if room could be made than make it and return random room space to continue digging
     //else return current position
@@ -167,6 +173,16 @@ public:
     vector<vector<int>> FreeSpaceAfterDigging(vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to, int &num_of_free_fields_);
 
     void ShowField(vector<vector<int>> &square_);
+
+    pair<int, int> RoomGenerator(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, int direction_);
+
+    int Set_RoomProbability();
+
+    pair<int, int> RoomGenerator_RoomStartingPoint(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, int direction_, int linelength, int linestartcount_);
+
+    bool RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to, pair<int, int> excludepoint, int direction_);
+
+    pair<int, int> RoomGenerator_FreeSpaceAndReturnNewPos(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to, int direction_);
 };
 
 #endif //ANOTHER_DND_SIMULATOR_MAZEGENERATOR_H

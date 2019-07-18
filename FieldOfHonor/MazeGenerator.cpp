@@ -301,7 +301,7 @@ int MazeGenerator::PaceLength(Random_Generator_ *Rand_gen, int difficulty_) {
     return pace;
 }
 
-pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, vector<vector<int>> square_) {
+pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, vector<vector<int>> &square_) {
     cout << "Reach MazeGenerator::Move 0\n";
     pair<int, int> pos = make_pair(x, y);
     if (IsNegative(x, y, -1)) return pos;
@@ -321,6 +321,16 @@ pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, ve
     cout << "direction = " << dirDescription[direction] << "\n";
     if (square_[x_mod][y_mod] == 0) {
         cout << "Reach MazeGenerator::Move 2\n";
+        int rnd = Rand_gen->Rand(0,9);
+        if(rnd < roomProbability){
+            // one step forward and generate room
+            pos = make_pair(x + dirMod[direction][0], y + dirMod[direction][1]);
+            pair<int, int> prev_pos = pos;
+            cout << "Reach MazeGenerator::Move 2_1\n";
+            pos = RoomGenerator(Rand_gen, square_, pos, direction);
+            if(prev_pos != pos) return pos;
+            else pos = make_pair(x - dirMod[direction][0], y - dirMod[direction][1]);
+        }
         int paceLength = PaceLength(Rand_gen, difficulty);
         x_mod = x + paceLength * dirMod[direction][0];
         y_mod = y + paceLength * dirMod[direction][1];
@@ -355,10 +365,11 @@ vector<vector<int>> MazeGenerator::LabyrinthMenu(vector<vector<int>> &square_) {
         cout << "0 - If you are already satisfied with its form.\n";
         cout
                 << "1 - Set labyrinth difficulty. The higher difficulty means higher chance to get another turn/fork on next field.\n";
-        cout << "2 - Set rooms(If you need regular door or hole in it you will have to place entrance later).\n";
+        cout << "2 - Set rooms(If you need regular door or just hole in it you will have to place entrance later).\n";
         cout << "3 - Set field type. (To delete any complex object like entrance or trap just place '0' on it)\n";
+        cout << "4 - Set room probability (if you want to have randomly generated rooms)\n";
 
-        option_ = IsNumber(option_, 0, 3);
+        option_ = IsNumber(option_, 0, 4);
         if (option_ == 1) difficulty = Set_Difficulty();
         else if (option_ == 2) {
             Visualizer(square_);
@@ -367,6 +378,8 @@ vector<vector<int>> MazeGenerator::LabyrinthMenu(vector<vector<int>> &square_) {
             Visualizer(square_);
             pair<pair<int, int>, pair<int, int>> input = RegionSelect(square_);
             square_ = Set_FieldType(input.first, input.second, square_);
+        } else if (option_ == 4) {
+            roomProbability = Set_RoomProbability();
         }
     }
     cout << "Reach MazeGenerator::LabyrinthMenu 1\n";
@@ -467,7 +480,7 @@ void MazeGenerator::Set(int valuetobechanged, int value1, int value2, int value3
 
 int MazeGenerator::Set_Difficulty() {
     cout << "Set Dungeon(labyrinth) difficulty.\n";
-    int difficulty_ = IsNumber(difficulty, kDifficulty_Min, kDifficulty_Max);
+    int difficulty_ = IsNumber(difficulty_, kDifficulty_Min, kDifficulty_Max);
     return difficulty_;
 }
 
@@ -767,6 +780,104 @@ void MazeGenerator::ShowField(vector<vector<int>> &square_) {
         }
         cout << "\n";
     }
+}
+
+pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<vector<int>> &square_,
+                                            pair<int, int> from, int direction_) {
+    pair<int, int> result = from;
+
+    /*
+     * 0. Choose size
+     * 1. choose where room starts
+     *   1.1 No options? return pos : goto 2
+     * 2. check surroundings for region excluding @from point
+     * 3. Fine? return pos : goto 1
+     * */
+
+
+    //  linelength is a perpendicular to direction
+    //  while there are free space move within line and try to secure place for room
+    //  if no options are avalible return result
+    //  else give back starting pos and dirrection
+    //  Build room (checking from max size to min)
+    //  randomly choose exit on room wall (no less than 1 square from entrance)
+    //  result = exit
+    int roomheight = Rand_gen->Rand(kRoomHeightMin, kRoomHeightMax);
+    int roomwidth = Rand_gen->Rand(kRoomWidthMin, kRoomWidthMax);
+    int linelength;
+    int linestartcount = 0;  // when linestartcount == linelength no matching space found
+    if(direction_ == 0 || direction_ == 2) linelength = roomwidth;
+    else linelength = roomheight;
+    while(true){
+        int roomheight_ = roomheight;
+        int roomwidth_ = roomwidth;
+        result = RoomGenerator_RoomStartingPoint(Rand_gen, square_, result, direction_, linelength, linestartcount);
+        if(result == from) return result;
+        char dirDescription[4] = {'u', 'r', 'd', 'l'};
+        int dirMod[4][2] = {{0,  -1},
+                            {1,  0},
+                            {0,  1},
+                            {-1, 0}};
+        // linelength must be min for  x or y
+        // otherwise room will appear in distance
+        // and there will be no possible way to connect it to corridors
+
+        int roomwidthmin = kRoomWidthMin;
+        int roomheightmin = kRoomHeightMin;
+        if(direction_ == 0 || direction_ == 2) roomwidthmin = max(kRoomWidthMin, roomwidth);
+        else roomheightmin = max(kRoomHeightMin, roomheight);
+        pair<int, int> to = make_pair(result.first + roomwidthmin * dirMod[direction_][0],
+                                      result.second + roomheightmin * dirMod[direction_][1]);
+        if(RoomGenerator_RoomRegionCheckIfEmpty(Rand_gen, square_, result, to, from, direction_)){
+
+            to = make_pair(result.first + roomwidth_ * dirMod[direction_][0],
+                           result.second + roomheight_ * dirMod[direction_][1]);
+            int count = 0;
+            while(!RoomGenerator_RoomRegionCheckIfEmpty(Rand_gen, square_, result, to, from, direction_)){
+                count++;
+                if(count % 2 == 1) roomheight_--;
+                else roomwidth_--;
+                if(roomheight < 2 || roomwidth < 2) break;
+                to = make_pair(result.first + roomwidth_ * dirMod[direction_][0],
+                               result.second + roomheight_ * dirMod[direction_][1]);
+            }
+            break;
+        }
+    }
+
+
+
+    /*if(direction_ == 0)
+    for (int i = 0; i < roomwidth; ++i) {
+        for (int j = 0; j < roomheight; ++j) {
+
+        }
+    }*/
+    return result;
+}
+
+pair<int, int> MazeGenerator::RoomGenerator_RoomStartingPoint(Random_Generator_ *Rand_gen, vector<vector<int>> &square_,
+                                                              pair<int, int> from, int direction_, int linelength, int linestartcount_) {
+    pair<int, int> result = from;
+    return result;
+}
+
+bool MazeGenerator::RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to, pair<int, int> excludepoint, int direction_) {
+    bool result = true;
+    return result;
+}
+
+pair<int, int> MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos(Random_Generator_ *Rand_gen,
+                                                                     vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to,
+                                                                     int direction_) {
+    pair<int, int> result = from;
+    return result;
+}
+
+int MazeGenerator::Set_RoomProbability() {
+    cout << "Set room probability.\n";
+    int probability_ = IsNumber(probability_, kRoomProbabilityMin, kRoomProbabilityMax);
+    return probability_;
 }
 
 Entrance_info MazeGenerator::GetEntranceInfo(int id) {
