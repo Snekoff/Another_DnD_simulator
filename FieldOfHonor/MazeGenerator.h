@@ -15,14 +15,7 @@
  * Output: Labyrinth with rooms(even if you didn't place them), traps and so on.
  * */
 
-const int kDifficulty_Max = 10;
-const int kDifficulty_Min = 0;
-const int kRoomProbabilityMax = 5;
-const int kRoomProbabilityMin = 0;
-const int kRoomHeightMax = 6;
-const int kRoomHeightMin = 2;
-const int kRoomWidthMax = 6;
-const int kRoomWidthMin = 2;
+
 
 
 struct Entrance_info {
@@ -60,6 +53,16 @@ private:
     vector<vector<int>> entrances;
     vector<vector<int>> deadend;
     vector<Entrance_info> entrance_info;
+    int RoomLengthMax = 6;
+    int RoomWidthMax = 6;
+    int RoomHeightMax = 3;
+    const int kDifficulty_Max = 10;
+    const int kDifficulty_Min = 0;
+    const int kRoomProbabilityMax = 5;
+    const int kRoomProbabilityMin = 0;
+    const int kRoomLengthMin = 1;
+    const int kRoomHeightMin = 1;
+    const int kRoomWidthMin = 1;
 public:
     MazeGenerator();
 
@@ -183,6 +186,8 @@ public:
     bool RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to, pair<int, int> excludepoint, int direction_);
 
     pair<int, int> RoomGenerator_FreeSpaceAndReturnNewPos(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to, int direction_);
+
+    int Set_RoomSize();
 };
 
 #endif //ANOTHER_DND_SIMULATOR_MAZEGENERATOR_H
