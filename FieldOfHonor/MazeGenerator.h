@@ -188,6 +188,10 @@ public:
     pair<int, int> RoomGenerator_FreeSpaceAndReturnNewPos(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to, int direction_);
 
     int Set_RoomSize();
+
+    bool CheckFieldSurroundingsReturnFalseIfFoundSearched(int direction, int from_x, int from_y, int to_x, int to_y,
+                                                          const vector<vector<int>> &square_, int dif_x, int dif_y,
+                                                          vector<int> searchedforfieldtypes) const;
 };
 
 #endif //ANOTHER_DND_SIMULATOR_MAZEGENERATOR_H
