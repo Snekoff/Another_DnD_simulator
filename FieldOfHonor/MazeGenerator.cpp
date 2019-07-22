@@ -912,8 +912,8 @@ pair<int, int> MazeGenerator::RoomGenerator_RoomStartingPoint(Random_Generator_ 
                             {-1, rndlinestartingpos}};
         int startingpos_x = from.first + dirMod[direction_][0];
         int startingpos_y = from.second + dirMod[direction_][1];
-        if (startingpos_x > square_.size() || startingpos_x < 1) continue;
-        if (startingpos_y > square_[0].size() || startingpos_y < 1) continue;
+        if (startingpos_x > square_.size() - 1 || startingpos_x < 1) continue;
+        if (startingpos_y > square_[0].size() - 1 || startingpos_y < 1) continue;
         if(square_[startingpos_x][startingpos_y] != 1 && square_[startingpos_x][startingpos_y] != 4){
             int tmplinelength = linelength;
             int mod[4][2] = {{1,  0},
@@ -957,8 +957,67 @@ bool MazeGenerator::RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand
 
 pair<int, int> MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos(Random_Generator_ *Rand_gen,
                                                                      vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to,
-                                                                     int direction_) {
-    pair<int, int> result = from;
+                                                                     pair<int, int> entrance_, int direction_) {
+    pair<int, int> result = entrance_;
+    int dirMod[4][2] = {{-1,  1},
+                        {-1,  -1},
+                        {1,  -1},
+                        {1, 1}};
+    //  expand area by 1 field in all directions
+    //  then change whole area to a room walls excluding entrance_ and any fields that weren't walls
+    //  then change inner area to empty excluding ...
+    //  find exit on wall no less than 1 field from entrance* if there are such return it else return rnd pos
+    //  *otherwise algorithm won't continue moving that way
+    pair<int, int> new_from, new_to;
+    new_from.first = from.first + dirMod[direction_][0];
+    new_from.second = from.second + dirMod[direction_][1];
+    new_to.first = to.first - dirMod[direction_][0];
+    new_to.second = to.second - dirMod[direction_][1];
+    for (int i = min(new_from.first, new_to.first); i < max(new_from.first, new_to.first); ++i) {
+        for (int j = min(new_from.second, new_to.second); j < max(new_from.second, new_to.second); ++j) {
+            if (i == entrance_.first && j == entrance_.second) continue;
+            if(square_[i][j] == 0) square_[i][j] = 2;
+        }
+    }
+    for (int i = min(from.first, to.first); i < max(from.first, to.first); ++i) {
+        for (int j = min(from.second, to.second); j < max(from.second, to.second); ++j) {
+            if(square_[i][j] == 2) square_[i][j] = 1;
+        }
+    }
+    //  rnd pos
+    pair<int, int> exit;
+    //  rnd times try to find exit
+    int count = 0;
+    int count_max = Rand_gen->Rand(min(max(abs(from.first - to.first), abs(from.second - to.second)), 4), abs(from.first - to.first) + abs(from.second - to.second));
+    while(true){
+        if(count == count_max) {
+            result = make_pair(Rand_gen->Rand(from.first, to.first), Rand_gen->Rand(from.second, to.second));
+            break;
+        }
+        int x_or_y = Rand_gen->Rand(0, 1);
+        if(x_or_y) {
+            exit.second = Rand_gen->Rand(min(from.second, to.second), max(from.second, to.second));
+            x_or_y = Rand_gen->Rand(0, 1);
+            if(x_or_y){
+                exit.first = new_to.first;
+            } else {
+                exit.first = new_from.first;
+            }
+        } else {
+            exit.first = Rand_gen->Rand(min(from.first, to.first), max(from.first, to.first));
+            x_or_y = Rand_gen->Rand(0, 1);
+            if(x_or_y){
+                exit.second = new_to.second;
+            } else {
+                exit.second = new_from.second;
+            }
+        }
+        if(abs(entrance_.first - exit.first) > 1 || abs(entrance_.second - exit.second) > 1) {
+            result = exit;
+            break;
+        }
+        count++;
+    }
     return result;
 }
 
