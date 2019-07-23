@@ -192,6 +192,8 @@ public:
     bool CheckFieldSurroundingsReturnFalseIfFoundSearched(int direction, int from_x, int from_y, int to_x, int to_y,
                                                           const vector<vector<int>> &square_, int dif_x, int dif_y,
                                                           vector<int> searchedforfieldtypes) const;
+
+    map<int, wchar_t> GetMapIntWchar_t() const;
 };
 
 #endif //ANOTHER_DND_SIMULATOR_MAZEGENERATOR_H
