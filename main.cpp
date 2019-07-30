@@ -154,6 +154,45 @@ int main(int argc, char **argv) {
     Random_Generator_ * randomGenerator;
     setlocale(LC_ALL, "");
     // an example of maze
+
+    //
+
+    vector<vector<int>> square__(6, vector<int> (6, 0));
+    MazeGenerator mazeGenerator_(randomGenerator, square__);
+
+    // Test 1 check if rnd starting point exsists and placed above entrance if direction is up
+    pair<int, int> output = mazeGenerator_.RoomGenerator_RoomStartingPoint(randomGenerator, square__, make_pair(2, 4), 0/* up */, 2, 0);
+    if(output.second != 2) cout << "1 Fixes neded output = " << output.first << " " << output.second << "\n";
+    else cout << "All fine\n";
+
+    // test 2 gone wrong coords and direction
+    vector<pair<int, int>> excludepoints = {make_pair(2, 4)};
+    bool isempty = mazeGenerator_.RoomGenerator_RoomRegionCheckIfEmpty(randomGenerator, square__, output, make_pair(output.first - 2, output.second + 5), excludepoints, 0);
+    if(isempty) cout << "2 Fixes neded isoutput = true\n";
+    else cout << "All fine\n";
+
+
+    // test 3 gone wrong coords
+    //vector<pair<int, int>> excludepoints = {make_pair(2, 3)};
+    bool isempty1 = mazeGenerator_.RoomGenerator_RoomRegionCheckIfEmpty(randomGenerator, square__, output, make_pair(output.first - 2, output.second + 5), excludepoints, 2);
+    if(isempty1) cout << "3 Fixes neded isoutput = true\n";
+    else cout << "All fine\n";
+
+    // test 4 gone wrong direction
+    //vector<pair<int, int>> excludepoints = {make_pair(2, 3)};
+    bool isempty2 = mazeGenerator_.RoomGenerator_RoomRegionCheckIfEmpty(randomGenerator, square__, output, make_pair(output.first + 1, output.second - 1), excludepoints, 2);
+    if(isempty2) cout << "4 Fixes neded isoutput = true\n";
+    else cout << "All fine\n";
+
+    // test 5 all is fine
+    //vector<pair<int, int>> excludepoints = {make_pair(2, 3)};
+    bool isempty3 = mazeGenerator_.RoomGenerator_RoomRegionCheckIfEmpty(randomGenerator, square__, output, make_pair(output.first + 1, output.second - 1), excludepoints, 0);
+    if(isempty3) cout << "All fine\n";
+    else cout << "5 Fixes neded isoutput = false\n";
+
+    cin >> isempty;
+
+    //
     vector<vector<int>> square_(50, vector<int> (30, 0));
     cout << "\n";
     MazeGenerator mazeGenerator(randomGenerator, square_);
@@ -171,19 +210,15 @@ int main(int argc, char **argv) {
     //Before alg starts you can
     //Set difficulty and others params
     //After it ends you can decide whether it has appropriate form
-    mazeGenerator.Build_Labirinth(randomGenerator, square_, mazeGenerator.Get(3), mazeGenerator.Get(2), mazeGenerator.GetVectorVectorInt(1));
+    mazeGenerator.Build_Labyrinth(randomGenerator, square_, mazeGenerator.Get(3), mazeGenerator.Get(2),
+                                  mazeGenerator.GetVectorVectorInt(1));
     // I use wide chars to extend possible output symbols dictionary
     vector<vector<wchar_t>> buf;
     buf = mazeGenerator.VisualizerTakeBattlefieldReturnGraphics(square_);
     // function to print wide chars
     //printwc(0x1f790);
     cout << "Final form:\n";
-    for (int j = 0; j < square_[0].size(); ++j) {
-        for (int i = 0; i < square_.size(); ++i) {
-            printwc(buf[i][j]);
-        }
-        cout << "\n";
-    }
+    mazeGenerator.Visualizer(square_);
     return 0;
 }
 /*

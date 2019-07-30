@@ -5,6 +5,7 @@
 #include "../Character/UsefulFunctions.h"
 #include "../Character/character.h"
 #include "Unicode_Console_Output.h"
+#include <fstream>
 
 /*
  * Bit harsh labyrinth algorithm.
@@ -58,7 +59,7 @@ private:
     int RoomHeightMax = 3;
     const int kDifficulty_Max = 10;
     const int kDifficulty_Min = 0;
-    const int kRoomProbabilityMax = 5;
+    const int kRoomProbabilityMax = 9;
     const int kRoomProbabilityMin = 0;
     const int kRoomLengthMin = 1;
     const int kRoomHeightMin = 1;
@@ -107,7 +108,7 @@ public:
     bool IsNegative(int x, int y, int index);
 
     // returns new position
-    pair<int, int> Move(Random_Generator_ *Rand_gen, int x, int y, vector<vector<int>> &square_);
+    pair<int, int> Move(Random_Generator_ *Rand_gen, int x, int y, vector<vector<int>> &square_, int &num_of_free_fields_);
 
     //if room could be made than make it and return random room space to continue digging
     //else return current position
@@ -123,7 +124,7 @@ public:
 
     int PaceLength(Random_Generator_ *Rand_gen, int difficulty_);
 
-    vector<vector<int>> Build_Labirinth(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, int num_of_deadends_, int num_of_free_fields_, vector<vector<int>> deadend_);
+    vector<vector<int>> Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, int num_of_deadends_, int num_of_free_fields_, vector<vector<int>> deadend_);
 
     vector<vector<int>> GetField();
 
@@ -177,23 +178,26 @@ public:
 
     void ShowField(vector<vector<int>> &square_);
 
-    pair<int, int> RoomGenerator(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, int direction_);
+    pair<int, int> RoomGenerator(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, int direction_, int &num_of_free_fields_);
 
     int Set_RoomProbability();
 
-    pair<int, int> RoomGenerator_RoomStartingPoint(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, int direction_, int linelength, int linestartcount_);
+    pair<int, int> RoomGenerator_RoomStartingPoint(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, int direction_, int &linelength, int linestartcount_);
 
-    bool RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to, pair<int, int> excludepoint, int direction_);
+    bool RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to, vector<pair<int, int>> excludepoints, int direction_);
 
-    pair<int, int> RoomGenerator_FreeSpaceAndReturnNewPos(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to, pair<int, int> entrance_, int direction_);
+    pair<int, int> RoomGenerator_FreeSpaceAndReturnNewPos(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to, pair<int, int> entrance_, int direction_, int &num_of_free_fields_);
 
     int Set_RoomSize();
 
     bool CheckFieldSurroundingsReturnFalseIfFoundSearched(int direction, int from_x, int from_y, int to_x, int to_y,
                                                           const vector<vector<int>> &square_, int dif_x, int dif_y,
-                                                          vector<int> searchedforfieldtypes) const;
+                                                          vector<int> searchedforfieldtypes,
+                                                          vector<pair<int, int>> excludepoints);
 
     map<int, wchar_t> GetMapIntWchar_t() const;
+
+    bool IsOutofVectorVectorSize(vector<vector<int>> square_, int x, int y);
 };
 
 #endif //ANOTHER_DND_SIMULATOR_MAZEGENERATOR_H
