@@ -161,34 +161,36 @@ int main(int argc, char **argv) {
     MazeGenerator mazeGenerator_(randomGenerator, square__);
 
     // Test 1 check if rnd starting point exsists and placed above entrance if direction is up
-    pair<int, int> output = mazeGenerator_.RoomGenerator_RoomStartingPoint(randomGenerator, square__, make_pair(2, 4), 0/* up */, 2, 0);
-    if(output.second != 2) cout << "1 Fixes neded output = " << output.first << " " << output.second << "\n";
-    else cout << "All fine\n";
+    int linelength_ = 2;
+    pair<int, int> from = make_pair(2, 4);
+    pair<int, int> output = mazeGenerator_.RoomGenerator_RoomStartingPoint(randomGenerator, square__, from, 0/* up */, linelength_, 0);
+    if(output.second != from.second - 1) cout << "1 Fixes needed output = " << output.first << " " << output.second << "\n";
+    else cout << "1 All fine\n";
 
     // test 2 gone wrong coords and direction
-    vector<pair<int, int>> excludepoints = {make_pair(2, 4)};
+    vector<pair<int, int>> excludepoints = {from};
     bool isempty = mazeGenerator_.RoomGenerator_RoomRegionCheckIfEmpty(randomGenerator, square__, output, make_pair(output.first - 2, output.second + 5), excludepoints, 0);
-    if(isempty) cout << "2 Fixes neded isoutput = true\n";
-    else cout << "All fine\n";
+    if(isempty) cout << "2 Fixes needed isoutput = true\n";
+    else cout << "2 All fine\n";
 
 
     // test 3 gone wrong coords
     //vector<pair<int, int>> excludepoints = {make_pair(2, 3)};
     bool isempty1 = mazeGenerator_.RoomGenerator_RoomRegionCheckIfEmpty(randomGenerator, square__, output, make_pair(output.first - 2, output.second + 5), excludepoints, 2);
-    if(isempty1) cout << "3 Fixes neded isoutput = true\n";
-    else cout << "All fine\n";
+    if(isempty1) cout << "3 Fixes needed isoutput = true\n";
+    else cout << "3 All fine\n";
 
     // test 4 gone wrong direction
     //vector<pair<int, int>> excludepoints = {make_pair(2, 3)};
     bool isempty2 = mazeGenerator_.RoomGenerator_RoomRegionCheckIfEmpty(randomGenerator, square__, output, make_pair(output.first + 1, output.second - 1), excludepoints, 2);
-    if(isempty2) cout << "4 Fixes neded isoutput = true\n";
-    else cout << "All fine\n";
+    if(isempty2) cout << "4 Fixes needed isoutput = true\n";
+    else cout << "4 All fine\n";
 
     // test 5 all is fine
     //vector<pair<int, int>> excludepoints = {make_pair(2, 3)};
     bool isempty3 = mazeGenerator_.RoomGenerator_RoomRegionCheckIfEmpty(randomGenerator, square__, output, make_pair(output.first + 1, output.second - 1), excludepoints, 0);
-    if(isempty3) cout << "All fine\n";
-    else cout << "5 Fixes neded isoutput = false\n";
+    if(isempty3) cout << "5 All fine\n";
+    else cout << "5 Fixes needed isoutput = false\n";
 
     cin >> isempty;
 

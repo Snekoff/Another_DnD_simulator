@@ -224,6 +224,10 @@ bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched(int directi
                                                                      vector<int> searchedforfieldtypes,
                                                                      vector<pair<int, int>> excludepoint) {
     cout << "Reach MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched 1\n";
+    if(IsOutofVectorVectorSize(square_, from_x, from_y)) return false;
+    if(IsOutofVectorVectorSize(square_, to_x, to_y)) return false;
+    if(dif_x < 0 || dif_y < 0) return false;
+    if(!IsDirectionCorrect(direction, make_pair(from_x, from_y), make_pair(to_x, to_y))) return  false;
     // Check surrounding
     // There have to be only walls or Entrances
     // (No corridors/Reached entrances that are blockable)
@@ -252,9 +256,10 @@ bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched(int directi
         from_x += mod.first;
         from_y += mod.second;
         for (int i = 0; i < 8; i++) {
-            if(abs(i - ((direction + 2) % 4) * 2) < 3 || (direction == 2 && i == 7)) {
+            if(abs(i - ((direction + 2) % 4) * 2) < 3 || (direction == 2 && i == 7) || (direction == 1 && i == 0)) {
                 cout << "if(abs(i - ((direction + 2) % 4) * 2) < 3 || (direction == 2 && i == 7))\n";
-                cout << "dirrection = " << direction << "i = " << i << "\n";
+                cout << "((direction + 2) % 4) * 2) = " << ((direction + 2) % 4) * 2 << "\n";
+                cout << "dirrection = " << direction << " i = " << i << "\n";
                 continue;
             }
             x_t = from_x + dirMod[i][0];
@@ -267,7 +272,11 @@ bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched(int directi
                 }
             }
             if(isexcluded) continue;
-            if(IsOutofVectorVectorSize(square_, x_t, y_t)) return false;
+            if(IsOutofVectorVectorSize(square_, x_t, y_t)) {
+                cout << "Reach MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched 2_0\n";
+                cout << "IsOutofVectorVectorSize\n";
+                return false;
+            }
             int one_square = square_[x_t][y_t];
             for (int k = 0; k < searchedforfieldtypes.size(); ++k) {
                 if (one_square == searchedforfieldtypes[k]) {
@@ -280,6 +289,14 @@ bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched(int directi
         }
     }
     cout << "Reach MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched 3\n";
+    return true;
+}
+
+bool MazeGenerator::IsDirectionCorrect(int direction, pair<int, int> from, pair<int, int> to) {
+    if(direction == 0 && from.second <= to.second) return false;
+    if(direction == 1 && from.first >= to.first) return false;
+    if(direction == 2 && from.second >= to.second) return false;
+    if(direction == 3 && from.first <= to.first) return false;
     return true;
 }
 
@@ -972,6 +989,7 @@ pair<int, int> MazeGenerator::RoomGenerator_RoomStartingPoint(Random_Generator_ 
                             {-1, rndlinestartingpos}};
         int startingpos_x = from.first + dirMod[direction_][0];
         int startingpos_y = from.second + dirMod[direction_][1];
+        cout << " direction_ " << direction_ << "\n";
         cout << "startingpos_x " << startingpos_x;
         cout << " startingpos_y " << startingpos_y << "\n";
         cout << "Reach MazeGenerator::RoomGenerator_RoomStartingPoint 2\n";
@@ -1013,22 +1031,30 @@ bool MazeGenerator::RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand
                         {0,  1},
                         {-1, 0}};
     //  that has not to be in room
+    //  no empty space before, no unbreakable walls, no reached entrances
     vector<int> searchedforfieldtypes = {1, 4, 5};
     //  firstly check orthogonal vector back and forward (not in every single time orthogonal (Y is fixed))
     //  then check all straight vectors (X is fixed value)
     int orthogonaldirection = (direction_ + 1) % 4;  // direction is from 0 to 3
     cout << "orthogonal: " << orthogonaldirection << "\n";
+    cout << "from: " << from.first << " " << from.second << "\n";
+    cout << "to: " << to.first << " " << from.second << "\n";
+    cout << "abs(from.first - to.first): " << abs(from.first - to.first) << "\n";
     result = CheckFieldSurroundingsReturnFalseIfFoundSearched(orthogonaldirection, from.first, from.second, to.first,
                                                               from.second, square_, abs(from.first - to.first), 0,
                                                               searchedforfieldtypes, excludepoints);
     if (!result) return result;
     orthogonaldirection = (orthogonaldirection + 2) % 4;
     cout << "backward orthogonal: " << orthogonaldirection << "\n";
+    cout << "from: " << to.first << " " << from.second << "\n";
+    cout << "to: " << from.first << " " << from.second << "\n";
+    cout << "abs(from.first - to.first): " << abs(from.first - to.first) << "\n";
     result = CheckFieldSurroundingsReturnFalseIfFoundSearched(orthogonaldirection, to.first, from.second, from.first,
                                                               from.second, square_, abs(from.first - to.first), 0,
                                                               searchedforfieldtypes, excludepoints);
     if (!result) return result;
     cout << "Reach MazeGenerator::RoomGenerator_RoomRegionCheckIfEmpty 1_1 from: (" << from.first<< ", " << from.second << ")\n";
+    cout << "to: (" << to.first<< ", " << to.second << ")\n";
     for (int i = from.first; i <= to.first; ++i) {
         int dif_x = 0, dif_y = abs(to.second - from.second);
         result = CheckFieldSurroundingsReturnFalseIfFoundSearched(direction_, i, from.second, i, to.second, square_,

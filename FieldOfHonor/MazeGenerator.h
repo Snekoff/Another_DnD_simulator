@@ -198,6 +198,8 @@ public:
     map<int, wchar_t> GetMapIntWchar_t() const;
 
     bool IsOutofVectorVectorSize(vector<vector<int>> square_, int x, int y);
+
+    bool IsDirectionCorrect(int direction, pair<int, int> from, pair<int, int> to);
 };
 
 #endif //ANOTHER_DND_SIMULATOR_MAZEGENERATOR_H
