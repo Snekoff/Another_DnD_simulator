@@ -293,10 +293,10 @@ bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched(int directi
 }
 
 bool MazeGenerator::IsDirectionCorrect(int direction, pair<int, int> from, pair<int, int> to) {
-    if(direction == 0 && from.second <= to.second) return false;
-    if(direction == 1 && from.first >= to.first) return false;
-    if(direction == 2 && from.second >= to.second) return false;
-    if(direction == 3 && from.first <= to.first) return false;
+    if(direction == 0 && from.second < to.second) return false;
+    if(direction == 1 && from.first > to.first) return false;
+    if(direction == 2 && from.second > to.second) return false;
+    if(direction == 3 && from.first < to.first) return false;
     return true;
 }
 
@@ -387,7 +387,7 @@ pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, ve
             if(prev_pos != pos) return pos;
             else {
                 pos = make_pair(x - dirMod[direction][0], y - dirMod[direction][1]);
-                square_[x - dirMod[direction][0]][y - dirMod[direction][1]] = 0;
+                square_[prev_pos.first][prev_pos.second] = 0;
                 num_of_free_fields_--;
             }
         }
@@ -1002,6 +1002,13 @@ pair<int, int> MazeGenerator::RoomGenerator_RoomStartingPoint(Random_Generator_ 
                              {-1,  0},
                              {0, -1}};
             bool iswayempty = true;
+            if(startingpos_x + linelength * mod[direction_][0] > square_.size() - 1 ||
+                    startingpos_x + linelength * mod[direction_][0] < 0 ||
+                    startingpos_y + linelength * mod[direction_][1] > square_[0].size() - 1 ||
+                    startingpos_y + linelength * mod[direction_][1] < 0){
+                count = linelength;
+                continue;
+            }
             for (int i = 1; i <= linelength; ++i) {
                 if(square_[startingpos_x + i * mod[direction_][0]][startingpos_y + i * mod[direction_][1]] != 0
                 && square_[startingpos_x + i * mod[direction_][0]][startingpos_y + i * mod[direction_][1]] != 3) {
@@ -1118,15 +1125,17 @@ pair<int, int> MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos(Random_Gene
     pair<int, int> exit;
     //  rnd times try to find exit
     int count = 0;
-    int count_max = Rand_gen->Rand(min(max(abs(from.first - to.first), abs(from.second - to.second)), 4), abs(from.first - to.first) + abs(from.second - to.second));
+    int count_max = Rand_gen->Rand(min(max(max(abs(from.first - to.first), abs(from.second - to.second)), 4), abs(from.first - to.first) + abs(from.second - to.second)), max(max(max(abs(from.first - to.first), abs(from.second - to.second)), 4), abs(from.first - to.first) + abs(from.second - to.second)));
     cout << "count_max: " << count_max << "\n";
     while(true){
         cout << "Reach MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos 2\n";
         if(count == count_max) {
             cout << "Reach MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos 2_0\n";
-            while(true){
+            int tmpcount = 0;
+            while(tmpcount < abs(from.first - to.first) * abs(from.second - to.second)){
                 cout << "Reach MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos 2_0_1\n";
                 result = make_pair(Rand_gen->Rand(from.first, to.first), Rand_gen->Rand(from.second, to.second));
+                cout << "result: " << result.first << " " << result.second << "\n";
                 cout << "square_[result.first][result.second]: " << square_[result.first][result.second] << "\n";
                 if(square_[result.first][result.second] == 1 || square_[result.first][result.second] == 2) break;
             }

@@ -156,14 +156,14 @@ int main(int argc, char **argv) {
     // an example of maze
 
     //
-
+/*
     vector<vector<int>> square__(6, vector<int> (6, 0));
     MazeGenerator mazeGenerator_(randomGenerator, square__);
 
     // Test 1 check if rnd starting point exsists and placed above entrance if direction is up
     int linelength_ = 2;
     pair<int, int> from = make_pair(2, 4);
-    pair<int, int> output = mazeGenerator_.RoomGenerator_RoomStartingPoint(randomGenerator, square__, from, 0/* up */, linelength_, 0);
+    pair<int, int> output = mazeGenerator_.RoomGenerator_RoomStartingPoint(randomGenerator, square__, from, 0*//* up *//*, linelength_, 0);
     if(output.second != from.second - 1) cout << "1 Fixes needed output = " << output.first << " " << output.second << "\n";
     else cout << "1 All fine\n";
 
@@ -191,8 +191,7 @@ int main(int argc, char **argv) {
     bool isempty3 = mazeGenerator_.RoomGenerator_RoomRegionCheckIfEmpty(randomGenerator, square__, output, make_pair(output.first + 1, output.second - 1), excludepoints, 0);
     if(isempty3) cout << "5 All fine\n";
     else cout << "5 Fixes needed isoutput = false\n";
-
-    cin >> isempty;
+    */
 
     //
     vector<vector<int>> square_(50, vector<int> (30, 0));
