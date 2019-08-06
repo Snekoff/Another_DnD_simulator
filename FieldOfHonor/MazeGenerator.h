@@ -53,6 +53,7 @@ private:
     // odd pair is begin of a region and next one is the end of the region
     vector<vector<int>> entrances;
     vector<vector<int>> deadend;
+    bool wasroombuiltonthisturn = false;
     vector<Entrance_info> entrance_info;
     int RoomLengthMax = 6;
     int RoomWidthMax = 6;

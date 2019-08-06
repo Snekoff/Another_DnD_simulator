@@ -194,6 +194,7 @@ int main(int argc, char **argv) {
     */
 
     //
+    setlocale(LC_ALL, "ALL");
     vector<vector<int>> square_(50, vector<int> (30, 0));
     cout << "\n";
     MazeGenerator mazeGenerator(randomGenerator, square_);

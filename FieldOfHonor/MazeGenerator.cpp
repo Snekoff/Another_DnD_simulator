@@ -257,9 +257,9 @@ bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched(int directi
         from_y += mod.second;
         for (int i = 0; i < 8; i++) {
             if(abs(i - ((direction + 2) % 4) * 2) < 3 || (direction == 2 && i == 7) || (direction == 1 && i == 0)) {
-                cout << "if(abs(i - ((direction + 2) % 4) * 2) < 3 || (direction == 2 && i == 7))\n";
+               /* cout << "if(abs(i - ((direction + 2) % 4) * 2) < 3 || (direction == 2 && i == 7))\n";
                 cout << "((direction + 2) % 4) * 2) = " << ((direction + 2) % 4) * 2 << "\n";
-                cout << "dirrection = " << direction << " i = " << i << "\n";
+                cout << "dirrection = " << direction << " i = " << i << "\n";*/
                 continue;
             }
             x_t = from_x + dirMod[i][0];
@@ -375,6 +375,7 @@ pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, ve
         cout << "Reach MazeGenerator::Move 2\n";
         int rnd = Rand_gen->Rand(0, kRoomProbabilityMax);
         if(rnd <= roomProbability){
+            if(rnd == 0) cin >> rnd;
             // one step forward and generate room
             pos = make_pair(x + dirMod[direction][0], y + dirMod[direction][1]);
             square_[x + dirMod[direction][0]][y + dirMod[direction][1]] = 1;
@@ -384,9 +385,9 @@ pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, ve
             cout << "num_of_free_fields: " << num_of_free_fields_ << "\n";
             pos = RoomGenerator(Rand_gen, square_, pos, direction, num_of_free_fields_);
             cout << "num_of_free_fields: " << num_of_free_fields_ << "\n";
-            if(prev_pos != pos) return pos;
+            if(wasroombuiltonthisturn) return pos;
             else {
-                pos = make_pair(x - dirMod[direction][0], y - dirMod[direction][1]);
+                pos = make_pair(x, y);
                 square_[prev_pos.first][prev_pos.second] = 0;
                 num_of_free_fields_--;
             }
@@ -907,19 +908,29 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
     if(direction_ == 0 || direction_ == 2) linelength = roomwidth;
     else linelength = roomheight;
     cout << "linelength: " << linelength << "\n";
+    cout << "roomwidth: " << roomwidth << "\n";
+    cout << "roomheight: " << roomheight << "\n";
     while(true){
         cout << "Reach MazeGenerator::RoomGenerator 1\n";
         int roomlength_ = roomlength;
         int roomheight_ = roomheight;
         int roomwidth_ = roomwidth;
         bool iswayempty_;
+        int rndlineposition;
         result = RoomGenerator_RoomStartingPoint(Rand_gen, square_, result, direction_, linelength, linestartcount);
         if(result == from) return result;
+        else {
+            if(direction_ == 0) rndlineposition = (result.first - from.first);
+            else if(direction_ == 1) rndlineposition = (from.second - result.second);
+            else if(direction_ == 2) rndlineposition = -(result.first - from.first);
+            else rndlineposition = -(from.second - result.second);
+        }
         char dirDescription[4] = {'u', 'r', 'd', 'l'};
         int dirMod[4][2] = {{0,  -1},
                             {1,  0},
                             {0,  1},
                             {-1, 0}};
+        if(-roomheight_ != -1*roomheight_) cout << "-roomheight_ != -1*roomheight\n";
         // linelength must be min for  x or y
         // otherwise room will appear in distance
         // and there will be no possible way to connect it to corridors
@@ -927,31 +938,58 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
         int roomwidthmin = kRoomWidthMin;
         int roomheightmin = kRoomHeightMin;
         vector<pair<int, int>> excludepoints_ = {from};
-        if(direction_ == 0 || direction_ == 2) roomwidthmin = max(kRoomWidthMin, roomwidth);
-        else roomlengthmin = max(kRoomHeightMin, roomheight);
+        if (direction_ == 0 || direction_ == 2) roomwidthmin = max(kRoomWidthMin, roomwidth);
+        else roomlengthmin = max(kRoomHeightMin, roomlength);
         to = make_pair(result.first + roomwidthmin * dirMod[direction_][0],
-                                      result.second + roomlengthmin * dirMod[direction_][1]);
+                       result.second + roomlengthmin * dirMod[direction_][1]);
         cout << "Reach MazeGenerator::RoomGenerator 2\n";
-        if(RoomGenerator_RoomRegionCheckIfEmpty(Rand_gen, square_, result, to, excludepoints_, direction_)){
+        int dirroomMod[4][2] = {{linelength - rndlineposition,  -roomlength_},
+                            {roomwidth_,  -(linelength - rndlineposition)},
+                            {-(linelength - rndlineposition),  roomlength_},
+                            {-roomwidth_, linelength - rndlineposition}};
+        if (RoomGenerator_RoomRegionCheckIfEmpty(Rand_gen, square_, result, to, excludepoints_, direction_)) {
             cout << "Reach MazeGenerator::RoomGenerator 3\n";
-            to = make_pair(result.first + roomwidth_ * dirMod[direction_][0],
-                           result.second + roomlength_ * dirMod[direction_][1]);
+            to = make_pair(result.first + dirroomMod[direction_][0],
+                           result.second + dirroomMod[direction_][1]);
+            cout << "from: " << result.first << ", " << result.second << "\n";
+            cout << "to: " << to.first << ", " << to.second << "\n";
+            int a;
+            cin >> a;
             int count = 0;
             while(!RoomGenerator_RoomRegionCheckIfEmpty(Rand_gen, square_, result, to, excludepoints_, direction_)){
                 cout << "Room sizes: width: " << roomwidth_ << " length: " << roomlength_ << ")\n";
                 count++;
-                if(count % 2 == 1) roomlength_--;
-                else roomwidth_--;
+                cout << "prev. dirroomMod[0][1] = " << dirroomMod[0][1] << "\n";
+                cout << "prev. dirroomMod[1][0] = " << dirroomMod[1][0] << "\n";
+                if(count % 2 == 1 && roomlength_ > 1) {
+                    roomlength_--;
+                    dirroomMod[0][1]++;
+                    dirroomMod[2][1]--;
+                }
+                else if(count % 2 == 0 && roomwidth_ > 1) {
+                    roomwidth_--;
+                    dirroomMod[1][0]--;
+                    dirroomMod[3][0]++;
+                }
+                else {
+                    wasroombuiltonthisturn = false;
+                    return from;
+                }
+
+                cout << "Only one must decrease by 1\n";
+                cout << "new. dirroomMod[0][1] = " << dirroomMod[0][1] << "\n";
+                cout << "new. dirroomMod[1][0] = " << dirroomMod[1][0] << "\n";
                 if(roomheight < 2 || roomwidth < 2) break;
-                to = make_pair(result.first + roomwidth_ * dirMod[direction_][0],
-                               result.second + roomlength_ * dirMod[direction_][1]);
+                to = make_pair(result.first + dirroomMod[direction_][0],
+                               result.second + dirroomMod[direction_][1]);
             }
             break;
         } else {
             cout << "Reach MazeGenerator::RoomGenerator 4\n";
             linelength--;
             if(linelength < 1) {
-                cout << "Reach MazeGenerator::RoomGenerator 4_1 linelength < 1 \n";
+                cout << "Reach MazeGenerator::RoomGenerator 4_1 linelength < 1 Fail to make room.\n";
+                wasroombuiltonthisturn = false;
                 result = from;
                 return result;
             }
@@ -1121,6 +1159,7 @@ pair<int, int> MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos(Random_Gene
         }
     }
     cout << "Reach MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos 1\n";
+    wasroombuiltonthisturn = true;
     //  rnd pos
     pair<int, int> exit;
     //  rnd times try to find exit
@@ -1134,7 +1173,7 @@ pair<int, int> MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos(Random_Gene
             int tmpcount = 0;
             while(tmpcount < abs(from.first - to.first) * abs(from.second - to.second)){
                 cout << "Reach MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos 2_0_1\n";
-                result = make_pair(Rand_gen->Rand(from.first, to.first), Rand_gen->Rand(from.second, to.second));
+                result = make_pair(Rand_gen->Rand(min(from.first, to.first), max(from.first, to.first)), Rand_gen->Rand(min(from.second, to.second), max(from.second, to.second)));
                 cout << "result: " << result.first << " " << result.second << "\n";
                 cout << "square_[result.first][result.second]: " << square_[result.first][result.second] << "\n";
                 if(square_[result.first][result.second] == 1 || square_[result.first][result.second] == 2) break;
@@ -1290,12 +1329,16 @@ MazeGenerator::Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
     square = square_;
     bool issatisfying = false;
     ofstream output_file;
-    output_file.open("maze_in_steps.txt");
+    output_file.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/FieldOfHonor/maze_in_steps.txt", std::ios::app);
     if(!output_file.is_open()) {
         cout << "Error in opening file\n";
         cout <<'\n';
-    }
+    } else cout << "File opened\n";
     output_file << "\n\n\n *** \n";
+    for(int i = 0; i < square_.size(); i++){
+        output_file << i % 10;
+    }
+    output_file << "\n";
     cout << "Reach MazeGenerator::Build_Labyrinth 1\n";
     while (!issatisfying) {
 
@@ -1320,15 +1363,27 @@ MazeGenerator::Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
             cout << "new pos = (" << pos.first << ", " << pos.second << ")\n";
             //num_of_free_fields_ += max(abs(prev_pos.first - pos.first), abs(prev_pos.second - pos.second));
             cout << "prev. num_of_free_fields_ = " << num_of_free_fields_ << "\n";
-            if(min(abs(pos.first - prev_pos.first), abs(pos.second - prev_pos.second)) == 0){
+           // if(!wasroombuiltonthisturn){
+            if(!wasroombuiltonthisturn) {
                 square_ = FreeSpaceAfterDigging(square_, prev_pos, pos, num_of_free_fields_);
+            }
+            wasroombuiltonthisturn = false;
                 for (int j = 0; j < square_[0].size(); ++j) {
                     for (int i = 0; i < square_.size(); ++i) {
                         output_file << square_[i][j];
                     }
                     output_file << "\n";
+                    for(int i = 0; i < square_.size(); i++){
+                        output_file << i % 10;
+                    }
+                    output_file << "\n";
                 }
-            }
+                output_file << "\n";
+                output_file << "\n";
+                output_file.close();
+                output_file.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/FieldOfHonor/maze_in_steps.txt", std::ios::app);
+
+           // }
             cout << "new. num_of_free_fields_ = " << num_of_free_fields_ << "\n";
             if (pos == prev_pos) {
                 cout << "Reach MazeGenerator::Build_Labyrinth 4\n";
@@ -1363,10 +1418,12 @@ MazeGenerator::Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
         cout << "Reach MazeGenerator::Build_Labyrinth 5\n";
         Visualizer(square_);
         ShowField(square_);
+        output_file.close();
         cout << "Are you satisfied with labirinth? 1/0 (Yes/No)\n";
         int issatisfying_i = IsNumber(issatisfying_i, 0, 1);
         if (issatisfying_i == 1) issatisfying = (bool) issatisfying_i;
         else {
+            output_file.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/FieldOfHonor/maze_in_steps.txt", ios_base::trunc);
             square_ = square;
             deadend_ = deadend;
             num_of_deadends_ = num_of_deadends;
@@ -1376,7 +1433,7 @@ MazeGenerator::Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
     }
     num_of_deadends_ = num_of_deadends;
     num_of_free_fields_ = num_of_free_fields;
-    output_file.close();
+
     return square_;
 }
 
