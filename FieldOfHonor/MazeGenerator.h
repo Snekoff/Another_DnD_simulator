@@ -196,6 +196,11 @@ public:
                                                           vector<int> searchedforfieldtypes,
                                                           vector<pair<int, int>> excludepoints);
 
+    bool CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(pair<int, int> from, pair<int, int> to,
+                                                             vector<vector<int>> square_,
+                                                             vector<int> searchedforfieldtypes,
+                                                             vector<pair<int, int>> excludepoints);
+
     map<int, wchar_t> GetMapIntWchar_t() const;
 
     bool IsOutofVectorVectorSize(vector<vector<int>> square_, int x, int y);

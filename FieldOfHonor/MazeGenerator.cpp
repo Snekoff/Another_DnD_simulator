@@ -213,8 +213,7 @@ bool MazeGenerator::CouldMakeCorridor(int direction, int from_x, int from_y, int
     }
     cout << "Reach MazeGenerator::CouldMakeCorridor 2\n";
     vector<pair<int, int>> excludepoints_ = {};
-    result = CheckFieldSurroundingsReturnFalseIfFoundSearched(direction, from_x, from_y, to_x, to_y, square_, dif_x, dif_y,
-                                                     searchedforfieldtypes, excludepoints_);
+    result = CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(make_pair(from_x, from_y), make_pair(to_x, to_y), square_, searchedforfieldtypes, excludepoints_);
     cout << "Reach MazeGenerator::CouldMakeCorridor 3\n";
     return result;
 }
@@ -225,6 +224,8 @@ bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched(int directi
                                                                      vector<int> searchedforfieldtypes,
                                                                      vector<pair<int, int>> excludepoint) {
     cout << "Reach MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched 1\n";
+    cout << "Check points are \nfrom = " << from_x << ", " << from_y << "\n";
+    cout << "to = " << to_x << ", " << to_y << "\n";
     if(IsOutofVectorVectorSize(square_, from_x, from_y)) return false;
     if(IsOutofVectorVectorSize(square_, to_x, to_y)) return false;
     if(dif_x < 0 || dif_y < 0) return false;
@@ -244,6 +245,8 @@ bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched(int directi
                         {-1, -1},
     };
     //pair<int, int> mod = make_pair(0, 0);
+    // pseudo code
+    // while(x != to) x = from + DirFourDirMod
     int DirFourDirMod[4][2] = {{0,  -1},
                         {1,  0},
                         {0,  1},
@@ -256,17 +259,20 @@ bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched(int directi
         for (int i = 0; i < 8; i++) {
             // important part is only
             // abs(i - ((direction + 2) % 4) * 2)
-            // mole looks only forward, so exclude other dirrections
+            // mole looks only forward, so exclude other directions
             // to do so I had to cut all directions that are close to opposite direction
             // other sections are just leziness
-            if(abs(i - ((direction + 2) % 4) * 2) < 3 || (direction == 2 && i == 7) || (direction == 1 && i == 0)) {
+            if(abs(i - (((direction + 2) % 4) * 2)) < 3 || (direction == 2 && i == 7) || (direction == 1 && i == 0)) {
                /* cout << "if(abs(i - ((direction + 2) % 4) * 2) < 3 || (direction == 2 && i == 7))\n";
                 cout << "((direction + 2) % 4) * 2) = " << ((direction + 2) % 4) * 2 << "\n";
                 cout << "dirrection = " << direction << " i = " << i << "\n";*/
                 continue;
             }
+            cout << "Check way whether it passable \nx_t = " << x_t << " y_t = " << y_t << "\n";
+            cout << "j = " << j << " i = " << i << "\n";
             x_t = j * (from_x + DirFourDirMod[direction][0]) + dirMod[i][0];
             y_t = j * (from_y + DirFourDirMod[direction][1]) + dirMod[i][1];
+            cout << "new values \nx_t = " << x_t << " y_t = " << y_t << "\n";
             bool isexcluded = false;
             for (int l = 0; l < excludepoint.size(); ++l) {
                 if(x_t == excludepoint[l].first && y_t == excludepoint[l].second){
@@ -281,7 +287,7 @@ bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched(int directi
                 return false;
             }
             int one_square = square_[x_t][y_t];
-            for (int k = 0; k < searchedforfieldtypes.size(); ++k) {
+            for (int k = 0; k < searchedforfieldtypes.size(); k++) {
                 if (one_square == searchedforfieldtypes[k]) {
                     cout << "Reach MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched 2_1\n";
                     cout << "i = " << i << "\n";
@@ -923,9 +929,9 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
         result = RoomGenerator_RoomStartingPoint(Rand_gen, square_, result, direction_, linelength, linestartcount);
         if(result == from) return result;
         else {
-            if(direction_ == 0) rndlineposition = (result.first - from.first);
+            if(direction_ == 0) rndlineposition = -(result.first - from.first);
             else if(direction_ == 1) rndlineposition = (from.second - result.second);
-            else if(direction_ == 2) rndlineposition = -(result.first - from.first);
+            else if(direction_ == 2) rndlineposition = (result.first - from.first);
             else rndlineposition = -(from.second - result.second);
         }
         cout << "rndlineposition " << rndlineposition << "\n";
@@ -945,8 +951,11 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
         int roomwidthmin = kRoomWidthMin;
         int roomheightmin = kRoomHeightMin;
         vector<pair<int, int>> excludepoints_ = {from};
+        /// FROM HERE delete?
         if (direction_ == 0 || direction_ == 2) roomwidthmin = max(kRoomWidthMin, roomwidth);
-        else roomlengthmin = max(kRoomHeightMin, roomlength);
+        else roomlengthmin = max(kRoomLengthMin, roomlength);
+        cout << "dirMod[direction_]: x:" << dirMod[direction_][0] << " y:" << dirMod[direction_][1] << "\n";
+        cout << "roomwidthmin:" << roomwidthmin << " roomlengthmin:" << roomlengthmin << "\n";
         to = make_pair(result.first + roomwidthmin * dirMod[direction_][0],
                        result.second + roomlengthmin * dirMod[direction_][1]);
         cout << "Reach MazeGenerator::RoomGenerator 2\n";
@@ -954,8 +963,11 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
                                 {roomwidth_ - 1,  linelength - rndlineposition},
                                 {-(linelength - rndlineposition),    roomlength_ - 1},
                                 {-(roomwidth_ - 1), -(linelength - rndlineposition)}};
+
+        /// UP TO HERE delete?
         if (RoomGenerator_RoomRegionCheckIfEmpty(Rand_gen, square_, result, to, excludepoints_, direction_)) {
             cout << "Reach MazeGenerator::RoomGenerator 3\n";
+            cout << "dirroomMod[direction_]: x:" << dirroomMod[direction_][0] << " y:" << dirroomMod[direction_][1] << "\n";
             to = make_pair(result.first + dirroomMod[direction_][0],
                            result.second + dirroomMod[direction_][1]);
             cout << "from: " << result.first << ", " << result.second << "\n";
@@ -1087,12 +1099,12 @@ bool MazeGenerator::RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand
     vector<int> searchedforfieldtypes = {1, 4, 5};
     //  firstly check orthogonal vector back and forward (not in every single time orthogonal (Y is fixed))
     //  then check all straight vectors (X is fixed value)
-    int orthogonaldirection = (direction_ + 1) % 4;  // direction is from 0 to 3
+    int orthogonaldirection = (direction_ + 1) % 4;  // directions are from 0 to 3
     cout << "orthogonal: " << orthogonaldirection << "\n";
     cout << "from: " << from.first << " " << from.second << "\n";
     cout << "to: " << to.first << " " << from.second << "\n";
     cout << "abs(from.first - to.first): " << abs(from.first - to.first) << "\n";
-    result = CheckFieldSurroundingsReturnFalseIfFoundSearched(orthogonaldirection, from.first, from.second, to.first,
+    result = CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(orthogonaldirection, from.first, from.second, to.first,
                                                               from.second, square_, abs(from.first - to.first), 0,
                                                               searchedforfieldtypes, excludepoints);
     if (!result) return result;
@@ -1101,7 +1113,7 @@ bool MazeGenerator::RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand
     cout << "from: " << to.first << " " << from.second << "\n";
     cout << "to: " << from.first << " " << from.second << "\n";
     cout << "abs(from.first - to.first): " << abs(from.first - to.first) << "\n";
-    result = CheckFieldSurroundingsReturnFalseIfFoundSearched(orthogonaldirection, to.first, from.second, from.first,
+    result = CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(orthogonaldirection, to.first, from.second, from.first,
                                                               from.second, square_, abs(from.first - to.first), 0,
                                                               searchedforfieldtypes, excludepoints);
     if (!result) return result;
@@ -1120,7 +1132,7 @@ bool MazeGenerator::RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand
         }
         for (int i = start; i <= end; ++i) {
             int dif_x = 0, dif_y = abs(to.second - from.second);
-            result = CheckFieldSurroundingsReturnFalseIfFoundSearched(direction_, i, from.second, i, to.second, square_,
+            result = CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(direction_, i, from.second, i, to.second, square_,
                                                                       dif_x, dif_y, searchedforfieldtypes, excludepoints);
             if (!result) return result;
         }
@@ -1134,7 +1146,7 @@ bool MazeGenerator::RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand
         }
         for (int i = start; i <= end; ++i) {
             int dif_x = abs(to.first - from.first), dif_y = 0;
-            result = CheckFieldSurroundingsReturnFalseIfFoundSearched(direction_, from.first, i, to.first, i, square_,
+            result = CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(direction_, from.first, i, to.first, i, square_,
                                                                       dif_x, dif_y, searchedforfieldtypes, excludepoints);
             if (!result) return result;
         }
@@ -1352,6 +1364,52 @@ vector<vector<int>> MazeGenerator::FreeSpaceAfterDigging(vector<vector<int>> &sq
         }
     }
     return square_;
+}
+
+bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(pair<int, int> from, pair<int, int> to,
+                                                                        vector<vector<int>> square_,
+                                                                        vector<int> searchedforfieldtypes,
+                                                                        vector<pair<int, int>> excludepoints) {
+    bool result;
+    if(IsOutofVectorVectorSize(square_, from.first, from.second)) return false;
+    if(IsOutofVectorVectorSize(square_, to.first, to.second)) return false;
+    for (int i = 0; i < excludepoints.size(); ++i) {
+        if(IsOutofVectorVectorSize(square_, excludepoints[i].first, excludepoints[i].second)) continue;
+        square_[excludepoints[i].first][excludepoints[i].second] = 1234;  //this is secure code trust me XD
+    }
+    // Variants: point, line, figure*
+    // *if input exclude points which are inside
+    int dirMod[8][2] = {{0,  -1},
+                        {1,  -1},
+                        {1,  0},
+                        {1,  1},
+                        {0,  1},
+                        {-1, 1},
+                        {-1, 0},
+                        {-1, -1},
+    };
+    pair<int, int> start, end;
+    //start will be left bottom corner
+    //end will be right top corner
+    start = make_pair(min(from.first, to.first), max(from.second, to.second));
+    end = make_pair(max(from.first, to.first), min(from.second, to.second));
+    for (int i = start.first; i <= end.first - start.first; ++i) {
+        for (int j = end.second; j <= start.second - end.second; ++j) {
+            for (int k = 0; k < searchedforfieldtypes.size() && square_[i][j] != 1234; k++) {
+                if (square_[i][j] == searchedforfieldtypes[k]) return false;
+            }
+            // Check surroundings
+            for (int k = 0; k < 8; ++k) {
+                int x = i + dirMod[k][0];
+                int y = j + dirMod[k][1];
+                if (IsOutofVectorVectorSize(square_, x, y)) return false;
+                for (int k1 = 0; k1 < searchedforfieldtypes.size() && square_[x][y] != 1234; k1++) {
+                    if (square_[x][y] == searchedforfieldtypes[k1]) return false;
+                }
+            }
+        }
+    }
+    return true;
 }
 
 /*Method which uses all of the others and return field filled with corridors and walls :D*/
