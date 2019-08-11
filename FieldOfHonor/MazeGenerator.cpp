@@ -911,15 +911,61 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
     int roomlength = Rand_gen->Rand(kRoomLengthMin, RoomLengthMax);
     int roomwidth = Rand_gen->Rand(kRoomWidthMin, RoomWidthMax);
     int roomheight = Rand_gen->Rand(kRoomHeightMin, RoomHeightMax);
-    int linelength;
+    int * linelength;
     pair<int, int> to;
     int linestartcount = 0;  // when linestartcount == linelength no matching space found
-    if(direction_ == 0 || direction_ == 2) linelength = roomwidth;
-    else linelength = roomheight;
-    cout << "linelength: " << linelength << "\n";
+    if(direction_ == 0 || direction_ == 2) linelength = &roomwidth;
+    else linelength = &roomheight;
+    cout << "*linelength: " << *linelength << "\n";
     cout << "roomwidth: " << roomwidth << "\n";
     cout << "roomlength: " << roomlength << "\n";
-    while(true){
+    // 1.choose starting point
+    // 2.set region
+    // 3.check region ### size > 1 ? goto 2 : goto 1
+    bool islinelengthreducedalready = false;
+    while (true) {
+        // starting point
+        vector<bool> usedpos(*linelength, false);
+        while (result == from){
+            result = RoomGenerator_RoomStartingPoint(Rand_gen, square_, from, direction_, *linelength, usedpos);
+            for (int i = 0; i < usedpos.size(); ++i) {
+                if(!usedpos[i]) break;
+                else if(i == usedpos.size() - 1) {
+                    if(*linelength < 2) return from;
+                    *linelength--;
+                    usedpos.clear();
+                    usedpos.resize(*linelength, false);
+                    islinelengthreducedalready = true;
+                }
+            }
+        }
+        //set region
+        int rndlinepos;
+        if(direction_ == 0) rndlinepos = -(result.first - from.first);
+        else if(direction_ == 1) rndlinepos = (from.second - result.second);
+        else if(direction_ == 2) rndlinepos = (result.first - from.first);
+        else rndlinepos = -(from.second - result.second);
+        int dirMod[4][2] = {{1,  -1},
+                            {1,  1},
+                            {-1,  1},
+                            {-1, -1}};
+        to = make_pair(result.first + (roomwidth - 1) * dirMod[direction_][0],
+                result.second + (roomlength - 1) * dirMod[direction_][0]);
+        //check region
+        vector<pair<int, int>> excludepoints = {from};
+        if(RoomGenerator_RoomRegionCheckIfEmpty(Rand_gen, square_, result, to, excludepoints, direction_)) break;
+        else {
+            if(islinelengthreducedalready){
+                islinelengthreducedalready = false;
+                if ((direction_ == 0 || direction_ == 2) && roomheight > 1) roomheight--;
+                else if(roomlength > 1) roomlength--;
+                else if(*linelength < 2) return from;
+                usedpos.clear();
+                usedpos.resize(*linelength, false);
+            }
+        }
+    }
+    /*while(true) {
         cout << "Reach MazeGenerator::RoomGenerator 1\n";
         int roomlength_ = roomlength;
         int roomheight_ = roomheight;
@@ -936,10 +982,6 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
         }
         cout << "rndlineposition " << rndlineposition << "\n";
         char dirDescription[4] = {'u', 'r', 'd', 'l'};
-        /*int dirMod[4][2] = {{0,  -1},
-                            {1,  0},
-                            {0,  1},
-                            {-1, 0}};*/
         int dirMod[4][2] = {{1,  -1},
                             {1,  1},
                             {-1,  1},
@@ -951,7 +993,7 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
         int roomwidthmin = kRoomWidthMin;
         int roomheightmin = kRoomHeightMin;
         vector<pair<int, int>> excludepoints_ = {from};
-        /// FROM HERE delete?
+        /// FROM HERE delete? rework?
         if (direction_ == 0 || direction_ == 2) roomwidthmin = max(kRoomWidthMin, roomwidth);
         else roomlengthmin = max(kRoomLengthMin, roomlength);
         cout << "dirMod[direction_]: x:" << dirMod[direction_][0] << " y:" << dirMod[direction_][1] << "\n";
@@ -964,7 +1006,7 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
                                 {-(linelength - rndlineposition),    roomlength_ - 1},
                                 {-(roomwidth_ - 1), -(linelength - rndlineposition)}};
 
-        /// UP TO HERE delete?
+
         if (RoomGenerator_RoomRegionCheckIfEmpty(Rand_gen, square_, result, to, excludepoints_, direction_)) {
             cout << "Reach MazeGenerator::RoomGenerator 3\n";
             cout << "dirroomMod[direction_]: x:" << dirroomMod[direction_][0] << " y:" << dirroomMod[direction_][1] << "\n";
@@ -990,15 +1032,13 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
                     dirroomMod[1][0]--;
                     dirroomMod[3][0]++;
                 }
-                else {
+                else if(roomlength_ == 1 && roomwidth_ == 1){
                     wasroombuiltonthisturn = false;
                     return from;
                 }
-
                 cout << "Only one must decrease by 1\n";
                 cout << "new. dirroomMod[0][1] = " << dirroomMod[0][1] << "\n";
                 cout << "new. dirroomMod[1][0] = " << dirroomMod[1][0] << "\n";
-                if(roomheight < 2 || roomwidth < 2) break;
                 to = make_pair(result.first + dirroomMod[direction_][0],
                                result.second + dirroomMod[direction_][1]);
             }
@@ -1014,17 +1054,16 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
             }
         }
         cout << "Reach MazeGenerator::RoomGenerator 5\n";
-    }
+    }*/
+    /// UP TO HERE delete? rework?
     result = RoomGenerator_FreeSpaceAndReturnNewPos(Rand_gen, square_, result, to, from, direction_, num_of_free_fields_);
     return result;
 }
 
 pair<int, int> MazeGenerator::RoomGenerator_RoomStartingPoint(Random_Generator_ *Rand_gen, vector<vector<int>> &square_,
-                                                              pair<int, int> from, int direction_, int &linelength,
-                                                              int linestartcount_) {
+                                                              pair<int, int> from, int direction_, int linelength, vector<bool> &usedpos) {
     cout << "Reach MazeGenerator::RoomGenerator_RoomStartingPoint 0\n";
     pair<int, int> result = from;
-    vector<bool> usedpos (linelength, false);
     int count = 0;
     while(true){
         cout << "Reach MazeGenerator::RoomGenerator_RoomStartingPoint 1\n";
@@ -1090,23 +1129,18 @@ bool MazeGenerator::RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand
                                                          vector<pair<int, int>> excludepoints, int direction_) {
     cout << "Reach MazeGenerator::RoomGenerator_RoomRegionCheckIfEmpty 1\n";
     bool result = true;
-    int dirMod[4][2] = {{0,  -1},
-                        {1,  0},
-                        {0,  1},
-                        {-1, 0}};
     //  that has not to be in room
     //  no empty space before, no unbreakable walls, no reached entrances
     vector<int> searchedforfieldtypes = {1, 4, 5};
-    //  firstly check orthogonal vector back and forward (not in every single time orthogonal (Y is fixed))
-    //  then check all straight vectors (X is fixed value)
+    result = CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(from, to, square_, searchedforfieldtypes, excludepoints);
+/*
     int orthogonaldirection = (direction_ + 1) % 4;  // directions are from 0 to 3
     cout << "orthogonal: " << orthogonaldirection << "\n";
     cout << "from: " << from.first << " " << from.second << "\n";
     cout << "to: " << to.first << " " << from.second << "\n";
     cout << "abs(from.first - to.first): " << abs(from.first - to.first) << "\n";
-    result = CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(orthogonaldirection, from.first, from.second, to.first,
-                                                              from.second, square_, abs(from.first - to.first), 0,
-                                                              searchedforfieldtypes, excludepoints);
+    result = CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(make_pair(from.first, from.second), make_pair(to.first,
+                                                              from.second), square_, searchedforfieldtypes, excludepoints);
     if (!result) return result;
     orthogonaldirection = (orthogonaldirection + 2) % 4;
     cout << "backward orthogonal: " << orthogonaldirection << "\n";
@@ -1151,6 +1185,7 @@ bool MazeGenerator::RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand
             if (!result) return result;
         }
     }
+*/
 
     cout << "Reach MazeGenerator::RoomGenerator_RoomRegionCheckIfEmpty 2\n";
     return result;
@@ -1398,6 +1433,7 @@ bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(pair<int
             for (int k = 0; k < searchedforfieldtypes.size() && square_[i][j] != 1234; k++) {
                 if (square_[i][j] == searchedforfieldtypes[k]) return false;
             }
+            square_[i][j] = 1234;
             // Check surroundings
             for (int k = 0; k < 8; ++k) {
                 int x = i + dirMod[k][0];
@@ -1406,6 +1442,7 @@ bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(pair<int
                 for (int k1 = 0; k1 < searchedforfieldtypes.size() && square_[x][y] != 1234; k1++) {
                     if (square_[x][y] == searchedforfieldtypes[k1]) return false;
                 }
+                square_[x][y] = 1234;
             }
         }
     }

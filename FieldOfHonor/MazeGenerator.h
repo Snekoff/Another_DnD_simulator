@@ -183,7 +183,7 @@ public:
 
     int Set_RoomProbability();
 
-    pair<int, int> RoomGenerator_RoomStartingPoint(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, int direction_, int &linelength, int linestartcount_);
+    pair<int, int> RoomGenerator_RoomStartingPoint(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, int direction_, int linelength, vector<bool> &usedpos);
 
     bool RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to, vector<pair<int, int>> excludepoints, int direction_);
 
