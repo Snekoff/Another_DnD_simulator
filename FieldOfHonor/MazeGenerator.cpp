@@ -913,9 +913,8 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
     int roomheight = Rand_gen->Rand(kRoomHeightMin, RoomHeightMax);
     int * linelength;
     pair<int, int> to;
-    int linestartcount = 0;  // when linestartcount == linelength no matching space found
     if(direction_ == 0 || direction_ == 2) linelength = &roomwidth;
-    else linelength = &roomheight;
+    else linelength = &roomlength;
     cout << "*linelength: " << *linelength << "\n";
     cout << "roomwidth: " << roomwidth << "\n";
     cout << "roomlength: " << roomlength << "\n";
@@ -924,6 +923,7 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
     // 3.check region ### size > 1 ? goto 2 : goto 1
     bool islinelengthreducedalready = false;
     while (true) {
+        cout << "Reach MazeGenerator::RoomGenerator 1\n";
         // starting point
         vector<bool> usedpos(*linelength, false);
         while (result == from){
@@ -939,6 +939,9 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
                 }
             }
         }
+        int a;
+        cin >> a;
+        cout << "Reach MazeGenerator::RoomGenerator 3\n";
         //set region
         int rndlinepos;
         if(direction_ == 0) rndlinepos = -(result.first - from.first);
@@ -951,6 +954,12 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
                             {-1, -1}};
         to = make_pair(result.first + (roomwidth - 1) * dirMod[direction_][0],
                 result.second + (roomlength - 1) * dirMod[direction_][0]);
+        cout << "Reach MazeGenerator::RoomGenerator 5\n";
+        cout << "result: " << result.first << ", " << result.second << "\n";
+        cout << "to: " << to.first << ", " << to.second << "\n";
+        cout << "direction_: " << direction_ << "\n";
+        cout << "*linelength: " << *linelength << "\n";
+        cout << "roomwidth: " << roomwidth << " roomlength: " << roomlength << "\n";
         //check region
         vector<pair<int, int>> excludepoints = {from};
         if(RoomGenerator_RoomRegionCheckIfEmpty(Rand_gen, square_, result, to, excludepoints, direction_)) break;
