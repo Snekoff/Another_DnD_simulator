@@ -17,7 +17,14 @@
  * */
 
 
-
+struct Room_Generation_Vars {
+    int room_width;
+    int room_length;
+    int room_height;
+    int room_space;
+    pair<int, int> region_from;
+    pair<int, int> region_to;
+};
 
 struct Entrance_info {
     int id;
@@ -183,11 +190,18 @@ public:
 
     int Set_RoomProbability();
 
-    pair<int, int> RoomGenerator_RoomStartingPoint(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, int direction_, int linelength, vector<bool> &usedpos);
+    pair<int, int>
+    RoomGenerator_RoomStartingPoint(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from,
+                                    int direction_, int &linelength, vector<bool> &usedpos, vector<int> searchedforfieldtypes, vector<pair<int, int>> excludepoints);
 
-    bool RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to, vector<pair<int, int>> excludepoints, int direction_);
+    bool
+    RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from,
+                                         pair<int, int> to, vector<pair<int, int>> excludepoints, int direction_);
 
-    pair<int, int> RoomGenerator_FreeSpaceAndReturnNewPos(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from, pair<int, int> to, pair<int, int> entrance_, int direction_, int &num_of_free_fields_);
+    pair<int, int> RoomGenerator_FreeSpaceAndReturnNewPos(Random_Generator_ *Rand_gen, vector<vector<int>> &square_,
+                                                          pair<int, int> from, pair<int, int> to,
+                                                          pair<int, int> entrance_, int direction_,
+                                                          int &num_of_free_fields_);
 
     int Set_RoomSize();
 
@@ -202,6 +216,11 @@ public:
                                                              vector<pair<int, int>> excludepoints);
 
     map<int, wchar_t> GetMapIntWchar_t() const;
+
+    Room_Generation_Vars
+    DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(Random_Generator_ *Rand_gen, vector<vector<int>> square_, int direction,
+                                                                           pair<int, int> entrance, int width,
+                                                                           int length, int height);
 
     bool IsOutofVectorVectorSize(vector<vector<int>> square_, int x, int y);
 
