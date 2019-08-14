@@ -927,6 +927,7 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
     roomGenerationVars = DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(Rand_gen, square_, direction_,
                                                                                                 from, roomwidth,
                                                                                                 roomlength, roomheight);
+    if(roomGenerationVars.room_space == -1) return from;
     result = roomGenerationVars.region_from;
     to = roomGenerationVars.region_to;
     roomwidth = roomGenerationVars.room_width;
@@ -1506,8 +1507,8 @@ Room_Generation_Vars MazeGenerator::DP_RoomSearchForBiggestRoomStartingFromGiven
     }
     if(countofusedpositions == linelength) {
         vector<Room_Generation_Vars> DP_find_max;
-        DP_find_max.push_back(DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(Rand_gen, square_, direction, entrance, width--, length, height));
-        DP_find_max.push_back(DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(Rand_gen, square_, direction, entrance, width, length--, height));
+        if(width > 1) DP_find_max.push_back(DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(Rand_gen, square_, direction, entrance, width--, length, height));
+        if(length > 1) DP_find_max.push_back(DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(Rand_gen, square_, direction, entrance, width, length--, height));
         //DP_find_max.push_back();
         int max = 0;
         for (int i = 0; i < DP_find_max.size(); ++i) {
