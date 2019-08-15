@@ -383,8 +383,7 @@ pair<int, int> MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, ve
     if (square_[x_mod][y_mod] == 0) {
         cout << "Reach MazeGenerator::Move 2\n";
         int rnd = Rand_gen->Rand(0, kRoomProbabilityMax);
-        if(rnd <= roomProbability){
-            if(rnd == 0) cin >> rnd;
+        if(rnd <= roomProbability && square_[x + dirMod[direction][0]][y + dirMod[direction][1]] == 0){
             // one step forward and generate room
             pos = make_pair(x + dirMod[direction][0], y + dirMod[direction][1]);
             square_[x + dirMod[direction][0]][y + dirMod[direction][1]] = 1;
@@ -923,6 +922,8 @@ pair<int, int> MazeGenerator::RoomGenerator(Random_Generator_ *Rand_gen, vector<
     // 3.check region ### size > 1 ? goto 2 : goto 1
 
     //New plan
+    int a;
+    cin >> a;
     Room_Generation_Vars roomGenerationVars;
     roomGenerationVars = DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(Rand_gen, square_, direction_,
                                                                                                 from, roomwidth,
@@ -1426,6 +1427,9 @@ bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(pair<int
                                                                         vector<int> searchedforfieldtypes,
                                                                         vector<pair<int, int>> excludepoints) {
     bool result;
+    cout << "Reach MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched_v2 0 \n";
+    cout << "from: " << from.first << ", " << from.second << "\n";
+    cout << "to: " << to.first << ", " << to.second << "\n";
     if(IsOutofVectorVectorSize(square_, from.first, from.second)) return false;
     if(IsOutofVectorVectorSize(square_, to.first, to.second)) return false;
     for (int i = 0; i < excludepoints.size(); ++i) {
@@ -1448,8 +1452,8 @@ bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(pair<int
     //end will be right top corner
     start = make_pair(min(from.first, to.first), max(from.second, to.second));
     end = make_pair(max(from.first, to.first), min(from.second, to.second));
-    for (int i = start.first; i <= end.first - start.first; ++i) {
-        for (int j = end.second; j <= start.second - end.second; ++j) {
+    for (int i = start.first; i <= end.first; ++i) { /// check
+        for (int j = end.second; j <= start.second; ++j) {
             for (int k = 0; k < searchedforfieldtypes.size() && square_[i][j] != 1234; k++) {
                 if (square_[i][j] == searchedforfieldtypes[k]) return false;
             }
@@ -1471,54 +1475,97 @@ bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(pair<int
 
 Room_Generation_Vars MazeGenerator::DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(Random_Generator_ *Rand_gen,
         vector<vector<int>> square_, int direction, pair<int, int> entrance, int width, int length, int height) {
+    cout << "Reach MazeGenerator::DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn 0\n";
+    cout << "In\nwidth: " << width << "\n";
+    cout << "length: " << length << "\n";
+    cout << "height: " << height << "\n";
     Room_Generation_Vars result;
     result.room_space = -1;
     pair<int, int> region_from, region_to;
     int linelength;
-    if(direction == 0 || direction == 2) linelength = width;
+    if (direction == 0 || direction == 2) linelength = width;
     else linelength = length;
     vector<bool> usedpositionsofperpendicularline(linelength, false);
     int countofusedpositions = 0;
-    int lineposition = Rand_gen->Rand(0, linelength - 1);
+    //int lineposition = Rand_gen->Rand(0, linelength - 1);
     /*while(usedpositionsofperpendicularline[lineposition]) lineposition = Rand_gen->Rand(0, linelength - 1); //TODO: check
     usedpositionsofperpendicularline[lineposition] = true;
     */
+
     vector<pair<int, int>> excludepoints = {};
     vector<int> searchedforfieldtypes = {1, 4, 5};
-    region_from = RoomGenerator_RoomStartingPoint(Rand_gen, square_, entrance, direction, linelength, usedpositionsofperpendicularline, searchedforfieldtypes, excludepoints);
-    countofusedpositions++;
-    if(region_from != make_pair(-1, -1)){
-        int dirMod[4][2] = {{1,  -1},
-                            {1,  1},
-                            {-1,  1},
-                            {-1, -1}};
-        region_to = make_pair(region_from.first + (width - 1) * dirMod[direction][0],
-                       region_from.second + (length - 1) * dirMod[direction][1]);
-        excludepoints.push_back(entrance);
-        if(RoomGenerator_RoomRegionCheckIfEmpty(Rand_gen, square_, region_from, region_to, excludepoints, direction)){
-            result.room_space = max(abs(region_from.first - region_to.first), 1) * max(abs(region_from.second - region_to.second), 1);
-            result.region_from = region_from;
-            result.region_to = region_to;
-            result.room_width = width;
-            result.room_length = length;
-            result.room_height = height;
+    while (true) {
+        region_from = RoomGenerator_RoomStartingPoint(Rand_gen, square_, entrance, direction, linelength,
+                                                      usedpositionsofperpendicularline, searchedforfieldtypes,
+                                                      excludepoints);
+        cout << "Reach MazeGenerator::DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn 5\n";
+        countofusedpositions++;
+        if (region_from != make_pair(-1, -1)) {
+            cout << "Reach MazeGenerator::DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn 10\n";
+            int dirMod[4][2] = {{1,  -1},
+                                {1,  1},
+                                {-1, 1},
+                                {-1, -1}};
+            region_to = make_pair(region_from.first + (width - 1) * dirMod[direction][0],
+                                  region_from.second + (length - 1) * dirMod[direction][1]);
+            excludepoints.push_back(entrance);
+            if (RoomGenerator_RoomRegionCheckIfEmpty(Rand_gen, square_, region_from, region_to, excludepoints,
+                                                     direction)) {
+                result.room_space = max(abs(region_from.first - region_to.first), 1) *
+                                    max(abs(region_from.second - region_to.second), 1);
+                result.region_from = region_from;
+                result.region_to = region_to;
+                result.room_width = width;
+                result.room_length = length;
+                result.room_height = height;
+                return result;
+            }
+        }
+        if (countofusedpositions >= linelength) {
+            cout << "Reach MazeGenerator::DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn 15\n";
+            cout << "countofusedpositions: " << countofusedpositions << "\n";
+            cout << "1 width: " << width << "\n";
+            cout << "length: " << length << "\n";
+            cout << "height: " << height << "\n";
+            vector<Room_Generation_Vars> DP_find_max;
+            if (width > 1)
+            {
+                width--;
+                DP_find_max.push_back(DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(Rand_gen, square_,
+                                                                                                              direction, entrance,
+                                                                                                              width, length,
+                                                                                                              height));
+            }
+            cout << "2 width: " << width << "\n";
+            cout << "length: " << length << "\n";
+            cout << "height: " << height << "\n";
+            if (length > 1){
+                length--;
+                DP_find_max.push_back(
+                        DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(Rand_gen, square_,
+                                                                                                direction, entrance,
+                                                                                                width,
+                                                                                                length, height));
+            }
+
+            cout << "3 width: " << width << "\n";
+            cout << "length: " << length << "\n";
+            cout << "height: " << height << "\n";
+            //DP_find_max.push_back();
+            cout << "Reach MazeGenerator::DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn 20\n";
+            int max = 0;
+            for (int i = 0; i < DP_find_max.size(); ++i) {
+                if (DP_find_max[i].room_space > max) {
+                    max = DP_find_max[i].room_space;
+                    result = DP_find_max[i];
+                }
+            }
             return result;
         }
     }
-    if(countofusedpositions == linelength) {
-        vector<Room_Generation_Vars> DP_find_max;
-        if(width > 1) DP_find_max.push_back(DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(Rand_gen, square_, direction, entrance, width--, length, height));
-        if(length > 1) DP_find_max.push_back(DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(Rand_gen, square_, direction, entrance, width, length--, height));
-        //DP_find_max.push_back();
-        int max = 0;
-        for (int i = 0; i < DP_find_max.size(); ++i) {
-            if(DP_find_max[i].room_space > max) {
-                max = DP_find_max[i].room_space;
-                result = DP_find_max[i];
-            }
-        }
-        return result;
-    }
+    cout
+    << "Reach MazeGenerator::DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn 30 "
+       "(not gona reach)\n";
 }
 
 /*Method which uses all of the others and return field filled with corridors and walls :D*/
