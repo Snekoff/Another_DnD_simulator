@@ -59,7 +59,7 @@ private:
     // entrances and exits are just places which algorithm will cross only once
     // odd pair is begin of a region and next one is the end of the region
     vector<vector<int>> entrances;
-    vector<vector<int>> deadend;
+    vector<vector<bool>> deadend;
     bool wasroombuiltonthisturn = false;
     vector<Entrance_info> entrance_info;
     int RoomLengthMax = 6;
@@ -86,7 +86,7 @@ public:
     // minimum mole pace is 2 (thick* wall) *5-ft
     MazeGenerator(Random_Generator_ *Rand_gen, vector<vector<int>> square_);
 
-    // room region is two points (start end edge)
+    // room region is two points (start end end)
     vector<vector<int>> RoomsPlacement(vector<vector<int>> &square_);
 
     pair<pair<int, int>, pair<int, int>> RoomsPlacement_BuildingWalls(pair<int, int> start_of_the_region,
@@ -109,30 +109,25 @@ public:
     RoomRandomPlacement(vector<int> roomSizeAndShape, vector<int> numOfEntrances, vector<int> entransesLength,
                         vector<vector<int>> &square_);
 
-    // true if in current position there is no wall that can be passed through without crossing other corridors
-    bool Deadend(int x, int y, vector<vector<int>> square_);
-
     // check negative coordinates
     bool IsNegative(int x, int y, int index);
 
     // returns new position
-    pair<int, int> Move(Random_Generator_ *Rand_gen, int x, int y, vector<vector<int>> &square_, int &num_of_free_fields_);
-
-    //if room could be made than make it and return random room space to continue digging
-    //else return current position
-    pair<int, int> MakeRoom(int x, int y, char whichWay, vector<vector<int>> square_);
+    pair<int, int>
+    Move(Random_Generator_ *Rand_gen, int x, int y, vector<vector<int>> &square_, int &num_of_free_fields_,
+         vector<vector<bool>> &deadends);
 
     bool CouldMakeCorridor(int direction, int from_x, int from_y, int to_x, int to_y, vector<vector<int>> square_);
 
     int Direction(Random_Generator_ *Rand_gen);
 
-    int RightDirection(Random_Generator_ *Rand_gen, int x, int y, int direction, vector<vector<int>> square_);
+    int RightDirection(Random_Generator_ *Rand_gen, int x, int y, int direction, vector<vector<int>> square_, vector<vector<bool>> &deadends);
 
     bool IsRightDirection(int x, int y, int direction_, vector<vector<int>> square_);
 
     int PaceLength(Random_Generator_ *Rand_gen, int difficulty_);
 
-    vector<vector<int>> Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, int num_of_deadends_, int num_of_free_fields_, vector<vector<int>> deadend_);
+    vector<vector<int>> Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, int num_of_deadends_, int num_of_free_fields_, vector<vector<bool>> deadend_);
 
     vector<vector<int>> GetField();
 
@@ -170,6 +165,8 @@ public:
 
     vector<vector<int>> GetVectorVectorInt(int what);
 
+    vector<vector<bool>> GetVectorVectorBool(int what);
+
     pair<int, int> GetZeroOrderEntrancePos(Random_Generator_ * Rand_gen, vector<Entrance_info> entrance_info_);
 
     Entrance_info GetEntranceInfo(int id);
@@ -178,7 +175,7 @@ public:
 
     Entrance_info ZeroIdEntranceInfo() const;
 
-    pair<int, int> GetNewRandPos(Random_Generator_ *Rand_gen, pair<int, int> starting_pos, vector<vector<int>> square_, vector<vector<int>> deadend_);
+    pair<int, int> GetNewRandPos(Random_Generator_ *Rand_gen, pair<int, int> starting_pos, vector<vector<int>> square_, vector<vector<bool>> deadend_);
 
     void DeleteOldInfoInSquare(const vector<vector<int>> &square_, int j, int i);
 
@@ -196,7 +193,7 @@ public:
 
     bool
     RoomGenerator_RoomRegionCheckIfEmpty(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, pair<int, int> from,
-                                         pair<int, int> to, vector<pair<int, int>> excludepoints, int direction_);
+                                         pair<int, int> to, vector<pair<int, int>> excludepoints);
 
     pair<int, int> RoomGenerator_FreeSpaceAndReturnNewPos(Random_Generator_ *Rand_gen, vector<vector<int>> &square_,
                                                           pair<int, int> from, pair<int, int> to,
@@ -204,11 +201,6 @@ public:
                                                           int &num_of_free_fields_);
 
     int Set_RoomSize();
-
-    bool CheckFieldSurroundingsReturnFalseIfFoundSearched(int direction, int from_x, int from_y, int to_x, int to_y,
-                                                          const vector<vector<int>> &square_, int dif_x, int dif_y,
-                                                          vector<int> searchedforfieldtypes,
-                                                          vector<pair<int, int>> excludepoints);
 
     bool CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(pair<int, int> from, pair<int, int> to,
                                                              vector<vector<int>> square_,

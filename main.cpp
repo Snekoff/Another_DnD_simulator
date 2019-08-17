@@ -156,42 +156,86 @@ int main(int argc, char **argv) {
     // an example of maze
 
     //
-/*
-    vector<vector<int>> square__(6, vector<int> (6, 0));
+    //Test DP
+    /*vector<vector<int>> square__(6, vector<int> (6, 0));
     MazeGenerator mazeGenerator_(randomGenerator, square__);
+    pair<int, int> from, result;
+    Room_Generation_Vars roomGenerationVars;
+    //Test 1 incorrect all coords (false)
+    from = make_pair(-1, -1);
+    roomGenerationVars = mazeGenerator_.DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(
+            randomGenerator, square__, 0, from, 0, 0, 1);
+    if (roomGenerationVars.room_space > 0) cout << "Test #1 room_space = " << roomGenerationVars.room_space << "\n";
+    else cout << "Test #1 Not managed to build room.\n";
+    //Test 2 incorrect coords (false)
+    from = make_pair(0, 0);
+    roomGenerationVars = mazeGenerator_.DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(
+            randomGenerator, square__, 0, from, 1, 1, 1);
+    if (roomGenerationVars.room_space > 0) cout << "Test #2 room_space = " << roomGenerationVars.room_space << "\n";
+    else cout << "Test #2 Not managed to build room.\n";
+    //Test 3 incorrect coords (false)
+    from = make_pair(6, 6);
+    roomGenerationVars = mazeGenerator_.DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(
+            randomGenerator, square__, 0, from, 1, 1, 1);
+    if (roomGenerationVars.room_space > 0) cout << "Test #3 room_space = " << roomGenerationVars.room_space << "\n";
+    else cout << "Test #3 Not managed to build room.\n";
+    //Test 4 correct coords but incorrect sizes (false)
+    from = make_pair(1, 1);
+    roomGenerationVars = mazeGenerator_.DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(
+            randomGenerator, square__, 2, from, -1, -1, 1);
+    if (roomGenerationVars.room_space > 0) cout << "Test #4 room_space = " << roomGenerationVars.room_space << "\n";
+    else cout << "Test #4 Not managed to build room.\n";
+    //Test 5 correct coords but incorrect dirrection (false)
+    from = make_pair(1, 1);
+    roomGenerationVars = mazeGenerator_.DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(
+            randomGenerator, square__, 0, from, 1, 1, 1);
+    if (roomGenerationVars.room_space > 0) cout << "Test #5 room_space = " << roomGenerationVars.room_space << "\n";
+    else cout << "Test #5 Not managed to build room.\n";
+    //Test 6 correct coords (true)
+    from = make_pair(2, 2);
+    roomGenerationVars = mazeGenerator_.DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(
+            randomGenerator, square__, 2, from, 1, 1, 1);
+    if (roomGenerationVars.room_space > 0) cout << "Test #6 room_space = " << roomGenerationVars.room_space << "\n";
+    else cout << "Test #6 Not managed to build room.\n";
+    //Test 7 correct coords (true)
+    from = make_pair(1, 1);
+    roomGenerationVars = mazeGenerator_.DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(
+            randomGenerator, square__, 2, from, 3, 3, 1);
+    if (roomGenerationVars.room_space > 0) cout << "Test #7 room_space = " << roomGenerationVars.room_space << "\n";
+    else cout << "Test #7 Not managed to build room.\n";
+    //Test 8 correct coords (true)
+    from = make_pair(1, 1);
+    roomGenerationVars = mazeGenerator_.DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(
+            randomGenerator, square__, 1, from, 3, 3, 1);
+    if (roomGenerationVars.room_space > 0) cout << "Test #8 room_space = " << roomGenerationVars.room_space << "\n";
+    else cout << "Test #8 Not managed to build room.\n";
+    //Test 9 correct coords (true)
+    from = make_pair(2, 4);
+    roomGenerationVars = mazeGenerator_.DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(
+            randomGenerator, square__, 0, from, 3, 3, 1);
+    if (roomGenerationVars.room_space > 0) cout << "Test #9 room_space = " << roomGenerationVars.room_space << "\n";
+    else cout << "Test #9 Not managed to build room.\n";
+    //Test 10 correct coords (true)
+    from = make_pair(4, 2);
+    roomGenerationVars = mazeGenerator_.DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(
+            randomGenerator, square__, 3, from, 3, 3, 1);
+    if (roomGenerationVars.room_space > 0) cout << "Test #10 room_space = " << roomGenerationVars.room_space << "\n";
+    else cout << "Test #10 Not managed to build room.\n";
+    //Test 11 correct coords (true)
+    from = make_pair(1, 0);
+    roomGenerationVars = mazeGenerator_.DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(
+            randomGenerator, square__, 2, from, 3, 3, 1);
+    if (roomGenerationVars.room_space > 0) cout << "Test #11 room_space = " << roomGenerationVars.room_space << "\n";
+    else cout << "Test #11 Not managed to build room.\n";
+    //Test 12 correct coords (true)
+    from = make_pair(1, 0);
+    roomGenerationVars = mazeGenerator_.DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(
+            randomGenerator, square__, 2, from, 4, 4, 1);
+    if (roomGenerationVars.room_space > 0) cout << "Test #12 room_space = " << roomGenerationVars.room_space << "\n";
+    else cout << "Test #12 Not managed to build room.\n";
 
-    // Test 1 check if rnd starting point exsists and placed above entrance if direction is up
-    int linelength_ = 2;
-    pair<int, int> from = make_pair(2, 4);
-    pair<int, int> output = mazeGenerator_.RoomGenerator_RoomStartingPoint(randomGenerator, square__, from, 0*//* up *//*, linelength_, 0);
-    if(output.second != from.second - 1) cout << "1 Fixes needed output = " << output.first << " " << output.second << "\n";
-    else cout << "1 All fine\n";
-
-    // test 2 gone wrong coords and direction
-    vector<pair<int, int>> excludepoints = {from};
-    bool isempty = mazeGenerator_.RoomGenerator_RoomRegionCheckIfEmpty(randomGenerator, square__, output, make_pair(output.first - 2, output.second + 5), excludepoints, 0);
-    if(isempty) cout << "2 Fixes needed isoutput = true\n";
-    else cout << "2 All fine\n";
-
-
-    // test 3 gone wrong coords
-    //vector<pair<int, int>> excludepoints = {make_pair(2, 3)};
-    bool isempty1 = mazeGenerator_.RoomGenerator_RoomRegionCheckIfEmpty(randomGenerator, square__, output, make_pair(output.first - 2, output.second + 5), excludepoints, 2);
-    if(isempty1) cout << "3 Fixes needed isoutput = true\n";
-    else cout << "3 All fine\n";
-
-    // test 4 gone wrong direction
-    //vector<pair<int, int>> excludepoints = {make_pair(2, 3)};
-    bool isempty2 = mazeGenerator_.RoomGenerator_RoomRegionCheckIfEmpty(randomGenerator, square__, output, make_pair(output.first + 1, output.second - 1), excludepoints, 2);
-    if(isempty2) cout << "4 Fixes needed isoutput = true\n";
-    else cout << "4 All fine\n";
-
-    // test 5 all is fine
-    //vector<pair<int, int>> excludepoints = {make_pair(2, 3)};
-    bool isempty3 = mazeGenerator_.RoomGenerator_RoomRegionCheckIfEmpty(randomGenerator, square__, output, make_pair(output.first + 1, output.second - 1), excludepoints, 0);
-    if(isempty3) cout << "5 All fine\n";
-    else cout << "5 Fixes needed isoutput = false\n";
-    */
+*/
+    //End of test DP
 
     //
     setlocale(LC_ALL, "ALL");
@@ -203,7 +247,8 @@ int main(int argc, char **argv) {
     //First entrance with coords (1, 1)
     //Set(int valuetobechanged, int value1, int value2, int value3, int value4, bool boolvalue1, bool boolvalue2)
     //value1 = id, value2 = order, value3 = x, value4 = y, boolvalue1 = is_blockable, boolvalue2 = blocked
-    //zeroid already has id = 0 so start with id = 1
+    //zeroid already is in with id = 0 so start with id = 1
+
     mazeGenerator.Set(1, 1, 1, entrance_0.first, entrance_0.second, false, false);
     //Second(exit) coords (square_.size() - 2, square_[0].size() - 5)
     mazeGenerator.Set(1, 2, 2, entrance_1.first, entrance_1.second, true, false);
@@ -213,7 +258,7 @@ int main(int argc, char **argv) {
     //Set difficulty and others params
     //After it ends you can decide whether it has appropriate form
     mazeGenerator.Build_Labyrinth(randomGenerator, square_, mazeGenerator.Get(3), mazeGenerator.Get(2),
-                                  mazeGenerator.GetVectorVectorInt(1));
+                                  mazeGenerator.GetVectorVectorBool(1));
     // I use wide chars to extend possible output symbols dictionary
     vector<vector<wchar_t>> buf;
     buf = mazeGenerator.VisualizerTakeBattlefieldReturnGraphics(square_);
