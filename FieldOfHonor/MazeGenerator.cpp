@@ -10,7 +10,10 @@ MazeGenerator::MazeGenerator(Random_Generator_ *Rand_gen, vector<vector<int>> sq
     roomProbability = kRoomProbabilityMax;
     for (int j = 0; j < square_[0].size(); ++j) {
         for (int i = 0; i < square_.size(); ++i) {
-            if (square_[i][j] == 1) num_of_free_fields++;
+            if (square_[i][j] == 1) {
+                num_of_free_fields++;
+                AddToFreeSquaresSet(square_, make_pair(i, j));
+            }
         }
         cout << "\n";
     }
@@ -21,6 +24,13 @@ MazeGenerator::MazeGenerator(Random_Generator_ *Rand_gen, vector<vector<int>> sq
     entrances.resize(square_.size());
     for (int i = 0; i < entrances.size(); i++) {
         entrances[i].resize(square_[i].size(), -1);
+    }
+    squarepossibletomovedirrections.resize(square_.size());
+    for (int i = 0; i < squarepossibletomovedirrections.size(); i++) {
+        squarepossibletomovedirrections[i].resize(square_[i].size());
+        for (int j = 0; j < squarepossibletomovedirrections[i].size(); ++j) {
+            squarepossibletomovedirrections[i][j].resize(4, true);
+        }
     }
     entrance_info.push_back(ZeroIdEntranceInfo());
     square = square_;
@@ -39,6 +49,13 @@ MazeGenerator::~MazeGenerator() {
         square[i].clear();
     }
     square.clear();
+    for (int i = 0; i < squarepossibletomovedirrections.size(); i++) {
+        for (int j = 0; j < squarepossibletomovedirrections[i].size(); ++j) {
+            squarepossibletomovedirrections[i][j].clear();
+        }
+        squarepossibletomovedirrections[i].clear();
+    }
+    squarepossibletomovedirrections.clear();
 }
 
 bool MazeGenerator::IsNegative(int x, int y, int index) {
@@ -177,7 +194,7 @@ bool MazeGenerator::CouldMakeCorridor(int direction, int from_x, int from_y, int
     //mole moves at least by 2 steps/squares
     //and I protected edges (not in satisfying way, because it ruins a bit great mazes with unpredictable field form)
     bool result = false;
-    if((direction == 0 && from_y <= to_y) || (direction == 1 && from_x >= to_x) || (direction == 2 && from_y >= to_y) || (direction == 3 && from_x <= to_x)){
+    if(!IsDirectionCorrect(direction, make_pair(from_x, from_y), make_pair(to_x, to_y))){
         cout << "Error in CouldMakeCorridor. Wrong Direction\n";
         cout << "direction = " << direction << "\n";
         cout << "from_x = " << from_x << "\n";
@@ -197,6 +214,15 @@ bool MazeGenerator::CouldMakeCorridor(int direction, int from_x, int from_y, int
     int countroomwallsifmorethantwostop = 0;
     bool isfirstfieldafterpassingthroughroomwall = false;
     vector<pair<int, int>> excludepoints_ = {};
+    int dirMod[8][2] = {{0,  -1},
+                        {1,  -1},
+                        {1,  0},
+                        {1,  1},
+                        {0,  1},
+                        {-1, 1},
+                        {-1, 0},
+                        {-1, -1},
+    };
     for (int i = 1; i <= max(dif_x, dif_y); i++) {
         int x_new, y_new;
         if (dif_x > dif_y) {
@@ -228,15 +254,6 @@ bool MazeGenerator::CouldMakeCorridor(int direction, int from_x, int from_y, int
             // Then all squares that are front near
             // example: if direction is up (0) and cords are (2, 2)
             // Exclude (1, 2), (1, 1), (2, 1), (3, 1), (3, 2)
-            int dirMod[8][2] = {{0,  -1},
-                                {1,  -1},
-                                {1,  0},
-                                {1,  1},
-                                {0,  1},
-                                {-1, 1},
-                                {-1, 0},
-                                {-1, -1},
-            };
             // exclude remaining squares
             for (int j = 0; j < 8; ++j) {
                 if(abs(j - (((direction + 2) % 4) * 2)) < 2 || (direction == 2 && j == 7) || (direction == 1 && j == 0)){
@@ -250,7 +267,14 @@ bool MazeGenerator::CouldMakeCorridor(int direction, int from_x, int from_y, int
         }*/
     }
     cout << "Reach MazeGenerator::CouldMakeCorridor 2\n";
-
+    // Exclude starting point and surrounding it
+    excludepoints_.push_back(make_pair(from_x, from_y));
+    for (int j = 0; j < 8; ++j) {
+        if (abs(j - (((direction + 2) % 4) * 2)) < 3 || (direction == 2 && j == 7) || (direction == 1 && j == 0)
+            || (direction == 2 && j == 6)) {
+            excludepoints_.push_back(make_pair(from_x + dirMod[j][0], from_y + dirMod[j][1]));
+        }
+    }
     result = CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(make_pair(from_x, from_y), make_pair(to_x, to_y), square_, searchedforfieldtypes, excludepoints_);
     cout << "Reach MazeGenerator::CouldMakeCorridor 3\n";
     return result;
@@ -292,18 +316,29 @@ bool MazeGenerator::IsRightDirection(int x, int y, int direction_, vector<vector
 }
 
 int MazeGenerator::RightDirection(Random_Generator_ *Rand_gen, int x, int y, int direction,
-                                  vector<vector<int>> square_, vector<vector<bool>> &deadends) {
-    bool canMove[4] = {true, true, true, true};
+                                  vector<vector<int>> square_, vector<vector<bool>> &deadends, vector<vector<vector<bool>>> & squarepossibletomovedirrections_) {
+    //bool canMove[4] = {true, true, true, true};
     bool deadend_ = false;
     int dir = -1;  // Means can not move in this direction
     while (!IsRightDirection(x, y, direction, square_)) {
-        canMove[direction] = false;
+        squarepossibletomovedirrections_[x][y][direction] = false;
         for (int j = 0; j < 4; j++) {
-            if (canMove[j]) break;
+            if (squarepossibletomovedirrections_[x][y][j]) break;
             else if (j == 3) deadend_ = true;
         }
-        if (!deadend_) direction = Direction(Rand_gen);
+        if (!deadend_) { int count = 0;
+            while(!squarepossibletomovedirrections_[x][y][direction]) {
+                direction = Direction(Rand_gen);
+                count++;
+                if(count > 16) {
+                    DeleteFromFreeSquaresSet(make_pair(x, y));
+                    deadends[x][y] = true;
+                    return dir;
+                }
+            }
+        }
         else {
+            DeleteFromFreeSquaresSet(make_pair(x, y));
             deadends[x][y] = true;
             return dir;
         }
@@ -322,7 +357,7 @@ int MazeGenerator::PaceLength(Random_Generator_ *Rand_gen, int difficulty_) {
 
 pair<int, int>
 MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, vector<vector<int>> &square_, int &num_of_free_fields_,
-                    vector<vector<bool>> &deadends) {
+                    vector<vector<bool>> &deadends, vector<vector<vector<bool>>> & squarepossibletomovedirrections_) {
     cout << "Reach MazeGenerator::Move 0\n";
     pair<int, int> pos = make_pair(x, y);
     if (IsNegative(x, y, -1)) return pos;
@@ -334,7 +369,7 @@ MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, vector<vector<int
                         {0,  1},
                         {-1, 0}};
     cout << "Reach MazeGenerator::Move 1\n";
-    direction = RightDirection(Rand_gen, x, y, direction, square_, deadends);
+    direction = RightDirection(Rand_gen, x, y, direction, square_, deadends, squarepossibletomovedirrections_);
     if (direction == -1) return pos;
     int x_mod = x + minPaceLength * dirMod[direction][0];
     int y_mod = y + minPaceLength * dirMod[direction][1];
@@ -348,12 +383,16 @@ MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, vector<vector<int
             pos = make_pair(x + dirMod[direction][0], y + dirMod[direction][1]);
             square_[x + dirMod[direction][0]][y + dirMod[direction][1]] = 1;
             num_of_free_fields_++;
+            
             pair<int, int> prev_pos = pos;
             cout << "Reach MazeGenerator::Move 2_1\n";
             cout << "num_of_free_fields: " << num_of_free_fields_ << "\n";
             pos = RoomGenerator(Rand_gen, square_, pos, direction, num_of_free_fields_);
             cout << "num_of_free_fields: " << num_of_free_fields_ << "\n";
-            if(wasroombuiltonthisturn) return pos;
+            if(wasroombuiltonthisturn) {
+                AddToFreeSquaresSet(square_, make_pair(x + dirMod[direction][0], y + dirMod[direction][1]));
+                return pos;
+            }
             else {
                 pos = make_pair(x, y);
                 square_[prev_pos.first][prev_pos.second] = 0;
@@ -1072,6 +1111,7 @@ pair<int, int> MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos(Random_Gene
             if(square_[i][j] == 2) {
                 num_of_free_fields_++;
                 square_[i][j] = 1;
+                AddToFreeSquaresSet(square_, make_pair(i, j));
             } else cout << "RoomGenerator_FreeSpaceAndReturnNewPos 0_3 square_[i][j] = " << square_[i][j] << "\n";
         }
     }
@@ -1116,11 +1156,14 @@ pair<int, int> MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos(Random_Gene
                 exit.second = new_from.second;
             }
         }
-        if(abs(entrance_.first - exit.first) > 1 || abs(entrance_.second - exit.second) > 1) {
+        if ((abs(entrance_.first - exit.first) > 1 || abs(entrance_.second - exit.second) > 1) &&
+            !IsOutofVectorVectorSize(square_, exit.first + 1, exit.second + 1) &&
+            !IsOutofVectorVectorSize(square_, exit.first - 1, exit.second - 1)) {
             cout << "Reach MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos 2_1\n";
             cout << "exit: (" << exit.first << ", " << exit.second << ")\n";
             square_[exit.first][exit.second] = 1;
             num_of_free_fields_++;
+            AddToFreeSquaresSet(square_, make_pair(exit.first, exit.second));
             result = exit;
             return result;
         }
@@ -1175,6 +1218,26 @@ pair<int, int> MazeGenerator::GetZeroOrderEntrancePos(Random_Generator_ *Rand_ge
     return result;
 }
 
+void MazeGenerator::AddToFreeSquaresSet(vector<vector<int>> square_, pair<int, int> freesquare) {
+    if (IsOutofVectorVectorSize(square_, freesquare.first, freesquare.second)) return;
+    if (square_[freesquare.first][freesquare.second] != 1 && square_[freesquare.first][freesquare.second] != 3) return;
+    FreeSquaresSet.insert(freesquare);
+}
+
+void MazeGenerator::DeleteFromFreeSquaresSet(pair<int, int> freesquare) {
+    cout << "Deletion from FreeSquaresSet\n field "<< freesquare.first << ", " << freesquare.second << "\n";
+    int a;
+    cin >> a;
+    FreeSquaresSet.erase(freesquare);
+}
+
+void MazeGenerator::ShowFreeSquaresSet() {
+    for(auto it = FreeSquaresSet.cbegin(); it != FreeSquaresSet.cend(); ++it){
+        pair<int, int> tmp = *it;
+        cout << "it = " << tmp.first << ", " << tmp.second << "\n";
+    }
+}
+
 pair<int, int>
 MazeGenerator::GetNewRandPos(Random_Generator_ *Rand_gen, pair<int, int> starting_pos, vector<vector<int>> square_,
                              vector<vector<bool>> deadend_) {
@@ -1184,12 +1247,18 @@ MazeGenerator::GetNewRandPos(Random_Generator_ *Rand_gen, pair<int, int> startin
     while (true) {
         //cout << "Reach MazeGenerator::GetNewRandPos 1\n";
         count++;
-        result.first = Rand_gen->Rand(1, square_.size() - 2);// TODO: replace with set of empty squares
-        result.second = Rand_gen->Rand(1, square_[0].size() - 2);
-        pair<int, int> zeroorderentrancepair = GetZeroOrderEntrancePos(Rand_gen, entrance_info);
-        int zeroorderentranceid = entrances[zeroorderentrancepair.first][zeroorderentrancepair.second];
-        if ((square_[result.first][result.second] == 1 || entrances[result.first][result.second] == zeroorderentranceid) && !deadend_[result.first][result.second]) break;
-        if (count >= square_[0].size() * square_.size() * 2) {
+        int rndcounter = 0;
+        int rnd = Rand_gen->Rand(0, FreeSquaresSet.size());
+        for(auto it = FreeSquaresSet.cbegin(); it != FreeSquaresSet.cend(); ++it){
+            if(rndcounter == rnd){
+                result = *it;
+            }
+            rndcounter++;
+        }
+        //pair<int, int> zeroorderentrancepair = GetZeroOrderEntrancePos(Rand_gen, entrance_info);
+        //int zeroorderentranceid = entrances[zeroorderentrancepair.first][zeroorderentrancepair.second];
+        if (!deadend_[result.first][result.second]) break;
+        if (count >= FreeSquaresSet.size() * 2) {
             result = starting_pos;
             break;
         }
@@ -1210,27 +1279,34 @@ vector<vector<int>> MazeGenerator::FreeSpaceAfterDigging(vector<vector<int>> &sq
     if (did_x_changed) mod = (to.first - from.first) / abs(to.first - from.first);
     else mod = (to.second - from.second) / abs(to.second - from.second);
     for (int i = 1; i <= range_end; ++i) {
+        int new_x, new_y;
         if (did_x_changed) {
             // -1 / +1
-            if (from.first + (i * mod) < 0 || from.first + (i * mod) > square_.size() - 1) {
+            new_x = from.first + (i * mod);
+            new_y = from.second;
+            if (new_x < 0 || new_x > square_.size() - 1) {
                 cout << "Error in MazeGenerator::FreeSpaceAfterDigging X is out of range\n";
                 cout << "X = " << from.first << "";
-                cout << "X + i * mod = " << from.first + (i * mod) << "\n";
+                cout << "X + i * mod = " << new_x << "\n";
             }
-            if(square_[from.first + (i * mod)][from.second] != 3 && square_[from.first + (i * mod)][from.second] != 4) {
-                square_[from.first + (i * mod)][from.second] = 1;
+            if(square_[new_x][new_y] != 3 && square_[new_x][new_y] != 4) {
+                square_[new_x][new_y] = 1;
                 num_of_free_fields_++;
+                AddToFreeSquaresSet(square_, make_pair(new_x, new_y));
             }
         } else {
             // -1 / +1
-            if (from.second + (i * mod) < 0 || from.second + (i * mod) > square_[0].size() - 1) {
+            new_x = from.first;
+            new_y = from.second + (i * mod);
+            if (new_y < 0 || new_y > square_[0].size() - 1) {
                 cout << "Error in MazeGenerator::FreeSpaceAfterDigging Y is out of range\n";
                 cout << "Y = " << from.second << "";
-                cout << "Y + i * mod = " << from.second + (i * mod) << "\n";
+                cout << "Y + i * mod = " << new_y << "\n";
             }
-            if(square_[from.first][from.second + (i * mod)] != 3 && square_[from.first][from.second + (i * mod)] != 4){
-                square_[from.first][from.second + (i * mod)] = 1;
+            if(square_[new_x][new_y] != 3 && square_[new_x][new_y] != 4){
+                square_[new_x][new_y] = 1;
                 num_of_free_fields_++;
+                AddToFreeSquaresSet(square_, make_pair(new_x, new_y));
             }
         }
     }
@@ -1389,8 +1465,14 @@ Room_Generation_Vars MazeGenerator::DP_RoomSearchForBiggestRoomStartingFromGiven
 vector<vector<int>>
 MazeGenerator::Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, int num_of_deadends_,
                                int num_of_free_fields_, vector<vector<bool>> deadend_) {
+    vector<vector<vector<bool>>>  squarepossibletomovedirrections_ = squarepossibletomovedirrections;
     square_ = LabyrinthMenu(square_);
     cout << "Reach MazeGenerator::Build_Labyrinth 0\n";
+    FreeSquaresSet.insert(GetZeroOrderEntrancePos(Rand_gen, entrance_info));
+    for(auto it = FreeSquaresSet.cbegin(); it != FreeSquaresSet.cend(); ++it){
+        pair<int, int> tmp = *it;
+        cout << "1 it = " << tmp.first << ", " << tmp.second << "\n";
+    }
     square = square_;
     bool issatisfying = false;
     ofstream output_file;
@@ -1399,7 +1481,7 @@ MazeGenerator::Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
         cout << "Error in opening file\n";
         cout <<'\n';
     } else cout << "File opened\n";
-    output_file << "\n\n\n *** \n";
+    if(output_file.is_open()) if(output_file.is_open()) output_file << "\n\n\n *** \n";
     output_file.close();
     cout << "Reach MazeGenerator::Build_Labyrinth 1\n";
     while (!issatisfying) {
@@ -1417,11 +1499,12 @@ MazeGenerator::Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
         pair<int, int> prev_pos;
         cout << "Reach MazeGenerator::Build_Labyrinth 2\n";
         double num_of_deadends_d = num_of_deadends_, num_of_free_fields_d = num_of_free_fields_;
+        int prev_num_of_free_fields_ = 0;
         while (true) {
             cout << "Reach MazeGenerator::Build_Labyrinth 3\n";
             prev_pos = pos;
             cout << "prev pos = (" << pos.first << ", " << pos.second << ")\n";
-            pos = Move(Rand_gen, pos.first, pos.second, square_, num_of_free_fields_, deadend_);
+            pos = Move(Rand_gen, pos.first, pos.second, square_, num_of_free_fields_, deadend_, squarepossibletomovedirrections_);
             cout << "new pos = (" << pos.first << ", " << pos.second << ")\n";
             //num_of_free_fields_ += max(abs(prev_pos.first - pos.first), abs(prev_pos.second - pos.second));
             cout << "prev. num_of_free_fields_ = " << num_of_free_fields_ << "\n";
@@ -1430,34 +1513,43 @@ MazeGenerator::Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
                 square_ = FreeSpaceAfterDigging(square_, prev_pos, pos, num_of_free_fields_);
             }
             wasroombuiltonthisturn = false;
-            output_file.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/FieldOfHonor/maze_in_steps.txt", std::ios::app);
-            output_file << "\n num_of_free_fields = " << num_of_free_fields_ << "\n";
-            output_file << "   ";
-            for(int i = 0; i < square_.size(); i++){
-                output_file << i % 10;
-            }
-            output_file << "\n";
-            int tempnum = 0;
+            if (num_of_free_fields_ != prev_num_of_free_fields_) {
+                output_file.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/FieldOfHonor/maze_in_steps.txt",
+                                 std::ios::app);
+
+                if (output_file.is_open()) output_file << "\n num_of_free_fields = " << num_of_free_fields_ << "\n";
+                if (output_file.is_open()) output_file << "   ";
+                for (int i = 0; i < square_.size(); i++) {
+                    if (output_file.is_open()) output_file << i % 10;
+                }
+                if (output_file.is_open()) output_file << "\n";
+                int tempnum = 0;
                 for (int j = 0; j < square_[0].size(); ++j) {
-                    output_file << tempnum;
-                    if(tempnum < 10) output_file << "  ";
-                    else output_file << " ";
+                    if (output_file.is_open()) output_file << tempnum;
+                    if (tempnum < 10)
+                        if (output_file.is_open()) output_file << "  ";
+                        else if (output_file.is_open()) output_file << " ";
                     tempnum++;
                     for (int i = 0; i < square_.size(); ++i) {
-                        output_file << square_[i][j];
+                        if (output_file.is_open()) output_file << square_[i][j];
                     }
-                    output_file << "\n";
+                    if (output_file.is_open()) output_file << "\n";
                 }
-                output_file << "\n";
-                output_file << "\n";
+                if (output_file.is_open()) output_file << "\n";
+                if (output_file.is_open()) output_file << "\n";
                 output_file.close();
+            }
 
 
            // }
             cout << "new. num_of_free_fields_ = " << num_of_free_fields_ << "\n";
+            prev_num_of_free_fields_ = num_of_free_fields_;
             if (pos == prev_pos) {
                 cout << "Reach MazeGenerator::Build_Labyrinth 4\n";
-                if(deadend_[pos.first][pos.second]) num_of_deadends_++;
+                if(deadend_[pos.first][pos.second]) {
+                    DeleteFromFreeSquaresSet(pos);
+                    num_of_deadends_++;
+                }
                 num_of_deadends_d = num_of_deadends_;
                 num_of_free_fields_d = num_of_free_fields_;
                 if (num_of_deadends_ == num_of_free_fields_ ||
@@ -1473,7 +1565,9 @@ MazeGenerator::Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
                     cout << "num_of_deadends = " << num_of_deadends_ << "\n";
                     //Just to be sure that nearly all free fields are deadends
                     pos = GetNewRandPos(Rand_gen, pos, square_, deadend_);
-                    if (pos == prev_pos) break;
+                    cout << "FreeSquaresSet.size() = " << FreeSquaresSet.size() << "\n";
+                    cout << "square_.size() * square_[0].size() * Kpercentage_of_filled_space_in_the_end = " << square_.size() * square_[0].size() * 0.01 << "\n";
+                    if (pos == prev_pos && FreeSquaresSet.size() < square_.size() * square_[0].size() * Kpercentage_of_filled_space_in_the_end) break;
                     cout << "Reach MazeGenerator::Build_Labyrinth 4_2\n";
                 }
             }
@@ -1486,6 +1580,7 @@ MazeGenerator::Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
             }
         }
         cout << "Reach MazeGenerator::Build_Labyrinth 5\n";
+        ShowFreeSquaresSet();
         Visualizer(square_);
         ShowField(square_);
         if(output_file.is_open()) output_file.close();
@@ -1498,6 +1593,9 @@ MazeGenerator::Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
             deadend_ = deadend;
             num_of_deadends_ = num_of_deadends;
             num_of_free_fields_ = num_of_free_fields;
+            FreeSquaresSet.clear();
+            FreeSquaresSet.insert(GetZeroOrderEntrancePos(Rand_gen, entrance_info));
+            squarepossibletomovedirrections_ = squarepossibletomovedirrections;
             //printwc(0x0000c);  // clear console
         }
     }

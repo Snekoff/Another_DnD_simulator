@@ -6,6 +6,7 @@
 #include "../Character/character.h"
 #include "Unicode_Console_Output.h"
 #include <fstream>
+#include <set>
 
 /*
  * Bit harsh labyrinth algorithm.
@@ -59,7 +60,9 @@ private:
     // entrances and exits are just places which algorithm will cross only once
     // odd pair is begin of a region and next one is the end of the region
     vector<vector<int>> entrances;
+    set<pair<int, int>> FreeSquaresSet;
     vector<vector<bool>> deadend;
+    vector<vector<vector<bool>>> squarepossibletomovedirrections;
     bool wasroombuiltonthisturn = false;
     vector<Entrance_info> entrance_info;
     int RoomLengthMax = 6;
@@ -115,13 +118,13 @@ public:
     // returns new position
     pair<int, int>
     Move(Random_Generator_ *Rand_gen, int x, int y, vector<vector<int>> &square_, int &num_of_free_fields_,
-         vector<vector<bool>> &deadends);
+         vector<vector<bool>> &deadends, vector<vector<vector<bool>>> & squarepossibletomovedirrections);
 
     bool CouldMakeCorridor(int direction, int from_x, int from_y, int to_x, int to_y, vector<vector<int>> square_);
 
     int Direction(Random_Generator_ *Rand_gen);
 
-    int RightDirection(Random_Generator_ *Rand_gen, int x, int y, int direction, vector<vector<int>> square_, vector<vector<bool>> &deadends);
+    int RightDirection(Random_Generator_ *Rand_gen, int x, int y, int direction, vector<vector<int>> square_, vector<vector<bool>> &deadends, vector<vector<vector<bool>>> & squarepossibletomovedirrections);
 
     bool IsRightDirection(int x, int y, int direction_, vector<vector<int>> square_);
 
@@ -217,6 +220,12 @@ public:
     bool IsOutofVectorVectorSize(vector<vector<int>> square_, int x, int y);
 
     bool IsDirectionCorrect(int direction, pair<int, int> from, pair<int, int> to);
+
+    void AddToFreeSquaresSet(vector<vector<int>> square_, pair<int, int> freesquare);
+
+    void DeleteFromFreeSquaresSet(pair<int, int> freesquare);
+
+    void ShowFreeSquaresSet();
 };
 
 #endif //ANOTHER_DND_SIMULATOR_MAZEGENERATOR_H
