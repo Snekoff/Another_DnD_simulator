@@ -2,18 +2,20 @@
 #ifndef ANOTHER_DND_SIMULATOR_MAZEGENERATOR_H
 #define ANOTHER_DND_SIMULATOR_MAZEGENERATOR_H
 
+#include <fstream>
+#include <set>
+
 #include "../Character/UsefulFunctions.h"
 #include "../Character/character.h"
 #include "Unicode_Console_Output.h"
-#include <fstream>
-#include <set>
+
 
 /*
  * Bit harsh labyrinth algorithm.
  * Input: Empty field (n * m)
  * You can set field properties before algorithm will start.
  * Like making indestructible walls, place rooms, place entrances.
- * Then in free space(walls) mole will dig corridors.
+ * Then in walls mole will dig corridors.
  * Output: Labyrinth with rooms(even if you didn't place them), traps and so on.
  * */
 
@@ -120,7 +122,7 @@ public:
     Move(Random_Generator_ *Rand_gen, int x, int y, vector<vector<int>> &square_, int &num_of_free_fields_,
          vector<vector<bool>> &deadends, vector<vector<vector<bool>>> & squarepossibletomovedirrections);
 
-    bool CouldMakeCorridor(int direction, int from_x, int from_y, int to_x, int to_y, vector<vector<int>> square_);
+    bool CouldMakeCorridor(Random_Generator_ *Rand_gen, int direction, int from_x, int from_y, int to_x, int to_y, vector<vector<int>> square_);
 
     int Direction(Random_Generator_ *Rand_gen);
 
