@@ -3,19 +3,17 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <stdio.h>
-#include <malloc.h>
 #include <queue>
-#include <locale>
 
-#include "GameOfImagination.h"
-//#include "Tests/TEST.h"
-
-/*Monsters/Creature.h gtest/googletest/src/gtest-all.cc gtest/googlemock/src/gmock-all.cc
-        Tests/Character_Test.cpp Tests/Character_Test.h Tests/Battleground_TEST.cpp Tests/Battleground_TEST.h
-         Tests/TEST.h Tests/Classes_TEST.h Tests/Classes_TEST.cpp Tests/Race_TEST.h Tests/Race_TEST.cpp
-        Tests/Allowance_TEST.h Tests/Allowance_TEST.cpp Tests/Item_TEST.h Tests/Item_TEST.cpp*/
+#include "game_of_imagination.h"
+// #include "tests/TEST.h"
+// google test was disabled so I saved Cmake here
+/*
+ * monsters/Creature.h gtest/googletest/src/gtest-all.cc gtest/googlemock/src/gmock-all.cc
+ * tests/Character_Test.cpp tests/Character_Test.h tests/Battleground_TEST.cpp tests/Battleground_TEST.h
+ * tests/TEST.h tests/Classes_TEST.h tests/Classes_TEST.cpp tests/Race_TEST.h tests/Race_TEST.cpp
+ * tests/Allowance_TEST.h tests/Allowance_TEST.cpp tests/Item_TEST.h tests/Item_TEST.cpp*/
 
 using namespace std;
 
@@ -37,7 +35,7 @@ int main(int argc, char **argv) {
     //&&&&&&&& Enjoy^^ #########
 
     /*&&&&&&&& how Inventory (on phase of char creation) works #########
-     * auto Char = new Character();
+     * auto Char = new character();
     Char->Add_Money(3,9000);
     Char->Add_To_Inventory();
      */
@@ -49,8 +47,8 @@ int main(int argc, char **argv) {
   */
 
     /*&&&&&&&& how Battleground shaping works #########
-     * auto FieldOfHonor = new Battleground(17,10,5);// X,Y,Z
-    FieldOfHonor->Shape();
+     * auto local_map = new Battleground(17,10,5);// X,Y,Z
+    local_map->Shape();
      */
 
     /*&&&&&&&& how action/trait/spell casting parse works #########
@@ -59,7 +57,7 @@ int main(int argc, char **argv) {
     string name = "Juiblex";
     ifstream MonJson;
     Existing_Monsters E_M;
-    MonJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/AditionalTools/5etools json/monsters/bestiary-all.json");
+    MonJson.open("E:/Den`s/programming/Git_c++/Another_DnD_simulator/aditional_tools/5etools json/monsters/bestiary-all.json");
     if (!MonJson.is_open()) return -2;
     json MonsterJson = json::parse(MonJson);
     for(int i = 0; MonsterJson["monster"][i].find("name") != MonsterJson["monster"][i].end(); i++){

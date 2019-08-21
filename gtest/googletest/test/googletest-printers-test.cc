@@ -364,7 +364,7 @@ TEST(PrintBuiltInTypeTest, Integer) {
             Print(static_cast<testing::internal::Int64>(1) << 63));  // int64
 }
 
-// Size types.
+// size types.
 TEST(PrintBuiltInTypeTest, Size_t) {
   EXPECT_EQ("1", Print(sizeof('a')));  // size_t.
 #if !GTEST_OS_WINDOWS
