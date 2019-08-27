@@ -6,6 +6,8 @@
 #include "character/character.h"
 #include "local_map/battleground.h"
 #include "monsters/monster.h"
+#include "local_map/local_map_user_usage.h"
+
 #ifndef ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 #define ANOTHER_DND_SIMULATOR_GAMEOFIMAGINATION_H
 

@@ -1,7 +1,7 @@
 #pragma once
-#include "../Character/common_functions.h"
-#include "../Inventory(Item)/Item.h"
-#include "../Inventory(Item)/Items_Factory.h"
+#include "../character/common_functions.h"
+#include "../items/item.h"
+#include "../items/items_factory.h"
 
 #ifndef ANOTHER_DND_SIMULATOR_FIELDSTUFF_H
 #define ANOTHER_DND_SIMULATOR_FIELDSTUFF_H

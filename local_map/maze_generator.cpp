@@ -76,32 +76,28 @@ bool MazeGenerator::IsNegative(int x, int y, int index) {
 vector<vector<int>> MazeGenerator::RoomsPlacement(vector<vector<int>> &square_) {
     pair<pair<int, int>, pair<int, int>> region;
     region = RegionSelect(square_);
-    region = RoomsPlacement_BuildingWalls(region.first, region.second, square_);
-    square_ = RoomsPlacement_MakingRoomInside(region.first, region.second, square_);
+    if(!Room_BuildingWalls(region.first, region.second, square_, region.first)) cout << "Room_BuildingWalls fail\n";
+    //  gotta check it whether user should choose if space inside will be used as regular free fields or be blocked for digging
+    if(!Room_MakingSpaceInsideWalls(region.first, region.second, square_, num_of_free_fields)) cout << "Room_MakingSpaceInsideWalls fail\n";
     return square_;
 }
 
-pair<pair<int, int>, pair<int, int>> MazeGenerator::RoomsPlacement_BuildingWalls(pair<int, int> start_of_the_region,
-                                                                                 pair<int, int> end_of_the_region,
-                                                                                 vector<vector<int>> &square_
+bool MazeGenerator::Room_BuildingWalls(pair<int, int> from, pair<int, int> to, vector<vector<int>> &square_, pair<int, int> entrance
 ) {
-    pair<pair<int, int>, pair<int, int>> output;
-    pair<int, int> st_new_region, end_new_region;
-    pair<int, int> st_new_room_region = start_of_the_region, end_new_room_region = end_of_the_region;
-    //User choose size and placement, but if it is too close to the edge of the world
-    //walls will be automatically built to prevent reach nonexisting array member
-    // if it is possible region expands by 1 in all directions
-    // and build there walls
-    output = RoomsPlacement_CheckEdgeReach(start_of_the_region, end_of_the_region, square_[0].size(), square_.size());
-    for (int i = min(output.first.first, output.second.first);
-         i < max(output.first.first, output.second.first); i++) {
-        for (int j = min(output.first.second, output.second.second);
-             j < max(output.first.second, output.second.second); j++) {
-            if (square_[i][j] > 0) continue;
-            square_[i][j] = 2;
+    for (int i = min(from.first, to.first); i <= max(from.first, to.first); ++i) {
+        for (int j = min(from.second, to.second); j <= max(from.second, to.second); ++j) {
+            if (i == entrance.first && j == entrance.second) continue;
+            if (IsOutofVectorVectorSize(square_, i, j)) {
+                cout << "Error in RoomGenerator_FreeSpaceAndReturnNewPos X or Y is out of bounds.\n";
+                cout << "X = " << i << "\n";
+                cout << "Y = " << j << "\n";
+                return false;
+            }
+            if(square_[i][j] == 0) square_[i][j] = 2;
+            else cout << "RoomGenerator_FreeSpaceAndReturnNewPos 0_2 square_[i][j] = " << square_[i][j] << "\n";
         }
     }
-    return output;
+    return true;
 }
 
 pair<pair<int, int>, pair<int, int>> MazeGenerator::RoomsPlacement_CheckEdgeReach(pair<int, int> start_of_the_region,
@@ -176,17 +172,20 @@ pair<pair<int, int>, pair<int, int>> MazeGenerator::RoomsPlacement_CheckEdgeReac
 
 }
 
-vector<vector<int>> MazeGenerator::RoomsPlacement_MakingRoomInside(pair<int, int> start_of_the_region,
-                                                                   pair<int, int> end_of_the_region,
-                                                                   vector<vector<int>> &square_) {
-    for (int i = min(start_of_the_region.first, end_of_the_region.first);
-         i < max(start_of_the_region.first, end_of_the_region.first); i++) {
-        for (int j = min(start_of_the_region.second, end_of_the_region.second);
-             j < max(start_of_the_region.second, end_of_the_region.second); j++) {
-            square_[i][j] = 1;
-            num_of_free_fields++;
+bool MazeGenerator::Room_MakingSpaceInsideWalls(pair<int, int> from,
+                                                    pair<int, int> to,
+                                                    vector<vector<int>> &square_,
+                                                    int &num_of_free_fields_) {
+    for (int i = min(from.first, to.first); i <= max(from.first, to.first); ++i) {
+        for (int j = min(from.second, to.second); j <= max(from.second, to.second); ++j) {
+            if(square_[i][j] == 2) {
+                num_of_free_fields_++;
+                square_[i][j] = 1;
+                AddToFreeSquaresSet(square_, make_pair(i, j));
+            }
         }
     }
+    return true;
 }
 
 bool MazeGenerator::CouldMakeCorridor(Random_Generator_ *Rand_gen, int direction, int from_x, int from_y, int to_x, int to_y, vector<vector<int>> square_) {
@@ -1086,42 +1085,15 @@ pair<int, int> MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos(Random_Gene
     //  then change whole area to a room walls excluding entrance_ and any fields that weren't walls
     //  then change inner area to empty excluding -//-
     //  find exit on wall no less than 1 field from entrance* if there are such return it else return rnd pos
-    //  *otherwise algorithm won't continue moving that way
+    //  *otherwise algorithm won't continue digging that way and will search for new position
     pair<int, int> new_from, new_to;
-    //cout << "Reach MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos 0_1\n from: (" << from.first << ", " << from.second << ")\n";
-    //cout << "to: (" << to.first << ", " << to.second << ")\n";
     new_from.first = from.first + dirMod[direction_][0];
     new_from.second = from.second + dirMod[direction_][1];
     new_to.first = to.first - dirMod[direction_][0];
     new_to.second = to.second - dirMod[direction_][1];
-    cout << "new_from: (" << new_from.first << ", " << new_from.second << ")\n";
-    cout << "new_to: (" << new_to.first << ", " << new_to.second << ")\n";
 
-    cout << "Room\n";
-    cout << "inner space: (" << from.first << ", " << from.second << ") - (" << to.first << ", " << to.second << ")\n";
-    cout << "walls: (" << new_from.first << ", " << new_from.second << ") - (" << new_to.first << ", " << new_to.second << ")\n";
-    for (int i = min(new_from.first, new_to.first); i <= max(new_from.first, new_to.first); ++i) {
-        for (int j = min(new_from.second, new_to.second); j <= max(new_from.second, new_to.second); ++j) {
-            if (i == entrance_.first && j == entrance_.second) continue;
-            if (IsOutofVectorVectorSize(square_, i, j)) {
-                cout << "Error in RoomGenerator_FreeSpaceAndReturnNewPos X or Y is out of bounds.\n";
-                cout << "X = " << i << "\n";
-                cout << "Y = " << j << "\n";
-                return result;
-            }
-            if(square_[i][j] == 0) square_[i][j] = 2;
-            else cout << "RoomGenerator_FreeSpaceAndReturnNewPos 0_2 square_[i][j] = " << square_[i][j] << "\n";
-        }
-    }
-    for (int i = min(from.first, to.first); i <= max(from.first, to.first); ++i) {
-        for (int j = min(from.second, to.second); j <= max(from.second, to.second); ++j) {
-            if(square_[i][j] == 2) {
-                num_of_free_fields_++;
-                square_[i][j] = 1;
-                AddToFreeSquaresSet(square_, make_pair(i, j));
-            } else cout << "RoomGenerator_FreeSpaceAndReturnNewPos 0_3 square_[i][j] = " << square_[i][j] << "\n";
-        }
-    }
+    if(!Room_BuildingWalls(new_from, new_to, square_, entrance_)) return result;
+    if(!Room_MakingSpaceInsideWalls(from, to, square_, num_of_free_fields_)) cout << "Unable to free space inside room\n";
     //cout << "Reach MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos 1\n";
     wasroombuiltonthisturn = true;
     //  rnd pos
@@ -1130,7 +1102,7 @@ pair<int, int> MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos(Random_Gene
     int count = 0;
     int count_max = Rand_gen->Rand(min(max(max(abs(from.first - to.first), abs(from.second - to.second)), 4), abs(from.first - to.first) + abs(from.second - to.second)), max(max(max(abs(from.first - to.first), abs(from.second - to.second)), 4), abs(from.first - to.first) + abs(from.second - to.second)));
     cout << "count_max: " << count_max << "\n";
-    while(true){
+    while(true){  //TODO: replace with graph thing
         //cout << "Reach MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos 2\n";
         if(count == count_max) {
             //cout << "Reach MazeGenerator::RoomGenerator_FreeSpaceAndReturnNewPos 2_0\n";

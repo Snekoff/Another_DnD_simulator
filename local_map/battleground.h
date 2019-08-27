@@ -5,8 +5,8 @@
 #include <vector>
 #include <iostream>
 
-#include "../character/common_functions.h"
-#include "../character/character.h"
+//#include "../character/common_functions.h"
+//#include "../character/character.h"
 #include "field_stuff.h"
 #include "effect.h"
 #include "maze_generator.h"

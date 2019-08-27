@@ -86,28 +86,29 @@ public:
     //Suppose that our field contain only walls, entrances, exits and preplaced rooms(if they are supposed to be visited
     // then they must have at least one entrance)
     //"Mole" starts digging from entrance 1 and moving all around until there wont be any blank(massive wall regions) space
-    // with few rules: The most important is that it couldn't cross exidting corridors, and "impassable" walls
-    // if mole crosses the Entrance #2 then all region(Entrance #2) is blocked(marked as corridor) and cant be passed again
+    // with few rules: The most important is that it couldn't cross existing corridors, and "impassable" walls
+    // if mole crosses the Entrance #2 then all region(Entrance #2) is blocked(marked as reached entrance) and cant be passed again
     // minimum mole pace is 2 (thick* wall) *5-ft
     MazeGenerator(Random_Generator_ *Rand_gen, vector<vector<int>> square_);
 
     // room region is two points (start end end)
     vector<vector<int>> RoomsPlacement(vector<vector<int>> &square_);
 
-    pair<pair<int, int>, pair<int, int>> RoomsPlacement_BuildingWalls(pair<int, int> start_of_the_region,
-                                                        pair<int, int> end_of_the_region,
-                                                        vector<vector<int>> &square_
+    bool Room_BuildingWalls(pair<int, int> start_of_the_region,
+                            pair<int, int> end_of_the_region,
+                            vector<vector<int>> &square_, pair<int, int> entrance
     );
 
     pair<pair<int, int>, pair<int, int>> RoomsPlacement_CheckEdgeReach(pair<int, int> start_of_the_region,
-                                                         pair<int, int> end_of_the_region,
-                                                         unsigned long x_max,
-                                                         unsigned long y_max);
+                                                                       pair<int, int> end_of_the_region,
+                                                                       unsigned long x_max,
+                                                                       unsigned long y_max);
 
 
-    vector<vector<int>> RoomsPlacement_MakingRoomInside(pair<int, int> start_of_the_region,
-                                                        pair<int, int> end_of_the_region,
-                                                        vector<vector<int>> &square_);
+    bool Room_MakingSpaceInsideWalls(pair<int, int> start_of_the_region,
+                                         pair<int, int> end_of_the_region,
+                                         vector<vector<int>> &square_,
+                                         int &num_of_free_fields_);
 
     // if you have some rooms, but it doesn`t matter where are they in labyrinth and where are their entrances
     vector<vector<int>>
