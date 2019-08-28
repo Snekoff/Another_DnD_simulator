@@ -202,16 +202,13 @@ bool MazeGenerator::CouldMakeCorridor(Random_Generator_ *Rand_gen, int direction
         cout << "to_y = " << to_y << "\n";
         return false;
     }
-    //cout << "Reach MazeGenerator::CouldMakeCorridor 0\n";
-    if (to_x < 1 || to_x > square_.size() - 2) return false;
-    if (to_y < 1 || to_y > square_[to_x].size() - 2) return false;
-
+    if (IsOutofVectorVectorSize(square_, to_x + 1, to_y + 1)) return false;
+    if (IsOutofVectorVectorSize(square_, to_x - 1, to_y - 1)) return false;
     // Check whole way whether it passable
     int dif_x = abs(to_x - from_x), dif_y = abs(to_y - from_y);
-    //cout << "Reach MazeGenerator::CouldMakeCorridor 1\n";
-    vector<int> searchedforfieldtypes = {1, 4, 5};
-    int countroomwallsifmorethantwostop = 0;
-    bool isfirstfieldafterpassingthroughroomwall = false;
+    vector<int> searched_for_field_types = {1, 4, 5};
+    int count_room_walls_if_more_than_two_stop = 0;
+    bool is_first_field_after_passing_through_room_wall = false;
     vector<pair<int, int>> excludepoints_ = {};
     int dirMod[8][2] = {{0,  -1},
                         {1,  -1},
@@ -222,54 +219,14 @@ bool MazeGenerator::CouldMakeCorridor(Random_Generator_ *Rand_gen, int direction
                         {-1, 0},
                         {-1, -1},
     };
+    // suppose that one coord has difference = 0
     for (int i = 1; i <= max(dif_x, dif_y); i++) {
-        int x_new, y_new;
-        if (dif_x > dif_y) {
-            //cout << "Reach MazeGenerator::CouldMakeCorridor 1_1\n";
-            // here from_y = to_y
-            x_new = from_x + i * (dif_x / (to_x - from_x));
-            y_new = to_y;
-        } else {
-            //cout << "Reach MazeGenerator::CouldMakeCorridor 1_2\n";
-            // here from_x = to_x
-            x_new = to_x;
-            y_new = from_y + i * (dif_y / (to_y - from_y));
-        }
+        pair<int, int> point_for_checking = IfMovingByXReturnChangedXElseReturnChangedY(from_x, from_y, to_x, to_y, dif_x, dif_y, i);
         // here are way to give maze bit more space to develop
         // corridors can SOMETIMES reach through room walls
         // passing two room walls is OK but more is not
-        if(square_[x_new][y_new] == 2) {
-            int rnd = 0;
-            if(countroomwallsifmorethantwostop == 0){
-               rnd = Rand_gen->Rand(0, 10);
-            }
-            if (countroomwallsifmorethantwostop < 2 && rnd <= 2) {
-                countroomwallsifmorethantwostop++;
-                isfirstfieldafterpassingthroughroomwall = true;
-                excludepoints_.push_back(make_pair(x_new, y_new));
-            }
-            else return false;
-        } else if(square_[x_new][y_new] == 1 && isfirstfieldafterpassingthroughroomwall){
-            isfirstfieldafterpassingthroughroomwall = false;
-            // If alg finds that there are already Free space it won't build this corridor
-            // So I exclude first Empty square
-            excludepoints_.push_back(make_pair(x_new, y_new));
-            // Then all squares that are front near
-            // example: if direction is up (0) and cords are (2, 2)
-            // Exclude (1, 2), (1, 1), (2, 1), (3, 1), (3, 2)
-            // exclude remaining squares
-            for (int j = 0; j < 8; ++j) {
-                if(abs(j - (((direction + 2) % 4) * 2)) < 2 || (direction == 2 && j == 7) || (direction == 1 && j == 0)){
-                    continue;
-                }
-                excludepoints_.push_back(make_pair(x_new + dirMod[j][0], y_new + dirMod[j][1]));
-            } /// would it work fine or ...
-        }
-        /*for (int j = 0; j < searchedforfieldtypes.size(); ++j) {
-            if(one_square == searchedforfieldtypes[j]) return false;
-        }*/
+        CheckForRoomWallOrFreeFieldWhichCouldBeIgnoredWhileBuildingCorridor();
     }
-    //cout << "Reach MazeGenerator::CouldMakeCorridor 2\n";
     // Exclude starting point and surrounding it
     excludepoints_.push_back(make_pair(from_x, from_y));
     for (int j = 0; j < 8; ++j) {
@@ -278,9 +235,57 @@ bool MazeGenerator::CouldMakeCorridor(Random_Generator_ *Rand_gen, int direction
             excludepoints_.push_back(make_pair(from_x + dirMod[j][0], from_y + dirMod[j][1]));
         }
     }
-    result = CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(make_pair(from_x, from_y), make_pair(to_x, to_y), square_, searchedforfieldtypes, excludepoints_);
-    //cout << "Reach MazeGenerator::CouldMakeCorridor 3\n";
+    result = CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(make_pair(from_x, from_y), make_pair(to_x, to_y), square_, searched_for_field_types, excludepoints_);
     return result;
+}
+
+pair<int, int>
+MazeGenerator::IfMovingByXReturnChangedXElseReturnChangedY(int from_x, int from_y, int to_x, int to_y, int dif_x,
+                                                           int dif_y, int i) const {
+    pair<int, int> point_for_checking;
+    if (dif_x > dif_y) {
+        point_for_checking.first = from_x + i * (dif_x / (to_x - from_x));
+        point_for_checking.second = to_y;
+    } else {
+        point_for_checking.first = to_x;
+        point_for_checking.second = from_y + i * (dif_y / (to_y - from_y));
+    }
+    return point_for_checking;
+}
+
+bool MazeGenerator::CheckForRoomWallOrFreeFieldWhichCouldBeIgnoredWhileBuildingCorridor(Random_Generator_ *Rand_gen,
+                                                                                        int direction,
+                                                                                        const vector<int> square_,
+                                                                                        int &count_room_walls_if_more_than_two_stop,
+                                                                                        bool &is_first_field_after_passing_through_room_wall,
+                                                                                        vector<pair<int, int>> &excludepoints_) {
+    if(square_[point_for_checking.first][point_for_checking.second] == 2) {
+        int rnd = 0;
+        if(count_room_walls_if_more_than_two_stop == 0){
+            rnd = Rand_gen->Rand(0, 10);
+        }
+        if (count_room_walls_if_more_than_two_stop < 2 && rnd <= 2) {
+            count_room_walls_if_more_than_two_stop++;
+            is_first_field_after_passing_through_room_wall = true;
+            excludepoints_.push_back(point_for_checking);
+        }
+        //else return false;
+    } else if(square_[point_for_checking.first][point_for_checking.second] == 1 && is_first_field_after_passing_through_room_wall){
+        is_first_field_after_passing_through_room_wall = false;
+        // If alg finds that there are already Free space it won't build this corridor
+        // So I exclude first Empty square
+        excludepoints_.push_back(point_for_checking);
+        // Then all squares that are front near
+        // example: if direction is up (0) and cords are (2, 2)
+        // Exclude (1, 2), (1, 1), (2, 1), (3, 1), (3, 2)
+
+        for (int j = 0; j < 8; ++j) {
+            if(abs(j - (((direction + 2) % 4) * 2)) < 2 || (direction == 2 && j == 7) || (direction == 1 && j == 0)){
+                continue;
+            }
+            excludepoints_.push_back(make_pair(point_for_checking.first + dirMod[j][0], point_for_checking.second + dirMod[j][1]));
+        }
+    }
 }
 
 bool MazeGenerator::IsDirectionCorrect(int direction, pair<int, int> from, pair<int, int> to) {
@@ -674,7 +679,7 @@ void MazeGenerator::Visualizer(vector<vector<int>> square_) {
     // 2, 3, 5, 7, 15, 19, 23, 27, 32, 40, 48, 56, 66, 81  - 108, 136, 137, 167, 169, 178, 179
     // Example:
     // printwc(0x02502);
-    vector<vector<wchar_t>> uni_symbols = VisualizerTakeBattlefieldReturnGraphics(square_);
+    vector<vector<wchar_t>> uni_symbols = VisualizerTakeBattlefieldReturnGraphics(square_);  // TODO: add loop size if more than N * M then show only N * M field. Possible moving from side to side up and down
     for (int j = 0; j < uni_symbols[0].size(); ++j) {
         for (int i = 0; i < uni_symbols.size(); ++i) {
             printwc(uni_symbols[i][j]);

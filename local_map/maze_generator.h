@@ -229,6 +229,16 @@ public:
     void DeleteFromFreeSquaresSet(pair<int, int> freesquare);
 
     void ShowFreeSquaresSet();
+
+    pair<int, int>
+    IfMovingByXReturnChangedXElseReturnChangedY(int from_x, int from_y, int to_x, int to_y, int dif_x, int dif_y, int i) const;
+
+    bool CheckForRoomWallOrFreeFieldWhichCouldBeIgnoredWhileBuildingCorridor(Random_Generator_ *Rand_gen,
+                                int direction,
+                                vector<int> square_,
+                                int &count_room_walls_if_more_than_two_stop,
+                                bool &is_first_field_after_passing_through_room_wall,
+                                vector<pair<int, int>> &excludepoints_);
 };
 
 #endif //ANOTHER_DND_SIMULATOR_MAZE_GENERATOR_H
