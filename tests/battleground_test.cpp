@@ -1,3 +1,8 @@
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
+
 
 #include "battleground_test.h"
 

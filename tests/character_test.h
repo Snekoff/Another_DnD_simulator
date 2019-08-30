@@ -1,3 +1,8 @@
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
+
 
 #ifndef ANOTHER_DND_SIMULATOR_CHARACTER_TEST_H
 #define ANOTHER_DND_SIMULATOR_CHARACTER_TEST_H

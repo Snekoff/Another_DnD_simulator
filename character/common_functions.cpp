@@ -1,4 +1,7 @@
-
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
 #include "common_functions.h"
 template<typename T>
 T Correctness_of_input(T a, T lower_limit, T higher_limit) {

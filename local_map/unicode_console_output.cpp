@@ -4,6 +4,10 @@
 //
 
 #include "unicode_console_output.h"
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
 
 /*     char in circles
      * 0x024b6	-  0x024ff

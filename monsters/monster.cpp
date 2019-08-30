@@ -1,4 +1,8 @@
 //
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
+
 #include "monster.h"
 using json = nlohmann::json;
 Monster::Monster(Random_Generator_ *Rand_gen, int name_index, int challenge_rating_index) {

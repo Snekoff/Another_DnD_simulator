@@ -1,7 +1,8 @@
-
-#include "race.h"
-
 //
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
+#include "race.h"
 
 Race::Race() {
   Str = 0;

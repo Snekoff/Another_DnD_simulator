@@ -1,3 +1,8 @@
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
+
 #pragma once
 #include <iostream>
 #include "../Character/common_functions.h"

@@ -1,9 +1,14 @@
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
+
 #pragma once
 #ifndef ANOTHER_DND_SIMULATOR_ALOWANCE_TEST_H
 #define ANOTHER_DND_SIMULATOR_ALOWANCE_TEST_H
 #include "../gtest/googletest/include/gtest/gtest.h"
 #include "../gtest/googlemock/include/gmock/gmock.h"
-#include "../AditionalTools/allowance.h"
+#include "../aditional_tools/allowance.h"
 class Allowance_TEST : public ::testing::Test {
  public:
   Allowance * Test_Subject;

@@ -1,3 +1,7 @@
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
 #include "field_stuff.h"
 
 int FieldStuff::GetInt(int what) {

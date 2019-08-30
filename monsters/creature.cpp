@@ -1,3 +1,7 @@
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
 #include "creature.h"
 
 int Creature::Hp_Formula_Parse(string hpFormula_, int returnHitDiceOrNumOfDicesOrHealthModifier) {

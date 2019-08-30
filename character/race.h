@@ -2,7 +2,10 @@
 
 #include <iostream>
 #include <string>
-
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
 #include "../skills_spells_and_feats_/skills_and_spells.h"
 #include "common_functions.h"
 

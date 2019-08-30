@@ -1,3 +1,7 @@
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
 #include "effect.h"
 
 using json = nlohmann::json;

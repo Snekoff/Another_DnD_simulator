@@ -1,3 +1,7 @@
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
 #pragma once
 
 #include "../json_parse_by_nlohmann/json.hpp"

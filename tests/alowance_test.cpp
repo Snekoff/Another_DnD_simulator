@@ -1,3 +1,8 @@
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
+
 #include "alowance_test.h"
 
 TEST_F(Allowance_TEST, AllowanceGetIsCharacterSetShouldReturnFalseTest){

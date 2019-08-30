@@ -1,3 +1,7 @@
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
 #pragma once
 
 #include <fstream>
@@ -20,7 +24,7 @@
  * */
 
 
-struct Room_Generation_Vars {
+struct RoomGenerationVars {
     int room_width;
     int room_length;
     int room_height;
@@ -29,7 +33,7 @@ struct Room_Generation_Vars {
     pair<int, int> region_to;
 };
 
-struct Entrance_info {
+struct EntranceInfo {
     int id;
     int order;
     string name;
@@ -40,7 +44,7 @@ struct Entrance_info {
     bool blocked;
     // I'm going to add some triggers, may be like text appearing, and may be all dungeon changes... who knows :3
     string trigger_name;
-    vector<pair<int, int>> linkedsquares;
+    vector<pair<int, int>> linked_squares;
 };
 
 // id descriptions:
@@ -56,7 +60,7 @@ class MazeGenerator {
 private:
     vector<vector<int>> square;
     int difficulty;
-    int roomProbability;
+    int room_probability;
     int num_of_free_fields;
     int num_of_deadends;
     // entrances and exits are just places which algorithm will cross only once
@@ -64,12 +68,12 @@ private:
     vector<vector<int>> entrances;
     set<pair<int, int>> FreeSquaresSet;
     vector<vector<bool>> deadend;
-    vector<vector<vector<bool>>> squarepossibletomovedirrections;
-    bool wasroombuiltonthisturn = false;
-    vector<Entrance_info> entrance_info;
-    int RoomLengthMax = 6;
-    int RoomWidthMax = 6;
-    int RoomHeightMax = 3;
+    vector<vector<vector<bool>>> square_possible_to_move_from_dirrections;
+    bool was_room_built_on_this_turn = false;
+    vector<EntranceInfo> entrance_info;
+    int room_length_max = 6;
+    int room_width_max = 6;
+    int room_height_max = 3;
     const int kDifficulty_Max = 10;
     const int kDifficulty_Min = 0;
     const int kRoomProbabilityMax = 9;
@@ -125,7 +129,7 @@ public:
 
     bool CouldMakeCorridor(Random_Generator_ *Rand_gen, int direction, int from_x, int from_y, int to_x, int to_y, vector<vector<int>> square_);
 
-    int Direction(Random_Generator_ *Rand_gen);
+    int GetRandomDirection(Random_Generator_ *Rand_gen);
 
     int RightDirection(Random_Generator_ *Rand_gen, int x, int y, int direction, vector<vector<int>> square_, vector<vector<bool>> &deadends, vector<vector<vector<bool>>> & squarepossibletomovedirrections);
 
@@ -155,7 +159,7 @@ public:
                                      pair<int, int> end_of_the_region);
 
     //Entrance or Exit, it does not matter
-    Entrance_info Set_Entrance();
+    EntranceInfo Set_Entrance();
 
     // later
     void Set_Trigger(pair<int, int> start_of_the_region,
@@ -173,13 +177,13 @@ public:
 
     vector<vector<bool>> GetVectorVectorBool(int what);
 
-    pair<int, int> GetZeroOrderEntrancePos(Random_Generator_ * Rand_gen, vector<Entrance_info> entrance_info_);
+    pair<int, int> GetZeroOrderEntrancePos(Random_Generator_ * Rand_gen, vector<EntranceInfo> entrance_info_);
 
-    Entrance_info GetEntranceInfo(int id);
+    EntranceInfo GetEntranceInfo(int id);
 
     vector<vector<int>> GetEntrances();
 
-    Entrance_info ZeroIdEntranceInfo() const;
+    EntranceInfo ZeroIdEntranceInfo() const;
 
     pair<int, int> GetNewRandPos(Random_Generator_ *Rand_gen, pair<int, int> starting_pos, vector<vector<int>> square_, vector<vector<bool>> deadend_);
 
@@ -215,7 +219,7 @@ public:
 
     map<int, wchar_t> GetMapIntWchar_t() const;
 
-    Room_Generation_Vars
+    RoomGenerationVars
     DP_RoomSearchForBiggestRoomStartingFromGivenSizesAndDecreaseIfDontFitIn(Random_Generator_ *Rand_gen, vector<vector<int>> square_, int direction,
                                                                            pair<int, int> entrance, int width,
                                                                            int length, int height);
@@ -234,8 +238,9 @@ public:
     IfMovingByXReturnChangedXElseReturnChangedY(int from_x, int from_y, int to_x, int to_y, int dif_x, int dif_y, int i) const;
 
     bool CheckForRoomWallOrFreeFieldWhichCouldBeIgnoredWhileBuildingCorridor(Random_Generator_ *Rand_gen,
+                                pair<int, int> point_for_checking,
                                 int direction,
-                                vector<int> square_,
+                                vector<vector<int>> square_,
                                 int &count_room_walls_if_more_than_two_stop,
                                 bool &is_first_field_after_passing_through_room_wall,
                                 vector<pair<int, int>> &excludepoints_);

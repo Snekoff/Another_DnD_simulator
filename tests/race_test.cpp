@@ -1,3 +1,8 @@
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
+
 
 #include "race_test.h"
 /*movement = 30;

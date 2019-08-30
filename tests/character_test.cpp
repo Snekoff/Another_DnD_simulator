@@ -1,3 +1,8 @@
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
+
 #include "character_test.h"
 
 // Test_Subject->Set(what, value)

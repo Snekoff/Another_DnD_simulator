@@ -1,3 +1,7 @@
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
 #pragma once
 #ifndef ANOTHER_DND_SIMULATOR_BATTLEGROUND_H
 #define ANOTHER_DND_SIMULATOR_BATTLEGROUND_H

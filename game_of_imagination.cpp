@@ -1,4 +1,7 @@
-
+//
+// MIT License
+// Copyright (c) 2019 Snekoff. All rights reserved.
+//
 
 #include "game_of_imagination.h"
 
