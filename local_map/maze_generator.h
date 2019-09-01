@@ -23,6 +23,18 @@
  * Output: Labyrinth with rooms(even if you didn't place them), traps and so on.
  * */
 
+// Adds a modifier to coordinate to get to another point
+struct DirectionModifiers{
+    const int eight_direction_modifier[8][2] = {{0,  -1},
+                                          {1,  -1},
+                                          {1,  0},
+                                          {1,  1},
+                                          {0,  1},
+                                          {-1, 1},
+                                          {-1, 0},
+                                          {-1, -1},
+    };
+};
 
 struct RoomGenerationVars {
     int room_width;
@@ -103,10 +115,6 @@ public:
                             vector<vector<int>> &square_, pair<int, int> entrance
     );
 
-    pair<pair<int, int>, pair<int, int>> RoomsPlacement_CheckEdgeReach(pair<int, int> start_of_the_region,
-                                                                       pair<int, int> end_of_the_region,
-                                                                       unsigned long x_max,
-                                                                       unsigned long y_max);
 
 
     bool Room_MakingSpaceInsideWalls(pair<int, int> start_of_the_region,
@@ -131,11 +139,11 @@ public:
 
     int GetRandomDirection(Random_Generator_ *Rand_gen);
 
-    int RightDirection(Random_Generator_ *Rand_gen, int x, int y, int direction, vector<vector<int>> square_, vector<vector<bool>> &deadends, vector<vector<vector<bool>>> & squarepossibletomovedirrections);
+    int ReturnPossibleDirectionOrNegativeIfAny(Random_Generator_ *Rand_gen, int x, int y, int direction, vector<vector<int>> square_, vector<vector<bool>> &deadends, vector<vector<vector<bool>>> & squarepossibletomovedirrections_);
 
     bool IsRightDirection(int x, int y, int direction_, vector<vector<int>> square_);
 
-    int PaceLength(Random_Generator_ *Rand_gen, int difficulty_);
+    int ReturnPaceLength(Random_Generator_ *Rand_gen, int difficulty_);
 
     vector<vector<int>> Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> &square_, int num_of_deadends_, int num_of_free_fields_, vector<vector<bool>> deadend_);
 
@@ -224,7 +232,7 @@ public:
                                                                            pair<int, int> entrance, int width,
                                                                            int length, int height);
 
-    bool IsOutofVectorVectorSize(vector<vector<int>> square_, int x, int y);
+    bool IsOutOfVectorVectorSize(vector<vector<int>> square_, int x, int y);
 
     bool IsDirectionCorrect(int direction, pair<int, int> from, pair<int, int> to);
 
@@ -244,6 +252,25 @@ public:
                                 int &count_room_walls_if_more_than_two_stop,
                                 bool &is_first_field_after_passing_through_room_wall,
                                 vector<pair<int, int>> &excludepoints_);
+
+    pair<int, int> ReturnNewPosIfInFieldElseReturnOldPos(Random_Generator_ *Rand_gen, int x, int y,
+                                                         const vector<vector<int>> &square_,
+                                                         vector<vector<bool>> &deadends,
+                                                         vector<vector<vector<bool>>> &squarepossibletomovedirrections_,
+                                                         int min_pace_length, const DirectionModifiers &dir_mod,
+                                                         int direction);
+
+    pair<int, int>
+    IfPossibleToMakeCorridorReturnEndOfItPositionElseOldPosition(Random_Generator_ *Rand_gen, int x, int y,
+                                                                 const vector<vector<int>> &square_, pair<int, int> pos,
+                                                                 int direction, const DirectionModifiers &dir_mod);
+
+    pair<int, int>
+    IfRndLessThanRoomProbabilityTryToBuildRoomAndReturnExitOfIt(Random_Generator_ *Rand_gen, int &num_of_free_fields_,
+                                                                int direction, const DirectionModifiers &dir_mod,
+                                                                int &x,
+                                                                int &y, vector<vector<int>> &square_,
+                                                                pair<int, int> pos);
 };
 
 #endif //ANOTHER_DND_SIMULATOR_MAZE_GENERATOR_H
