@@ -59,6 +59,16 @@ struct EntranceInfo {
     vector<pair<int, int>> linked_squares;
 };
 
+//  Neither id neither order must be equivalent
+struct cmp {
+    bool operator() (EntranceInfo &a, EntranceInfo &b) const {
+        return (a.id < b.id) && (a.order < b.order);
+    }
+};
+
+/*auto cmp = [](int a, int b) { return ... };
+std::set<int, decltype(cmp)> s(cmp);*/
+
 // id descriptions:
 // 0 - wall
 // 1 - corridor/empty
@@ -82,7 +92,7 @@ private:
     vector<vector<bool>> deadend;
     vector<vector<vector<bool>>> square_possible_to_move_from_dirrections;
     bool was_room_built_on_this_turn = false;
-    vector<EntranceInfo> entrance_info;
+    set<EntranceInfo, cmp> entrance_info_set;
     int room_length_max = 6;
     int room_width_max = 6;
     int room_height_max = 3;

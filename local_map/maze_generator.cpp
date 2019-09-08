@@ -36,7 +36,7 @@ MazeGenerator::MazeGenerator(Random_Generator_ *Rand_gen, vector<vector<int>> sq
             square_possible_to_move_from_dirrections[i][j].resize(4, true);
         }
     }
-    entrance_info.push_back(ZeroIdEntranceInfo());
+    entrance_info_set.insert(ZeroIdEntranceInfo());
     square = square_;
 }
 
@@ -304,7 +304,7 @@ MazeGenerator::Move(Random_Generator_ *Rand_gen, int x, int y, vector<vector<int
                                                                     min_pace_length, dir_mod, direction);
     if(pos == temp_pos) return pos;
     pos = temp_pos;
-    cout << "Reach MazeGenerator::Move 1_2\n";
+    cout << "Reach MazeGenerator::Move 1\n";
     cout << "direction = " << dir_description[direction] << "\n";
     if (square_[pos.first][pos.second] == 0 || square_[pos.first][pos.second] == 2 || square_[pos.first][pos.second] == 3) {
         pos = IfRndLessThanRoomProbabilityTryToBuildRoomAndReturnExitOfIt(Rand_gen, num_of_free_fields_, direction, dir_mod,
@@ -446,57 +446,57 @@ void MazeGenerator::Set(int valuetobechanged, int value1, int value2, int value3
         entranceInfo.name = "";
         entranceInfo.trigger_name = "";
         entranceInfo.linked_squares.push_back(make_pair(value3, value4));
-        entrance_info.push_back(entranceInfo);
+        entrance_info_set.insert(entranceInfo);
         entrances[value3][value4] = value1;
         square[value3][value4] = 3;
         num_of_free_fields++;
     } else if (valuetobechanged == 2) {
         //remove entrance info found by id
-        if (!entrance_info.empty()) {
-            for (int i = 0; i < entrance_info.size(); ++i) {
-                if (entrance_info[i].id == value1) {
-                    entrance_info[i] = entrance_info[entrance_info.size() - 1];
-                    entrance_info.pop_back();
+        if (!entrance_info_set.empty()) {
+            for (int i = 0; i < entrance_info_set.size(); ++i) {
+                if (entrance_info_set[i].id == value1) {
+                    entrance_info_set[i] = entrance_info_set[entrance_info_set.size() - 1];
+                    entrance_info_set.pop_back();
                     break;
                 }
             }
-        } else cout << "entrance_info is empty. Nothing to delete.\n";
+        } else cout << "entrance_info_set is empty. Nothing to delete.\n";
 
     } else if (valuetobechanged == 3) {
-        //add to existing entrance_info pair(value3, value4)
-        if (!entrance_info.empty()) {
-            for (int i = 0; i < entrance_info.size(); ++i) {
-                if (entrance_info[i].id == value1) {
-                    entrance_info[i].linked_squares.push_back(make_pair(value3, value4));
-                    entrances[value3][value4] = entrance_info[i].id;
+        //add to existing entrance_info_set pair(value3, value4)
+        if (!entrance_info_set.empty()) {
+            for (int i = 0; i < entrance_info_set.size(); ++i) {
+                if (entrance_info_set[i].id == value1) {
+                    entrance_info_set[i].linked_squares.push_back(make_pair(value3, value4));
+                    entrances[value3][value4] = entrance_info_set[i].id;
                     num_of_free_fields++;
                     break;
-                } else if (i == entrance_info.size() - 1)
-                    cout << "id not found in entrance_info. Unable to add pair.\n";
+                } else if (i == entrance_info_set.size() - 1)
+                    cout << "id not found in entrance_info_set. Unable to add pair.\n";
             }
-        } else cout << "entrance_info is empty. Nothing to add to.\n";
+        } else cout << "entrance_info_set is empty. Nothing to add to.\n";
 
     } else if (valuetobechanged == 4) {
-        //delete from existing entrance_info pair(value3, value4)
-        if (!entrance_info.empty()) {
-            for (int i = 0; i < entrance_info.size(); ++i) {
-                if (entrance_info[i].id == value1) {
-                    for (int j = 0; j < entrance_info[i].linked_squares.size(); ++j) {
-                        if (entrance_info[i].linked_squares[j].first == value3 &&
-                            entrance_info[i].linked_squares[j].second == value4) {
-                            entrance_info[i].linked_squares[j] = entrance_info[i].linked_squares[
-                                    entrance_info[i].linked_squares.size() - 1];
-                            entrance_info[i].linked_squares.pop_back();
+        //delete from existing entrance_info_set pair(value3, value4)
+        if (!entrance_info_set.empty()) {
+            for (int i = 0; i < entrance_info_set.size(); ++i) {
+                if (entrance_info_set[i].id == value1) {
+                    for (int j = 0; j < entrance_info_set[i].linked_squares.size(); ++j) {
+                        if (entrance_info_set[i].linked_squares[j].first == value3 &&
+                            entrance_info_set[i].linked_squares[j].second == value4) {
+                            entrance_info_set[i].linked_squares[j] = entrance_info_set[i].linked_squares[
+                                    entrance_info_set[i].linked_squares.size() - 1];
+                            entrance_info_set[i].linked_squares.pop_back();
                             entrances[value3][value4] = -1;
                             num_of_free_fields--;
                             break;
-                        } else if (j == entrance_info[i].linked_squares.size() - 1) cout << "pair not found.\n";
+                        } else if (j == entrance_info_set[i].linked_squares.size() - 1) cout << "pair not found.\n";
                     }
                     break;
-                } else if (i == entrance_info.size() - 1)
-                    cout << "id not found in entrance_info. Unable to delete pair.\n";
+                } else if (i == entrance_info_set.size() - 1)
+                    cout << "id not found in entrance_info_set. Unable to delete pair.\n";
             }
-        } else cout << "entrance_info is empty. Nothing to delete from.\n";
+        } else cout << "entrance_info_set is empty. Nothing to delete from.\n";
     } else if (valuetobechanged == 5) {
         //change field type in (value3, value4)
         if (square[value1][value2] != 1 && square[value1][value2] != 3 && (value3 == 1 || value3 == 3)) num_of_free_fields++;
@@ -530,7 +530,7 @@ int MazeGenerator::Set_Difficulty() {
 EntranceInfo MazeGenerator::Set_Entrance() {
     EntranceInfo output;
     //Default id
-    output.id = entrance_info.size();
+    output.id = entrance_info_set.size();
     cout << "(Your ID now is " << output.id << ".)\n";
     //Entrance struct
     output.order = output.id;
@@ -585,8 +585,8 @@ vector<vector<int>> MazeGenerator::Set_FieldType(pair<int, int> start_of_the_reg
     int field_type;
     field_type = IsNumber(field_type, -1, 4);
     if (field_type == -1) return square_;
-    //TODO: replace entrance_info with set to prevent two values with same order
-    if (field_type == 3) entrance_info.push_back(Set_Entrance());
+    //TODO: replace entrance_info_set with set to prevent two values with same order
+    if (field_type == 3) entrance_info_set.insert(Set_Entrance());
 
     int min_x = min(start_of_the_region.first, end_of_the_region.first);
     int max_x = max(start_of_the_region.first, end_of_the_region.first);
@@ -598,8 +598,8 @@ vector<vector<int>> MazeGenerator::Set_FieldType(pair<int, int> start_of_the_reg
             square_[i][j] = field_type;
             if (field_type == 3) {
                 num_of_free_fields++;
-                entrances[i][j] = entrance_info[entrance_info.size() - 1].id;
-                entrance_info[entrance_info.size() - 1].linked_squares.push_back(make_pair(i, j));
+                entrances[i][j] = entrance_info_set[entrance_info_set.size() - 1].id;
+                entrance_info_set[entrance_info_set.size() - 1].linked_squares.push_back(make_pair(i, j));
             }
         }
     }
@@ -609,13 +609,13 @@ vector<vector<int>> MazeGenerator::Set_FieldType(pair<int, int> start_of_the_reg
 
 void MazeGenerator::DeleteOldInfoInSquare(const vector<vector<int>> &square_, int j, int i) {
     if (square_[i][j] == 3) {
-        for (int k = 0; k < entrance_info.size(); ++k) {
-            if (entrance_info[k].id == entrances[i][j]) {
-                for (int l = 0; l < entrance_info[k].linked_squares.size(); ++l) {
-                    if (entrance_info[k].linked_squares[l].first == i && entrance_info[k].linked_squares[l].second == j) {
-                        entrance_info[k].linked_squares[l] = entrance_info[k].linked_squares[
-                                entrance_info[k].linked_squares.size() - 1];
-                        entrance_info[k].linked_squares.pop_back();
+        for (int k = 0; k < entrance_info_set.size(); ++k) {
+            if (entrance_info_set[k].id == entrances[i][j]) {
+                for (int l = 0; l < entrance_info_set[k].linked_squares.size(); ++l) {
+                    if (entrance_info_set[k].linked_squares[l].first == i && entrance_info_set[k].linked_squares[l].second == j) {
+                        entrance_info_set[k].linked_squares[l] = entrance_info_set[k].linked_squares[
+                                entrance_info_set[k].linked_squares.size() - 1];
+                        entrance_info_set[k].linked_squares.pop_back();
                         break;
                     }
                 }
@@ -1125,11 +1125,11 @@ int MazeGenerator::Set_RoomProbability() {
 }
 
 EntranceInfo MazeGenerator::GetEntranceInfo(int id) {
-    if (id < 0 || id > entrance_info.size() - 1) {
+    if (id < 0 || id > entrance_info_set.size() - 1) {
         cout << "Incorrect id\n";
-        return entrance_info[0];
+        return entrance_info_set.find(0);
     }
-    return entrance_info[id];
+    return entrance_info_set[id];
 }
 
 pair<int, int> MazeGenerator::GetZeroOrderEntrancePos(Random_Generator_ *Rand_gen, vector<EntranceInfo> entrance_info_) {
@@ -1153,7 +1153,7 @@ pair<int, int> MazeGenerator::GetZeroOrderEntrancePos(Random_Generator_ *Rand_ge
                                                                         entrance_info_[savedpos].linked_squares.size() -
                                                                         1)];
     } else {
-        //if entrance_info with min id got no elements
+        //if entrance_info_set with min id got no elements
         result = entrance_info_[Rand_gen->Rand(0, entrance_info_.size() - 1)].linked_squares[Rand_gen->Rand(0,
                                                                                                             entrance_info_[savedpos].linked_squares.size() -
                                                                                                             1)];
@@ -1198,7 +1198,7 @@ MazeGenerator::GetNewRandPos(Random_Generator_ *Rand_gen, pair<int, int> startin
             }
             rndcounter++;
         }
-        //pair<int, int> zeroorderentrancepair = GetZeroOrderEntrancePos(Rand_gen, entrance_info);
+        //pair<int, int> zeroorderentrancepair = GetZeroOrderEntrancePos(Rand_gen, entrance_info_set);
         //int zeroorderentranceid = entrances[zeroorderentrancepair.first][zeroorderentrancepair.second];
         if (!deadend_[result.first][result.second]) break;
         if (count >= FreeSquaresSet.size() * 2) {
@@ -1403,7 +1403,7 @@ MazeGenerator::Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
     vector<vector<vector<bool>>>  squarepossibletomovedirrections_ = square_possible_to_move_from_dirrections;
     square_ = LabyrinthMenu(square_);
     //cout << "Reach MazeGenerator::Build_Labyrinth 0\n";
-    FreeSquaresSet.insert(GetZeroOrderEntrancePos(Rand_gen, entrance_info));
+    FreeSquaresSet.insert(GetZeroOrderEntrancePos(Rand_gen, entrance_info_set));
     for(auto it = FreeSquaresSet.cbegin(); it != FreeSquaresSet.cend(); ++it){
         pair<int, int> tmp = *it;
         cout << "1 it = " << tmp.first << ", " << tmp.second << "\n";
@@ -1422,14 +1422,14 @@ MazeGenerator::Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
     while (!issatisfying) {
 
         /*cout << "Reach MazeGenerator::Build_Labyrinth 1_2\n";
-        cout << "entrance_info[0].id = " << entrance_info[0].id << "\n";
-        cout << "entrance_info[1].id = " << entrance_info[1].id << "\n";
-        cout << "entrance_info[2].id = " << entrance_info[2].id << "\n";
+        cout << "entrance_info_set[0].id = " << entrance_info_set[0].id << "\n";
+        cout << "entrance_info_set[1].id = " << entrance_info_set[1].id << "\n";
+        cout << "entrance_info_set[2].id = " << entrance_info_set[2].id << "\n";
         cout << "entrances[1][1] = " << entrances[1][1] << "\n";
         cout << "entrances[8][15] = " << entrances[square_.size() - 2][square_[0].size() - 5] << "\n";
-        cout << "entrance_info[1].order = " << entrance_info[1].order << "\n";
-        cout << "entrance_info[2].order = " << entrance_info[2].order << "\n";*/
-        pair<int, int> pos = GetZeroOrderEntrancePos(Rand_gen, entrance_info);
+        cout << "entrance_info_set[1].order = " << entrance_info_set[1].order << "\n";
+        cout << "entrance_info_set[2].order = " << entrance_info_set[2].order << "\n";*/
+        pair<int, int> pos = GetZeroOrderEntrancePos(Rand_gen, entrance_info_set);
         cout << "starting pos = (" << pos.first << ", " << pos.second << ")\n";
         pair<int, int> prev_pos;
         //cout << "Reach MazeGenerator::Build_Labyrinth 2\n";
@@ -1530,7 +1530,7 @@ MazeGenerator::Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
             num_of_deadends_ = num_of_deadends;
             num_of_free_fields_ = num_of_free_fields;
             FreeSquaresSet.clear();
-            FreeSquaresSet.insert(GetZeroOrderEntrancePos(Rand_gen, entrance_info));
+            FreeSquaresSet.insert(GetZeroOrderEntrancePos(Rand_gen, entrance_info_set));
             squarepossibletomovedirrections_ = square_possible_to_move_from_dirrections;
             //printwc(0x0000c);  // clear console
         }
