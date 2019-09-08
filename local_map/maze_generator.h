@@ -60,10 +60,19 @@ struct EntranceInfo {
 };
 
 //  Neither id neither order must be equivalent
-struct cmp {
+struct compare_by_id_or_order {
     bool operator() (EntranceInfo &a, EntranceInfo &b) const {
         return (a.id < b.id) && (a.order < b.order);
     }
+};
+
+struct find_by_id {
+    find_by_id(const int & id) : id(id) {}
+    bool operator()( EntranceInfo & entrance_info_) const {
+        return entrance_info_.id == id;
+    }
+private:
+    int id;
 };
 
 /*auto cmp = [](int a, int b) { return ... };
@@ -92,7 +101,7 @@ private:
     vector<vector<bool>> deadend;
     vector<vector<vector<bool>>> square_possible_to_move_from_dirrections;
     bool was_room_built_on_this_turn = false;
-    set<EntranceInfo, cmp> entrance_info_set;
+    set<EntranceInfo, compare_by_id_or_order> entrance_info_set;
     int room_length_max = 6;
     int room_width_max = 6;
     int room_height_max = 3;
@@ -195,7 +204,7 @@ public:
 
     vector<vector<bool>> GetVectorVectorBool(int what);
 
-    pair<int, int> GetZeroOrderEntrancePos(Random_Generator_ * Rand_gen, vector<EntranceInfo> entrance_info_);
+    pair<int, int> GetZeroOrderEntrancePos(Random_Generator_ * Rand_gen, set<EntranceInfo, compare_by_id_or_order> entrance_info_);
 
     EntranceInfo GetEntranceInfo(int id);
 
