@@ -1157,10 +1157,7 @@ pair<int, int> MazeGenerator::GetZeroOrderEntrancePos(Random_Generator_ *Rand_ge
             minorder = it->order;
         }
     }
-    //cout << "Reach MazeGenerator::GetZeroOrderEntrancePos 1\n";
     //Random starting point
-    //if there are more than one entrance with id = zeroorderid
-
     if (saved_pos->id == zeroorderid && !saved_pos->linked_squares.empty()) {
         result = saved_pos->linked_squares[Rand_gen->Rand(0,saved_pos->linked_squares.size() - 1)];
     } else {
@@ -1170,8 +1167,6 @@ pair<int, int> MazeGenerator::GetZeroOrderEntrancePos(Random_Generator_ *Rand_ge
         while(rnd_pos--) it++;
         result = it->linked_squares[Rand_gen->Rand(0,saved_pos->linked_squares.size() -1)];
     }
-
-    //cout << "Reach MazeGenerator::GetZeroOrderEntrancePos 1_2\n";
     return result;
 }
 
@@ -1196,36 +1191,26 @@ void MazeGenerator::ShowFreeSquaresSet() {
 pair<int, int>
 MazeGenerator::GetNewRandPos(Random_Generator_ *Rand_gen, pair<int, int> starting_pos, vector<vector<int>> square_,
                              vector<vector<bool>> deadend_) {
-    //cout << "Reach MazeGenerator::GetNewRandPos 0\n";
     pair<int, int> result = starting_pos;
     int count = 0;
     while (true) {
-        //cout << "Reach MazeGenerator::GetNewRandPos 1\n";
         count++;
-        int rndcounter = 0;
         int rnd = Rand_gen->Rand(0, FreeSquaresSet.size());
-        for(auto it = FreeSquaresSet.cbegin(); it != FreeSquaresSet.cend(); ++it){
-            if(rndcounter == rnd){
-                result = *it;
-            }
-            rndcounter++;
-        }
-        //pair<int, int> zeroorderentrancepair = GetZeroOrderEntrancePos(Rand_gen, entrance_info_set);
-        //int zeroorderentranceid = entrances[zeroorderentrancepair.first][zeroorderentrancepair.second];
+        auto it = FreeSquaresSet.cbegin();
+        while(rnd--) it++;
+        result = *it;
         if (!deadend_[result.first][result.second]) break;
         if (count >= FreeSquaresSet.size() * 2) {
             result = starting_pos;
             break;
         }
     }
-    //cout << "Reach MazeGenerator::GetNewRandPos 3\n";
-    cout << "new rand pos = (" << result.first << ", " << result.second << ")\n";
     return result;
 }
 
-vector<vector<int>> MazeGenerator::FreeSpaceAfterDigging(vector<vector<int>> &square_, pair<int, int> from,
-                                                         pair<int, int> to, int &num_of_free_fields_) {
-    bool did_x_changed;
+bool MazeGenerator::FreeSpaceAfterDigging(vector<vector<int>> &square_, pair<int, int> from,
+                                          pair<int, int> to, int &num_of_free_fields_) {
+    /*bool did_x_changed;
     if (from.first != to.first) did_x_changed = true;
     else if (from.second != to.second) did_x_changed = false;
     else return square_;
@@ -1233,6 +1218,19 @@ vector<vector<int>> MazeGenerator::FreeSpaceAfterDigging(vector<vector<int>> &sq
     int mod;
     if (did_x_changed) mod = (to.first - from.first) / abs(to.first - from.first);
     else mod = (to.second - from.second) / abs(to.second - from.second);
+    */
+    if(IsOutOfVectorVectorSize(square_, from.first, from.second)) return false;
+    if(IsOutOfVectorVectorSize(square_, to.first, to.second)) return false;
+    for (int i = min(from.first, to.first); i <= max(from.first, to.first); ++i) {
+        for (int j = min(from.second, to.second); j <= max(from.second, to.second); ++j) {
+            if(square_[i][j] == 0) {
+                num_of_free_fields_++;
+                square_[i][j] = 1;
+                AddToFreeSquaresSet(square_, make_pair(i, j));
+            }
+        }
+    }
+    /*
     for (int i = 1; i <= range_end; ++i) {
         int new_x, new_y;
         if (did_x_changed) {
@@ -1264,8 +1262,8 @@ vector<vector<int>> MazeGenerator::FreeSpaceAfterDigging(vector<vector<int>> &sq
                 AddToFreeSquaresSet(square_, make_pair(new_x, new_y));
             }
         }
-    }
-    return square_;
+    }*/
+    return true;
 }
 
 bool MazeGenerator::CheckFieldSurroundingsReturnFalseIfFoundSearched_v2(pair<int, int> from, pair<int, int> to,
@@ -1457,7 +1455,7 @@ MazeGenerator::Build_Labyrinth(Random_Generator_ *Rand_gen, vector<vector<int>> 
             cout << "prev. num_of_free_fields_ = " << num_of_free_fields_ << "\n";
            // if(!was_room_built_on_this_turn){
             if(!was_room_built_on_this_turn) {
-                square_ = FreeSpaceAfterDigging(square_, prev_pos, pos, num_of_free_fields_);
+                if(!FreeSpaceAfterDigging(square_, prev_pos, pos, num_of_free_fields_)) cout << "Error in FreeSpaceAfterDigging X or Y is out of bounds\n";
             }
             was_room_built_on_this_turn = false;
             if (num_of_free_fields_ != prev_num_of_free_fields_) {
