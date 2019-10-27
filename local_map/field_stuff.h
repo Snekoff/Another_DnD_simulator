@@ -6,6 +6,7 @@
 #include "../character/common_functions.h"
 #include "../items/item.h"
 #include "../items/items_factory.h"
+#include "../monsters/creature.h"
 
 #ifndef ANOTHER_DND_SIMULATOR_FIELDSTUFF_H
 #define ANOTHER_DND_SIMULATOR_FIELDSTUFF_H
@@ -17,38 +18,7 @@
  * */
 using namespace std;
 
-class FieldStuff {
-protected:
-    // fast search
-    int id;
-    string name;
-    // exists/active
-    bool isactive;
-    vector<Item> inventory_;
-public:
-    FieldStuff() = default;
-    ~FieldStuff() = default;
-
-    virtual int GetInt(int what);
-
-    virtual string GetString(int what);
-
-    virtual bool GetBool(int what);
-
-    virtual vector<Item> GetInventory();
-
-    virtual void SetInt(int what, int value);
-
-    virtual void SetString(int what, string &value);
-
-    virtual void SetBool(int what, bool value);
-
-    virtual void SetInventory(vector<Item> &items_);
-
-    virtual void RemoveFromInventory(vector<Item> &items_);
-};
-
-class Furniture : public FieldStuff{
+class Furniture {
 private:
     int hp;
     int type;  // High, medium or low
@@ -62,14 +32,73 @@ public:
 
     bool IsLockLocked(bool islocked_, int lock_hp_);
 
-    int GetInt(int what) override;
+    int GetInt(int what);
 
-    bool GetBool(int what) override;
+    bool GetBool(int what);
 
-    void SetInt(int what, int value) override;
+    void SetInt(int what, int value);
 
-    void SetBool(int what, bool value) override;
+    void SetBool(int what, bool value);
 
+};
+
+class FieldStuff {
+protected:
+    // fast search
+    int id;
+    string name;
+    // exists/active
+    bool isactive;
+    int local_coordinates[3];  // to avoid huge numbers
+    int global_coordinates[3];
+    // Inventory
+    // 1. Unhold (free to spot and take)
+    // 2. Hidden (DC against ability check)
+    // 3. Blocked by other means (magicaly)
+    // 4. Other planes
+    vector<vector<Item>> inventory_;
+    vector<Creature> &creatures;
+    // furniture got fields:
+        // AC, HP, ishold
+        // vector<vector<Item>> inventory_inside;
+        // vector<Creature> &creatures;
+        // Spell spells
+        // string text
+        // vector<pair<int, int> lockid_and_dc
+        // ? trigger
+    vector<Furniture> furniture;
+    // ? Interactables
+        // Other
+        // Hidden
+        // Locked
+    // ? what_is_made_of
+    // All fields that share side and got type "air"
+    // are as well hard terrain
+    // for creatures with flying speed = 0
+    bool is_hard_terrain;
+    // ? herbs
+    // ? sources_of_light
+public:
+    FieldStuff() = default;
+    ~FieldStuff() = default;
+
+    virtual int GetInt(int what);
+
+    virtual string GetString(int what);
+
+    virtual bool GetBool(int what);
+
+    virtual vector<vector<Item>> GetInventory();
+
+    virtual void SetInt(int what, int value);
+
+    virtual void SetString(int what, string &value);
+
+    virtual void SetBool(int what, bool value);
+
+    virtual void SetInventory(vector<vector<Item>> &items_);
+
+    virtual void RemoveFromInventory(vector<vector<Item>> &items_);
 };
 
 
